@@ -1,0 +1,22 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see rails configuration guide
+  # http://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: ss_studio_api_development
+
+test:
+  <<: *default
+  database: ss_studio_api_test
+
+production:
+  <<: *default
+  host: localhost
+  pool: 5
+  database: ss_studio_api_production
+  username: ss_studio_api
+  password: ss_studio_api
