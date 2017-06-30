@@ -16,19 +16,19 @@ module InheritAction
   def create
     @resource ||= resource_class.create!(resource_params)
 
-    render_success_response(@resource, 201)
+    render_success_response({ :"#{resource_name_plural}" => @resource }, 201)
   end
 
   # GET
   def show
-    render_success_response(@resource)
+    render_success_response({ :"#{resource_name_plural}" => @resource })
   end
 
   # PATCH/PUT
   def update
     @resource.update_attributes!(resource_params)
 
-    render_success_response(@resource, 201)
+    render_success_response({ :"#{resource_name_plural}" => @resource }, 201)
   end
 
   # DELETE
