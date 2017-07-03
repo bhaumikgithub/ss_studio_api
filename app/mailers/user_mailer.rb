@@ -1,6 +1,6 @@
 class UserMailer < Devise::Mailer
   include Devise::Controllers::UrlHelpers # Optional. eg. `confirmation_url`
-  default from: 'support@myprobill.com'
+  default from: 'support@ss_studio.com'
   default template_path: 'users/mailer'
 
   def user_confirmation(resource)
