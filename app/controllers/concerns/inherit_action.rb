@@ -14,7 +14,8 @@ module InheritAction
 
   # POST
   def create
-    @resource ||= resource_class.create!(resource_params)
+    @resource ||= resource_class.create!(resource_params) 
+    yield @resource if block_given?
 
     render_success_response({ :"#{resource_name_plural}" => @resource }, 201)
   end
