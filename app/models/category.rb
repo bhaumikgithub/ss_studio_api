@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
+# category model
 class Category < ApplicationRecord
-  # Callabcks
+  # Callbacks
 
   # Associations
 
   # Validations
-  validates :category_name, presence: true, :uniqueness => true
+  validates :category_name, presence: true, uniqueness: true
 
   # Scopes
 
-  private
+  # private
 
   # Methods
-
 end

@@ -1,0 +1,17 @@
+Rails:
+  Enabled: true
+AllCops:
+  Exclude:
+    - db/schema.rb
+    - db/migrate/*.rb
+    - config/spring.rb
+    - bin/**/*
+    - config/**/*
+    - Guardfile
+    # - spec/**/*.rb
+  DisplayCopNames: true
+Metrics/LineLength:
+  Max: 200
+Style/BlockLength:
+  Exclude:
+    - 'spec/controllers/categories_controller_spec.rb'

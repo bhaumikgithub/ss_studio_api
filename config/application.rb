@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'boot'
 
 require "rails"
@@ -27,5 +28,8 @@ module SsStudioApi
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
     config.autoload_paths << "#{Rails.root}/lib"
+        config.generators do |g|
+      g.fixture_replacement :factory_girl
+    end
   end
 end

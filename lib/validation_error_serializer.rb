@@ -1,5 +1,7 @@
-class ValidationErrorSerializer
+# frozen_string_literal: true
 
+# Validation Error Serializer
+class ValidationErrorSerializer
   def initialize(record, field, detail)
     @record = record
     @field = field
@@ -25,7 +27,7 @@ class ValidationErrorSerializer
   end
 
   def field
-     I18n.t(
+    I18n.t(
       @field,
       scope: [:fields, underscored_resource_name],
       default: @field.to_s
