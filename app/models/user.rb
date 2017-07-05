@@ -5,4 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
   belongs_to :category
+
+  enum status: { inactive: 0, active: 1 }
+  
 end

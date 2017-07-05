@@ -1,9 +1,15 @@
 class AlbumsController < ApplicationController
   include InheritAction
 
+  def create
+    @album = Album.create(album_params)
+    render_success_response({ :albums => @album}, 201)
+  end
+
   private
-  def permitted_attributes
-    ["album_name", "created_by", "is_private", "status", category_ids: []]
+
+  def album_params
+  	params.require(:album).permit( :album_name, :is_private, :created_by, :status, category_ids: []).merge(:created_by => current_resource_owner.id)
   end
 
 end

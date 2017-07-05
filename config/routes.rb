@@ -12,6 +12,11 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :categories
   resources :albums do
-    resources :photos
+    resources :photos do
+      collection do
+        delete 'multi_destroy'
+      end
+    end
   end
+
 end

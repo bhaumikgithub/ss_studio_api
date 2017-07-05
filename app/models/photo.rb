@@ -22,11 +22,8 @@ class Photo < ApplicationRecord
   # Methods
 
   def photo_name
-    # binding.pry
-    # name = self.album.album_name
-    puts "<----------#{self.inspect}------>"
-    puts "<--------#{self.album.album_name}--------->"
-     self.update(photo_title: "#{self.album.album_name} photo #{self.id}")
+     self.update(photo_title: "#{self.album.album_name} photo #{self.id}") 
+     #create default photo_title
   end
 
 end
