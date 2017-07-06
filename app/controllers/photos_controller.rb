@@ -1,7 +1,6 @@
 class PhotosController < ApplicationController
   include InheritAction
-  include FindResource
-  before_action :get_album
+  before_action :fetch_album, only: [:create, :multi_delete]
 
   # POST /albums/:album_id/photos
   def create
@@ -24,6 +23,10 @@ class PhotosController < ApplicationController
   end
 
   private
+
+  def fetch_album
+    @album = Album.find(params[:album_id])
+  end
 
   def photo_params
     params.require(:photo).map do |p|
