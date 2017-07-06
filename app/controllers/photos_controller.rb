@@ -1,6 +1,6 @@
 class PhotosController < ApplicationController
   include InheritAction
-  before_action :fetch_album, only: [:create, :multi_delete]
+  before_action :fetch_album, only: [:create, :multi_delete, :set_cover_photo]
 
   # POST /albums/:album_id/photos
   def create
@@ -15,11 +15,18 @@ class PhotosController < ApplicationController
     end
 
     if params['photo']['id'].present?
-      @album.photos.where("id IN (?)",params[:photos][:id]).destroy_all
+      @album.photos.where("id IN (?)",params[:photo][:id]).destroy_all
     else
       @album.photos.destroy_all
     end
     json_response({success: true, message: "Selected photos deleted successfully."}, 200)
+  end
+
+  # PATCH /albums/:album_id/photos/:id/set_cover_photo
+  def set_cover_photo
+    @photo = @album.photos.find(params[:id])
+    @photo.set_as_cover
+    json_response({success: true, message: "Set as cover photo successfully.", data: {albums: @photo}}, 200)
   end
 
   private
