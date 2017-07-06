@@ -3,7 +3,7 @@ class WatermarksController < ApplicationController
 
 	def create
 		super
-		Watermark.where.not(id: @resource.id).update_all(status: 0)
+		Watermark.where("user_id=(?) and id not IN(?)",current_resource_owner.id,@resource.id).update_all(status: 0)
 	end
 
 	private

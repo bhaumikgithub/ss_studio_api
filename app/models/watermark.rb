@@ -2,7 +2,6 @@ class Watermark < ApplicationRecord
 	acts_as_paranoid
 
   belongs_to :user
-  has_many :albums
 
   enum status: { inactive: 0, active: 1, deleted: 2 }
 
