@@ -22,15 +22,11 @@ class PhotosController < ApplicationController
     json_response({success: true, message: "Selected photos deleted successfully."}, 200)
   end
 
+  # PATCH /albums/:album_id/photos/:id/set_cover_photo
   def set_cover_photo
-    # binding.pry
     @photo = @album.photos.find(params[:id])
-    if @photo
-      @photo.set_as_cover
-      json_response({success: true, message: "Set as cover photo successfully."}, 200)
-    else
-      json_response({success: false, message: "photo not found"}, 400)
-    end
+    @photo.set_as_cover
+    json_response({success: true, message: "Set as cover photo successfully.", data: {albums: @photo}}, 200)
   end
 
   private
@@ -41,7 +37,7 @@ class PhotosController < ApplicationController
 
   def photo_params
     params.require(:photo).map do |p|
-      ActionController::Parameters.new(p).permit(:image, :photo_title, :album_id, :status, :added_by, :is_cover_photo).merge(:added_by => current_resource_owner.id)
+      ActionController::Parameters.new(p).permit(:image, :photo_title, :album_id, :status, :added_by).merge(:added_by => current_resource_owner.id)
     end 
   end
 
