@@ -1,5 +1,6 @@
 class PhotosController < ApplicationController
   include InheritAction
+  include FindResource
   before_action :get_album
 
   # albums/album_id/photos
