@@ -41,7 +41,11 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+# For User registration
 gem 'devise'
+
+# For token generate for user sign-in & sign-out
 gem 'doorkeeper'
 gem 'doorkeeper-jwt'
 

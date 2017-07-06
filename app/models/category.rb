@@ -3,7 +3,7 @@ class Category < ApplicationRecord
   # Callabcks
 
   # Associations
-  has_many :users
+  belongs_to :user
   has_many :album_categories, dependent: :destroy
   has_many :albums, through: :album_categories
 

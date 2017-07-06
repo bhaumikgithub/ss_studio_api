@@ -4,8 +4,15 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
-  belongs_to :category
+ # Callabcks
+
+ # Associations
+  has_many :category
 
   enum status: { inactive: 0, active: 1 }
-  
+  # Validations
+
+   # Scopes
+
+   # Methods
 end

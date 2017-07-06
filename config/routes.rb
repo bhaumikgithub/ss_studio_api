@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   resources :albums do
     resources :photos do
       collection do
-        delete 'multi_destroy'
+        delete 'multi_delete'
       end
     end
   end

@@ -7,7 +7,6 @@ class Photo < ApplicationRecord
 
   enum status: { inactive: 0, active: 1 }
   # Validations
-  
   has_attached_file :image, 
                     styles: {  
                       thumb: "200x200#", 
@@ -18,12 +17,10 @@ class Photo < ApplicationRecord
 
   # Scopes
 
-  
   # Methods
-
+  #create default photo_title
   def photo_name
-     self.update(photo_title: "#{self.album.album_name} photo #{self.id}") 
-     #create default photo_title
+    self.update(photo_title: "#{self.album.album_name} photo #{self.id}") 
   end
 
 end
