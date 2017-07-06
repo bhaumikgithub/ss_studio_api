@@ -3,13 +3,13 @@ class PhotosController < ApplicationController
   include FindResource
   before_action :get_album
 
-  # albums/album_id/photos
+  # POST /albums/:album_id/photos
   def create
     @photos = @album.photos.create(photo_params)
     render_success_response({ :photos => @photos}, 201)
   end
 
-  # /albums/album_id/photos/multi_delete
+  # DELETE /albums/:album_id/photos/multi_delete
   def multi_delete
     unless @album.photos.present?
       json_response({success: false, message: "Photos not found"}, 400)

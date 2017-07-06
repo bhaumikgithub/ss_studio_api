@@ -1,7 +1,7 @@
 class CategoriesController < ApplicationController
   include InheritAction
 
-  # /categories
+  # POST /categories
   def create
     @category = Category.create(category_params)
     render_success_response({ :categories => @category}, 201)

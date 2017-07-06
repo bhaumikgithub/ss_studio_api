@@ -1,7 +1,7 @@
 class AlbumsController < ApplicationController
   include InheritAction
 
-  # /albums
+  # POST /albums
   def create
     @album = Album.create(album_params)
     render_success_response({ :albums => @album}, 201)

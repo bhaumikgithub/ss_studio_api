@@ -13,10 +13,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
         end
         render_success_response({ :users => resource }, 200)
       else
-        json_response({success: false, message: @message }, 422)
+        render_unprocessable_entity_response(resource)
       end
     else
-      json_response({success: false, message: @message}, 422)
+      render_unprocessable_entity_response(resource)
     end
   end
 
@@ -26,7 +26,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if resource_updated
       render_success_response({ :users => resource }, 200)
     else
-      json_response({success: false, message: @message}, 422)
+      render_unprocessable_entity_response(resource)
     end
   end
 
