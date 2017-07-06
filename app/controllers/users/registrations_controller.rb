@@ -26,7 +26,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if resource_updated
       render_success_response({ :users => resource }, 200)
     else
-      render json: { error: resource.errors.full_messages }, status: :unprocessable_entity
+      json_response({success: false, message: @message}, 422)
     end
   end
 
