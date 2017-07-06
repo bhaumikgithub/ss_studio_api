@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170704124217) do
+ActiveRecord::Schema.define(version: 20170706120644) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,11 +28,13 @@ ActiveRecord::Schema.define(version: 20170704124217) do
     t.string   "album_name"
     t.string   "created_by"
     t.boolean  "is_private"
-    t.integer  "status",     default: 1
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.integer  "status",       default: 1
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.datetime "deleted_at"
+    t.integer  "watermark_id"
     t.index ["deleted_at"], name: "index_albums_on_deleted_at", using: :btree
+    t.index ["watermark_id"], name: "index_albums_on_watermark_id", using: :btree
   end
 
   create_table "categories", force: :cascade do |t|
@@ -125,8 +127,24 @@ ActiveRecord::Schema.define(version: 20170704124217) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  create_table "watermarks", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "status",                       default: 1
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.datetime "deleted_at"
+    t.string   "watermark_image_file_name"
+    t.string   "watermark_image_content_type"
+    t.integer  "watermark_image_file_size"
+    t.datetime "watermark_image_updated_at"
+    t.index ["deleted_at"], name: "index_watermarks_on_deleted_at", using: :btree
+    t.index ["user_id"], name: "index_watermarks_on_user_id", using: :btree
+  end
+
+  add_foreign_key "albums", "watermarks"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
+  add_foreign_key "watermarks", "users"
 end
