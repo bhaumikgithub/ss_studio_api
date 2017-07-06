@@ -1,6 +1,6 @@
 class PhotosController < ApplicationController
   include InheritAction
-  before_action :fetch_album, only: [:create, :multi_delete]
+  before_action :fetch_album, only: [:create, :multi_delete, :set_cover_photo]
 
   # POST /albums/:album_id/photos
   def create
@@ -15,11 +15,22 @@ class PhotosController < ApplicationController
     end
 
     if params['photo']['id'].present?
-      @album.photos.where("id IN (?)",params[:photos][:id]).destroy_all
+      @album.photos.where("id IN (?)",params[:photo][:id]).destroy_all
     else
       @album.photos.destroy_all
     end
     json_response({success: true, message: "Selected photos deleted successfully."}, 200)
+  end
+
+  def set_cover_photo
+    # binding.pry
+    @photo = @album.photos.find(params[:id])
+    if @photo
+      @photo.set_as_cover
+      json_response({success: true, message: "Set as cover photo successfully."}, 200)
+    else
+      json_response({success: false, message: "photo not found"}, 400)
+    end
   end
 
   private
@@ -30,7 +41,7 @@ class PhotosController < ApplicationController
 
   def photo_params
     params.require(:photo).map do |p|
-      ActionController::Parameters.new(p).permit(:image, :photo_title, :album_id, :status, :added_by).merge(:added_by => current_resource_owner.id)
+      ActionController::Parameters.new(p).permit(:image, :photo_title, :album_id, :status, :added_by, :is_cover_photo).merge(:added_by => current_resource_owner.id)
     end 
   end
 

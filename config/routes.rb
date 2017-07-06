@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :categories
   resources :albums do
     resources :photos do
+      patch 'set_cover_photo', on: :member
       collection do
         delete 'multi_delete'
       end

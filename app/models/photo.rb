@@ -23,4 +23,10 @@ class Photo < ApplicationRecord
     self.update(photo_title: "#{self.album.album_name} photo #{self.id}") 
   end
 
+  # select photo for cover photo and update it as is cover true and privious is false
+  def set_as_cover
+    self.album.photos.where(is_cover_photo: true).update_all(is_cover_photo: false)
+    self.update(is_cover_photo: true)
+  end
+
 end
