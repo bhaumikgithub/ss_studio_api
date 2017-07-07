@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170706085730) do
+ActiveRecord::Schema.define(version: 20170707105132) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,13 +26,14 @@ ActiveRecord::Schema.define(version: 20170706085730) do
 
   create_table "albums", force: :cascade do |t|
     t.string   "album_name"
-    t.string   "created_by"
     t.boolean  "is_private", default: true
     t.integer  "status",     default: 1
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
     t.datetime "deleted_at"
+    t.integer  "user_id"
     t.index ["deleted_at"], name: "index_albums_on_deleted_at", using: :btree
+    t.index ["user_id"], name: "index_albums_on_user_id", using: :btree
   end
 
   create_table "categories", force: :cascade do |t|
@@ -43,6 +44,7 @@ ActiveRecord::Schema.define(version: 20170706085730) do
     t.integer  "status",        default: 1
     t.integer  "user_id"
     t.index ["deleted_at"], name: "index_categories_on_deleted_at", using: :btree
+    t.index ["user_id"], name: "index_categories_on_user_id", using: :btree
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -87,7 +89,6 @@ ActiveRecord::Schema.define(version: 20170706085730) do
     t.string   "photo_title"
     t.integer  "album_id"
     t.integer  "status",             default: 1
-    t.string   "added_by"
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
     t.datetime "deleted_at"
@@ -96,7 +97,9 @@ ActiveRecord::Schema.define(version: 20170706085730) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.boolean  "is_cover_photo",     default: false
+    t.integer  "user_id"
     t.index ["deleted_at"], name: "index_photos_on_deleted_at", using: :btree
+    t.index ["user_id"], name: "index_photos_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|

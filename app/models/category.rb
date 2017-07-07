@@ -4,8 +4,8 @@ class Category < ApplicationRecord
 
   # Associations
   belongs_to :user
-  has_many :album_categories, dependent: :destroy
-  has_many :albums, through: :album_categories
+  has_many :album_categories
+  has_many :albums, through: :album_categories, dependent: :destroy
 
   enum status: { inactive: 0, active: 1 }
   # Validations

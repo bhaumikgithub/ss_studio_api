@@ -43,7 +43,7 @@ class PhotosController < ApplicationController
 
   def photo_params
     params.require(:photo).map do |p|
-      ActionController::Parameters.new(p).permit(:image, :photo_title, :album_id, :status, :added_by).merge(:added_by => current_resource_owner.id)
+      ActionController::Parameters.new(p).permit(:image, :photo_title, :album_id, :status, :user_id).merge(:user_id => current_resource_owner.id)
     end 
   end
 
