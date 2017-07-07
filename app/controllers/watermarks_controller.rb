@@ -31,6 +31,6 @@ class WatermarksController < ApplicationController
   end
 
   def fetch_watermark
-    @watermark = current_resource_owner.watermarks.find(id: params[:id])
+    @watermark = current_resource_owner.watermarks.find(params[:id])
   end
 end
