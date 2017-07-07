@@ -4,11 +4,12 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
-
+  
  # Callabcks
 
  # Associations
   has_many :category
+  has_many :watermarks
 
   enum status: { inactive: 0, active: 1 }
   # Validations
