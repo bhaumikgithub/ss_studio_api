@@ -1,10 +1,13 @@
 class Watermark < ApplicationRecord
-	acts_as_paranoid
+  acts_as_paranoid
+  # Callabcks
 
+  # Associations
   belongs_to :user
 
-  enum status: { inactive: 0, active: 1, deleted: 2 }
+  enum status: { inactive: 0, active: 1 }
 
+  # Validations
   has_attached_file :watermark_image,
                     styles: {  
                       thumb: "200x200#", 
