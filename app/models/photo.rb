@@ -18,7 +18,7 @@ class Photo < ApplicationRecord
   # Scopes
 
   # Methods
-  #create default photo_title
+  # create default photo_title
   def photo_name
     self.update(photo_title: "#{self.album.album_name} photo #{self.id}") 
   end

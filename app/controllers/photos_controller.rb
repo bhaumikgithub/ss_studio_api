@@ -1,6 +1,12 @@
 class PhotosController < ApplicationController
   include InheritAction
-  before_action :fetch_album, only: [:create, :multi_delete, :set_cover_photo]
+  before_action :fetch_album, only: [:create, :multi_delete, :set_cover_photo, :index]
+
+  # GET /albums/:album_id/photos 
+  def index
+    @photos = @album.photos
+    json_response({ success: true , data: {photos: @photos} }, 200)
+  end
 
   # POST /albums/:album_id/photos
   def create
