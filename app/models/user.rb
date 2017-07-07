@@ -10,6 +10,7 @@ class User < ApplicationRecord
  # Associations
   has_many :category
   has_many :watermarks
+  has_many :contacts
 
   enum status: { inactive: 0, active: 1 }
   # Validations
