@@ -11,7 +11,7 @@ class PhotosController < ApplicationController
 
   # POST /albums/:album_id/photos
   def create
-    @photos = @album.photos.create(photo_params)
+    @photos = @album.photos.create!(photo_params)
     render_success_response({ :photos => @photos}, 201)
   end
 
@@ -51,7 +51,7 @@ class PhotosController < ApplicationController
   def fetch_watermark_active
     @watermark = current_resource_owner.watermarks.where(status: "active").first.watermark_image.path
     # binding.pry
-    puts "------------#{@watermark}-------------"
+    # puts "------------#{@watermark}-------------"
   end
 
 end

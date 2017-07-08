@@ -1,4 +1,5 @@
 class Photo < ApplicationRecord
+  require 'paperclip_processors/watermark'
   acts_as_paranoid
   # Callabcks
   after_create :photo_name
@@ -10,15 +11,15 @@ class Photo < ApplicationRecord
   enum status: { inactive: 0, active: 1 }
   # Validations
   has_attached_file :image, 
-                    :processors => [:watermark],
                     :styles => {
                       :medium => {
                         :small => "300x300>", 
                         :thumb => "200x200#", 
                         :geometry => "455x455#",                  
-                        :watermark_path => "#{Watermark.where(status: "active").last.watermark_image.path}"
+                        :watermark_path => "#{"public"+Watermark.last.watermark_image.path.split('/public')[1]}"
                       }
-                    }
+                    },
+                    :processors => [:watermark]
   validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
 
   # Scopes
@@ -37,6 +38,8 @@ class Photo < ApplicationRecord
   
   def self.fetch_watermark_url
     binding.pry
-    # fetch_watermark_active
+    watermark = "public"+Watermark.last.watermark_image.path.split('/public')[1]
+    watermark = File.open(File.join(watermark))
+    puts "=====------------#{watermark.inspect}-----------====="
   end
 end

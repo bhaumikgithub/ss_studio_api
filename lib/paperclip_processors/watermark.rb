@@ -37,7 +37,6 @@ module Paperclip
       # Performs the conversion of the +file+ into a watermark. Returns the Tempfile
       # that contains the new image.
       def make
-        puts "<------hello------------>"
         dst = Tempfile.new([@basename, @format].compact.join("."))
         dst.binmode
         
@@ -54,6 +53,7 @@ module Paperclip
         if watermark_path
           command = "composite"
           params = %W[-gravity #{@position} #{watermark_path} #{tofile(dst)}]
+          puts "------path----#{watermark_path}-------"
           params << tofile(dst)
           begin
             success = Paperclip.run(command, params.flatten.compact.collect{|e| "'#{e}'"}.join(" "))
