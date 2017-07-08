@@ -2,6 +2,7 @@ class Photo < ApplicationRecord
   acts_as_paranoid
   # Callabcks
   after_create :photo_name
+  # before_create :fetch_watermark_url
   # Associations
   belongs_to :user
   belongs_to :album
@@ -9,18 +10,15 @@ class Photo < ApplicationRecord
   enum status: { inactive: 0, active: 1 }
   # Validations
   has_attached_file :image, 
-                    styles: {  
-                      thumb: "200x200#", 
-                      small: "300x300>", 
-                      medium: "450x450>",
+                    :processors => [:watermark],
+                    :styles => {
+                      :medium => {
+                        :small => "300x300>", 
+                        :thumb => "200x200#", 
+                        :geometry => "455x455#",                  
+                        :watermark_path => "#{Watermark.where(status: "active").last.watermark_image.path}"
+                      }
                     }
-                    # :processors => [:watermark],
-                    # :styles => {
-                    #   :medium => {
-                    #     :geometry => "455x455#",
-                    #     :watermark_path => WaterMark.count > 0 ? "#{WaterMark.last.watermark_image.path}" : "#{Rails.root}/public/images/watermark.png" 
-                    #   }
-                    # }
   validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
 
   # Scopes
@@ -36,5 +34,9 @@ class Photo < ApplicationRecord
     self.album.photos.where(is_cover_photo: true).update_all(is_cover_photo: false)
     self.update(is_cover_photo: true)
   end
-
+  
+  def self.fetch_watermark_url
+    binding.pry
+    # fetch_watermark_active
+  end
 end

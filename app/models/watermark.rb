@@ -16,4 +16,6 @@ class Watermark < ApplicationRecord
                     }
   validates_attachment_content_type :watermark_image, :content_type => ["image/png"]
 
+  # Method
+
 end

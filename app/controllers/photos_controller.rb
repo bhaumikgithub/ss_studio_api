@@ -1,6 +1,7 @@
 class PhotosController < ApplicationController
   include InheritAction
   before_action :fetch_album, only: [:create, :multi_delete, :set_cover_photo, :index]
+  before_action :fetch_watermark_active, only: [:create]
 
   # GET /albums/:album_id/photos 
   def index
@@ -45,6 +46,12 @@ class PhotosController < ApplicationController
     params.require(:photo).map do |p|
       ActionController::Parameters.new(p).permit(:image, :photo_title, :album_id, :status, :user_id).merge(:user_id => current_resource_owner.id)
     end 
+  end
+
+  def fetch_watermark_active
+    @watermark = current_resource_owner.watermarks.where(status: "active").first.watermark_image.path
+    # binding.pry
+    puts "------------#{@watermark}-------------"
   end
 
 end
