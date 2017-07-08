@@ -108,6 +108,7 @@ GEM
     public_suffix (2.0.5)
     puma (3.9.1)
     rack (2.0.3)
+    rack-cors (0.4.1)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.0.4)
@@ -178,6 +179,7 @@ DEPENDENCIES
   pg
   pry
   puma (~> 3.0)
+  rack-cors
   rails (~> 5.0.4)
   spring
   spring-watcher-listen (~> 2.0.0)
