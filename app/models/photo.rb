@@ -3,6 +3,7 @@ class Photo < ApplicationRecord
   # Callabcks
   after_create :photo_name
   # Associations
+  belongs_to :user
   belongs_to :album
 
   enum status: { inactive: 0, active: 1 }
@@ -11,8 +12,15 @@ class Photo < ApplicationRecord
                     styles: {  
                       thumb: "200x200#", 
                       small: "300x300>", 
-                      medium: "450x450>" 
+                      medium: "450x450>",
                     }
+                    # :processors => [:watermark],
+                    # :styles => {
+                    #   :medium => {
+                    #     :geometry => "455x455#",
+                    #     :watermark_path => WaterMark.count > 0 ? "#{WaterMark.last.watermark_image.path}" : "#{Rails.root}/public/images/watermark.png" 
+                    #   }
+                    # }
   validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
 
   # Scopes
