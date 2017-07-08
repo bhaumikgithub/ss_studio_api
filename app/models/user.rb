@@ -8,6 +8,7 @@ class User < ApplicationRecord
  # Callabcks
 
  # Associations
+  has_many :contacts
   has_many :category, dependent: :destroy
   has_many :watermarks, dependent: :destroy
   has_many :albums, dependent: :destroy
