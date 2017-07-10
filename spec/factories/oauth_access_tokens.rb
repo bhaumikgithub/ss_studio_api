@@ -6,7 +6,7 @@ FactoryGirl.define do
     refresh_token "MyString"
     expires_in 7200
     scopes "MyString"
-    created_at ""
+    created_at Time.zone.today
     revoked_at ""
     previous_refresh_token "MyString"
   end

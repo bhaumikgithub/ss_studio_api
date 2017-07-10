@@ -5,7 +5,7 @@ FactoryGirl.define do
     secret "MyString"
     redirect_uri "https://localhost:3000"
     scopes "MyString"
-    created_at "2017-07-07 11:36:48"
-    updated_at "2017-07-07 11:36:48"
+    created_at Time.zone.today
+    updated_at ""
   end
 end

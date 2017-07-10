@@ -6,8 +6,8 @@ FactoryGirl.define do
     password 'password'
     password_confirmation 'password'
     confirmed_at Time.zone.today
-    first_name 'MyString'
-    last_name 'MyString'
+    first_name 'hello'
+    last_name 'world'
     status 1
   end
 end

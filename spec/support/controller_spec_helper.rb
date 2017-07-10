@@ -1,28 +1,8 @@
 module ControllerSpecHelper
-  # generate tokens from user id
-  let(:user) { create(:user) }
-  def token_generator(user_id)
-    JsonWebToken.encode(user_id: user_id)
-  end
-
-  # generate expired tokens from user id
-  def expired_token_generator(user_id)
-    JsonWebToken.encode({ user_id: user_id }, (Time.now.to_i - 10))
-  end
-
-  # return valid headers
-  def valid_headers
-    {
-      "Authorization" => token_generator(user.id),
-      "Content-Type" => "application/json"
-    }
-  end
-
-  # return invalid headers
-  def invalid_headers
-    {
-      "Authorization" => nil,
-      "Content-Type" => "application/json"
-    }
+  def token_generator
+    user = User.create!(email: 'test@gmail.com', password: 'hello123', password_confirmation: 'hello123')
+    application = Doorkeeper::Application.create!(name: 'test', uid: '100', redirect_uri: "https://localhost:3000")
+    token = Doorkeeper::AccessToken.create!(resource_owner_id: user.id, application_id: application.id)
+    return token.token
   end
 end
