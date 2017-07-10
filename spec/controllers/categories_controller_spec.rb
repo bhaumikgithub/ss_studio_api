@@ -14,19 +14,14 @@ RSpec.describe CategoriesController, type: :request do
       it "should return unauthorized" do
         get '/categories'
         assert_response :unauthorized
-        # expect(response.status).to eq 401
-        # puts "========#{response.body.inspect}=========="
       end
     end
 
     describe 'authorized' do
       context 'Successful' do
         it 'returns all categories' do
-          # puts "===token generator=====#{@header.inspect}========="
           get '/categories', headers: @header
-          # get :index
           # parsed_body = JSON.parse(response.body)
-          # puts "====token======#{Doorkeeper::AccessToken.all.inspect}=========="
           expect(response.status).to eq 200
         end
       end

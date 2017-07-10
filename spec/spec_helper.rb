@@ -95,17 +95,4 @@ RSpec.configure do |config|
   # test failures related to randomization by passing the same `--seed` value
   # as the one that triggered the failure.
   # Kernel.srand config.seed
-
-  # config.after(:all) do
-  #   puts "=====in config======"
-  #   Doorkeeper::AccessToken.destroy_all
-  #   Doorkeeper::Application.destroy_all
-  #   User.destroy_all
-  # end
-  # config.before(:all) do
-  #   Doorkeeper::AccessToken.destroy_all
-  #   Doorkeeper::Application.destroy_all
-  #   User.destroy_all
-  # end
-
 end
