@@ -6,7 +6,7 @@ class Album < ApplicationRecord
   belongs_to :user
   has_many :album_categories
   has_many :categories, through: :album_categories, dependent: :destroy
-  has_many :photos, dependent: :destroy
+  has_many :photos, as: :imageable, dependent: :destroy
 
   enum status: { inactive: 0, active: 1 }
   # Validations

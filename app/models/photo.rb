@@ -4,8 +4,9 @@ class Photo < ApplicationRecord
   # Callabcks
   after_create :photo_name
   # Associations
+  belongs_to :imageable, polymorphic: true
   belongs_to :user
-  belongs_to :album
+  # belongs_to :album
 
   enum status: { inactive: 0, active: 1 }
   cattr_accessor :watermark_url
@@ -35,12 +36,14 @@ class Photo < ApplicationRecord
   # Methods
   # create default photo_title
   def photo_name
-    self.update(photo_title: "#{self.album.album_name} photo #{self.id}") 
+    if imageable_type == "Album"
+      self.update(photo_title: "#{self.imageable.album_name} photo #{self.id}") 
+    end
   end
 
   # select photo for cover photo and update it as is cover true and privious is false
   def set_as_cover
-    self.album.photos.where(is_cover_photo: true).update_all(is_cover_photo: false)
+    self.imageable.photos.where(is_cover_photo: true).update_all(is_cover_photo: false)
     self.update(is_cover_photo: true)
   end
 end
