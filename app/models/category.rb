@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# category model
 class Category < ApplicationRecord
   acts_as_paranoid
   # Callabcks
@@ -9,12 +12,11 @@ class Category < ApplicationRecord
 
   enum status: { inactive: 0, active: 1 }
   # Validations
-  validates :category_name, presence: true, :uniqueness => true
+  validates :category_name, presence: true, uniqueness: true
 
   # Scopes
 
-  private
+  # private
 
   # Methods
-
 end

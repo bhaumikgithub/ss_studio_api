@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Application Controller
 class ApplicationController < ActionController::API
   around_action :handle_exceptions
   before_action :doorkeeper_authorize!
@@ -5,6 +8,7 @@ class ApplicationController < ActionController::API
 
 
   def doorkeeper_unauthorized_render_options(error: nil)
+    # puts "===error====#{error.inspect}========="
     { json: { error: "You are not authorized." } }
   end
 
@@ -28,42 +32,43 @@ class ApplicationController < ActionController::API
   end
 
   # Catch exception and return JSON-formatted error
+  # rubocop:disable MethodLength
   def handle_exceptions
     begin
       yield
     rescue ActiveRecord::RecordNotFound => e
       @status = 404
-      @message = "Record not found"
+      @message = 'Record not found'
     rescue ActiveRecord::RecordInvalid => e
-      render_unprocessable_entity_response(e.record) and return
+      render_unprocessable_entity_response(e.record) && return
     rescue ArgumentError => e
       @status = 400
-    rescue Exception => e
+    rescue StandardError => e
       @status = 500
     end
-    json_response({success: false, message: @message || e.class.to_s, errors: [{detail: e.message}]}, @status) unless e.class == NilClass
+    json_response({ success: false, message: @message || e.class.to_s, errors: [{ detail: e.message }] }, @status) unless e.class == NilClass
   end
 
   def render_unprocessable_entity_response(resource)
     json_response({
-      success: false,
-      message: "Validation Failed",
-      errors: ValidationErrorsSerializer.new(resource).serialize
-    }, 422)
+                    success: false,
+                    message: 'Validation Failed',
+                    errors: ValidationErrorsSerializer.new(resource).serialize
+                  }, 422)
   end
 
   def render_success_response(resources = {}, status = 200)
     json_response({
-      success: true,
-      data: resources
-    }, status)
+                    success: true,
+                    data: resources
+                  }, status)
   end
 
   def meta_attributes(collection, extra_meta = {})
     if collection.nil?
-      return []
+      []
     else
-      return {
+      {
         pagination: {
           current_page: collection.current_page,
           next_page: collection.next_page,
