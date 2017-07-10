@@ -10,10 +10,10 @@ class Watermark < ApplicationRecord
   # Validations
   has_attached_file :watermark_image,
                     styles: {  
-                      thumb: "200x200#", 
-                      small: "300x300>", 
-                      medium: "450x450>" 
+                      thumb: "100x100#"
                     }
   validates_attachment_content_type :watermark_image, :content_type => ["image/png"]
+
+  # Method
 
 end

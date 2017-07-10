@@ -1,4 +1,5 @@
 class Photo < ApplicationRecord
+  require 'paperclip_processors/watermark'
   acts_as_paranoid
   # Callabcks
   after_create :photo_name
@@ -7,20 +8,26 @@ class Photo < ApplicationRecord
   belongs_to :album
 
   enum status: { inactive: 0, active: 1 }
+  cattr_accessor :watermark_url
   # Validations
-  has_attached_file :image, 
-                    styles: {  
-                      thumb: "200x200#", 
-                      small: "300x300>", 
-                      medium: "450x450>",
+
+  has_attached_file :image, :processors => [:watermark] ,
+                    :styles => lambda { |attachment| {
+                      :small => {
+                        :geometry => "250x250#",
+                        :watermark_path => attachment.instance.class.watermark_url
+                      },
+                      :medium => {
+                        :geometry => "300x300#",
+                        :watermark_path => attachment.instance.class.watermark_url
+                      },
+                      :thumb => {
+                        :geometry => "400x400#",
+                        :watermark_path => attachment.instance.class.watermark_url
+                      }, 
                     }
-                    # :processors => [:watermark],
-                    # :styles => {
-                    #   :medium => {
-                    #     :geometry => "455x455#",
-                    #     :watermark_path => WaterMark.count > 0 ? "#{WaterMark.last.watermark_image.path}" : "#{Rails.root}/public/images/watermark.png" 
-                    #   }
-                    # }
+                  }
+                    
   validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
 
   # Scopes
@@ -36,5 +43,4 @@ class Photo < ApplicationRecord
     self.album.photos.where(is_cover_photo: true).update_all(is_cover_photo: false)
     self.update(is_cover_photo: true)
   end
-
 end
