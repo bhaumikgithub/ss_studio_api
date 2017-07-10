@@ -23,7 +23,7 @@ gem 'puma', '~> 3.0'
 # gem 'capistrano-rails', group: :development
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'rack-cors'
+gem 'rack-cors'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -46,14 +46,18 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+
+# For User registration
 gem 'devise'
+
+# For generate token using JWT
 gem 'doorkeeper'
 gem 'doorkeeper-jwt'
 
 # For soft delete
 gem "paranoia", "~> 2.2"
 
-#For photo and video upload
+# For photo and video upload
 gem "paperclip", git: "git://github.com/thoughtbot/paperclip.git"
 
 # RuboCop is a Ruby static code analyzer

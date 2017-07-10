@@ -1,23 +1,56 @@
 class PhotosController < ApplicationController
   include InheritAction
+  before_action :fetch_album, only: [:create, :multi_delete, :set_cover_photo, :index]
+  before_action :fetch_watermark_active, only: [:create]
 
-  def create
-    @album = Album.find(params[:album_id])
-    @album.photos.create(resource_params)
-    # super do |resources|
-    #   puts "----------#{resources.inspect }------------"
-    #   # binding.pry
-    #   resources.update_all(added_by: current_resource_owner.id)
-    # end
+  # GET /albums/:album_id/photos 
+  def index
+    @photos = @album.photos
+    json_response({ success: true , data: {photos: @photos} }, 200)
   end
 
-  # private
+  # POST /albums/:album_id/photos
+  def create
+    @photos = @album.photos.create!(photo_params)
+    render_success_response({ :photos => @photos}, 201)
+  end
 
-  def resource_params
-    # params.permit(photos: [:image])
-    params.require(:photos).map do |p|
-      ActionController::Parameters.new(p).permit(:image, :photo_title, :album_id, :status, :added_by)
+  # DELETE /albums/:album_id/photos/multi_delete
+  def multi_delete
+    unless @album.photos.present?
+      json_response({success: false, message: "Photos not found"}, 400)
+    end
+
+    if params['photo']['id'].present?
+      @album.photos.where("id IN (?)",params[:photo][:id]).destroy_all
+    else
+      @album.photos.destroy_all
+    end
+    json_response({success: true, message: "Selected photos deleted successfully."}, 200)
+  end
+
+  # PATCH /albums/:album_id/photos/:id/set_cover_photo
+  def set_cover_photo
+    @photo = @album.photos.find(params[:id])
+    @photo.set_as_cover
+    json_response({success: true, message: "Set as cover photo successfully.", data: {albums: @photo}}, 200)
+  end
+
+  private
+
+  def fetch_album
+    @album = Album.find(params[:album_id])
+  end
+
+  def photo_params
+    params.require(:photo).map do |p|
+      ActionController::Parameters.new(p).permit(:image, :photo_title, :album_id, :status, :user_id).merge(:user_id => current_resource_owner.id)
     end 
+  end
+
+  # fetch current user's active watermark
+  def fetch_watermark_active
+    Photo.watermark_url = current_resource_owner.watermarks.where(status: "active").first.watermark_image.path
   end
 
 end

@@ -6,9 +6,9 @@ class Category < ApplicationRecord
   # Callabcks
 
   # Associations
-  has_many :users
-  has_many :album_categories, dependent: :destroy
-  has_many :albums, through: :album_categories
+  belongs_to :user
+  has_many :album_categories
+  has_many :albums, through: :album_categories, dependent: :destroy
 
   enum status: { inactive: 0, active: 1 }
   # Validations
