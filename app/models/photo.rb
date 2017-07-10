@@ -12,28 +12,39 @@ class Photo < ApplicationRecord
   cattr_accessor :watermark_url
   # Validations
 
-  has_attached_file :image, :processors => [:watermark] ,
-                    :styles => lambda { |attachment| {
-                      :small => {
-                        :geometry => "250x250#",
-                        :watermark_path => attachment.instance.class.watermark_url
-                      },
-                      :medium => {
-                        :geometry => "300x300#",
-                        :watermark_path => attachment.instance.class.watermark_url
-                      },
-                      :thumb => {
-                        :geometry => "400x400#",
-                        :watermark_path => attachment.instance.class.watermark_url
-                      }, 
-                    }
-                  }
-                    
+  has_attached_file :image, 
+                    :processors => [:watermark],
+                    :styles => lambda { |attachment| attachment.instance.image_options[:styles] }
+                                 
   validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
 
   # Scopes
 
+  IMAGE_OPTIONS = {
+    Album: {
+      :styles => lambda { |attachment| {
+          :small => {
+            :geometry => "250x250#",
+            :watermark_path => attachment.instance.class.watermark_url
+          },
+          :medium => {
+            :geometry => "300x300#",
+            :watermark_path => attachment.instance.class.watermark_url
+          },
+          :thumb => {
+            :geometry => "400x400#",
+            :watermark_path => attachment.instance.class.watermark_url
+          }, 
+        }
+      }     
+    }
+  }
+
   # Methods
+  def image_options
+    IMAGE_OPTIONS[self.imageable_type]
+    binding.pry
+  end
   # create default photo_title
   def photo_name
     if imageable_type == "Album"
@@ -43,7 +54,9 @@ class Photo < ApplicationRecord
 
   # select photo for cover photo and update it as is cover true and privious is false
   def set_as_cover
-    self.imageable.photos.where(is_cover_photo: true).update_all(is_cover_photo: false)
-    self.update(is_cover_photo: true)
+    if imageable_type == "Album"
+      self.imageable.photos.where(is_cover_photo: true).update_all(is_cover_photo: false)
+      self.update(is_cover_photo: true)
+    end
   end
 end

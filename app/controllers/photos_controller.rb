@@ -11,8 +11,11 @@ class PhotosController < ApplicationController
 
   # POST /albums/:album_id/photos
   def create
-    @photos = @album.photos.create!(photo_params)
-    render_success_response({ :photos => @photos}, 201)
+    binding.pry
+    @photos = Photo.create(photo_params)
+    if @photos.save!
+      render_success_response({ :photos => @photos}, 201)
+    end
   end
 
   # DELETE /albums/:album_id/photos/multi_delete
@@ -44,7 +47,7 @@ class PhotosController < ApplicationController
 
   def photo_params
     params.require(:photo).map do |p|
-      ActionController::Parameters.new(p).permit(:image, :photo_title, :status, :user_id).merge(:user_id => current_resource_owner.id)
+      ActionController::Parameters.new(p).permit(:image, :photo_title, :status, :user_id, :imageable_id, :imageable_type).merge(:user_id => current_resource_owner.id)
     end 
   end
 
