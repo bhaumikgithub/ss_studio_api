@@ -48,10 +48,9 @@ class PhotosController < ApplicationController
     end 
   end
 
+  # fetch current user's active watermark
   def fetch_watermark_active
-    @watermark = current_resource_owner.watermarks.where(status: "active").first.watermark_image.path
-    # binding.pry
-    # puts "------------#{@watermark}-------------"
+    Photo.watermark_url = current_resource_owner.watermarks.where(status: "active").first.watermark_image.path
   end
 
 end

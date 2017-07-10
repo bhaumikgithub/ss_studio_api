@@ -3,23 +3,31 @@ class Photo < ApplicationRecord
   acts_as_paranoid
   # Callabcks
   after_create :photo_name
-  # before_create :fetch_watermark_url
   # Associations
   belongs_to :user
   belongs_to :album
 
   enum status: { inactive: 0, active: 1 }
+  cattr_accessor :watermark_url
   # Validations
-  has_attached_file :image, 
-                    :styles => {
+
+  has_attached_file :image, :processors => [:watermark] ,
+                    :styles => lambda { |attachment| {
+                      :small => {
+                        :geometry => "250x250#",
+                        :watermark_path => attachment.instance.class.watermark_url
+                      },
                       :medium => {
-                        :small => "300x300>", 
-                        :thumb => "200x200#", 
-                        :geometry => "455x455#",                  
-                        :watermark_path => "#{"public"+Watermark.last.watermark_image.path.split('/public')[1]}"
-                      }
-                    },
-                    :processors => [:watermark]
+                        :geometry => "300x300#",
+                        :watermark_path => attachment.instance.class.watermark_url
+                      },
+                      :thumb => {
+                        :geometry => "400x400#",
+                        :watermark_path => attachment.instance.class.watermark_url
+                      }, 
+                    }
+                  }
+                    
   validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
 
   # Scopes
@@ -34,12 +42,5 @@ class Photo < ApplicationRecord
   def set_as_cover
     self.album.photos.where(is_cover_photo: true).update_all(is_cover_photo: false)
     self.update(is_cover_photo: true)
-  end
-  
-  def self.fetch_watermark_url
-    binding.pry
-    watermark = "public"+Watermark.last.watermark_image.path.split('/public')[1]
-    watermark = File.open(File.join(watermark))
-    puts "=====------------#{watermark.inspect}-----------====="
   end
 end
