@@ -1,50 +1,45 @@
 class Photo < ApplicationRecord
   require 'paperclip_processors/watermark'
   acts_as_paranoid
+
   # Callabcks
   after_create :photo_name
+  
   # Associations
   belongs_to :imageable, polymorphic: true
   belongs_to :user
   # belongs_to :album
-
+  
   enum status: { inactive: 0, active: 1 }
   cattr_accessor :watermark_url
+  
   # Validations
-
   has_attached_file :image, 
                     :processors => [:watermark],
-                    :styles => lambda { |attachment| attachment.instance.image_options[:styles] }
-                                 
+                    :styles => lambda { |attachment| {
+                      :small => {
+                        :geometry => "250x250#",
+                        :watermark_path => attachment.instance.class.watermark_url
+                      },
+                      :medium => {
+                        :geometry => "300x300#",
+                        :watermark_path => attachment.instance.class.watermark_url
+                      },
+                      :thumb => {
+                        :geometry => "400x400#"
+                      },
+                      :home => {
+                        :geometry => "1000x1000#"
+                      }
+                    }
+                  }         
+                                                    
   validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
 
   # Scopes
-
-  IMAGE_OPTIONS = {
-    Album: {
-      :styles => lambda { |attachment| {
-          :small => {
-            :geometry => "250x250#",
-            :watermark_path => attachment.instance.class.watermark_url
-          },
-          :medium => {
-            :geometry => "300x300#",
-            :watermark_path => attachment.instance.class.watermark_url
-          },
-          :thumb => {
-            :geometry => "400x400#",
-            :watermark_path => attachment.instance.class.watermark_url
-          }, 
-        }
-      }     
-    }
-  }
-
+  
   # Methods
-  def image_options
-    IMAGE_OPTIONS[self.imageable_type]
-    binding.pry
-  end
+ 
   # create default photo_title
   def photo_name
     if imageable_type == "Album"

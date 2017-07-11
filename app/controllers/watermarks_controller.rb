@@ -27,7 +27,7 @@ class WatermarksController < ApplicationController
 
   private
   def resource_params
-    params.require(:watermark).permit(:watermark_image, :user_id, :status )
+    params.require(:watermark).permit(:user_id, :status, photo_attributes: [:id, :image, :imageable_id, :imageable_type, :_destroy] )
   end
 
   def fetch_watermark
