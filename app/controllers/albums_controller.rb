@@ -30,7 +30,7 @@ class AlbumsController < ApplicationController
   private
 
   def album_params
-    params.require(:album).permit( :album_name, :is_private, :created_by, :status, category_ids: [] )
+    params.require(:album).permit( :album_name, :is_private, :created_by, :status, :delivery_status, :portfolio_visibility, category_ids: [] )
   end
 
   def fetch_album

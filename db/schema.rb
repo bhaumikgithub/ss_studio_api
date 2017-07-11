@@ -26,12 +26,14 @@ ActiveRecord::Schema.define(version: 20170711102336) do
 
   create_table "albums", force: :cascade do |t|
     t.string   "album_name"
-    t.boolean  "is_private", default: true
-    t.integer  "status",     default: 1
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.boolean  "is_private",           default: true
+    t.integer  "status",               default: 1
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.datetime "deleted_at"
     t.integer  "user_id"
+    t.integer  "delivery_status",      default: 0
+    t.boolean  "portfolio_visibility", default: false
     t.index ["deleted_at"], name: "index_albums_on_deleted_at", using: :btree
     t.index ["user_id"], name: "index_albums_on_user_id", using: :btree
   end
