@@ -11,6 +11,7 @@ class PhotosController < ApplicationController
 
   # POST /albums/:album_id/photos
   def create
+    # binding.pry
     @photos = Photo.create(photo_params)
 
     @photos.each_with_index do |photo, index|
@@ -49,7 +50,7 @@ class PhotosController < ApplicationController
 
   def photo_params
     params.require(:photo).map do |p|
-      ActionController::Parameters.new(p).permit(:photo_title, :status, :user_id, :imageable_id, :imageable_type).merge(:user_id => current_resource_owner.id)
+      ActionController::Parameters.new(p).permit(:image,:photo_title, :status, :user_id, :imageable_id, :imageable_type).merge(:user_id => current_resource_owner.id)
     end 
   end
 
@@ -61,7 +62,10 @@ class PhotosController < ApplicationController
 
   # fetch current user's active watermark
   def fetch_watermark_active
-    Photo.watermark_url = current_resource_owner.watermarks.where(status: "active").first.image.path
+    # binding.pry
+    # Photo.watermark_url = current_resource_owner.watermarks.where(status: "active").first.image.path
+     Photo.watermark_url = current_resource_owner.watermarks.where(status: 1).first.photo.image.path
+    puts "------------#{Photo.watermark_url}-------------"
   end
 
 end
