@@ -62,3 +62,7 @@ gem "paperclip", git: "git://github.com/thoughtbot/paperclip.git"
 
 # RuboCop is a Ruby static code analyzer
 gem 'rubocop', require: false
+
+#For serialize model attributes
+gem 'active_model_serializers', '~> 0.10.0'
+

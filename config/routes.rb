@@ -12,12 +12,11 @@ Rails.application.routes.draw do
   }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :categories
-  resources :albums do
-    resources :photos do
-      patch 'set_cover_photo', on: :member
-      collection do
-        delete 'multi_delete'
-      end
+  resources :albums
+  resources :photos do
+    patch 'set_cover_photo', on: :member
+    collection do
+      delete 'multi_delete'
     end
   end
   resources :watermarks
