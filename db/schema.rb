@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170712083447) do
+ActiveRecord::Schema.define(version: 20170712114815) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,6 +142,25 @@ ActiveRecord::Schema.define(version: 20170712083447) do
     t.index ["user_id"], name: "index_photos_on_user_id", using: :btree
   end
 
+  create_table "service_icons", force: :cascade do |t|
+    t.integer  "status",     default: 1
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "icon_image"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_service_icons_on_deleted_at", using: :btree
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.string   "service_name"
+    t.string   "description"
+    t.integer  "status",          default: 1
+    t.integer  "service_icon_id"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.index ["service_icon_id"], name: "index_services_on_service_icon_id", using: :btree
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -184,5 +203,6 @@ ActiveRecord::Schema.define(version: 20170712083447) do
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
+  add_foreign_key "services", "service_icons"
   add_foreign_key "watermarks", "users"
 end
