@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170711042048) do
+ActiveRecord::Schema.define(version: 20170712094053) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "abouts", force: :cascade do |t|
+    t.string   "title_text"
+    t.string   "description"
+    t.jsonb    "social_links", default: "{}"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_abouts_on_deleted_at", using: :btree
+    t.index ["social_links"], name: "index_abouts_on_social_links", using: :gin
+  end
 
   create_table "album_categories", force: :cascade do |t|
     t.integer  "album_id"
