@@ -1,41 +1,31 @@
 class PhotosController < ApplicationController
   include InheritAction
   # before_action :fetch_album, only: [:multi_delete, :set_cover_photo, :index]
-  before_action :fetch_watermark_active, only: [:create]
+  before_action :fetch_active_watermark, only: [:create]
 
-  # GET /albums/:album_id/photos 
+  # GET /photos 
   def index
     @photos = Photo.all
     json_response({ success: true , data: {photos: @photos} }, 200)
   end
 
-  # POST /albums/:album_id/photos
+  # POST /photos
   def create
-    # binding.pry
     @photos = Photo.create(photo_params)
-
-    @photos.each_with_index do |photo, index|
-      photo.update_attributes(image_params[index])
-    end
     render_success_response({ :photos => @photos}, 201)
   end
 
-  # DELETE /albums/:album_id/photos/multi_delete
+  # DELETE /photos/multi_delete
   def multi_delete
-    unless Photo.present?
-      json_response({success: false, message: "Photos not found"}, 400)
-    end
-
     if params['photo']['id'].present?
       Photo.where("id IN (?)",params[:photo][:id]).destroy_all
     else
-      binding.pry
       Photo.destroy_all
     end
     json_response({success: true, message: "Selected photos deleted successfully."}, 200)
   end
 
-  # PATCH /albums/:album_id/photos/:id/set_cover_photo
+  # PATCH /photos/:id/set_cover_photo
   def set_cover_photo
     @photo = Photo.find(params[:id])
     @photo.set_as_cover
@@ -50,22 +40,17 @@ class PhotosController < ApplicationController
 
   def photo_params
     params.require(:photo).map do |p|
-      ActionController::Parameters.new(p).permit(:image,:photo_title, :status, :user_id, :imageable_id, :imageable_type).merge(:user_id => current_resource_owner.id)
-    end 
-  end
-
-  def image_params
-    params.require(:photo).map do |p|
-      ActionController::Parameters.new(p).permit(:image)
+      ActionController::Parameters.new(p).permit(:image, :photo_title, :status, :user_id, :imageable_id, :imageable_type).merge(:user_id => current_resource_owner.id)
     end 
   end
 
   # fetch current user's active watermark
-  def fetch_watermark_active
-    # binding.pry
-    # Photo.watermark_url = current_resource_owner.watermarks.where(status: "active").first.image.path
-     Photo.watermark_url = current_resource_owner.watermarks.where(status: 1).first.photo.image.path
-    puts "------------#{Photo.watermark_url}-------------"
+  def fetch_active_watermark
+    if current_resource_owner.watermarks.present?
+      Photo.watermark_url = current_resource_owner.watermarks.find_by(status: "active").photo.image.path
+    else
+      Photo.watermark_url = "#{Rails.root}/public/watermark.png"
+    end
   end
 
 end

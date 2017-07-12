@@ -16,30 +16,34 @@ class Photo < ApplicationRecord
   # Validations
   has_attached_file :image, 
                     :processors => [:watermark],
-                    :styles => lambda { |attachment| {
-                      :small => {
-                        :geometry => "250x250#",
-                        :watermark_path => attachment.instance.class.watermark_url
-                      },
-                      :medium => {
-                        :geometry => "300x300#",
-                        :watermark_path => attachment.instance.class.watermark_url
-                      },
-                      :thumb => {
-                        :geometry => "400x400#"
-                      },
-                      :home => {
-                        :geometry => "1000x1000#"
-                      }
-                    }
-                  }         
-                                                    
-  validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
+                    :styles => lambda { |attachment| attachment.instance.image_options[:styles]  }    
 
+  validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
+ 
+  IMAGE_OPTIONS = {
+    
+    "Watermark": {
+      styles: {
+        small: ["250x250#"],
+        medium: ["300x300#"],
+        thumb: ["400x400#"]
+      } 
+    },
+    "Album": {
+      styles: {
+        small: ["250x250#", :watermark_path => watermark_url],
+        medium: ["300x300#",:watermark_path => watermark_url],
+        thumb: ["400x400#",:watermark_path => watermark_url]
+      }
+    }
+  }
   # Scopes
   
   # Methods
- 
+  # For the dynamic styles of photo
+  def image_options
+    IMAGE_OPTIONS[self.imageable_type]
+  end
   # create default photo_title
   def photo_name
     if imageable_type == "Album"
