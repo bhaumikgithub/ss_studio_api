@@ -4,8 +4,6 @@ class Watermark < ApplicationRecord
 
   # Associations
   belongs_to :user
-  has_one :photo, as: :imageable, dependent: :destroy
-  accepts_nested_attributes_for :photo
 
   enum status: { inactive: 0, active: 1 }
 

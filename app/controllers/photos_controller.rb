@@ -1,7 +1,7 @@
 class PhotosController < ApplicationController
   include InheritAction
   # before_action :fetch_album, only: [:multi_delete, :set_cover_photo, :index]
-  before_action :fetch_active_watermark, only: [:create]
+  
 
   # GET /photos 
   def index
@@ -43,14 +43,4 @@ class PhotosController < ApplicationController
       ActionController::Parameters.new(p).permit(:image, :photo_title, :status, :user_id, :imageable_id, :imageable_type).merge(:user_id => current_resource_owner.id)
     end 
   end
-
-  # fetch current user's active watermark
-  def fetch_active_watermark
-    if current_resource_owner.watermarks.present?
-      Photo.watermark_url = current_resource_owner.watermarks.find_by(status: "active").photo.image.path
-    else
-      Photo.watermark_url = "#{Rails.root}/public/watermark.png"
-    end
-  end
-
 end
