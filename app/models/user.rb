@@ -8,11 +8,12 @@ class User < ApplicationRecord
  # Callabcks
 
  # Associations
-  has_many :contacts
+  has_many :contacts, dependent: :destroy
   has_many :category, dependent: :destroy
   has_many :watermarks, dependent: :destroy
   has_many :albums, dependent: :destroy
   has_many :photos, dependent: :destroy
+  has_many :contact_details, dependent: :destroy 
 
   enum status: { inactive: 0, active: 1 }
   # Validations

@@ -21,4 +21,5 @@ Rails.application.routes.draw do
   end
   resources :watermarks
   resources :contacts
+  resources :contact_details, only: [:update]
 end
