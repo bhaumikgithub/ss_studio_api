@@ -23,4 +23,5 @@ Rails.application.routes.draw do
   resources :contacts
   resources :contact_details, only: [:update]
   resources :services
+  resources :homepage_photos
 end

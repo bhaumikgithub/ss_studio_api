@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170712114815) do
+ActiveRecord::Schema.define(version: 20170713051502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,14 @@ ActiveRecord::Schema.define(version: 20170712114815) do
     t.string   "token"
     t.index ["deleted_at"], name: "index_contacts_on_deleted_at", using: :btree
     t.index ["user_id"], name: "index_contacts_on_user_id", using: :btree
+  end
+
+  create_table "homepage_photos", force: :cascade do |t|
+    t.boolean  "is_active",  default: true
+    t.integer  "user_id"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.index ["user_id"], name: "index_homepage_photos_on_user_id", using: :btree
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -190,6 +198,7 @@ ActiveRecord::Schema.define(version: 20170712114815) do
   end
 
   add_foreign_key "contact_details", "users"
+  add_foreign_key "homepage_photos", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
