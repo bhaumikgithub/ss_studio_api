@@ -24,4 +24,5 @@ Rails.application.routes.draw do
   resources :contact_details, only: [:update]
   resources :abouts, only: [:index, :update]
   resources :services
+  resources :contact_messages
 end
