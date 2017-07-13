@@ -23,5 +23,10 @@ Rails.application.routes.draw do
   resources :contacts
   resources :contact_details, only: [:update]
   resources :services
-  resources :homepage_photos
+  resources :homepage_photos do
+    collection do
+      put 'select_uploaded_photo'
+    end
+  end
+
 end

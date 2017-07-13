@@ -8,6 +8,7 @@ class Photo < ApplicationRecord
   # Associations
   belongs_to :imageable, polymorphic: true
   belongs_to :user
+  has_many :homepage_photos
   
   # Enumerator
   enum status: { inactive: 0, active: 1 }
