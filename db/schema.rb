@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170707132105) do
+ActiveRecord::Schema.define(version: 20170712114815) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "abouts", force: :cascade do |t|
+    t.string   "title_text"
+    t.string   "description"
+    t.jsonb    "social_links", default: "{}"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.index ["social_links"], name: "index_abouts_on_social_links", using: :gin
+  end
 
   create_table "album_categories", force: :cascade do |t|
     t.integer  "album_id"
@@ -26,12 +35,14 @@ ActiveRecord::Schema.define(version: 20170707132105) do
 
   create_table "albums", force: :cascade do |t|
     t.string   "album_name"
-    t.boolean  "is_private", default: true
-    t.integer  "status",     default: 1
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.boolean  "is_private",           default: true
+    t.integer  "status",               default: 1
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.datetime "deleted_at"
     t.integer  "user_id"
+    t.integer  "delivery_status",      default: 0
+    t.boolean  "portfolio_visibility", default: false
     t.index ["deleted_at"], name: "index_albums_on_deleted_at", using: :btree
     t.index ["user_id"], name: "index_albums_on_user_id", using: :btree
   end
@@ -45,6 +56,18 @@ ActiveRecord::Schema.define(version: 20170707132105) do
     t.integer  "user_id"
     t.index ["deleted_at"], name: "index_categories_on_deleted_at", using: :btree
     t.index ["user_id"], name: "index_categories_on_user_id", using: :btree
+  end
+
+  create_table "contact_details", force: :cascade do |t|
+    t.text     "address"
+    t.string   "email"
+    t.string   "phone"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_contact_details_on_deleted_at", using: :btree
+    t.index ["user_id"], name: "index_contact_details_on_user_id", using: :btree
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -102,7 +125,6 @@ ActiveRecord::Schema.define(version: 20170707132105) do
 
   create_table "photos", force: :cascade do |t|
     t.string   "photo_title"
-    t.integer  "album_id"
     t.integer  "status",             default: 1
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
@@ -113,8 +135,30 @@ ActiveRecord::Schema.define(version: 20170707132105) do
     t.datetime "image_updated_at"
     t.boolean  "is_cover_photo",     default: false
     t.integer  "user_id"
+    t.string   "imageable_type"
+    t.integer  "imageable_id"
     t.index ["deleted_at"], name: "index_photos_on_deleted_at", using: :btree
+    t.index ["imageable_type", "imageable_id"], name: "index_photos_on_imageable_type_and_imageable_id", using: :btree
     t.index ["user_id"], name: "index_photos_on_user_id", using: :btree
+  end
+
+  create_table "service_icons", force: :cascade do |t|
+    t.integer  "status",     default: 1
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "icon_image"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_service_icons_on_deleted_at", using: :btree
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.string   "service_name"
+    t.string   "description"
+    t.integer  "status",          default: 1
+    t.integer  "service_icon_id"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.index ["service_icon_id"], name: "index_services_on_service_icon_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -146,21 +190,19 @@ ActiveRecord::Schema.define(version: 20170707132105) do
 
   create_table "watermarks", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "status",                       default: 1
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.integer  "status",     default: 1
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
     t.datetime "deleted_at"
-    t.string   "watermark_image_file_name"
-    t.string   "watermark_image_content_type"
-    t.integer  "watermark_image_file_size"
-    t.datetime "watermark_image_updated_at"
     t.index ["deleted_at"], name: "index_watermarks_on_deleted_at", using: :btree
     t.index ["user_id"], name: "index_watermarks_on_user_id", using: :btree
   end
 
+  add_foreign_key "contact_details", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
+  add_foreign_key "services", "service_icons"
   add_foreign_key "watermarks", "users"
 end

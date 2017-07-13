@@ -1,15 +1,18 @@
+# frozen_string_literal: true
+
+# InheritAction module
 module InheritAction
   extend ActiveSupport::Concern
 
   included do
-    before_action :get_resource, only: [:show, :edit, :update, :destroy]
+    before_action :fetch_resource, only: %i[show edit update destroy]
   end
 
   # GET
   def index
     @resources ||= resource_class.all
 
-    render_success_response({ :"#{resource_name_plural}" => @resources })
+    render_success_response(:"#{resource_name_plural}" => @resources)
   end
 
   # POST
@@ -41,7 +44,7 @@ module InheritAction
 
   private
 
-  def get_resource
+  def fetch_resource
     @resource ||= resource_class.find(params[:id])
   end
 
@@ -55,7 +58,7 @@ module InheritAction
 
   def permitted_attributes
     columns = resource_class.column_names.dup
-    return columns.delete_if {|column| ["id","created_at","updated_at", "deleted_at"].include?(column)}
+    columns.delete_if { |column| %w[id created_at updated_at deleted_at].include?(column) }
   end
 
   def resource_name

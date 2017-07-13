@@ -1,5 +1,7 @@
-class ValidationErrorsSerializer
+# frozen_string_literal: true
 
+# Validation Errors Serializer
+class ValidationErrorsSerializer
   attr_reader :record
 
   def initialize(record)

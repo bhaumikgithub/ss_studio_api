@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'boot'
 
 require "rails"
@@ -33,5 +34,8 @@ module SsStudioApi
       end
     end
     config.autoload_paths << "#{Rails.root}/lib"
+        config.generators do |g|
+      g.fixture_replacement :factory_girl
+    end
   end
 end

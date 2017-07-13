@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Rails.application.routes.draw do
   
   use_doorkeeper do
@@ -11,14 +12,16 @@ Rails.application.routes.draw do
   }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :categories
-  resources :albums do
-    resources :photos do
-      patch 'set_cover_photo', on: :member
-      collection do
-        delete 'multi_delete'
-      end
+  resources :albums
+  resources :photos do
+    patch 'set_cover_photo', on: :member
+    collection do
+      delete 'multi_delete'
     end
   end
   resources :watermarks
   resources :contacts
+  resources :contact_details, only: [:update]
+  resources :abouts, only: [:index, :update]
+  resources :services
 end
