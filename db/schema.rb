@@ -15,6 +15,15 @@ ActiveRecord::Schema.define(version: 20170712114815) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "abouts", force: :cascade do |t|
+    t.string   "title_text"
+    t.string   "description"
+    t.jsonb    "social_links", default: "{}"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.index ["social_links"], name: "index_abouts_on_social_links", using: :gin
+  end
+
   create_table "album_categories", force: :cascade do |t|
     t.integer  "album_id"
     t.integer  "category_id"
