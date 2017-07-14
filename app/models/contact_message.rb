@@ -5,7 +5,7 @@ class ContactMessage < ApplicationRecord
   # Validations
   validates :name, presence: true
   validates :phone, presence: true, :numericality => true 
-  validates :email, presence: true, :uniqueness => true
+  validates :email, presence: true
   # Scopes
   # Methods
 end
