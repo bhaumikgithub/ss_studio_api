@@ -25,4 +25,5 @@ Rails.application.routes.draw do
   resources :abouts, only: [:index, :update]
   resources :services
   resources :contact_messages, only: [:create]
+  resources :album_recipients, only: [:create]
 end

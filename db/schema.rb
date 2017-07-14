@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170713064513) do
+ActiveRecord::Schema.define(version: 20170714094954) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,17 @@ ActiveRecord::Schema.define(version: 20170713064513) do
     t.datetime "updated_at",  null: false
     t.index ["album_id"], name: "index_album_categories_on_album_id", using: :btree
     t.index ["category_id"], name: "index_album_categories_on_category_id", using: :btree
+  end
+
+  create_table "album_recipients", force: :cascade do |t|
+    t.boolean  "is_email_sent"
+    t.string   "custom_message"
+    t.integer  "album_id"
+    t.integer  "contact_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["album_id"], name: "index_album_recipients_on_album_id", using: :btree
+    t.index ["contact_id"], name: "index_album_recipients_on_contact_id", using: :btree
   end
 
   create_table "albums", force: :cascade do |t|
@@ -207,6 +218,8 @@ ActiveRecord::Schema.define(version: 20170713064513) do
     t.index ["user_id"], name: "index_watermarks_on_user_id", using: :btree
   end
 
+  add_foreign_key "album_recipients", "albums"
+  add_foreign_key "album_recipients", "contacts"
   add_foreign_key "contact_details", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
