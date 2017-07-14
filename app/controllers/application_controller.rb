@@ -83,4 +83,8 @@ class ApplicationController < ActionController::API
   def json_response(options = {}, status = 500)
     render json: JsonResponse.new(options), status: status
   end
+
+  def array_serializer
+    ActiveModel::Serializer::CollectionSerializer
+  end
 end
