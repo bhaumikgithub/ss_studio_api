@@ -9,25 +9,37 @@ class Photo < ApplicationRecord
   belongs_to :imageable, polymorphic: true
   belongs_to :user
   has_many :homepage_photos
+  belongs_to :watermark
   
   # Enumerator
   enum status: { inactive: 0, active: 1 }
+  cattr_accessor :watermark_url, :apply_watermark
   
   # Validations
+  validates :imageable_id, :imageable_type, presence: true
   has_attached_file :image, 
-                    # :processors => [:watermark],
-                    :styles => {
+                    :processors => lambda {|attachment|
+                      if attachment.class.apply_watermark
+                        [:thumbnail,:watermark]
+                      else
+                        [:thumbnail]
+                      end
+                    },
+                    :styles => lambda { |attachment| {
                       :small => {
-                        :geometry => "250x250#"
+                        :geometry => "250x250#",
+                        :watermark_path => attachment.instance.class.watermark_url
                       },
                       :medium => {
-                        :geometry => "300x300#"
+                        :geometry => "300x300#",
+                        :watermark_path => attachment.instance.class.watermark_url
                       },
                       :thumb => {
-                        :geometry => "400x400#"
-                      }
+                        :geometry => "400x400#",
+                        :watermark_path => attachment.instance.class.watermark_url
+                      }, 
                     }
-
+                  }
   validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
  
   # Scopes

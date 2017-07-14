@@ -15,6 +15,15 @@ ActiveRecord::Schema.define(version: 20170713105242) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "abouts", force: :cascade do |t|
+    t.string   "title_text"
+    t.string   "description"
+    t.jsonb    "social_links", default: "{}"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.index ["social_links"], name: "index_abouts_on_social_links", using: :gin
+  end
+
   create_table "album_categories", force: :cascade do |t|
     t.integer  "album_id"
     t.integer  "category_id"
@@ -59,6 +68,15 @@ ActiveRecord::Schema.define(version: 20170713105242) do
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_contact_details_on_deleted_at", using: :btree
     t.index ["user_id"], name: "index_contact_details_on_user_id", using: :btree
+  end
+
+  create_table "contact_messages", force: :cascade do |t|
+    t.text     "name"
+    t.string   "email"
+    t.string   "phone"
+    t.string   "message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "contacts", force: :cascade do |t|
