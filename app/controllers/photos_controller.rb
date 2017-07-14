@@ -1,7 +1,7 @@
 class PhotosController < ApplicationController
   include InheritAction
   # before_action :fetch_album, only: [:multi_delete, :set_cover_photo, :index]
-  
+    before_action :fetch_active_watermark,:watermark_processor,only: [:create]
 
   # GET /photos 
   def index
@@ -11,7 +11,7 @@ class PhotosController < ApplicationController
 
   # POST /photos
   def create
-    @photos = Photo.create(photo_params)
+    @photos = Photo.create!(photo_params)
     render_success_response({ :photos => @photos}, 201)
   end
 
@@ -42,5 +42,23 @@ class PhotosController < ApplicationController
     params.require(:photo).map do |p|
       ActionController::Parameters.new(p).permit(:image, :photo_title, :status, :user_id, :imageable_id, :imageable_type).merge(:user_id => current_resource_owner.id)
     end 
+  end
+
+  # Finding active watermark for logged in user.
+  def fetch_active_watermark
+    if current_resource_owner.watermarks.present?
+      Photo.watermark_url = current_resource_owner.watermarks.find_by(status: "active").photo.image.path
+    else
+      Photo.watermark_url = "#{Rails.root}/public/watermark.png"
+    end 
+  end
+
+  # Decide whether to apply watermark or not.
+  def watermark_processor
+    if params[:photo][0][:imageable_type] == "Album"
+      Photo.apply_watermark = true
+    else
+      Photo.apply_watermark = false
+    end
   end
 end
