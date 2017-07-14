@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   resources :homepage_photos do
     collection do
       put 'select_uploaded_photo'
+      put 'active_gallery_photo'
     end
   end
 
