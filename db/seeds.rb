@@ -22,3 +22,11 @@ service_icons = ServiceIcon.create!([
   { icon_image: "/service_icons/product-icon.png", status: 1},
   { icon_image: "/service_icons/wedding-icon.png", status: 1}
 ])
+
+homepage_photo = HomepagePhoto.create!([
+  {homepage_image_file_name: "/system/homepage_photos/homepage_images/background_sky.jpg",homepage_image_content_type: "image/jpeg", homepage_image_file_size: 22447, homepage_image_updated_at: Time.now , is_active: true,user_id: 1},
+  {homepage_image_file_name: "/system/homepage_photos/homepage_images/dark_pink.jpg",homepage_image_content_type: "image/jpeg", homepage_image_file_size: 12614, homepage_image_updated_at: Time.now , is_active: true,user_id: 1},
+  {homepage_image_file_name: "/system/homepage_photos/homepage_images/flowers_in_heart.jpg",homepage_image_content_type: "image/jpeg", homepage_image_file_size: 12817, homepage_image_updated_at: Time.now , is_active: true,user_id: 1},
+  {homepage_image_file_name: "/system/homepage_photos/homepage_images/girl_with_flower.jpg", homepage_image_content_type: "image/jpeg", homepage_image_file_size: 7964, homepage_image_updated_at: Time.now , is_active: true,user_id: 1},
+  {homepage_image_file_name: "/system/homepage_photos/homepage_images/pink_road.jpg", homepage_image_content_type: "image/jpeg", homepage_image_file_size: 16721, homepage_image_updated_at: Time.now , is_active: true,user_id: 1}
+  ])

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170713064513) do
+ActiveRecord::Schema.define(version: 20170713105242) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,6 +92,20 @@ ActiveRecord::Schema.define(version: 20170713064513) do
     t.string   "token"
     t.index ["deleted_at"], name: "index_contacts_on_deleted_at", using: :btree
     t.index ["user_id"], name: "index_contacts_on_user_id", using: :btree
+  end
+
+  create_table "homepage_photos", force: :cascade do |t|
+    t.boolean  "is_active",                   default: false
+    t.integer  "user_id"
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+    t.integer  "photo_id"
+    t.string   "homepage_image_file_name"
+    t.string   "homepage_image_content_type"
+    t.integer  "homepage_image_file_size"
+    t.datetime "homepage_image_updated_at"
+    t.index ["photo_id"], name: "index_homepage_photos_on_photo_id", using: :btree
+    t.index ["user_id"], name: "index_homepage_photos_on_user_id", using: :btree
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -208,6 +222,8 @@ ActiveRecord::Schema.define(version: 20170713064513) do
   end
 
   add_foreign_key "contact_details", "users"
+  add_foreign_key "homepage_photos", "photos"
+  add_foreign_key "homepage_photos", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
