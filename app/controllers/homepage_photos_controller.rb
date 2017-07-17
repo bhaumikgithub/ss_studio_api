@@ -17,7 +17,11 @@ class HomepagePhotosController < ApplicationController
 
   # PUT /homepage_photos/select_uploaded_photo
   def select_uploaded_photo
-    @select_photo = current_resource_owner.homepage_photos.create!(homepage_photo_params)
+    select_photos = []
+    params[:homepage_photo][:photo_id].each do |photo|
+      select_photos.push(current_resource_owner.homepage_photos.create!(selected_photo_params(photo)))
+    end
+    @select_photo = select_photos
     render_success_response({ :homepage_photos => @select_photo}, 201)
   end
 
@@ -33,9 +37,21 @@ class HomepagePhotosController < ApplicationController
   
     def homepage_photo_params
       params.require(:homepage_photo).map do |p|
-        ActionController::Parameters.new(p).permit(:homepage_image, :user_id, :is_active, :photo_id)
+        params_attributes
       end
+    end
+
+    def selected_photo_params(id)
+      action_params({photo_id: id}).permit(:photo_id)
+    end
+
+    def params_attributes
+      action_params(p).permit(:homepage_image, :user_id, :is_active, :photo_id)
     end 
+
+    def action_params(p)
+      ActionController::Parameters.new(p)
+    end
 
     # fetch id from homepage gallery for the active gallery photo
     def fetch_gallery_photo
