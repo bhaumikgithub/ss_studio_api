@@ -8,6 +8,7 @@ class Photo < ApplicationRecord
   # Associations
   belongs_to :imageable, polymorphic: true
   belongs_to :user
+  has_many :homepage_photos
   belongs_to :watermark
   
   # Enumerator
