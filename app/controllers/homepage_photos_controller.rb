@@ -1,8 +1,6 @@
 class HomepagePhotosController < ApplicationController
   include InheritAction
   
-  #callbacks
-  before_action :fetch_gallery_photo, only: [:active_gallery_photo]
   
   # GET /homepage_photos
   def index
@@ -27,6 +25,11 @@ class HomepagePhotosController < ApplicationController
 
   # PUT /homepage_photo/active_gallery_photo
   def active_gallery_photo
+    gallery_photo = []
+    params[:homepage_photo][:id].each do |homepage_photo|
+      gallery_photo.push(homepage_photo)
+    end
+    @gallery_photo = current_resource_owner.homepage_photos.where("ID IN (?)", gallery_photo)
     @active_photo = @gallery_photo.update(is_active: true)
     @inactive_photo = HomepagePhoto.where.not(id: @active_photo.pluck(:id)).update_all(is_active: false)
     render_success_response({ :homepage_photos => @active_photo}, 200)
@@ -37,7 +40,7 @@ class HomepagePhotosController < ApplicationController
   
     def homepage_photo_params
       params.require(:homepage_photo).map do |p|
-        params_attributes
+        params_attributes(p)
       end
     end
 
@@ -45,7 +48,7 @@ class HomepagePhotosController < ApplicationController
       action_params({photo_id: id}).permit(:photo_id)
     end
 
-    def params_attributes
+    def params_attributes(p)
       action_params(p).permit(:homepage_image, :user_id, :is_active, :photo_id)
     end 
 
@@ -53,13 +56,4 @@ class HomepagePhotosController < ApplicationController
       ActionController::Parameters.new(p)
     end
 
-    # fetch id from homepage gallery for the active gallery photo
-    def fetch_gallery_photo
-      gallery_photo_ids = []
-      params[:homepage_photo].each do |homepage_photo|
-        gallery_photo_ids.push(homepage_photo[:id])
-      end
-      @gallery_photo = current_resource_owner.homepage_photos.where("ID IN (?)", gallery_photo_ids)
-    end
-  
 end
