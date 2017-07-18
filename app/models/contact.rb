@@ -6,10 +6,11 @@ class Contact < ApplicationRecord
 
   # Associations
   belongs_to :user
+  has_many :album_recipients, dependent: :destroy
 
   # Validations
-  validates :phone, :email, presence: true, :uniqueness => true
-  validates_length_of :phone, :minimum => 10, :maximum => 13
+  validates :email, presence: true, :uniqueness => true
+  validates_length_of :phone, :minimum => 10, :maximum => 13, :allow_nil => true
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
 
   # Methods
