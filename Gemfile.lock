@@ -58,6 +58,8 @@ GEM
       public_suffix (~> 2.0, >= 2.0.2)
     arel (7.1.4)
     ast (2.3.0)
+    av (0.9.0)
+      cocaine (~> 0.5.3)
     bcrypt (3.1.11)
     builder (3.2.3)
     byebug (9.0.6)
@@ -133,6 +135,12 @@ GEM
       nenv (~> 0.1)
       shellany (~> 0.0)
     orm_adapter (0.5.0)
+    paperclip-av-transcoder (0.6.4)
+      av (~> 0.9.0)
+      paperclip (>= 2.5.2)
+    paperclip-ffmpeg (1.2.0)
+      paperclip (>= 2.5.2)
+      rails
     parallel (1.11.2)
     paranoia (2.3.1)
       activerecord (>= 4.0, < 5.2)
@@ -253,6 +261,8 @@ DEPENDENCIES
   letter_opener
   listen (~> 3.0.5)
   paperclip!
+  paperclip-av-transcoder
+  paperclip-ffmpeg
   paranoia (~> 2.2)
   pg
   pry

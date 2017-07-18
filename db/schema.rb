@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170713064513) do
+ActiveRecord::Schema.define(version: 20170717091455) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -197,6 +197,20 @@ ActiveRecord::Schema.define(version: 20170713064513) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  create_table "videos", force: :cascade do |t|
+    t.integer  "user_id"
+    t.boolean  "is_youtube_url",     default: false
+    t.boolean  "is_vimeo_url",       default: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.string   "video_file_name"
+    t.string   "video_content_type"
+    t.integer  "video_file_size"
+    t.datetime "video_updated_at"
+    t.string   "video_thumb"
+    t.index ["user_id"], name: "index_videos_on_user_id", using: :btree
+  end
+
   create_table "watermarks", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "status",     default: 1
@@ -213,5 +227,6 @@ ActiveRecord::Schema.define(version: 20170713064513) do
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
   add_foreign_key "services", "service_icons"
+  add_foreign_key "videos", "users"
   add_foreign_key "watermarks", "users"
 end
