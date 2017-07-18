@@ -1,11 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe AlbumsController, type: :request do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:album) { FactoryGirl.create(:album, user_id: user.id) }
+  # let(:user) { FactoryGirl.create(:user) }
+  # let(:album) { FactoryGirl.create(:album, user_id: user.id) }
   before do
     FactoryGirl.create(:album, album_name: 'joy birthday')
-    @header = { Authorization: "bearer " + token_generator[:auth_token] }
+    @user = FactoryGirl.create(:user)
+    @album = FactoryGirl.create(:album, user_id: @user.id) 
+    # @current_user = token_generator[:current_user]
+    @header = { Authorization: "bearer " + token_generator(@user) }
+    # @header = { Authorization: "bearer " + token_generator[:auth_token] }
   end
 
   # =======================albums#index=======================
@@ -31,7 +35,7 @@ RSpec.describe AlbumsController, type: :request do
   describe 'GET /albums/:id' do
     describe 'unauthorized' do
       it "should return unauthorized" do
-        get "/albums/#{album.id}"
+        get "/albums/#{@album.id}"
         assert_response :unauthorized
       end
     end
@@ -39,7 +43,7 @@ RSpec.describe AlbumsController, type: :request do
     describe 'authorized' do
       context 'Successful' do
         it 'returns particular album with associated album_name' do
-          get "/albums/#{album.id}", headers: @header
+          get "/albums/#{@album.id}", headers: @header
           expect(response.status).to eq 200
         end
       end
@@ -97,7 +101,7 @@ RSpec.describe AlbumsController, type: :request do
   describe 'PUT /albums/:id' do
     describe 'unauthorized' do
       it "should return unauthorized" do
-        put "/albums/#{album.id}", params: { album: { album_name: 'marriage' } }
+        put "/albums/#{@album.id}", params: { album: { album_name: 'marriage' } }
         assert_response :unauthorized
       end
     end
@@ -105,13 +109,11 @@ RSpec.describe AlbumsController, type: :request do
     describe 'authorized' do
       context 'Successful' do
         it 'responds to PUT' do
-    #       puts "==========#{User.all.inspect}====#{user.inspect}==========="
-          put "/albums/#{album.id}", params: { album: { album_name: 'engagement' } }, headers: @header
-    #       parsed_body = JSON.parse(response.body)
-          puts "----body---------#{response.body.inspect}--------------------------------"
-    #       puts "==========#{album.inspect}==============="
-    #       # expect(parsed_body['data']['albums']['album_name']).to eq 'marriage'
-    #       expect(response.status).to eq 201
+          put "/albums/#{@album.id}", params: { album: { album_name: 'engagement' } }, headers: @header
+          parsed_body = JSON.parse(response.body)
+          # puts "==========#{parsed_body['data']['albums']['album_name'].inspect}==============="
+          expect(parsed_body['data']['albums']['album_name']).to eq 'engagement'
+          expect(response.status).to eq 201
         end
       end
     end
@@ -121,7 +123,7 @@ RSpec.describe AlbumsController, type: :request do
   describe 'DELETE /albums/:id' do
     describe 'unauthorized' do
       it "should return unauthorized" do
-        delete "/albums/#{album.id}", params: { album: { album_id: album.id } }
+        delete "/albums/#{@album.id}", params: { album: { album_id: @album.id } }
         assert_response :unauthorized
       end
     end
@@ -129,11 +131,10 @@ RSpec.describe AlbumsController, type: :request do
     describe 'authorized' do
       context 'Successful' do
         it 'delete the album' do
-          delete "/albums/#{album.id}'", params: { album: { album_id: album.id } }, headers: @header
+          delete "/albums/#{@album.id}'", params: { album: { album_id: @album.id } }, headers: @header
           expect(response.status).to eq 200
         end
       end
     end
   end
-
 end

@@ -4,7 +4,8 @@ require 'rails_helper'
 RSpec.describe CategoriesController, type: :request do
   let(:category) { FactoryGirl.create(:category) }
   before do
-    @header = { Authorization: "bearer " + token_generator }
+    @user = FactoryGirl.create(:user)
+    @header = { Authorization: "bearer " + token_generator(@user) }
   end
   # =======================categories#index=======================
   describe 'GET /categories' do
