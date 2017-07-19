@@ -33,5 +33,6 @@ Rails.application.routes.draw do
     end
   end
   resources :contact_messages, only: [:create]
+  resources :videos
 
 end
