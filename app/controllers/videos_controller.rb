@@ -19,20 +19,20 @@ class VideosController < ApplicationController
   # DELETE /videos/:id
   def destroy
     @video.destroy!
-    json_response({success: true, message: "video destroy successfully.", data: { :video => @video }}, 201)
+    head 200
   end
 
   # PATCH  /videos/:id
   def update
     @video.update_attributes!(resource_params)
     @video.update_attributes(video_thumb: @video.video.url(:thumb))
-    json_response({success: true, message: "video update successfully.", data: { :video => @video }}, 201)
+    render_success_response({ :video => @video }, 201)
   end
 
   private
 
   def resource_params
-    params.require(:video).permit(:user_id, :is_youtube_url, :is_vimeo_url, :video)
+    params.require(:video).permit(:is_youtube_url, :is_vimeo_url, :video)
   end
 
   def fetch_video
