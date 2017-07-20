@@ -87,4 +87,8 @@ class ApplicationController < ActionController::API
   def array_serializer
     ActiveModel::Serializer::CollectionSerializer
   end
+
+  def single_record_serializer
+    ActiveModel::SerializableResource
+  end
 end

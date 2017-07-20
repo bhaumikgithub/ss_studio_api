@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170717091455) do
+ActiveRecord::Schema.define(version: 20170720040152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -195,6 +195,20 @@ ActiveRecord::Schema.define(version: 20170717091455) do
     t.index ["service_icon_id"], name: "index_services_on_service_icon_id", using: :btree
   end
 
+  create_table "testimonials", force: :cascade do |t|
+    t.string   "client_name"
+    t.integer  "contact_id"
+    t.text     "message"
+    t.integer  "user_id"
+    t.string   "status"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.datetime "deleted_at"
+    t.index ["contact_id"], name: "index_testimonials_on_contact_id", using: :btree
+    t.index ["deleted_at"], name: "index_testimonials_on_deleted_at", using: :btree
+    t.index ["user_id"], name: "index_testimonials_on_user_id", using: :btree
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -256,6 +270,8 @@ ActiveRecord::Schema.define(version: 20170717091455) do
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
   add_foreign_key "services", "service_icons"
+  add_foreign_key "testimonials", "contacts"
+  add_foreign_key "testimonials", "users"
   add_foreign_key "videos", "users"
   add_foreign_key "watermarks", "users"
 end

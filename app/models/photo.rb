@@ -16,7 +16,7 @@ class Photo < ApplicationRecord
   cattr_accessor :watermark_url, :apply_watermark
   
   # Validations
-  validates :imageable_id, :imageable_type, presence: true
+  # validates :imageable_id, :imageable_type, presence: true
   has_attached_file :image, 
                     :processors => lambda {|attachment|
                       if attachment.class.apply_watermark
