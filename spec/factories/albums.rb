@@ -6,6 +6,6 @@ FactoryGirl.define do
     created_at ""
     updated_at ""
     deleted_at ""
-    user_id 1
+    
   end
 end

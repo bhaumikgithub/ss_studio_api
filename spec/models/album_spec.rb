@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Album, type: :model do
-  subject { described_class.new }
+  # subject { described_class.new }
   before do
     FactoryGirl.create(:album, album_name: 'album 123')
   end
@@ -14,7 +14,7 @@ RSpec.describe Album, type: :model do
     end
   end
 
-  context 'Validate Category' do
+  context 'Validate Album' do
     it 'should validate presence' do
       album.album_name = '' # invalid state
       album.valid? # run validations
