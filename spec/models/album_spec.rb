@@ -21,6 +21,12 @@ RSpec.describe Album, type: :model do
       expect(album.errors[:album_name]).to include("can't be blank")
     end
 
+    it 'should validate album name range' do
+      album.album_name = 'aaa' # invalid state
+      album.valid? # run validations
+      expect(album[:album_name].length).to be_between(3, 30).inclusive
+    end
+
     it 'should validate minimum range' do
       album.album_name = 'aa' # invalid state
       album.valid? # run validations

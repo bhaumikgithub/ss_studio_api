@@ -119,7 +119,7 @@ RSpec.describe AlbumsController, type: :request do
     end
   end
 
-   # =======================albums#delete=======================
+  # =======================albums#delete=======================
   describe 'DELETE /albums/:id' do
     describe 'unauthorized' do
       it "should return unauthorized" do
