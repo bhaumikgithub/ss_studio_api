@@ -6,7 +6,7 @@ FactoryGirl.define do
     image_content_type "image/jpeg"
     image_file_size 6826
     is_cover_photo false
-    imageable_type ""
-    imageable_id 1
+    # imageable_type "Album"
+    # imageable_id 
   end
 end
