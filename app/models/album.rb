@@ -1,7 +1,7 @@
 class Album < ApplicationRecord
   acts_as_paranoid
   # Callabcks
-
+  after_create :generate_passcode
   # Associations
   belongs_to :user
   has_many :album_categories
@@ -16,7 +16,11 @@ class Album < ApplicationRecord
   validates_length_of :album_name, :minimum => 3, :maximum => 30
   # Scopes
 
-  private
+  # private
 
   # Methods
+  def generate_passcode
+    @passcode = SecureRandom.base58(8)
+    self.update(passcode: @passcode)
+  end
 end
