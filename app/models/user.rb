@@ -16,6 +16,7 @@ class User < ApplicationRecord
   has_many :contact_details, dependent: :destroy 
   has_many :videos, dependent: :destroy
   has_many :homepage_photos, dependent: :destroy 
+  has_many :testimonials, dependent: :destroy
 
   enum status: { inactive: 0, active: 1 }
   # Validations
