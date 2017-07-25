@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170717091455) do
+ActiveRecord::Schema.define(version: 20170717111919) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 20170717091455) do
     t.integer  "user_id"
     t.integer  "delivery_status",      default: 0
     t.boolean  "portfolio_visibility", default: false
+    t.string   "passcode"
     t.index ["deleted_at"], name: "index_albums_on_deleted_at", using: :btree
     t.index ["user_id"], name: "index_albums_on_user_id", using: :btree
   end
