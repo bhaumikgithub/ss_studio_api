@@ -60,4 +60,9 @@ class Photo < ApplicationRecord
       self.update(is_cover_photo: true)
     end
   end
+
+  def update_user(current_user)
+    # binding.pry
+    self.update(user_id: current_user.id)
+  end
 end

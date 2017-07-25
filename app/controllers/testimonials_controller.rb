@@ -12,6 +12,12 @@ class TestimonialsController < ApplicationController
     }, 200)
   end
 
+  def create
+    @testimonial = Testimonial.create!(resource_params)
+    @testimonial.photo.update_user(current_resource_owner)
+    render_success_response({ :testimonial => @testimonial}, 201)
+  end
+
   def show
     json_response({
       success: true,
@@ -24,7 +30,7 @@ class TestimonialsController < ApplicationController
   private
 
   def resource_params
-    params.require(:testimonial).permit(:client_name, :message, :contact_id, :status, photo_attributes: [:id, :image, :imageable_id, :imageable_type, :_destroy, :user_id]).deep_merge(user_id: current_resource_owner.id, photo_attributes: {user_id: current_resource_owner.id})
+    params.require(:testimonial).permit(:client_name, :message, :contact_id, :status, photo_attributes: [:id, :image, :_destroy]).merge(user_id: current_resource_owner.id)
   end
 
   def fetch_testimonial
