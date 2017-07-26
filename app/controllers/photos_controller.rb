@@ -11,7 +11,6 @@ class PhotosController < ApplicationController
 
   # POST /photos
   def create
-    puts "======create======"
     @photos = Photo.create!(photo_params)
     render_success_response({ :photos => @photos}, 201)
   end
@@ -40,7 +39,6 @@ class PhotosController < ApplicationController
   end
 
   def photo_params
-    puts "===params=======#{params.inspect}============"
     params.require(:photo).map do |p|
       ActionController::Parameters.new(p).permit(:image, :photo_title, :status, :user_id, :imageable_id, :imageable_type).merge(:user_id => current_resource_owner.id)
     end 
