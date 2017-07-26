@@ -1,4 +1,5 @@
 class ContactMessagesController < ApplicationController
+  skip_before_action :doorkeeper_authorize!
   include InheritAction
 
   # POST /contact_messages
