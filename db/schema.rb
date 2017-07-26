@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170725100120) do
+ActiveRecord::Schema.define(version: 20170726062026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,19 +74,17 @@ ActiveRecord::Schema.define(version: 20170725100120) do
     t.text     "address"
     t.string   "email"
     t.string   "phone"
-    t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_contact_details_on_deleted_at", using: :btree
-    t.index ["user_id"], name: "index_contact_details_on_user_id", using: :btree
   end
 
   create_table "contact_messages", force: :cascade do |t|
-    t.text     "name"
+    t.string   "name"
     t.string   "email"
     t.string   "phone"
-    t.string   "message"
+    t.text     "message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -264,7 +262,6 @@ ActiveRecord::Schema.define(version: 20170725100120) do
 
   add_foreign_key "album_recipients", "albums"
   add_foreign_key "album_recipients", "contacts"
-  add_foreign_key "contact_details", "users"
   add_foreign_key "homepage_photos", "photos"
   add_foreign_key "homepage_photos", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
