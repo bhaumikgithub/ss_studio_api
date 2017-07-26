@@ -5,7 +5,8 @@ RSpec.describe PhotosController, type: :request do
   before do
     @user = FactoryGirl.create(:user)
     @album = FactoryGirl.create (:album)
-    @photo = FactoryGirl.create(:photo, image: File.new(Rails.root + 'public/watermark.png'), user_id: @user.id, imageable_id: @album.id, imageable_type: @album.class)
+    # , image: File.new(Rails.root + 'public/download.jpg')
+    @photo = FactoryGirl.create(:photo, user_id: @user.id, imageable_id: @album.id, imageable_type: @album.class)
     @header = { Authorization: "bearer " + token_generator(@user) }
   end
 
@@ -65,8 +66,10 @@ RSpec.describe PhotosController, type: :request do
     describe 'authorized' do
       context 'Successful' do
         it 'responds to PUT' do
-          puts "=============#{Rack::Test::UploadedFile.new('public/download.jpg').inspect}=============="
-          put "/photos/#{@photo.id}", params: { photo: { photo_title: 'hello', image: Rack::Test::UploadedFile.new('public/download.jpg') } }, headers: @header
+          puts "=======image======#{Rack::Test::UploadedFile.new('public/download.jpg').inspect}=============="
+
+          puts "=======photo=====#{@photo.inspect}================"
+          put "/photos/#{@photo.id}", params: { photo: { photo_title: 'title here', image: Rack::Test::UploadedFile.new('public/download.jpg') } }, headers: @header
           puts "===========#{response.body.inspect}=============="
           expect(response.status).to eq 201
         end
