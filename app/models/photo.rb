@@ -8,6 +8,7 @@ class Photo < ApplicationRecord
   # Associations
   belongs_to :imageable, polymorphic: true
   belongs_to :user
+  has_many :homepage_photos
   belongs_to :watermark
   
   # Enumerator
@@ -58,5 +59,10 @@ class Photo < ApplicationRecord
       self.imageable.photos.where(is_cover_photo: true).update_all(is_cover_photo: false)
       self.update(is_cover_photo: true)
     end
+  end
+
+  def update_user(current_user)
+    # binding.pry
+    self.update(user_id: current_user.id)
   end
 end

@@ -12,7 +12,9 @@ Rails.application.routes.draw do
   }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :categories
-  resources :albums
+  resources :albums do
+    resources :album_recipients, only: [:create]
+  end
   resources :photos do
     patch 'set_cover_photo', on: :member
     collection do
@@ -24,5 +26,14 @@ Rails.application.routes.draw do
   resources :contact_details, only: [:update]
   resources :abouts, only: [:index, :update]
   resources :services
+  resources :testimonials
+  resources :homepage_photos do
+    collection do
+      put 'select_uploaded_photo'
+      put 'active_gallery_photo'
+    end
+  end
   resources :contact_messages, only: [:create]
+  resources :videos
+
 end

@@ -1,0 +1,6 @@
+<p>Dear Client,</p>
+<p>Please check your photos by clicking on the View Album link. </p>
+<p><%= link_to "View Album", album_url(@album, token: @album_recipients.last.contact.token) %></p>
+<p> <%= @album_recipients.last.custom_message %> </p>
+<p>Thanks,</p>
+<p>Admin Team</p>

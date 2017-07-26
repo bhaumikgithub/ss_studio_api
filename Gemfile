@@ -40,7 +40,6 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'pry'
   gem 'letter_opener'
 end
 
@@ -66,3 +65,6 @@ gem 'rubocop', require: false
 #For serialize model attributes
 gem 'active_model_serializers', '~> 0.10.0'
 
+gem "paperclip-ffmpeg"
+
+gem 'paperclip-av-transcoder'
