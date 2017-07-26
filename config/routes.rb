@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :categories
   resources :albums do
+    put 'mark_as_submitted'
     resources :album_recipients, only: [:create]
   end
   resources :photos do
@@ -20,6 +21,7 @@ Rails.application.routes.draw do
     collection do
       delete 'multi_delete'
     end
+    put 'mark_as_checked'
   end
   resources :watermarks
   resources :contacts

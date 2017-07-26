@@ -32,6 +32,17 @@ class PhotosController < ApplicationController
     json_response({success: true, message: "Set as cover photo successfully.", data: {photos: @photo}}, 200)
   end
 
+  def mark_as_checked
+    if params[:photo_id].present?
+      @photo = Photo.find_by(id: params[:photo_id])
+      if @photo.is_selected == false
+        @photo.update_attribute :is_selected, true
+      else
+        @photo.update_attribute :is_selected, false
+      end
+    end
+  end
+
   private
 
   def fetch_album

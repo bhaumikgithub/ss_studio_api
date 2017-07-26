@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170720040152) do
+ActiveRecord::Schema.define(version: 20170725100120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(version: 20170720040152) do
     t.integer  "user_id"
     t.string   "imageable_type"
     t.integer  "imageable_id"
+    t.boolean  "is_selected",        default: false
     t.index ["deleted_at"], name: "index_photos_on_deleted_at", using: :btree
     t.index ["imageable_type", "imageable_id"], name: "index_photos_on_imageable_type_and_imageable_id", using: :btree
     t.index ["user_id"], name: "index_photos_on_user_id", using: :btree

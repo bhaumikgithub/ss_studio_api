@@ -33,6 +33,18 @@ class AlbumsController < ApplicationController
     json_response({success: true, message: "Album destroy successfully.", data: {albums: @album}}, 200)
   end
 
+  def mark_as_submitted
+    @album = Album.find_by(id: params[:album_id])
+    if params[:album_id].present?
+      if @album.delivery_status == "Submitted"
+        json_response({success: false, message: "Album already submitted."})
+      else
+        @album.update_attribute :delivery_status, "Submitted"
+        json_response({success: true, message: "Album successfully submitted."}, 201)
+      end
+    end
+  end
+
   private
 
   def album_params
