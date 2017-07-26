@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   end
   resources :watermarks
   resources :contacts
-  resources :contact_details, only: [:update]
+  resources :contact_details, only: [:update, :show]
   resources :abouts, only: [:index, :update]
   resources :services
   resources :testimonials
