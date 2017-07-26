@@ -1,7 +1,7 @@
 class AlbumsController < ApplicationController
   include InheritAction
 
-  before_action :fetch_album, only: [ :update, :destroy ]
+  before_action :fetch_album, only: [ :update, :destroy, :mark_as_submitted ]
 
   # GET /albums
   def index
@@ -33,15 +33,13 @@ class AlbumsController < ApplicationController
     json_response({success: true, message: "Album destroy successfully.", data: {albums: @album}}, 200)
   end
 
+  #PUT /albums/:id/mark_as_submitted
   def mark_as_submitted
-    @album = Album.find_by(id: params[:album_id])
-    if params[:album_id].present?
-      if @album.delivery_status == "Submitted"
-        json_response({success: false, message: "Album already submitted."})
-      else
-        @album.update_attribute :delivery_status, "Submitted"
-        json_response({success: true, message: "Album successfully submitted."}, 201)
-      end
+    if @album.delivery_status == "Submitted"
+      json_response({success: false, message: "Album already submitted."})
+    else
+      @album.update_attribute :delivery_status, "Submitted"
+      json_response({success: true, message: "Album successfully submitted."}, 201)
     end
   end
 
