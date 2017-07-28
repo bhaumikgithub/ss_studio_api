@@ -91,9 +91,7 @@ RSpec.describe ContactsController, type: :request do
     describe 'authorized' do
       context 'Successful' do
         it 'delete the contact' do
-        puts "===========#{@contact.inspect}========"
           delete "/contacts/#{@contact.id}", params: { contact: { contact_id: @contact.id } }, headers: @header
-          puts "===========#{response.status}========"
           expect(response.status).to eq 200
         end
       end
