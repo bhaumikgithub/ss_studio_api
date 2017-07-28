@@ -997,9 +997,6 @@ SELECT pg_catalog.setval('album_categories_id_seq', 6, true);
 --
 
 COPY album_recipients (id, is_email_sent, custom_message, album_id, contact_id, created_at, updated_at) FROM stdin;
-1	t	testing data	1	1	2017-07-25 10:35:55.661468	2017-07-25 10:35:56.09661
-2	t	testing data	1	3	2017-07-25 10:35:55.692112	2017-07-25 10:35:56.112254
-3	t	testing data	1	4	2017-07-25 10:35:55.716297	2017-07-25 10:35:56.124057
 \.
 
 
@@ -1033,7 +1030,7 @@ SELECT pg_catalog.setval('albums_id_seq', 3, true);
 --
 
 COPY ar_internal_metadata (key, value, created_at, updated_at) FROM stdin;
-environment	development	2017-07-25 10:00:00.268166	2017-07-25 10:00:00.268166
+environment	development	2017-07-28 10:10:12.201305	2017-07-28 10:10:12.201305
 \.
 
 
@@ -1111,16 +1108,6 @@ SELECT pg_catalog.setval('contacts_id_seq', 4, true);
 --
 
 COPY homepage_photos (id, is_active, user_id, created_at, updated_at, photo_id, homepage_image_file_name, homepage_image_content_type, homepage_image_file_size, homepage_image_updated_at) FROM stdin;
-1	t	1	2017-07-26 06:25:20.416954	2017-07-26 06:25:20.416954	\N	/system/homepage_photos/homepage_images/background_sky.jpg	image/jpeg	22447	2017-07-26 06:25:20.409595
-2	t	1	2017-07-26 06:25:20.430704	2017-07-26 06:25:20.430704	\N	/system/homepage_photos/homepage_images/dark_pink.jpg	image/jpeg	12614	2017-07-26 06:25:20.409597
-3	t	1	2017-07-26 06:25:20.442557	2017-07-26 06:25:20.442557	\N	/system/homepage_photos/homepage_images/flowers_in_heart.jpg	image/jpeg	12817	2017-07-26 06:25:20.409598
-4	t	1	2017-07-26 06:25:20.454711	2017-07-26 06:25:20.454711	\N	/system/homepage_photos/homepage_images/girl_with_flower.jpg	image/jpeg	7964	2017-07-26 06:25:20.409599
-5	t	1	2017-07-26 06:25:20.466743	2017-07-26 06:25:20.466743	\N	/system/homepage_photos/homepage_images/pink_road.jpg	image/jpeg	16721	2017-07-26 06:25:20.4096
-6	t	1	2017-07-28 10:01:56.08857	2017-07-28 10:01:56.08857	\N	/system/homepage_photos/homepage_images/background_sky.jpg	image/jpeg	22447	2017-07-28 10:01:56.080854
-7	t	1	2017-07-28 10:01:56.136	2017-07-28 10:01:56.136	\N	/system/homepage_photos/homepage_images/dark_pink.jpg	image/jpeg	12614	2017-07-28 10:01:56.080856
-8	t	1	2017-07-28 10:01:56.14786	2017-07-28 10:01:56.14786	\N	/system/homepage_photos/homepage_images/flowers_in_heart.jpg	image/jpeg	12817	2017-07-28 10:01:56.080857
-9	t	1	2017-07-28 10:01:56.159835	2017-07-28 10:01:56.159835	\N	/system/homepage_photos/homepage_images/girl_with_flower.jpg	image/jpeg	7964	2017-07-28 10:01:56.080858
-10	t	1	2017-07-28 10:01:56.171863	2017-07-28 10:01:56.171863	\N	/system/homepage_photos/homepage_images/pink_road.jpg	image/jpeg	16721	2017-07-28 10:01:56.08087
 \.
 
 
@@ -1151,12 +1138,6 @@ SELECT pg_catalog.setval('oauth_access_grants_id_seq', 1, false);
 --
 
 COPY oauth_access_tokens (id, resource_owner_id, application_id, token, refresh_token, expires_in, revoked_at, created_at, scopes, previous_refresh_token) FROM stdin;
-14	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6ImFycGl0YTEudHBzQGdtYWlsLmNvbSIsImlzc3VlX3RpbWUiOjE1MDA5NzcwODB9fQ.rjYVKAbaod2WrBKC_0AIx7WaqT3s3eGSq4Fa3e3TAe2KVcRFR9QDZkxP5lZxLTk96wdOggmgECartxcDKufBgQ	\N	43200	\N	2017-07-25 10:04:39.999292		
-15	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6ImFycGl0YTEudHBzQGdtYWlsLmNvbSIsImlzc3VlX3RpbWUiOjE1MDEwNDE5MDF9fQ.F-F8q9i9BBz927I_VpFCAgjXurPWG_lqKw7AyVwN7Liu3wXRzh7FT2-luekgF2KcGoc4Ww0ilsWQpjin3UrBng	\N	43200	\N	2017-07-26 04:05:01.849395		
-16	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6ImFycGl0YTEudHBzQGdtYWlsLmNvbSIsImlzc3VlX3RpbWUiOjE1MDEwNjg5NjN9fQ.YiS-qc9VJDuMPT_PNgRkZAdm86hqGJKlyk6Nb8lUT6HMYwZ3tgsNgKtoSv3kmo9mDS78H9Nxyc_YD0aDB-TcJw	\N	43200	\N	2017-07-26 11:36:03.620283		
-17	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6ImFycGl0YTEudHBzQGdtYWlsLmNvbSIsImlzc3VlX3RpbWUiOjE1MDEyMTcyNTV9fQ.UZkmZ0j5RBFA5ZlBxk9vz7M62Td5-al_L2tECMZAPauHa3ZsuIfdbM3rb4zmGLu6Vptgs1qADdn9DLRUbOieCA	\N	43200	\N	2017-07-28 04:47:35.387419		
-18	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6ImFycGl0YTEudHBzQGdtYWlsLmNvbSIsImlzc3VlX3RpbWUiOjE1MDEyMjQyNzR9fQ.tvEicpmUGQy8k_pgbytdqJT0I6-I4zIOZVEIO1nQ5qTcKerb4SmAHhjfkPGJBNIRLodtSQZZ9yzEtqNCxWVFng	\N	43200	\N	2017-07-28 06:44:34.111208		
-19	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6ImFycGl0YTEudHBzQGdtYWlsLmNvbSIsImlzc3VlX3RpbWUiOjE1MDEyMjQzODN9fQ.Vp0s21v3DsnRPEiTvSTGE_P4F5eumayFrcHrTLIgjYtIJDSl3Zl6wDFqvAgCoTAHn9nFnme37heWimSRfdXjQA	\N	43200	\N	2017-07-28 06:46:23.122735		
 \.
 
 
@@ -1214,7 +1195,7 @@ SELECT pg_catalog.setval('photos_id_seq', 12, true);
 --
 
 COPY schema_migrations (version) FROM stdin;
-20170720040152
+20170726062026
 20170713105242
 20170706085730
 20170707104908
@@ -1227,11 +1208,13 @@ COPY schema_migrations (version) FROM stdin;
 20170630062932
 20170703094601
 20170703124313
+20170726055106
 20170712072926
 20170703094125
 20170717091455
 20170712083447
 20170703094640
+20170720040152
 20170711094200
 20170630055626
 20170705123449
@@ -1269,9 +1252,6 @@ COPY schema_migrations (version) FROM stdin;
 20170713104548
 20170707104520
 20170711102336
-20170725100120
-20170726062026
-20170726055106
 \.
 
 
@@ -1325,7 +1305,6 @@ SELECT pg_catalog.setval('services_id_seq', 1, false);
 --
 
 COPY testimonials (id, client_name, contact_id, message, user_id, status, created_at, updated_at, deleted_at) FROM stdin;
-74	hello 123	1	hello is working	1	active	2017-07-28 04:48:29.11157	2017-07-28 04:48:29.11157	\N
 \.
 
 
