@@ -89,6 +89,6 @@ class ApplicationController < ActionController::API
   end
 
   def single_record_serializer
-     ActiveModelSerializers::SerializableResource
+    ActiveModelSerializers::SerializableResource
   end
 end

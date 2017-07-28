@@ -9,7 +9,7 @@
 
 user = User.create(email: 'sagar1@gmail.com', password: 'hello123', password_confirmation: 'hello123', first_name: 'sagar', last_name: 'gadani')
 
-contact_details = ContactDetail.create(address: '2nd Floor, Tulsi Complex, Nr Azad Society, Behind Sahajanand College, Ambavadi, Ahmedabad', email: 'johndoe@gmail.com', phone: '+910123456789', user_id: user.id)
+contact_details = ContactDetail.create(address: '2nd Floor, Tulsi Complex, Nr Azad Society, Behind Sahajanand College, Ambavadi, Ahmedabad', email: 'johndoe@gmail.com', phone: '+910123456789')
 
 about = About.create(title_text: "A young photographer taking lovely shots", description: "We are capture best moments which is impossible to recapture", facebook_link: "www.facebook.com", twitter_link: "www.twitter.com", instagram_link: "www.instagram.com")
 
