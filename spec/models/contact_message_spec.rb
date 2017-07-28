@@ -6,7 +6,7 @@ RSpec.describe ContactMessage, type: :model do
 
   context 'Success' do
     it 'data should be valid' do
-      puts "===========#{contact_message.inspect}=========="
+      # puts "===========#{contact_message.inspect}=========="
       expect(contact_message).to be_valid
     end
   end 

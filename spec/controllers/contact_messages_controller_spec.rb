@@ -10,13 +10,6 @@ RSpec.describe ContactMessagesController, type: :request do
   # =======================contact_messages#index=======================
 
   describe 'contact_messages' do
-    describe 'unauthorized' do
-      it "should return unauthorized" do
-        post '/contact_messages', params: { contact_message: { name: 'tps', email: 'tps@example.com', phone: '9874123650', message: 'Did not get album link' } }
-        assert_response :unauthorized
-      end
-    end
-
     describe 'authorized' do
       context 'Successful' do
         it 'creates successfully contact messages' do
