@@ -1,12 +1,18 @@
 class AlbumsController < ApplicationController
   include InheritAction
 
-  before_action :fetch_album, only: [:index, :update, :destroy]
+  before_action :fetch_album, only: [ :update, :destroy ]
 
   # GET /albums
   def index
     @albums = current_resource_owner.albums
-    render_success_response({ :albums => @albums })
+    json_response({
+      success: true,
+      data: {
+        albums: array_serializer.new(@albums, serializer: Albums::AlbumAttributesSerializer),
+      }
+    }, 200)
+    # render_success_response({ :albums => @albums })
   end
 
   # POST /albums

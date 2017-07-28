@@ -15,6 +15,15 @@ ActiveRecord::Schema.define(version: 20170728050055) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "abouts", force: :cascade do |t|
+    t.string   "title_text"
+    t.string   "description"
+    t.jsonb    "social_links", default: "{}"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.index ["social_links"], name: "index_abouts_on_social_links", using: :gin
+  end
+
   create_table "album_categories", force: :cascade do |t|
     t.integer  "album_id"
     t.integer  "category_id"
@@ -22,6 +31,17 @@ ActiveRecord::Schema.define(version: 20170728050055) do
     t.datetime "updated_at",  null: false
     t.index ["album_id"], name: "index_album_categories_on_album_id", using: :btree
     t.index ["category_id"], name: "index_album_categories_on_category_id", using: :btree
+  end
+
+  create_table "album_recipients", force: :cascade do |t|
+    t.boolean  "is_email_sent"
+    t.string   "custom_message"
+    t.integer  "album_id"
+    t.integer  "contact_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["album_id"], name: "index_album_recipients_on_album_id", using: :btree
+    t.index ["contact_id"], name: "index_album_recipients_on_contact_id", using: :btree
   end
 
   create_table "albums", force: :cascade do |t|
@@ -34,6 +54,7 @@ ActiveRecord::Schema.define(version: 20170728050055) do
     t.integer  "user_id"
     t.integer  "delivery_status",      default: 0
     t.boolean  "portfolio_visibility", default: false
+    t.string   "passcode"
     t.index ["deleted_at"], name: "index_albums_on_deleted_at", using: :btree
     t.index ["user_id"], name: "index_albums_on_user_id", using: :btree
   end
@@ -53,12 +74,19 @@ ActiveRecord::Schema.define(version: 20170728050055) do
     t.text     "address"
     t.string   "email"
     t.string   "phone"
-    t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_contact_details_on_deleted_at", using: :btree
-    t.index ["user_id"], name: "index_contact_details_on_user_id", using: :btree
+  end
+
+  create_table "contact_messages", force: :cascade do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "phone"
+    t.text     "message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -74,6 +102,20 @@ ActiveRecord::Schema.define(version: 20170728050055) do
     t.string   "token"
     t.index ["deleted_at"], name: "index_contacts_on_deleted_at", using: :btree
     t.index ["user_id"], name: "index_contacts_on_user_id", using: :btree
+  end
+
+  create_table "homepage_photos", force: :cascade do |t|
+    t.boolean  "is_active",                   default: false
+    t.integer  "user_id"
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+    t.integer  "photo_id"
+    t.string   "homepage_image_file_name"
+    t.string   "homepage_image_content_type"
+    t.integer  "homepage_image_file_size"
+    t.datetime "homepage_image_updated_at"
+    t.index ["photo_id"], name: "index_homepage_photos_on_photo_id", using: :btree
+    t.index ["user_id"], name: "index_homepage_photos_on_user_id", using: :btree
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -128,6 +170,7 @@ ActiveRecord::Schema.define(version: 20170728050055) do
     t.integer  "user_id"
     t.string   "imageable_type"
     t.integer  "imageable_id"
+    t.boolean  "is_selected",        default: false
     t.index ["deleted_at"], name: "index_photos_on_deleted_at", using: :btree
     t.index ["imageable_type", "imageable_id"], name: "index_photos_on_imageable_type_and_imageable_id", using: :btree
     t.index ["user_id"], name: "index_photos_on_user_id", using: :btree
@@ -152,6 +195,20 @@ ActiveRecord::Schema.define(version: 20170728050055) do
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_services_on_deleted_at", using: :btree
     t.index ["service_icon_id"], name: "index_services_on_service_icon_id", using: :btree
+  end
+
+  create_table "testimonials", force: :cascade do |t|
+    t.string   "client_name"
+    t.integer  "contact_id"
+    t.text     "message"
+    t.integer  "user_id"
+    t.string   "status"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.datetime "deleted_at"
+    t.index ["contact_id"], name: "index_testimonials_on_contact_id", using: :btree
+    t.index ["deleted_at"], name: "index_testimonials_on_deleted_at", using: :btree
+    t.index ["user_id"], name: "index_testimonials_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -181,6 +238,20 @@ ActiveRecord::Schema.define(version: 20170728050055) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  create_table "videos", force: :cascade do |t|
+    t.integer  "user_id"
+    t.boolean  "is_youtube_url",     default: false
+    t.boolean  "is_vimeo_url",       default: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.string   "video_file_name"
+    t.string   "video_content_type"
+    t.integer  "video_file_size"
+    t.datetime "video_updated_at"
+    t.string   "video_thumb"
+    t.index ["user_id"], name: "index_videos_on_user_id", using: :btree
+  end
+
   create_table "watermarks", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "status",     default: 1
@@ -191,11 +262,17 @@ ActiveRecord::Schema.define(version: 20170728050055) do
     t.index ["user_id"], name: "index_watermarks_on_user_id", using: :btree
   end
 
-  add_foreign_key "contact_details", "users"
+  add_foreign_key "album_recipients", "albums"
+  add_foreign_key "album_recipients", "contacts"
+  add_foreign_key "homepage_photos", "photos"
+  add_foreign_key "homepage_photos", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
   add_foreign_key "services", "service_icons"
+  add_foreign_key "testimonials", "contacts"
+  add_foreign_key "testimonials", "users"
+  add_foreign_key "videos", "users"
   add_foreign_key "watermarks", "users"
 end
