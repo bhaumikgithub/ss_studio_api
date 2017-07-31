@@ -7,7 +7,7 @@ RSpec.describe ContactMessagesController, type: :request do
     @header = { Authorization: "bearer " + token_generator(@user) }
   end
 
-  # =======================contact_messages#index=======================
+  # =======================contact_messages#create=======================
 
   describe 'contact_messages' do
     describe 'authorized' do
