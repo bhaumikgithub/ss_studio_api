@@ -32,7 +32,9 @@ Rails.application.routes.draw do
   get 'contact_details', to: 'contact_details#show'
   put 'contact_details', to: 'contact_details#update'
 
-  resources :abouts, only: [:index, :update]
+  get 'abouts', to: 'abouts#show'
+  put 'abouts', to: 'abouts#update'
+
   resources :services
   resources :testimonials do
     collection do
@@ -43,6 +45,7 @@ Rails.application.routes.draw do
     collection do
       put 'select_uploaded_photo'
       put 'active_gallery_photo'
+      get 'active'
     end
   end
   resources :contact_messages, only: [:create]
