@@ -23,6 +23,11 @@ Rails.application.routes.draw do
   end
   resources :watermarks
   resources :contacts
+  resources :services do
+    collection do
+      get 'active_services'
+    end
+  end
 
   get 'contact_details', to: 'contact_details#show'
   put 'contact_details', to: 'contact_details#update'
@@ -38,5 +43,4 @@ Rails.application.routes.draw do
   end
   resources :contact_messages, only: [:create]
   resources :videos
-
 end
