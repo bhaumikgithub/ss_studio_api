@@ -40,22 +40,21 @@ RSpec.describe Photo, type: :model do
   end
 
   describe 'Photo' do
-  let(:status_values) do
-    { inactive: 0,
-      active: 1
-      # etc
-    }
-  end
-  subject { described_class.new }
+    let(:status_values) do
+      { inactive: 0,
+        active: 1
+        # etc
+      }
+    end
+    subject { described_class.new }
 
-  it 'has valid a status' do 
-    status_values.each do |type, value|
-      subject.status = value
-      subject.save 
-      # puts "-------#{value.inspect}-================#{type.inspect}-------------"
-      expect(subject.status).to eql(type.to_s)
-    end 
-  end 
-end 
+    it 'has valid a status' do
+      status_values.each do |type, value|
+        subject.status = value
+        subject.save
+        expect(subject.status).to eql(type.to_s)
+      end
+    end
+  end
 
 end
