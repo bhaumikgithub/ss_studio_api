@@ -9,19 +9,27 @@
 
 user = User.create(email: 'sagar1@gmail.com', password: 'hello123', password_confirmation: 'hello123', first_name: 'sagar', last_name: 'gadani')
 
-contact_details = ContactDetail.create(address: '2nd Floor, Tulsi Complex, Nr Azad Society, Behind Sahajanand College, Ambavadi, Ahmedabad', email: 'johndoe@gmail.com', phone: '+910123456789')
+contact_details = ContactDetail.create(address: "2nd floor, Tulsi complex, Nr Azad Society,\nBehind Sahjanand Collage, Ambavadi,\nAhemedabad-380 015, Gujarat, India.", email: "johndoe@gmail.com", phone: "+910123456789")
 
-about = About.create(title_text: "A young photographer taking lovely shots", description: "We are capture best moments which is impossible to recapture", facebook_link: "www.facebook.com", twitter_link: "www.twitter.com", instagram_link: "www.instagram.com")
+about = About.create(title_text: "A young photographer taking lovely shots", description: "We are capture best moments which is impossible to recapture\nI have worked with over the year........ Stay in touch with Sagar Gadani. Thank you for visiting the website.", facebook_link: "https://www.facebook.com", twitter_link: "https://www.twitter.com", instagram_link: "https://www.instagram.com")
 
-Photo.create(status: "active", image_file_name: "download.jpg", image_content_type: "image/jpeg", image_file_size: 10017, image_updated_at: Time.now, is_cover_photo: false, user_id: 4, imageable_type: "About", imageable_id: about.id)
+Photo.create(status: "active", image: File.new("public/share_photos/about/about-thumb.png"), is_cover_photo: false, user_id: 4, imageable_type: "About", imageable_id: about.id)
 
 service_icons = ServiceIcon.create!([
-  { icon_image: "/service_icons/fashion-icon.png", status: 1},
-  { icon_image: "/service_icons/kids-icon.png", status: 1},
-  { icon_image: "/service_icons/poterait-icon.png", status: 1},
-  { icon_image: "/service_icons/product-icon.png", status: 1},
-  { icon_image: "/service_icons/wedding-icon.png", status: 1}
+  { icon_image: "/share_photos/service_icons/fashion-icon.png", status: 1},
+  { icon_image: "/share_photos/service_icons/kids-icon.png", status: 1},
+  { icon_image: "/share_photos/service_icons/poterait-icon.png", status: 1},
+  { icon_image: "/share_photos/service_icons/product-icon.png", status: 1},
+  { icon_image: "/share_photos/service_icons/wedding-icon.png", status: 1}
 ])
+
+service = Service.create([
+  { service_name: "Wedding Photography", description: "It was popularised in the 1960s with the release of the Letraset sheets containing", status: 1, service_icon_id:  service_icons.fifth.id },
+  { service_name: "Product Photography", description: "It was popularised in the 1960s with the release of the Letraset sheets containing", status: 1, service_icon_id:  service_icons.fourth.id },
+  { service_name: "Portrait Photography", description: "It was popularised in the 1960s with the release of the Letraset sheets containing", status: 1, service_icon_id:  service_icons.third.id },
+  { service_name: "Fashion Photography", description: "It was popularised in the 1960s with the release of the Letraset sheets containing", status: 1, service_icon_id:  service_icons.first.id },
+  { service_name: "Kids Photography", description: "It was popularised in the 1960s with the release of the Letraset sheets containing", status: 1, service_icon_id:  service_icons.second.id }
+  ])
 
 homepage_photo = HomepagePhoto.create!([
   {homepage_image_file_name: "/system/homepage_photos/homepage_images/background_sky.jpg",homepage_image_content_type: "image/jpeg", homepage_image_file_size: 22447, homepage_image_updated_at: Time.now , is_active: true,user_id: 1},

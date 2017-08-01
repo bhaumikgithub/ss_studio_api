@@ -1,6 +1,6 @@
 class HomepagePhotosController < ApplicationController
   include InheritAction
-  
+  skip_before_action :doorkeeper_authorize!, only: [ :active ]
   
   # GET /homepage_photos
   def index
@@ -34,6 +34,11 @@ class HomepagePhotosController < ApplicationController
     @inactive_photo = HomepagePhoto.where.not(id: @active_photo.pluck(:id)).update_all(is_active: false)
     render_success_response({ :homepage_photos => @active_photo}, 201)
 
+  end
+
+  def active
+    @active_photos = HomepagePhoto.where(is_active: true)
+    render_success_response({ :homepage_photos => @active_photos}, 200)
   end
 
   private
