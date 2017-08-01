@@ -32,7 +32,9 @@ Rails.application.routes.draw do
   get 'contact_details', to: 'contact_details#show'
   put 'contact_details', to: 'contact_details#update'
 
-  resources :abouts, only: [:index, :update]
+  get 'abouts', to: 'abouts#show'
+  put 'abouts', to: 'abouts#update'
+
   resources :services
   resources :testimonials
   resources :homepage_photos do
