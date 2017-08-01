@@ -32,9 +32,9 @@ service = Service.create([
   ])
 
 homepage_photo = HomepagePhoto.create!([
-  { homepage_image: File.new("public/shared_photos/homepage_photos/background_sky.jpg"), is_active: true,user_id: 1},
-  { homepage_image: File.new("public/shared_photos/homepage_photos/dark_pink.jpg"), is_active: true,user_id: 1},
-  { homepage_image: File.new("public/shared_photos/homepage_photos/flowers_in_heart.jpg"), is_active: true,user_id: 1},
-  { homepage_image: File.new("public/shared_photos/homepage_photos/girl_with_flower.jpg"), is_active: true,user_id: 1},
-  { homepage_image: File.new("public/shared_photos/homepage_photos/pink_road.jpg"), is_active: true,user_id: 1}
+  { homepage_image: File.new("public/shared_photos/homepage_photos/bhargavbhumi.jpg"), is_active: true,user_id: 1},
+  { homepage_image: File.new("public/shared_photos/homepage_photos/bridge.jpg"), is_active: true,user_id: 1},
+  { homepage_image: File.new("public/shared_photos/homepage_photos/couple.jpg"), is_active: true,user_id: 1},
+  { homepage_image: File.new("public/shared_photos/homepage_photos/couple_at_river.jpg"), is_active: true,user_id: 1},
+  { homepage_image: File.new("public/shared_photos/homepage_photos/engage_couple.jpg"), is_active: true,user_id: 1}
   ])
