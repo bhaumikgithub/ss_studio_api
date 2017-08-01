@@ -41,6 +41,7 @@ Rails.application.routes.draw do
     collection do
       put 'select_uploaded_photo'
       put 'active_gallery_photo'
+      get 'active'
     end
   end
   resources :contact_messages, only: [:create]
