@@ -32,9 +32,9 @@ service = Service.create([
   ])
 
 homepage_photo = HomepagePhoto.create!([
-  {homepage_image_file_name: "/shared_photos/homepage_photos/background_sky.jpg",homepage_image_content_type: "image/jpeg", homepage_image_file_size: 22447, homepage_image_updated_at: Time.now , is_active: true,user_id: 1},
-  {homepage_image_file_name: "/shared_photos/homepage_photos/dark_pink.jpg",homepage_image_content_type: "image/jpeg", homepage_image_file_size: 12614, homepage_image_updated_at: Time.now , is_active: true,user_id: 1},
-  {homepage_image_file_name: "/shared_photos/homepage_photos/flowers_in_heart.jpg",homepage_image_content_type: "image/jpeg", homepage_image_file_size: 12817, homepage_image_updated_at: Time.now , is_active: true,user_id: 1},
-  {homepage_image_file_name: "/shared_photos/homepage_photos/girl_with_flower.jpg", homepage_image_content_type: "image/jpeg", homepage_image_file_size: 7964, homepage_image_updated_at: Time.now , is_active: true,user_id: 1},
-  {homepage_image_file_name: "/shared_photos/homepage_photos/pink_road.jpg", homepage_image_content_type: "image/jpeg", homepage_image_file_size: 16721, homepage_image_updated_at: Time.now , is_active: true,user_id: 1}
+  { homepage_image: File.new("public/shared_photos/homepage_photos/background_sky.jpg"), is_active: true,user_id: 1},
+  { homepage_image: File.new("public/shared_photos/homepage_photos/dark_pink.jpg"), is_active: true,user_id: 1},
+  { homepage_image: File.new("public/shared_photos/homepage_photos/flowers_in_heart.jpg"), is_active: true,user_id: 1},
+  { homepage_image: File.new("public/shared_photos/homepage_photos/girl_with_flower.jpg"), is_active: true,user_id: 1},
+  { homepage_image: File.new("public/shared_photos/homepage_photos/pink_road.jpg"), is_active: true,user_id: 1}
   ])
