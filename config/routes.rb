@@ -34,7 +34,11 @@ Rails.application.routes.draw do
 
   resources :abouts, only: [:index, :update]
   resources :services
-  resources :testimonials
+  resources :testimonials do
+    collection do
+      get 'active'
+    end
+  end
   resources :homepage_photos do
     collection do
       put 'select_uploaded_photo'
