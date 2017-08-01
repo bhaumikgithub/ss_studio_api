@@ -13,7 +13,7 @@ contact_details = ContactDetail.create(address: "2nd floor, Tulsi complex, Nr Az
 
 about = About.create(title_text: "A young photographer taking lovely shots", description: "We are capture best moments which is impossible to recapture\nI have worked with over the year........ Stay in touch with Sagar Gadani. Thank you for visiting the website.", facebook_link: "https://www.facebook.com", twitter_link: "https://www.twitter.com", instagram_link: "https://www.instagram.com")
 
-Photo.create(status: "active", image: File.new("public/shared_photos/about/about-thumb.png"), is_cover_photo: false, user_id: 4, imageable_type: "About", imageable_id: about.id)
+Photo.create(status: "active", image: File.new("public/shared_photos/about/about-thumb.png"), is_cover_photo: false, user_id: 1, imageable_type: "About", imageable_id: about.id)
 
 service_icons = ServiceIcon.create!([
   { icon_image: "/shared_photos/service_icons/fashion-icon.png", status: 1},
@@ -29,7 +29,7 @@ service = Service.create([
   { service_name: "Portrait Photography", description: "It was popularised in the 1960s with the release of the Letraset sheets containing", status: 1, service_icon_id:  service_icons.third.id },
   { service_name: "Fashion Photography", description: "It was popularised in the 1960s with the release of the Letraset sheets containing", status: 1, service_icon_id:  service_icons.first.id },
   { service_name: "Kids Photography", description: "It was popularised in the 1960s with the release of the Letraset sheets containing", status: 1, service_icon_id:  service_icons.second.id }
-  ])
+])
 
 homepage_photo = HomepagePhoto.create!([
   { homepage_image: File.new("public/shared_photos/homepage_photos/image_1.png"), is_active: true,user_id: 1},
@@ -37,4 +37,16 @@ homepage_photo = HomepagePhoto.create!([
   { homepage_image: File.new("public/shared_photos/homepage_photos/image_3.png"), is_active: true,user_id: 1},
   { homepage_image: File.new("public/shared_photos/homepage_photos/image_4.png"), is_active: true,user_id: 1},
   { homepage_image: File.new("public/shared_photos/homepage_photos/image_5.png"), is_active: true,user_id: 1}
-  ])
+])
+
+testimonials = Testimonial.create!([
+  { client_name: "Hemali Gadani", message: "Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla.", status: 'active' },
+  { client_name: "Kinjal Thakkar", message: "Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla.", status: 'active' },
+  { client_name: "Arpita hirpara", message: "Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla.", status: 'active' },
+])
+
+testimonial_photos = Photo.create([
+  { status: "active", image: File.new("public/shared_photos/feedback/feedback-bg.png"), is_cover_photo: false, user_id: 1, imageable_type: "Testimonial", imageable_id: testimonials.first.id },
+  { status: "active", image: File.new("public/shared_photos/feedback/feedback-thumb.png"), is_cover_photo: false, user_id: 1, imageable_type: "Testimonial", imageable_id: testimonials.second.id },
+  { status: "active", image: File.new("public/shared_photos/feedback/feedback-bg.png"), is_cover_photo: false, user_id: 1, imageable_type: "Testimonial", imageable_id: testimonials.third.id },
+])
