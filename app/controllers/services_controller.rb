@@ -4,6 +4,11 @@ class ServicesController < ApplicationController
 
   def active_services
     @active_services = Service.where(status: "active")
-    render_success_response({ :active_services => @active_services}, 200)
+    json_response({
+      success: true,
+      data: {
+        active_services: array_serializer.new(@active_services, serializer: Services::ServiceAttributesSerializer),
+      }
+    }, 200)
   end
 end
