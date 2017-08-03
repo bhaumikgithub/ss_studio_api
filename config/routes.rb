@@ -26,16 +26,31 @@ Rails.application.routes.draw do
   end
   resources :watermarks
   resources :contacts
-  resources :contact_details, only: [:update]
-  resources :abouts, only: [:index, :update]
+  resources :services do
+    collection do
+      get 'active_services'
+    end
+  end
+
+  get 'contact_details', to: 'contact_details#show'
+  put 'contact_details', to: 'contact_details#update'
+
+  get 'abouts', to: 'abouts#show'
+  put 'abouts', to: 'abouts#update'
+
   resources :services
+  resources :testimonials do
+    collection do
+      get 'active'
+    end
+  end
   resources :homepage_photos do
     collection do
       put 'select_uploaded_photo'
       put 'active_gallery_photo'
+      get 'active'
     end
   end
   resources :contact_messages, only: [:create]
   resources :videos
-
 end

@@ -5,12 +5,19 @@ class AlbumsController < ApplicationController
 
   # GET /albums
   def index
-    @albums = current_resource_owner.albums
+    @albums = current_resource_owner.albums.page(
+      params[:page]
+    ).per(
+      params[:per_page]
+    ).order(
+      "albums.updated_at DESC"
+    )
     json_response({
       success: true,
       data: {
         albums: array_serializer.new(@albums, serializer: Albums::AlbumAttributesSerializer),
-      }
+      },
+      meta: meta_attributes(@albums)
     }, 200)
     # render_success_response({ :albums => @albums })
   end

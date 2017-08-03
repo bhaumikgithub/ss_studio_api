@@ -40,7 +40,6 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'pry'
   gem 'letter_opener'
 end
 
@@ -59,6 +58,8 @@ gem "paranoia", "~> 2.2"
 
 # For photo and video upload
 gem "paperclip", git: "git://github.com/thoughtbot/paperclip.git"
+gem "paperclip-ffmpeg"
+gem 'paperclip-av-transcoder'
 
 # RuboCop is a Ruby static code analyzer
 gem 'rubocop', require: false
@@ -66,6 +67,5 @@ gem 'rubocop', require: false
 #For serialize model attributes
 gem 'active_model_serializers', '~> 0.10.0'
 
-gem "paperclip-ffmpeg"
-
-gem 'paperclip-av-transcoder'
+# For pagination
+gem 'kaminari'

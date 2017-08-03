@@ -16,7 +16,7 @@ class Photo < ApplicationRecord
   cattr_accessor :watermark_url, :apply_watermark
   
   # Validations
-  validates :imageable_id, :imageable_type, presence: true
+  # validates :imageable_id, :imageable_type, presence: true
   has_attached_file :image, 
                     :processors => lambda {|attachment|
                       if attachment.class.apply_watermark
@@ -59,5 +59,10 @@ class Photo < ApplicationRecord
       self.imageable.photos.where(is_cover_photo: true).update_all(is_cover_photo: false)
       self.update(is_cover_photo: true)
     end
+  end
+
+  def update_user(current_user)
+    # binding.pry
+    self.update(user_id: current_user.id)
   end
 end
