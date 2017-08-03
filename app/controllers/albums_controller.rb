@@ -44,20 +44,51 @@ class AlbumsController < ApplicationController
     @albums = current_resource_owner.albums.joins(:categories)
     
     if params[:category]
-      @albums = @albums.where("categories.category_name = ? ", params[:category])
+      @albums = @albums.where("categories.category_name = ? ", params[:category]).page(
+      params[:page]
+    ).per(
+      params[:per_page]
+    ).order(
+      "albums.updated_at DESC"
+    )
     end
 
     if params[:delivery_status]
-      @albums = @albums.where("delivery_status = ? ", Album.delivery_statuses[params[:delivery_status].to_sym]).uniq
+      @albums = (@albums.where("delivery_status = ? ", Album.delivery_statuses[params[:delivery_status].to_sym]).uniq).page(
+      params[:page]
+    ).per(
+      params[:per_page]
+    ).order(
+      "albums.updated_at DESC"
+    )
     end
 
     if params[:album_name]
-      @albums = @albums.where("LOWER(album_name) LIKE ? ", "%#{params[:album_name]}%")
+      @albums = @albums.where("LOWER(album_name) LIKE ? ", "%#{params[:album_name]}%").page(
+      params[:page]
+    ).per(
+      params[:per_page]
+    ).order(
+      "albums.updated_at DESC"
+    )
     end
     if params[:is_private]
-      @albums = @albums.where("is_private  = ? ", params[:is_private]).uniq
+      @albums = (@albums.where("is_private  = ? ", params[:is_private]).uniq).page(
+      params[:page]
+    ).per(
+      params[:per_page]
+    ).order(
+      "albums.updated_at DESC"
+    )
     end
-    render_success_response({ :results => @albums}, 201)
+    # render_success_response({ :results => @albums}, 201)
+    json_response({
+      success: true,
+      data: {
+        albums: @albums
+      },
+      meta: meta_attributes(@albums)
+    }, 201)
   end
 
 
