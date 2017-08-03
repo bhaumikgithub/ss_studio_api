@@ -1,5 +1,5 @@
 class Albums::AlbumAttributesSerializer < ActiveModel::Serializer
-  attributes :id, :album_name, :is_private, :status, :updated_at, :delivery_status
+  attributes :id, :album_name, :is_private, :status, :updated_at, :delivery_status, :portfolio_visibility
   has_many :photos, key: "photo_count"
   has_many :categories, key: "categories",serializer: Albums::CategoriesAttributesSerializer
   has_one :cover_photo, key: "cover_photo",serializer: Albums::CoverPhotosAttributesSerializer 
