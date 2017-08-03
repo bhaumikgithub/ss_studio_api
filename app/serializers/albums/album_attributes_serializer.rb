@@ -1,16 +1,24 @@
 class Albums::AlbumAttributesSerializer < ActiveModel::Serializer
-  attributes :id, :album_name, :is_private, :status, :updated_at, :delivery_status, :portfolio_visibility
+  attributes :id, :album_name, :is_private, :status, :updated_at, :delivery_status, :portfolio_visibility, :cover_photo
   has_many :photos, key: "photo_count"
   has_many :categories, key: "categories",serializer: Albums::CategoriesAttributesSerializer
-  has_one :cover_photo, key: "cover_photo",serializer: Albums::CoverPhotosAttributesSerializer 
 
   def photos
     object.photos.count
   end
 
   def cover_photo
-    if object.photos.present?
-      object.photos.where(is_cover_photo: true).first
+    photo = object.photos.where(is_cover_photo: true).first
+    if photo.present?
+      {
+        image_file_name: photo.image_file_name,
+        image: CommonSerializer.full_image_url(photo.image.url)
+      }
+    else
+      {
+        image_file_name: "No image available",
+        image: CommonSerializer.full_image_url("shared_photos/missing.png")
+      }
     end
   end
 
