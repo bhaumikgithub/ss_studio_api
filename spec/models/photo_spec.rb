@@ -27,6 +27,15 @@ RSpec.describe Photo, type: :model do
       assc = described_class.reflect_on_association(:user)
       expect(assc.macro).to eq :belongs_to
     end
+
+    it "has many to homepage photos" do
+      assc = described_class.reflect_on_association(:homepage_photos)
+      expect(assc.macro).to eq :has_many
+    end
+  end
+
+  it 'get the content type from photo' do
+    expect(photo[:image_content_type]).to eq("image/jpeg").or eq("image/png").or eq("image/jpg").or eq("image/gif")
   end
 
   context "when created" do
@@ -34,8 +43,16 @@ RSpec.describe Photo, type: :model do
       expect(photo.imageable_type).to eq("Album")
     end
 
-    it "should have imageable_type method" do
+    it "should have photo_name method" do
       expect(photo.photo_name).to be(true)
+    end
+
+    it "should have set_as_cover method" do
+      expect(photo.set_as_cover).to be(true)
+    end
+
+    it "should have update_user method" do
+      expect(photo.update_user(user)).to be(true)
     end
   end
 

@@ -45,6 +45,12 @@ RSpec.describe ContactDetail, type: :model do
       expect(contact_detail.errors[:email]).to include("can't be blank", "is invalid")
     end
 
+    it 'should validate phone length' do
+      contact_detail.phone = '9999999999999'
+      contact_detail.valid?
+      expect(contact_detail[:phone].length).to be_between(10, 13).inclusive
+    end
+
     it 'should validate phone must be numeric and minimum range must be 10 characters' do
       contact_detail.phone = 'aa' # invalid state
       contact_detail.valid? # run validations
@@ -67,6 +73,12 @@ RSpec.describe ContactDetail, type: :model do
       contact_detail.phone = '96969696969696' # invalid state
       contact_detail.valid? # run validations
       expect(contact_detail.errors[:phone]).to include("is too long (maximum is 13 characters)")
+    end
+
+    it 'should validate email format' do
+      contact_detail.email = 'test@gmail.com'
+      contact_detail.valid?
+      expect(contact_detail[:email]).to match(/\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i)
     end
   end
 

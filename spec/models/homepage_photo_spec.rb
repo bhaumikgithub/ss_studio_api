@@ -18,8 +18,11 @@ RSpec.describe HomepagePhoto, type: :model do
     end
   end
 
-  it 'get the content type' do
+  it 'get the content type from photo' do
     expect(homepage_photo.photo[:image_content_type]).to eq("image/jpeg").or eq("image/png").or eq("image/jpg").or eq("image/gif")
+  end
+
+  it 'get content type from homepage_photo' do
     expect(homepage_photo[:homepage_image_content_type]).to eq("image/jpeg").or eq("image/png").or eq("image/jpg").or eq("image/gif")
   end
 end

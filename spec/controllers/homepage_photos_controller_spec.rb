@@ -104,4 +104,14 @@ RSpec.describe HomepagePhotosController, type: :request do
       end
     end
   end
+
+  # =======================homepage_photos#active=======================
+  describe 'GET /homepage_photos/active' do
+    context 'Successful' do
+        it 'returns active homepage photos' do
+          get "/homepage_photos/active"
+          expect(response.status).to eq 200
+        end
+      end
+  end
 end
