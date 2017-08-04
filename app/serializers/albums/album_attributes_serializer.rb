@@ -17,7 +17,7 @@ class Albums::AlbumAttributesSerializer < ActiveModel::Serializer
     else
       {
         image_file_name: "No image available",
-        image: CommonSerializer.full_image_url("shared_photos/missing.png")
+        image: CommonSerializer.full_image_url("/shared_photos/missing.png")
       }
     end
   end
