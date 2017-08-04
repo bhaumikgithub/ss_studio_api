@@ -39,7 +39,7 @@ class Photo < ApplicationRecord
                         :watermark_path => attachment.instance.class.watermark_url
                       }, 
                     }
-                  }
+                  }, default_url: "/shared_photos/missing.png"
   validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
  
   # Scopes

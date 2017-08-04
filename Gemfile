@@ -69,3 +69,6 @@ gem 'active_model_serializers', '~> 0.10.0'
 
 # For pagination
 gem 'kaminari'
+
+# Load environment variables from .env into ENV in development
+gem 'dotenv-rails'
