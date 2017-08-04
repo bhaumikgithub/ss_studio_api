@@ -6,7 +6,7 @@ class UsersController < ApplicationController
     json_response({
       success: true,
       data: {
-        users: single_record_serializer.new(@resource, serializer: Users::UserAttributesSerializer),
+        user: single_record_serializer.new(@resource, serializer: Users::UserAttributesSerializer),
       }
     }, 200)
     
