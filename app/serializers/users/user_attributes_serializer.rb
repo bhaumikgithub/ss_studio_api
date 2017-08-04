@@ -6,6 +6,7 @@ class Users::UserAttributesSerializer < ActiveModel::Serializer
   end
 
   def photo_count
-    object.photos.count
+  	binding.pry
+    object.albums.last.photos.count
   end
 end
