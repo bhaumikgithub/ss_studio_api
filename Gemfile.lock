@@ -81,6 +81,10 @@ GEM
       railties (>= 4.2)
     doorkeeper-jwt (0.2.1)
       jwt (~> 1.5.2, >= 1.5.2)
+    dotenv (2.2.1)
+    dotenv-rails (2.2.1)
+      dotenv (= 2.2.1)
+      railties (>= 3.2, < 5.2)
     erubis (2.7.0)
     factory_girl (4.8.0)
       activesupport (>= 3.0.0)
@@ -268,6 +272,7 @@ DEPENDENCIES
   devise
   doorkeeper
   doorkeeper-jwt
+  dotenv-rails
   factory_girl_rails
   guard-rspec
   kaminari
