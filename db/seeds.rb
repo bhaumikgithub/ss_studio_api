@@ -40,13 +40,11 @@ homepage_photo = HomepagePhoto.create!([
 ])
 
 testimonials = Testimonial.create!([
-  { client_name: "Hemali Gadani", message: "Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla.", status: 'active' },
-  { client_name: "Kinjal Thakkar", message: "Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla.", status: 'active' },
-  { client_name: "Arpita hirpara", message: "Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla.", status: 'active' },
+  { client_name: "Hemali Gadani", message: "Sagar, thank you so much for capturing the best moments. The photos are absolutely amazing and honestly I can’t stop looking at them!!! You definitely captured Joy’s sweetness and cheerfulness . Great service and lovely photographs. Again, many thanks to you and the team.  By far the best photographer and I’d recommend to everyone!", status: 'active' },
+  { client_name: "Anjali Chauhan", message: "I want to say HUGE thank you to Sagar Gadani for capturing beautiful pictures of our pre-wedding photo shoot. Our pre-wedding photographs were beyond perfect. You have amazing creative skills. The photos are absolutely beautiful, you managed to capture our special day in such an amazing way. Every time we look at the images we can recall all the emotion, the laughs and fun of the day. Thanks again.", status: 'active' }
 ])
 
 testimonial_photos = Photo.create([
-  { status: "active", image: File.new("public/shared_photos/feedback/feedback-bg.png"), is_cover_photo: false, user_id: 1, imageable_type: "Testimonial", imageable_id: testimonials.first.id },
-  { status: "active", image: File.new("public/shared_photos/feedback/feedback-thumb.png"), is_cover_photo: false, user_id: 1, imageable_type: "Testimonial", imageable_id: testimonials.second.id },
-  { status: "active", image: File.new("public/shared_photos/feedback/feedback-bg.png"), is_cover_photo: false, user_id: 1, imageable_type: "Testimonial", imageable_id: testimonials.third.id },
+  { status: "active", image: File.new("public/shared_photos/feedback/hemali_gadani.jpg"), is_cover_photo: false, user_id: 1, imageable_type: "Testimonial", imageable_id: testimonials.first.id },
+  { status: "active", image: File.new("public/shared_photos/feedback/anjali_chauhan.jpg"), is_cover_photo: false, user_id: 1, imageable_type: "Testimonial", imageable_id: testimonials.second.id }
 ])
