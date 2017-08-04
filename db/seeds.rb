@@ -45,6 +45,6 @@ testimonials = Testimonial.create!([
 ])
 
 testimonial_photos = Photo.create([
-  { status: "active", image: File.new("public/shared_photos/feedback/hemali_gadani.jpg"), is_cover_photo: false, user_id: 1, imageable_type: "Testimonial", imageable_id: testimonials.first.id },
-  { status: "active", image: File.new("public/shared_photos/feedback/anjali_chauhan.jpg"), is_cover_photo: false, user_id: 1, imageable_type: "Testimonial", imageable_id: testimonials.second.id }
+  { status: "active", image: File.new("public/shared_photos/feedback/hemali_gadani.jpeg"), is_cover_photo: false, user_id: 1, imageable_type: "Testimonial", imageable_id: testimonials.first.id },
+  { status: "active", image: File.new("public/shared_photos/feedback/anjali_chauhan.jpeg"), is_cover_photo: false, user_id: 1, imageable_type: "Testimonial", imageable_id: testimonials.second.id }
 ])
