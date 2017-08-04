@@ -74,11 +74,11 @@ Rails.application.configure do
     :address              => "smtp.gmail.com",
     :port                 => 587,
     :domain               => 'gmail.com',
-    :user_name            => 'techplusqa@gmail.com',
-    :password             => 'techplus123',
+    :user_name            => ENV['GMAIL_USER_NAME'],
+    :password             => ENV['GMAIL_PASSWORD'],
     :authentication       => 'plain'
   }
-  
+
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
