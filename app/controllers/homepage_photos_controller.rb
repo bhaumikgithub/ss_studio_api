@@ -43,7 +43,7 @@ class HomepagePhotosController < ApplicationController
       data: {
         homepage_photos: array_serializer.new(@active_photo, serializer: HomepagePhotos::HomepagePhotoAttributesSerializer),
       }
-    }, 200)
+    }, 201)
 
   end
 
