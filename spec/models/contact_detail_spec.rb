@@ -80,6 +80,12 @@ RSpec.describe ContactDetail, type: :model do
       contact_detail.valid?
       expect(contact_detail[:email]).to match(/\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i)
     end
+
+    it 'should validate phone length' do
+      contact_detail.phone = '9999999999999'
+      contact_detail.valid?
+      expect(contact_detail[:phone].length).to be_between(10, 13).inclusive
+    end
   end
 
   context "Associations" do

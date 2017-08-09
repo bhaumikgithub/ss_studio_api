@@ -57,6 +57,16 @@ RSpec.describe Contact, type: :model do
       assc = described_class.reflect_on_association(:user)
       expect(assc.macro).to eq :belongs_to
     end
+
+    it "has many album_recipients" do
+      assc = described_class.reflect_on_association(:album_recipients)
+      expect(assc.macro).to eq :has_many
+    end
+
+    it "has many testimonials" do
+      assc = described_class.reflect_on_association(:testimonials)
+      expect(assc.macro).to eq :has_many
+    end
   end
 
   context "when created" do
@@ -66,6 +76,10 @@ RSpec.describe Contact, type: :model do
 
     it "should have generate_token method" do
       expect(contact.generate_token).to be(true)
+    end
+
+    it "should have full_name method" do
+      expect(contact.full_name.present?).to be(true)
     end
   end
 end
