@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
   
+  get 'users/show'
+
   use_doorkeeper do
   	skip_controllers :applications, :authorized_applications
   end
@@ -36,7 +38,11 @@ Rails.application.routes.draw do
   put 'abouts', to: 'abouts#update'
 
   resources :services
-  resources :testimonials
+  resources :testimonials do
+    collection do
+      get 'active'
+    end
+  end
   resources :homepage_photos do
     collection do
       put 'select_uploaded_photo'
@@ -46,4 +52,5 @@ Rails.application.routes.draw do
   end
   resources :contact_messages, only: [:create]
   resources :videos
+  resources :users, only: [:show]
 end
