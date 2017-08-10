@@ -26,7 +26,7 @@ class HomepagePhotosController < ApplicationController
       data: {
         homepage_photos: array_serializer.new(@select_photo, serializer: HomepagePhotos::HomepagePhotoAttributesSerializer),
       }
-    }, 200)
+    }, 201)
   end
 
   # PUT /homepage_photo/active_gallery_photo
@@ -43,7 +43,7 @@ class HomepagePhotosController < ApplicationController
       data: {
         homepage_photos: array_serializer.new(@active_photo, serializer: HomepagePhotos::HomepagePhotoAttributesSerializer),
       }
-    }, 200)
+    }, 201)
   end
 
   # GET /homepage_photos/active

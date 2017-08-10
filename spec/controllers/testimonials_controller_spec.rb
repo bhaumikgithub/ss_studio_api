@@ -105,4 +105,14 @@ RSpec.describe TestimonialsController, type: :request do
       end
     end
   end
+
+  # =======================testimonials#active=======================
+  describe 'GET /testimonials/active' do
+    context 'Successful' do
+        it 'returns active testimonial' do
+          get "/testimonials/active"
+          expect(response.status).to eq 200
+        end
+      end
+  end
 end

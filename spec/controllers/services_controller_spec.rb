@@ -62,14 +62,6 @@ RSpec.describe ServicesController, type: :request do
           expect(response.status).to eq 201
         end
       end
-      context 'Validations are failed' do
-        it 'returns 422' do
-          post '/services', params: { service: { service_name: 'hello', description: 'hello' } }, headers: @header
-          parsed_body = JSON.parse(response.body)
-          expect(parsed_body['errors'][0]['detail']).to eq "is too short (minimum is 30 characters)"
-          expect(response.status).to eq 422
-        end
-      end
     end
   end
 

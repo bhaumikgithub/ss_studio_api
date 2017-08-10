@@ -66,34 +66,6 @@ RSpec.describe AlbumsController, type: :request do
           expect(response.status).to eq 201
         end
       end
-
-      context 'Validations are failed' do
-        it 'returns 422' do
-          post '/albums', params: { album: { album_name: '' } }, headers: @header
-          parsed_body = JSON.parse(response.body)
-          expect(parsed_body['errors'][0]['field']).to eq 'album_name'
-          expect(parsed_body['errors'][0]['detail']).to eq "can't be blank"
-          expect(response.status).to eq 422
-        end
-
-        it 'album length should not less than 3' do
-          post '/albums', params: { album: { album_name: 'aa' } }, headers: @header
-          parsed_body = JSON.parse(response.body)
-          expect(parsed_body['errors'][0]['detail']).to eq "is too short (minimum is 3 characters)"
-        end
-
-        it 'album length should not greater than 30' do
-          post '/albums', params: { album: { album_name: 'album1 and album2 engagement album' } }, headers: @header
-          parsed_body = JSON.parse(response.body)
-          expect(parsed_body['errors'][0]['detail']).to eq "is too long (maximum is 30 characters)"
-        end
-
-        it 'album name should be unique' do
-          post '/albums', params: { album: { album_name: 'joy birthday' } }, headers: @header
-          parsed_body = JSON.parse(response.body)
-          expect(parsed_body['errors'][0]['detail']).to eq "has already been taken"
-        end
-      end
     end
   end
 
