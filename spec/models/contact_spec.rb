@@ -21,6 +21,12 @@ RSpec.describe Contact, type: :model do
       expect(contact.errors[:phone]).to include("is too short (minimum is 10 characters)")
     end
 
+    it 'allow nil value in phone ' do
+      contact.phone = nil
+      contact.valid?
+      expect(contact.status).to be true
+    end
+
     it 'should validate phone length' do
       contact.phone = '9999999999999'
       contact.valid?

@@ -4,6 +4,8 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   # pending "add some examples to (or delete) #{__FILE__}"
+  let(:user) { FactoryGirl.create(:user) }
+
   context "Associations" do
     it "has many contacts" do
       assc = described_class.reflect_on_association(:contacts)
@@ -65,6 +67,12 @@ RSpec.describe User, type: :model do
         subject.save
         expect(subject.status).to eql(type.to_s)
       end
+    end
+  end
+
+  context "when created" do
+    it "should have full_name method" do
+      expect(user.full_name.present?).to be(true)
     end
   end
 end
