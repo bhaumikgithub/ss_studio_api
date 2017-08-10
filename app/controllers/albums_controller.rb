@@ -36,6 +36,7 @@ class AlbumsController < ApplicationController
 
   # PATCH/PUT /albums/:id
   def update
+    binding.pry
     @album.update_attributes(album_params)
     # json_response({success: true, message: "Album update successfully.", data: {album: @album}}, 201)
     json_response({
@@ -45,6 +46,9 @@ class AlbumsController < ApplicationController
         album: single_record_serializer.new(@album, serializer: Albums::AlbumAttributesSerializer),
       }
     }, 201)
+  end
+
+  def show
   end
 
   # DELETE /albums/:id
@@ -60,6 +64,7 @@ class AlbumsController < ApplicationController
   end
 
   def fetch_album
-    @album = current_resource_owner.albums.find(params[:id])
+    binding.pry
+    @album = current_resource_owner.albums.friendly.find(params[:album_id])
   end
 end

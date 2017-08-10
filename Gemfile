@@ -72,3 +72,6 @@ gem 'kaminari'
 
 # Load environment variables from .env into ENV in development
 gem 'dotenv-rails'
+
+# For friendly slug
+gem 'friendly_id'
