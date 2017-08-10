@@ -7,6 +7,7 @@ RSpec.describe UsersController, type: :request do
     @header = { Authorization: "bearer " + token_generator(@user) }
   end
 
+  # =======================users#show=======================
   describe "GET #show" do
     it "returns http success" do
       get "/users/#{@user.id}", headers: @header

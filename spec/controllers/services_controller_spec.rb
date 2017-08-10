@@ -4,7 +4,7 @@ RSpec.describe ServicesController, type: :request do
   before do
     @user = FactoryGirl.create(:user)
     @service_icon = FactoryGirl.create(:service_icon)
-    @service = FactoryGirl.create(:service, service_icon_id: @service_icon.id)
+    @service = FactoryGirl.create(:service, service_icon: @service_icon)
     @header = { Authorization: "bearer " + token_generator(@user) }
   end
 
@@ -103,4 +103,14 @@ RSpec.describe ServicesController, type: :request do
     end
   end
 
+  # =======================services#active_services=======================
+  describe 'GET /services/active_services' do
+    context 'Successful' do
+        it 'returns active_services services' do
+          get "/services/active_services"
+          # puts "===========#{response.body.inspect}=========="
+          expect(response.status).to eq 200
+        end
+      end
+  end
 end
