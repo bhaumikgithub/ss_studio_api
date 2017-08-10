@@ -37,7 +37,14 @@ class AlbumsController < ApplicationController
   # PATCH/PUT /albums/:id
   def update
     @album.update_attributes(album_params)
-    json_response({success: true, message: "Album update successfully.", data: {albums: @album}}, 201)
+    # json_response({success: true, message: "Album update successfully.", data: {album: @album}}, 201)
+    json_response({
+      success: true,
+      message: "Album updated successfully.",
+      data: {
+        album: single_record_serializer.new(@album, serializer: Albums::AlbumAttributesSerializer),
+      }
+    }, 201)
   end
 
   # DELETE /albums/:id
