@@ -15,6 +15,9 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :categories
   resources :albums do
+    collection do
+      get 'search'
+    end
     resources :album_recipients, only: [:create]
   end
   resources :photos do
