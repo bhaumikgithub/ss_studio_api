@@ -1,7 +1,7 @@
 class AlbumsController < ApplicationController
   include InheritAction
 
-  before_action :fetch_album, only: [ :update, :destroy ]
+  before_action :fetch_album, only: [ :update, :destroy, :show ]
 
   # GET /albums
   def index
@@ -51,6 +51,15 @@ class AlbumsController < ApplicationController
   def destroy
     @album.destroy!
     json_response({success: true, message: "Album destroy successfully.", data: {albums: @album}}, 200)
+  end
+
+  def show
+    json_response({
+      success: true,
+      data: {
+        album: single_record_serializer.new(@album, serializer: Albums::SingleAlbumAttributesSerializer),
+      }
+    }, 200)
   end
 
   private

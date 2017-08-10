@@ -23,6 +23,6 @@ class Albums::AlbumAttributesSerializer < ActiveModel::Serializer
   end
 
   def updated_at
-    object.updated_at.strftime('%d-%m-%Y')
+    CommonSerializer.date_formate(object.updated_at)
   end
 end
