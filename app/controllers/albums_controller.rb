@@ -25,7 +25,13 @@ class AlbumsController < ApplicationController
   # POST /albums
   def create
     @album = current_resource_owner.albums.create!(album_params)
-    render_success_response({ :albums => @album}, 201)
+
+    json_response({
+      success: true,
+      data: {
+        album: single_record_serializer.new(@album, serializer: Albums::AlbumAttributesSerializer),
+      }
+    }, 201)
   end
 
   # PATCH/PUT /albums/:id

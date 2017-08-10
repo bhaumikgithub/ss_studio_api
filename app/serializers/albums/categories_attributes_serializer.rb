@@ -1,3 +1,3 @@
 class Albums::CategoriesAttributesSerializer < ActiveModel::Serializer
-  attributes :category_name
+  attributes :id, :category_name
 end
