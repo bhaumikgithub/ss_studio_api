@@ -65,6 +65,15 @@ class AlbumsController < ApplicationController
     json_response({success: true, message: "Album destroy successfully.", data: {albums: @album}}, 200)
   end
 
+  def show
+    json_response({
+      success: true,
+      data: {
+        album: single_record_serializer.new(@album, serializer: Albums::SingleAlbumAttributesSerializer),
+      }
+    }, 200)
+  end
+
   private
 
   def album_params
