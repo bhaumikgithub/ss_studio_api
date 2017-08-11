@@ -15,7 +15,9 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :categories
   resources :albums do
-    resources :album_recipients, only: [:create]
+    resources :album_recipients, only: [:create, :index, :destroy] do
+        post 'resend', on: :member
+    end
   end
   resources :photos do
     patch 'set_cover_photo', on: :member
