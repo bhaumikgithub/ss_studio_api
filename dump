@@ -159,7 +159,8 @@ CREATE TABLE albums (
     user_id integer,
     delivery_status integer DEFAULT 0,
     portfolio_visibility boolean DEFAULT false,
-    passcode character varying
+    passcode character varying,
+    slug character varying
 );
 
 
@@ -354,6 +355,43 @@ ALTER TABLE contacts_id_seq OWNER TO parul;
 --
 
 ALTER SEQUENCE contacts_id_seq OWNED BY contacts.id;
+
+
+--
+-- Name: friendly_id_slugs; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE friendly_id_slugs (
+    id integer NOT NULL,
+    slug character varying NOT NULL,
+    sluggable_id integer NOT NULL,
+    sluggable_type character varying(50),
+    scope character varying,
+    created_at timestamp without time zone
+);
+
+
+ALTER TABLE friendly_id_slugs OWNER TO parul;
+
+--
+-- Name: friendly_id_slugs_id_seq; Type: SEQUENCE; Schema: public; Owner: parul
+--
+
+CREATE SEQUENCE friendly_id_slugs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE friendly_id_slugs_id_seq OWNER TO parul;
+
+--
+-- Name: friendly_id_slugs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: parul
+--
+
+ALTER SEQUENCE friendly_id_slugs_id_seq OWNED BY friendly_id_slugs.id;
 
 
 --
@@ -622,7 +660,8 @@ CREATE TABLE services (
     status integer DEFAULT 1,
     service_icon_id integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    deleted_at timestamp without time zone
 );
 
 
@@ -880,6 +919,13 @@ ALTER TABLE ONLY contacts ALTER COLUMN id SET DEFAULT nextval('contacts_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: parul
 --
 
+ALTER TABLE ONLY friendly_id_slugs ALTER COLUMN id SET DEFAULT nextval('friendly_id_slugs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: parul
+--
+
 ALTER TABLE ONLY homepage_photos ALTER COLUMN id SET DEFAULT nextval('homepage_photos_id_seq'::regclass);
 
 
@@ -958,9 +1004,7 @@ ALTER TABLE ONLY watermarks ALTER COLUMN id SET DEFAULT nextval('watermarks_id_s
 --
 
 COPY abouts (id, title_text, description, social_links, created_at, updated_at) FROM stdin;
-1	title2	description	"--- !ruby/hash:ActiveSupport::HashWithIndifferentAccess\\nfacebook_link: www.facebook.com\\ntwitter_link: www.twitter.com\\ninstagram_link: www.instagram.com\\n"	2017-07-21 04:49:12.364812	2017-07-21 06:59:45.993221
-2	A young photographer taking lovely shots	We are capture best moments which is impossible to recapture	"--- !ruby/hash:ActiveSupport::HashWithIndifferentAccess\\nfacebook_link: www.facebook.com\\ntwitter_link: www.twitter.com\\ninstagram_link: www.instagram.com\\n"	2017-07-26 06:25:20.136746	2017-07-26 06:25:20.136746
-3	A young photographer taking lovely shots	We are capture best moments which is impossible to recapture	"--- !ruby/hash:ActiveSupport::HashWithIndifferentAccess\\nfacebook_link: www.facebook.com\\ntwitter_link: www.twitter.com\\ninstagram_link: www.instagram.com\\n"	2017-07-28 10:01:55.830616	2017-07-28 10:01:55.830616
+1	title2	description	"--- !ruby/hash:ActiveSupport::HashWithIndifferentAccess\\nfacebook_link: www.facebook.com\\ntwitter_link: www.twitter.com\\ninstagram_link: www.instagram.com\\n"	2017-08-01 10:24:03.455274	2017-08-01 10:26:32.295316
 \.
 
 
@@ -968,7 +1012,7 @@ COPY abouts (id, title_text, description, social_links, created_at, updated_at) 
 -- Name: abouts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
 --
 
-SELECT pg_catalog.setval('abouts_id_seq', 3, true);
+SELECT pg_catalog.setval('abouts_id_seq', 1, true);
 
 
 --
@@ -976,12 +1020,10 @@ SELECT pg_catalog.setval('abouts_id_seq', 3, true);
 --
 
 COPY album_categories (id, album_id, category_id, created_at, updated_at) FROM stdin;
-1	1	1	2017-07-20 04:44:00.621134	2017-07-20 04:44:00.621134
-2	1	2	2017-07-20 04:44:00.622772	2017-07-20 04:44:00.622772
-3	2	1	2017-07-20 09:06:50.244793	2017-07-20 09:06:50.244793
-4	2	2	2017-07-20 09:06:50.401355	2017-07-20 09:06:50.401355
-5	3	1	2017-07-25 10:13:24.798721	2017-07-25 10:13:24.798721
-6	3	2	2017-07-25 10:13:24.800064	2017-07-25 10:13:24.800064
+1	1	2	2017-08-10 06:35:30.924263	2017-08-10 06:35:30.924263
+2	1	3	2017-08-10 06:35:30.952755	2017-08-10 06:35:30.952755
+3	2	1	2017-08-10 06:37:03.156811	2017-08-10 06:37:03.156811
+4	3	1	2017-08-11 05:56:55.027696	2017-08-11 05:56:55.027696
 \.
 
 
@@ -989,7 +1031,7 @@ COPY album_categories (id, album_id, category_id, created_at, updated_at) FROM s
 -- Name: album_categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
 --
 
-SELECT pg_catalog.setval('album_categories_id_seq', 6, true);
+SELECT pg_catalog.setval('album_categories_id_seq', 4, true);
 
 
 --
@@ -997,6 +1039,19 @@ SELECT pg_catalog.setval('album_categories_id_seq', 6, true);
 --
 
 COPY album_recipients (id, is_email_sent, custom_message, album_id, contact_id, created_at, updated_at) FROM stdin;
+1	t	testing data	2	3	2017-08-10 08:43:16.981993	2017-08-10 08:43:17.164953
+2	t	testing data	2	4	2017-08-10 08:43:17.095332	2017-08-10 08:43:17.178617
+3	t	testing data	2	5	2017-08-10 08:43:17.118911	2017-08-10 08:43:17.190583
+4	t	testing data	2	6	2017-08-11 05:48:29.636286	2017-08-11 05:48:30.36794
+5	t	testing data	2	7	2017-08-11 05:48:29.77602	2017-08-11 05:48:30.387138
+6	t	testing data	2	8	2017-08-11 05:48:29.848709	2017-08-11 05:48:30.398967
+8	t	testing data	3	10	2017-08-11 06:07:10.010381	2017-08-11 06:07:10.311262
+9	t	testing data	3	11	2017-08-11 06:07:10.033813	2017-08-11 06:07:10.321488
+10	t	testing data	3	12	2017-08-11 06:37:28.621725	2017-08-11 06:39:13.885529
+11	t	testing data	3	12	2017-08-11 06:39:26.189008	2017-08-11 06:41:17.931072
+12	t	testing data	3	12	2017-08-11 06:58:54.90888	2017-08-11 07:01:22.124172
+13	\N	testing data	3	12	2017-08-11 07:01:30.696482	2017-08-11 07:01:30.696482
+14	t	testing data	3	12	2017-08-11 07:02:19.701574	2017-08-11 07:02:35.437893
 \.
 
 
@@ -1004,17 +1059,17 @@ COPY album_recipients (id, is_email_sent, custom_message, album_id, contact_id, 
 -- Name: album_recipients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
 --
 
-SELECT pg_catalog.setval('album_recipients_id_seq', 3, true);
+SELECT pg_catalog.setval('album_recipients_id_seq', 14, true);
 
 
 --
 -- Data for Name: albums; Type: TABLE DATA; Schema: public; Owner: parul
 --
 
-COPY albums (id, album_name, is_private, status, created_at, updated_at, deleted_at, user_id, delivery_status, portfolio_visibility, passcode) FROM stdin;
-3	Priyanka & Savan Marriage	f	1	2017-07-25 10:13:24.795226	2017-07-25 10:13:24.795226	\N	1	0	f	oj7rTKPV
-2	joy birthday	f	1	2017-07-20 09:06:50.22011	2017-07-26 05:39:42.889115	\N	2	2	f	\N
-1	jay11 birthday 11	f	1	2017-07-20 04:44:00.619591	2017-07-26 12:24:36.396979	\N	1	2	f	\N
+COPY albums (id, album_name, is_private, status, created_at, updated_at, deleted_at, user_id, delivery_status, portfolio_visibility, passcode, slug) FROM stdin;
+1	wedding	f	1	2017-08-10 06:35:30.898586	2017-08-10 06:35:30.898586	\N	1	0	f	Mv28B8nq	\N
+2	Joy birthday	t	1	2017-08-10 06:37:03.148122	2017-08-10 08:42:50.707382	\N	1	0	f	zLFJji3n	\N
+3	arpita wed	f	1	2017-08-11 05:56:55.013521	2017-08-11 05:56:55.013521	\N	1	0	f	sYuLtD2B	\N
 \.
 
 
@@ -1030,7 +1085,7 @@ SELECT pg_catalog.setval('albums_id_seq', 3, true);
 --
 
 COPY ar_internal_metadata (key, value, created_at, updated_at) FROM stdin;
-environment	development	2017-07-28 10:10:12.201305	2017-07-28 10:10:12.201305
+environment	development	2017-07-28 10:18:53.540164	2017-07-28 10:18:53.540164
 \.
 
 
@@ -1039,8 +1094,9 @@ environment	development	2017-07-28 10:10:12.201305	2017-07-28 10:10:12.201305
 --
 
 COPY categories (id, category_name, created_at, updated_at, deleted_at, status, user_id) FROM stdin;
-1	Wedding	2017-07-20 04:43:38.782937	2017-07-20 04:43:38.782937	\N	1	1
-2	Birthday	2017-07-20 04:43:49.151957	2017-07-20 04:43:49.151957	\N	1	1
+1	Birthday	2017-08-10 06:33:33.947913	2017-08-10 06:33:33.947913	\N	1	1
+2	Marriage	2017-08-10 06:33:43.333006	2017-08-10 06:33:43.333006	\N	1	1
+3	Engagement	2017-08-10 06:33:55.911244	2017-08-10 06:33:55.911244	\N	1	1
 \.
 
 
@@ -1048,7 +1104,7 @@ COPY categories (id, category_name, created_at, updated_at, deleted_at, status, 
 -- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
 --
 
-SELECT pg_catalog.setval('categories_id_seq', 2, true);
+SELECT pg_catalog.setval('categories_id_seq', 3, true);
 
 
 --
@@ -1056,8 +1112,7 @@ SELECT pg_catalog.setval('categories_id_seq', 2, true);
 --
 
 COPY contact_details (id, address, email, phone, created_at, updated_at, deleted_at) FROM stdin;
-2	2nd Floor, Tulsi Complex, Nr Azad Society, Behind Sahajanand College, Ambavadi, Ahmedabad	sagargadani@gmail.com	+911436999999	2017-07-26 06:25:20.065746	2017-07-26 07:35:08.101747	\N
-3	2nd Floor, Tulsi Complex, Nr Azad Society, Behind Sahajanand College, Ambavadi, Ahmedabad	johndoe@gmail.com	+910123456789	2017-07-28 10:01:55.777304	2017-07-28 10:01:55.777304	\N
+1	2nd floor, Tulsi complex, Nr Azad Society,\nBehind Sahjanand Collage, Ambavadi,\nAhemedabad-380 015, Gujarat, India.	johndoe@gmail.com	+910123456789	2017-08-01 10:24:03.433627	2017-08-01 10:24:03.433627	\N
 \.
 
 
@@ -1065,7 +1120,7 @@ COPY contact_details (id, address, email, phone, created_at, updated_at, deleted
 -- Name: contact_details_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
 --
 
-SELECT pg_catalog.setval('contact_details_id_seq', 3, true);
+SELECT pg_catalog.setval('contact_details_id_seq', 1, true);
 
 
 --
@@ -1073,7 +1128,7 @@ SELECT pg_catalog.setval('contact_details_id_seq', 3, true);
 --
 
 COPY contact_messages (id, name, email, phone, message, created_at, updated_at) FROM stdin;
-1	arpita	paresh01.tps@gmail.com	7894562231	hello testing	2017-07-21 11:25:39.873356	2017-07-21 11:25:39.873356
+1	arpita	paresh01.tps@gmail.com	7894562231	hello testing	2017-08-10 06:55:04.627011	2017-08-10 06:55:04.627011
 \.
 
 
@@ -1089,10 +1144,18 @@ SELECT pg_catalog.setval('contact_messages_id_seq', 1, true);
 --
 
 COPY contacts (id, first_name, last_name, email, phone, status, user_id, created_at, updated_at, deleted_at, token) FROM stdin;
-1	Arpita	Sojitra	arpita1.tps@gmail.com	7894561230	t	1	2017-07-20 04:54:10.994177	2017-07-20 04:54:10.994177	\N	C2JSE3n34i
-2	parul	kanani	parul@gmail.com	9638527410	t	2	2017-07-22 07:19:13.755624	2017-07-22 07:19:13.755624	\N	A5csDTAZkw
-3	\N	\N	arpita1.sojitra@gmail.com	\N	t	\N	2017-07-25 10:35:55.682735	2017-07-25 10:35:55.682735	\N	fvKtEuW2nb
-4	\N	\N	ashvin@gmail.com	\N	t	\N	2017-07-25 10:35:55.705752	2017-07-25 10:35:55.705752	\N	vCb17Tts3D
+1	parul	kanani	parul@gmail.com	9638527410	t	1	2017-08-01 07:12:35.957102	2017-08-01 07:12:35.957102	\N	sVVAoWfcAi
+2	parul	patel	parulv@gmail.com	9856327410	t	1	2017-08-10 07:00:14.978481	2017-08-10 07:00:14.978481	\N	9Qq2iR6wBw
+4	\N	\N	arpita11.sojitra@gmail.com	\N	t	\N	2017-08-10 08:43:17.084468	2017-08-10 08:43:17.084468	\N	9yX85qDgG4
+5	\N	\N	ashvin1@gmail.com	\N	t	\N	2017-08-10 08:43:17.108001	2017-08-10 08:43:17.108001	\N	i86fHWMstS
+6	parul	patel	parulvk@gmail.com	\N	t	1	2017-08-10 11:26:21.769804	2017-08-10 11:26:21.769804	\N	46CNV6T5HQ
+3	arpita	patel	arpita1.tps@gmail.com	\N	t	\N	2017-08-10 08:43:16.904372	2017-08-11 05:44:02.666563	\N	F9bzmMCVMK
+7	\N	\N	parulk@gmail.com	\N	t	\N	2017-08-11 05:48:29.707197	2017-08-11 05:48:29.707197	\N	5x6PhoF6uV
+8	\N	\N	pvk@gmail.com	\N	t	\N	2017-08-11 05:48:29.837261	2017-08-11 05:48:29.837261	\N	cJZUnsPfhT
+9	\N	\N	moni@gmail.com	\N	t	\N	2017-08-11 06:07:09.845487	2017-08-11 06:07:09.845487	\N	agsZA3kqBv
+10	\N	\N	kari@gmail.com	\N	t	\N	2017-08-11 06:07:09.939667	2017-08-11 06:07:09.939667	\N	jZ3Vvzo3oS
+11	\N	\N	monu@gmail.com	\N	t	\N	2017-08-11 06:07:10.024285	2017-08-11 06:07:10.024285	\N	pkZvKakFMJ
+12	\N	\N	moni1@gmail.com	\N	t	\N	2017-08-11 06:37:28.581331	2017-08-11 06:37:28.581331	\N	5mikzq8ZWh
 \.
 
 
@@ -1100,7 +1163,22 @@ COPY contacts (id, first_name, last_name, email, phone, status, user_id, created
 -- Name: contacts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
 --
 
-SELECT pg_catalog.setval('contacts_id_seq', 4, true);
+SELECT pg_catalog.setval('contacts_id_seq', 12, true);
+
+
+--
+-- Data for Name: friendly_id_slugs; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY friendly_id_slugs (id, slug, sluggable_id, sluggable_type, scope, created_at) FROM stdin;
+\.
+
+
+--
+-- Name: friendly_id_slugs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
+--
+
+SELECT pg_catalog.setval('friendly_id_slugs_id_seq', 1, false);
 
 
 --
@@ -1108,6 +1186,21 @@ SELECT pg_catalog.setval('contacts_id_seq', 4, true);
 --
 
 COPY homepage_photos (id, is_active, user_id, created_at, updated_at, photo_id, homepage_image_file_name, homepage_image_content_type, homepage_image_file_size, homepage_image_updated_at) FROM stdin;
+2	t	1	2017-08-01 10:24:04.007607	2017-08-10 06:51:16.921724	\N	/system/homepage_photos/homepage_images/dark_pink.jpg	image/jpeg	12614	2017-08-01 10:24:03.986931
+3	t	1	2017-08-01 10:24:04.019517	2017-08-10 06:51:16.952537	\N	/system/homepage_photos/homepage_images/flowers_in_heart.jpg	image/jpeg	12817	2017-08-01 10:24:03.986932
+4	t	1	2017-08-01 10:24:04.031488	2017-08-10 06:51:17.012696	\N	/system/homepage_photos/homepage_images/girl_with_flower.jpg	image/jpeg	7964	2017-08-01 10:24:03.986932
+5	t	1	2017-08-01 10:24:04.043435	2017-08-10 06:51:17.03644	\N	/system/homepage_photos/homepage_images/pink_road.jpg	image/jpeg	16721	2017-08-01 10:24:03.986933
+8	f	1	2017-08-10 06:48:08.595075	2017-08-10 06:50:39.589769	\N	transport.png	image/png	152042	2017-08-10 06:48:08.263999
+9	f	1	2017-08-10 06:48:51.791988	2017-08-10 06:50:39.608243	8	\N	\N	\N	\N
+10	f	1	2017-08-10 06:49:16.233646	2017-08-10 06:50:39.620451	10	\N	\N	\N	\N
+11	f	1	2017-08-10 06:49:31.871661	2017-08-10 06:50:39.680244	10	\N	\N	\N	\N
+1	f	1	2017-08-01 10:24:03.994538	2017-08-01 10:24:03.994538	\N	/system/homepage_photos/homepage_images/background_sky.jpg	image/jpeg	22447	2017-08-01 10:24:03.986929
+6	f	1	2017-08-10 06:48:07.7714	2017-08-10 06:48:07.7714	\N	instruct_stud_count.png	image/png	178518	2017-08-10 06:48:07.325145
+7	f	1	2017-08-10 06:48:08.233946	2017-08-10 06:48:08.233946	\N	screenshot.png	image/png	127780	2017-08-10 06:48:07.904334
+12	f	1	2017-08-10 06:49:31.893922	2017-08-10 06:49:31.893922	11	\N	\N	\N	\N
+13	f	1	2017-08-10 06:49:44.129346	2017-08-10 06:49:44.129346	11	\N	\N	\N	\N
+14	f	1	2017-08-10 06:49:51.830465	2017-08-10 06:49:51.830465	10	\N	\N	\N	\N
+15	f	1	2017-08-10 06:49:57.2619	2017-08-10 06:49:57.2619	10	\N	\N	\N	\N
 \.
 
 
@@ -1115,7 +1208,7 @@ COPY homepage_photos (id, is_active, user_id, created_at, updated_at, photo_id, 
 -- Name: homepage_photos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
 --
 
-SELECT pg_catalog.setval('homepage_photos_id_seq', 10, true);
+SELECT pg_catalog.setval('homepage_photos_id_seq', 15, true);
 
 
 --
@@ -1138,6 +1231,25 @@ SELECT pg_catalog.setval('oauth_access_grants_id_seq', 1, false);
 --
 
 COPY oauth_access_tokens (id, resource_owner_id, application_id, token, refresh_token, expires_in, revoked_at, created_at, scopes, previous_refresh_token) FROM stdin;
+1	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMTU3MTUxMn19.krn9LOuB5P5vgt0qwEEKou2vpzAAACmkA3J_RA1OBEK-syiWvKoBI63ckryjGotgjn1Rr7hzEEtlq60XPS55VQ	\N	43200	\N	2017-08-01 07:11:52.909918		
+2	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMTU4MzE1Nn19.m0VIIRenysbXbkjmqhwBdVRyxyv9AumVwQByKzV4HQAvB_Z-fidEUcahAZmonU6YhpJKrq-lpSxoSk0LhRluKQ	\N	43200	\N	2017-08-01 10:25:56.741486		
+3	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjI3OTY1N319.qvFaofhcwlIzM5VJ9_ebgxJAwhprx7zXNMqjC7hgKIsjuTvrQxriNE6qVWTvawT4u9wkYCHgHjpysQ0DE7Gppg	\N	43200	\N	2017-08-09 11:54:17.524342		
+4	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM0NjY5Nn19.cqNNgJubFBTdorc0v7RN3B4rv2H7Oe9bbqAllrZKuBN26W8zbTRAFbtLgUAbNt6beLv4R9KWAPbDmteaBJl70Q	\N	43200	\N	2017-08-10 06:31:36.204072		
+5	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM1ODA4NX19.MlGB_n41oJhow8gJi5mF3HqnwE-gTGqY3yUiERpsJUmGHfUS-p3K6G6CIfdY2yt7gSZup9Rs9vZUMpWQ4DTTFg	\N	43200	\N	2017-08-10 09:41:25.462379		
+6	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM1OTczNX19.AX0pG9AY4zhkJCG8k-aBbYqNJ2R0-GFftFlT44y9__Uxg67Uvcg6SUR5ThrmjZkUQG-SZaToxG6_QYvo4J3DWg	\N	43200	\N	2017-08-10 10:08:55.396922		
+7	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM1OTc1MX19.bczw3y4spj3P7t68rfylcG3UbniumVRkopAVqVnBbrug0V6ca0a85QkoeVqDc86zy5Kt9dyriswc1r-IcHHlhA	\N	43200	\N	2017-08-10 10:09:11.63354		
+8	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM1OTc3OH19.O35lBkjrjL8zHeX9NwiAXuprr92J9yiwKLNZ8P-BbuYLVeDZFJ6PasRf6kuGFY2jPFL8DcqD3Z9u9yYuv2SErg	\N	43200	\N	2017-08-10 10:09:38.842469		
+9	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM1OTc5Nn19.O8rnfRbHgzR7wVWrAxPEFD_duM_lZcWO6DH-praaUdj7IGf9uOP6VFPYZ82q_aWQOmZ-DLKh-eADapeaM_cbQw	\N	43200	\N	2017-08-10 10:09:56.03276		
+10	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM1OTgxMn19.fCtkhwQdWj9e_Hb0519KV1__86eRnIaltO-p8kkXMdQZDeWQKoSUzUSXOEZYl-M5ryaVONL8suD0jAQHXg_DGA	\N	43200	\N	2017-08-10 10:10:12.603309		
+11	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM1OTgyNX19.GqjAo0spHF6Mdw8PaJkpOKUqQQRyCFoMS8smwK9VtHDDQfIAT_aXI3SUbpdJZZ3LkeEO3N_LaOy46fXqbbkmvA	\N	43200	\N	2017-08-10 10:10:25.340633		
+12	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM1OTg3MX19.FCVAdv-vCQqavnHVpzubikMP3sxzaHg6G5bDtu10tOA9h_-bXM0tN2SoW84BaMUNgFvw6mjjTZFQEn4_Vip0vA	\N	43200	\N	2017-08-10 10:11:11.192287		
+13	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM1OTg3Nn19.4N9zwT4ZgjE6rI3EafcsUtlhUjXsRDGqi5wi6IS36gwAA_wB262oxo_-AvOm_BTrFyDeckQn8fQpKF4TLFy0Ag	\N	43200	\N	2017-08-10 10:11:16.833655		
+14	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM1OTkwMn19.25nfhW2UGcSFPkUwG72g9aRmdyHMHLe_tBU9DnqlGUBRt4ncvBVqbhxqpB9Gm-QF2e2UoNYtE3VtiD9Zmcrj4A	\N	43200	\N	2017-08-10 10:11:42.891696		
+15	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM2MDE4M319.E8mhA1QLt3MsvB7FciXYTzSwgYmE27vv4LSkr4zNtGoVYb-3wn8OTl-CxkRtr4LQ2WYNxzwJ_Ps8zaQO402L1g	\N	43200	\N	2017-08-10 10:16:23.848997		
+16	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM2MDI0Mn19.EZ1Oxd3PF1b6uTinnEHh4c1Hqbvo1NsCu0tLpl3rEvtLu7QxQfcaJIamw_affU1ZIvrk60HUi8Ne3vpFVAi5aQ	\N	43200	\N	2017-08-10 10:17:22.761301		
+17	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM2MDMzNn19.4Dyrdj_pYo_kTzwQCTev4qBmZQ53sB4gtzJ48BvlFHTV5HxHaw8Nd5ys5fy8swP-Ny9YkJ6WUg21aAzJPGTluA	\N	43200	\N	2017-08-10 10:18:56.026699		
+18	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM2MTA3Nn19.HQzKCt37-BSspLC4HhtAvHnwdyYsx2VNbQGZLtaUO4qLr1C7DG0pGV8TidOPd4OazBMofUjrKiiMMoO7cekESw	\N	43200	\N	2017-08-10 10:31:16.574759		
+19	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjQyOTAxNX19._OHYkhc7Jx6IuGW-kwRFvBlBCyoLDnkxx4cm-JVSMJP9AFNOI6E91URbLS7Qe0Mh5E9v1y6jMHaVj1xrcKmmKQ	\N	43200	\N	2017-08-11 05:23:35.521246		
 \.
 
 
@@ -1168,18 +1280,21 @@ SELECT pg_catalog.setval('oauth_applications_id_seq', 1, false);
 --
 
 COPY photos (id, photo_title, status, created_at, updated_at, deleted_at, image_file_name, image_content_type, image_file_size, image_updated_at, is_cover_photo, user_id, imageable_type, imageable_id, is_selected) FROM stdin;
-3	jay11 birthday 11 photo 3	1	2017-07-25 10:06:54.523289	2017-07-25 10:06:54.523289	\N	screenshot.png	image/png	127780	2017-07-25 10:06:54.051858	f	1	Album	1	f
-4	jay11 birthday 11 photo 4	1	2017-07-25 10:06:58.058425	2017-07-25 10:06:58.058425	\N	instruct_stud_count.png	image/png	178518	2017-07-25 10:06:57.541243	f	1	Album	1	f
-5	joy birthday photo 5	1	2017-07-25 10:07:02.940946	2017-07-25 10:07:02.940946	\N	instruct_stud_count.png	image/png	178518	2017-07-25 10:07:02.447812	f	1	Album	2	f
-6	joy birthday photo 6	1	2017-07-25 10:07:05.426437	2017-07-25 10:07:05.426437	\N	instruct_stud_count.png	image/png	178518	2017-07-25 10:07:04.90375	f	1	Album	2	f
-2	jay11 birthday 11 photo 2	1	2017-07-25 10:06:47.490295	2017-07-25 11:27:03.589058	\N	screenshot.png	image/png	127780	2017-07-25 10:06:47.060223	f	1	Album	1	f
-7	\N	1	2017-07-26 06:25:20.256335	2017-07-26 06:25:20.256335	\N	download.jpg	image/jpeg	10017	2017-07-26 06:25:20.236259	f	4	About	2	f
-8	jay11 birthday 11 photo 8	1	2017-07-26 08:58:43.482582	2017-07-26 08:58:43.482582	\N	screenshot.png	image/png	127780	2017-07-26 08:58:43.023787	f	1	Album	1	f
-9	jay11 birthday 11 photo 9	1	2017-07-26 09:23:45.243859	2017-07-26 09:24:38.897859	2017-07-26 09:24:38.89784	screenshot.png	image/png	127780	2017-07-26 09:23:44.782539	f	1	Album	1	f
-10	jay11 birthday 11 photo 10	1	2017-07-26 09:23:46.521747	2017-07-26 09:24:38.921389	2017-07-26 09:24:38.92137	screenshot.png	image/png	127780	2017-07-26 09:23:46.077896	f	1	Album	1	f
-1	joy birthday photo 1	1	2017-07-25 10:06:28.726325	2017-07-26 12:23:05.965991	\N	screenshot.png	image/png	127780	2017-07-25 10:06:28.225511	f	1	Album	2	f
-11	\N	1	2017-07-28 04:48:29.25591	2017-07-28 04:48:29.346895	\N	screenshot.png	image/png	127780	2017-07-28 04:48:28.828234	f	1	Testimonial	74	f
-12	\N	1	2017-07-28 10:01:55.932803	2017-07-28 10:01:55.932803	\N	download.jpg	image/jpeg	10017	2017-07-28 10:01:55.922964	f	4	About	3	f
+1	\N	1	2017-08-01 07:12:49.764599	2017-08-01 07:12:49.798411	\N	screenshot.png	image/png	127780	2017-08-01 07:12:49.449596	f	1	Testimonial	1	f
+2	\N	1	2017-08-01 07:14:25.217027	2017-08-01 07:14:25.261621	\N	instruct_stud_count.png	image/png	178518	2017-08-01 07:14:24.919327	f	1	Testimonial	2	f
+3	\N	1	2017-08-01 08:46:14.67275	2017-08-01 08:46:14.689307	\N	download.jpg	image/jpeg	6826	2017-08-01 08:46:14.56145	f	1	Testimonial	3	f
+4	\N	1	2017-08-01 08:46:27.42654	2017-08-01 08:46:27.495752	\N	download.jpg	image/jpeg	6826	2017-08-01 08:46:27.338764	f	1	Testimonial	4	f
+5	\N	1	2017-08-01 08:46:47.428501	2017-08-01 08:46:47.483493	\N	screenshot.png	image/png	127780	2017-08-01 08:46:47.123078	f	1	Testimonial	5	f
+6	\N	1	2017-08-01 08:47:03.991124	2017-08-01 08:47:04.007476	\N	screenshot.png	image/png	127780	2017-08-01 08:47:03.685407	f	1	Testimonial	6	f
+7	\N	1	2017-08-01 10:24:03.762981	2017-08-01 10:55:38.711399	2017-08-01 10:55:38.711381	about-thumb.png	image/png	219292	2017-08-01 10:24:03.485012	f	4	About	1	f
+8	\N	1	2017-08-01 10:55:38.715225	2017-08-01 10:56:17.069282	2017-08-01 10:56:17.069263	instruct_stud_count.png	image/png	178518	2017-08-01 10:55:38.417086	f	\N	About	1	f
+9	\N	1	2017-08-01 10:56:17.072862	2017-08-01 10:57:03.570661	2017-08-01 10:57:03.570639	instruct_stud_count.png	image/png	178518	2017-08-01 10:56:16.767852	f	\N	About	1	f
+10	\N	1	2017-08-01 10:57:03.574733	2017-08-01 10:57:03.574733	\N	screenshot.png	image/png	127780	2017-08-01 10:57:03.258417	f	\N	About	1	f
+11	wedding photo 11	1	2017-08-10 06:39:33.341724	2017-08-10 06:39:33.341724	\N	instruct_stud_count.png	image/png	178518	2017-08-10 06:39:32.896872	f	1	Album	1	f
+12	wedding photo 12	1	2017-08-10 06:39:33.920136	2017-08-10 06:39:33.920136	\N	screenshot.png	image/png	127780	2017-08-10 06:39:33.466293	f	1	Album	1	f
+13	Joy birthday photo 13	1	2017-08-10 06:39:59.29508	2017-08-10 06:39:59.29508	\N	transport.png	image/png	152042	2017-08-10 06:39:58.83278	f	1	Album	2	f
+14	\N	1	2017-08-10 07:27:50.782325	2017-08-10 07:27:50.782325	\N	download.jpg	image/jpeg	6826	2017-08-10 07:27:50.639063	f	\N	Watermark	1	f
+15	arpita wed photo 15	1	2017-08-11 06:00:23.321763	2017-08-11 06:00:23.321763	\N	download.jpg	image/jpeg	6826	2017-08-11 06:00:22.627805	f	1	Album	3	f
 \.
 
 
@@ -1187,7 +1302,7 @@ COPY photos (id, photo_title, status, created_at, updated_at, deleted_at, image_
 -- Name: photos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
 --
 
-SELECT pg_catalog.setval('photos_id_seq', 12, true);
+SELECT pg_catalog.setval('photos_id_seq', 15, true);
 
 
 --
@@ -1248,10 +1363,14 @@ COPY schema_migrations (version) FROM stdin;
 20170707132105
 20170713064513
 20170703092924
+20170725100120
 20170712103042
 20170713104548
 20170707104520
 20170711102336
+20170728050055
+20170810123907
+20170810124657
 \.
 
 
@@ -1260,21 +1379,11 @@ COPY schema_migrations (version) FROM stdin;
 --
 
 COPY service_icons (id, status, created_at, updated_at, icon_image, deleted_at) FROM stdin;
-1	1	2017-07-21 04:49:12.530143	2017-07-21 04:49:12.530143	/service_icons/fashion-icon.png	\N
-2	1	2017-07-21 04:49:12.639037	2017-07-21 04:49:12.639037	/service_icons/kids-icon.png	\N
-3	1	2017-07-21 04:49:12.650986	2017-07-21 04:49:12.650986	/service_icons/poterait-icon.png	\N
-4	1	2017-07-21 04:49:12.663129	2017-07-21 04:49:12.663129	/service_icons/product-icon.png	\N
-5	1	2017-07-21 04:49:12.675074	2017-07-21 04:49:12.675074	/service_icons/wedding-icon.png	\N
-6	1	2017-07-26 06:25:20.304199	2017-07-26 06:25:20.304199	/service_icons/fashion-icon.png	\N
-7	1	2017-07-26 06:25:20.358745	2017-07-26 06:25:20.358745	/service_icons/kids-icon.png	\N
-8	1	2017-07-26 06:25:20.370674	2017-07-26 06:25:20.370674	/service_icons/poterait-icon.png	\N
-9	1	2017-07-26 06:25:20.382763	2017-07-26 06:25:20.382763	/service_icons/product-icon.png	\N
-10	1	2017-07-26 06:25:20.394754	2017-07-26 06:25:20.394754	/service_icons/wedding-icon.png	\N
-11	1	2017-07-28 10:01:55.952987	2017-07-28 10:01:55.952987	/service_icons/fashion-icon.png	\N
-12	1	2017-07-28 10:01:56.003842	2017-07-28 10:01:56.003842	/service_icons/kids-icon.png	\N
-13	1	2017-07-28 10:01:56.029135	2017-07-28 10:01:56.029135	/service_icons/poterait-icon.png	\N
-14	1	2017-07-28 10:01:56.051809	2017-07-28 10:01:56.051809	/service_icons/product-icon.png	\N
-15	1	2017-07-28 10:01:56.063781	2017-07-28 10:01:56.063781	/service_icons/wedding-icon.png	\N
+1	1	2017-08-01 10:24:03.84775	2017-08-01 10:24:03.84775	/share_photos/service_icons/fashion-icon.png	\N
+2	1	2017-08-01 10:24:03.86473	2017-08-01 10:24:03.86473	/share_photos/service_icons/kids-icon.png	\N
+3	1	2017-08-01 10:24:03.875939	2017-08-01 10:24:03.875939	/share_photos/service_icons/poterait-icon.png	\N
+4	1	2017-08-01 10:24:03.887753	2017-08-01 10:24:03.887753	/share_photos/service_icons/product-icon.png	\N
+5	1	2017-08-01 10:24:03.8998	2017-08-01 10:24:03.8998	/share_photos/service_icons/wedding-icon.png	\N
 \.
 
 
@@ -1282,14 +1391,20 @@ COPY service_icons (id, status, created_at, updated_at, icon_image, deleted_at) 
 -- Name: service_icons_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
 --
 
-SELECT pg_catalog.setval('service_icons_id_seq', 15, true);
+SELECT pg_catalog.setval('service_icons_id_seq', 5, true);
 
 
 --
 -- Data for Name: services; Type: TABLE DATA; Schema: public; Owner: parul
 --
 
-COPY services (id, service_name, description, status, service_icon_id, created_at, updated_at) FROM stdin;
+COPY services (id, service_name, description, status, service_icon_id, created_at, updated_at, deleted_at) FROM stdin;
+2	Product Photography	It was popularised in the 1960s with the release of the Letraset sheets containing	1	4	2017-08-01 10:24:03.936367	2017-08-01 10:24:03.936367	\N
+3	Portrait Photography	It was popularised in the 1960s with the release of the Letraset sheets containing	1	3	2017-08-01 10:24:03.948702	2017-08-01 10:24:03.948702	\N
+4	Fashion Photography	It was popularised in the 1960s with the release of the Letraset sheets containing	1	1	2017-08-01 10:24:03.961143	2017-08-01 10:24:03.961143	\N
+5	Kids Photography	It was popularised in the 1960s with the release of the Letraset sheets containing	1	2	2017-08-01 10:24:03.972588	2017-08-01 10:24:03.972588	\N
+6	Portfolio1	abc abc abc abc abc abc abc abc abc abcabcabcabc abc abc abc abcabc 	1	1	2017-08-10 06:41:39.859116	2017-08-10 06:41:39.859116	\N
+1	Portfolio 1	abc abc abc abc abc abc abc abc abc abcabcabcabc abc abc abc abcabc update service 	1	1	2017-08-01 10:24:03.927607	2017-08-10 06:46:51.706659	\N
 \.
 
 
@@ -1297,7 +1412,7 @@ COPY services (id, service_name, description, status, service_icon_id, created_a
 -- Name: services_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
 --
 
-SELECT pg_catalog.setval('services_id_seq', 1, false);
+SELECT pg_catalog.setval('services_id_seq', 6, true);
 
 
 --
@@ -1305,6 +1420,12 @@ SELECT pg_catalog.setval('services_id_seq', 1, false);
 --
 
 COPY testimonials (id, client_name, contact_id, message, user_id, status, created_at, updated_at, deleted_at) FROM stdin;
+1	hello 123	1	hello is working	1	active	2017-08-01 07:12:49.762118	2017-08-01 07:12:49.762118	\N
+2	hello 123	1	hello is working	1	inactive	2017-08-01 07:14:25.215734	2017-08-01 07:14:25.215734	\N
+3	hello 123	1	hello is working	1	inactive	2017-08-01 08:46:14.670755	2017-08-01 08:46:14.670755	\N
+4	hello 123	1	hello is working	1	active	2017-08-01 08:46:27.424079	2017-08-01 08:46:27.424079	\N
+5	hello 123	1	hello is working	1	active	2017-08-01 08:46:47.427246	2017-08-01 08:46:47.427246	\N
+6	hello 123	1	hello is working	1	active	2017-08-01 08:47:03.988816	2017-08-01 08:47:03.988816	\N
 \.
 
 
@@ -1312,7 +1433,7 @@ COPY testimonials (id, client_name, contact_id, message, user_id, status, create
 -- Name: testimonials_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
 --
 
-SELECT pg_catalog.setval('testimonials_id_seq', 74, true);
+SELECT pg_catalog.setval('testimonials_id_seq', 6, true);
 
 
 --
@@ -1320,9 +1441,8 @@ SELECT pg_catalog.setval('testimonials_id_seq', 74, true);
 --
 
 COPY users (id, email, encrypted_password, reset_password_token, reset_password_sent_at, remember_created_at, sign_in_count, current_sign_in_at, last_sign_in_at, current_sign_in_ip, last_sign_in_ip, confirmation_token, confirmed_at, confirmation_sent_at, unconfirmed_email, created_at, updated_at, first_name, last_name, status, deleted_at) FROM stdin;
-1	arpita1.tps@gmail.com	$2a$11$WWlePvHGdBadoZ/.eZKMMeEmH9VMJ1jwCjGfo4jGjojQN4KNVM/7q	\N	\N	\N	0	\N	\N	\N	\N	oAaTQBAkRmuhNev-vspd	\N	2017-07-20 04:27:25.485419	\N	2017-07-20 04:27:25.485245	2017-07-20 04:27:25.485245	arpita	patel	1	\N
-2	parulk1.tps@gmail.com	$2a$11$b.Ys/KI6zVTS/2G6vgu68eW/8JlLgUUWjVZ3hSqlkFVYW6XSsmyFG	\N	\N	\N	0	\N	\N	\N	\N	r7QcqrG2JcWAw6SJz45A	\N	2017-07-20 05:39:07.497876	\N	2017-07-20 05:39:07.497758	2017-07-20 05:39:07.497758	parul	patel	1	\N
-3	sagar1@gmail.com	$2a$11$UsXqbrd9Yp.uRVi0qWtQ3eqOuznUnzsla9aJjflybtDTE83QQSox.	\N	\N	\N	0	\N	\N	\N	\N	cUiwGewhpRcKPSA_eBwJ	\N	2017-07-21 04:49:11.733478	\N	2017-07-21 04:49:11.733352	2017-07-21 04:49:11.733352	sagar	gadani	1	\N
+1	parulk.tps@gmail.com	$2a$11$/qoArFnshLmgQmSJdX7p9OMUHgljkbgpjK6nk5Ke2/0GzdmmZFM2K	\N	\N	\N	0	\N	\N	\N	\N	gVCF12xzMG-D7XZfZpNU	\N	2017-08-01 07:11:39.547426	\N	2017-08-01 07:11:39.54728	2017-08-10 07:30:23.298622	parul v	k	1	\N
+2	sagar1@gmail.com	$2a$11$wh2NI/U9r3ynZUsUWVoag.BDMO9WHJYnTPZl4bxKbGV4n8gDX66DK	\N	\N	\N	0	\N	\N	\N	\N	dkqsgASDiVTxsAN4BKix	\N	2017-08-01 10:24:03.191256	\N	2017-08-01 10:24:03.191089	2017-08-10 07:30:39.605173	parul	patel	1	\N
 \.
 
 
@@ -1330,7 +1450,7 @@ COPY users (id, email, encrypted_password, reset_password_token, reset_password_
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
 --
 
-SELECT pg_catalog.setval('users_id_seq', 3, true);
+SELECT pg_catalog.setval('users_id_seq', 2, true);
 
 
 --
@@ -1338,9 +1458,7 @@ SELECT pg_catalog.setval('users_id_seq', 3, true);
 --
 
 COPY videos (id, user_id, is_youtube_url, is_vimeo_url, created_at, updated_at, video_file_name, video_content_type, video_file_size, video_updated_at, video_thumb) FROM stdin;
-1	1	f	f	2017-07-28 06:45:18.086596	2017-07-28 06:45:18.115711	\N	\N	\N	\N	/videos/thumb/missing.png
-2	1	f	f	2017-07-28 06:46:08.325232	2017-07-28 06:46:08.383542	\N	\N	\N	\N	/videos/thumb/missing.png
-3	1	f	f	2017-07-28 06:53:22.420678	2017-07-28 06:53:22.448114	samplevideo.mp4	video/mp4	1055736	2017-07-28 06:53:19.744086	/system/videos/videos/000/000/003/thumb/samplevideo.jpg?1501224799
+1	1	f	f	2017-08-10 07:23:26.011495	2017-08-10 07:23:26.182961	samplevideo.mp4	video/mp4	1055736	2017-08-10 07:23:24.231433	/system/videos/videos/000/000/001/thumb/samplevideo.jpg?1502349804
 \.
 
 
@@ -1348,7 +1466,7 @@ COPY videos (id, user_id, is_youtube_url, is_vimeo_url, created_at, updated_at, 
 -- Name: videos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
 --
 
-SELECT pg_catalog.setval('videos_id_seq', 3, true);
+SELECT pg_catalog.setval('videos_id_seq', 1, true);
 
 
 --
@@ -1356,8 +1474,7 @@ SELECT pg_catalog.setval('videos_id_seq', 3, true);
 --
 
 COPY watermarks (id, user_id, status, created_at, updated_at, deleted_at) FROM stdin;
-2	2	1	2017-07-20 07:27:04.324753	2017-07-20 07:27:04.324753	\N
-1	2	0	2017-07-20 07:14:12.584454	2017-07-20 07:14:12.584454	\N
+1	1	1	2017-08-10 07:27:50.726907	2017-08-10 07:27:50.726907	\N
 \.
 
 
@@ -1365,7 +1482,7 @@ COPY watermarks (id, user_id, status, created_at, updated_at, deleted_at) FROM s
 -- Name: watermarks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
 --
 
-SELECT pg_catalog.setval('watermarks_id_seq', 2, true);
+SELECT pg_catalog.setval('watermarks_id_seq', 1, true);
 
 
 --
@@ -1438,6 +1555,14 @@ ALTER TABLE ONLY contact_messages
 
 ALTER TABLE ONLY contacts
     ADD CONSTRAINT contacts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: friendly_id_slugs_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY friendly_id_slugs
+    ADD CONSTRAINT friendly_id_slugs_pkey PRIMARY KEY (id);
 
 
 --
@@ -1579,6 +1704,13 @@ CREATE INDEX index_albums_on_deleted_at ON albums USING btree (deleted_at);
 
 
 --
+-- Name: index_albums_on_slug; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE UNIQUE INDEX index_albums_on_slug ON albums USING btree (slug);
+
+
+--
 -- Name: index_albums_on_user_id; Type: INDEX; Schema: public; Owner: parul
 --
 
@@ -1618,6 +1750,34 @@ CREATE INDEX index_contacts_on_deleted_at ON contacts USING btree (deleted_at);
 --
 
 CREATE INDEX index_contacts_on_user_id ON contacts USING btree (user_id);
+
+
+--
+-- Name: index_friendly_id_slugs_on_slug_and_sluggable_type; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type ON friendly_id_slugs USING btree (slug, sluggable_type);
+
+
+--
+-- Name: index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE UNIQUE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope ON friendly_id_slugs USING btree (slug, sluggable_type, scope);
+
+
+--
+-- Name: index_friendly_id_slugs_on_sluggable_id; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_friendly_id_slugs_on_sluggable_id ON friendly_id_slugs USING btree (sluggable_id);
+
+
+--
+-- Name: index_friendly_id_slugs_on_sluggable_type; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_friendly_id_slugs_on_sluggable_type ON friendly_id_slugs USING btree (sluggable_type);
 
 
 --
@@ -1695,6 +1855,13 @@ CREATE INDEX index_photos_on_user_id ON photos USING btree (user_id);
 --
 
 CREATE INDEX index_service_icons_on_deleted_at ON service_icons USING btree (deleted_at);
+
+
+--
+-- Name: index_services_on_deleted_at; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_services_on_deleted_at ON services USING btree (deleted_at);
 
 
 --

@@ -24,7 +24,7 @@ class ContactsController < ApplicationController
       data: {
         contact: single_record_serializer.new(@contact, serializer: Contacts::ContactAttributesSerializer),
       }
-    }, 200)
+    }, 201)
   end
 
   # DELETE /contacts/:id
@@ -42,7 +42,7 @@ class ContactsController < ApplicationController
       data: {
         contact: single_record_serializer.new(@contact, serializer: Contacts::ContactAttributesSerializer),
       }
-    }, 200)
+    }, 201)
   end
 
   private

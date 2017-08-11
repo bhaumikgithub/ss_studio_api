@@ -6,7 +6,8 @@ RSpec.describe ContactsController, type: :request do
 
   before do
     @user = FactoryGirl.create(:user)
-    @contact = FactoryGirl.create(:contact, user: @user)
+    @photo = FactoryGirl.create(:photo, image: File.new(Rails.root + 'public/watermark.png'), user: @user)
+    @contact = FactoryGirl.create(:contact, user: @user, photo: @photo)
     @header = { Authorization: "bearer " + token_generator(@user) }
   end 
 
@@ -51,7 +52,7 @@ RSpec.describe ContactsController, type: :request do
     describe 'authorized' do
       context 'Successful' do
         it 'create contacts' do
-          post '/contacts', params: { contact: { first_name: 'Test', email: 'test1@gmail.com', phone: '9696969697' } }, headers: @header
+          post '/contacts', params: { contact: { first_name: 'Test', email: 'test1@gmail.com', phone: '9696969697', photo_attributes: { image: Rack::Test::UploadedFile.new('public/watermark.png') } } }, headers: @header
           expect(response.status).to eq 201
         end
       end
@@ -72,7 +73,7 @@ RSpec.describe ContactsController, type: :request do
         it 'responds to PUT' do
           put "/contacts/#{@contact.id}", params: { contact: { first_name: 'test test' } }, headers: @header
           parsed_body = JSON.parse(response.body)
-          expect(parsed_body['data']['contacts']['first_name']).to eq 'test test'
+          expect(parsed_body['data']['contact']['first_name']).to eq 'test test'
           expect(response.status).to eq 201
         end
       end

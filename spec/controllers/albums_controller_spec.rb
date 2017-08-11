@@ -84,7 +84,7 @@ RSpec.describe AlbumsController, type: :request do
           put "/albums/#{@album.id}", params: { album: { album_name: 'engagement' } }, headers: @header
           parsed_body = JSON.parse(response.body)
           # puts "==========#{parsed_body['data']['albums']['album_name'].inspect}==============="
-          expect(parsed_body['data']['albums']['album_name']).to eq 'engagement'
+          expect(parsed_body['data']['album']['album_name']).to eq 'engagement'
           expect(response.status).to eq 201
         end
       end
@@ -103,7 +103,7 @@ RSpec.describe AlbumsController, type: :request do
     describe 'authorized' do
       context 'Successful' do
         it 'delete the album' do
-          delete "/albums/#{@album.id}'", params: { album: { album_id: @album.id } }, headers: @header
+          delete "/albums/#{@album.id}", params: { album: { album_id: @album.id } }, headers: @header
           expect(response.status).to eq 200
         end
       end

@@ -73,6 +73,11 @@ RSpec.describe Contact, type: :model do
       assc = described_class.reflect_on_association(:testimonials)
       expect(assc.macro).to eq :has_many
     end
+
+    it "has one photo" do
+      assc = described_class.reflect_on_association(:photo)
+      expect(assc.macro).to eq :has_one
+    end
   end
 
   context "when created" do

@@ -88,7 +88,7 @@ RSpec.describe CategoriesController, type: :request do
         it 'responds to PUT' do
           put "/categories/#{category.id}", params: { category: { category_name: 'marriage' } }, headers: @header
           parsed_body = JSON.parse(response.body)
-          expect(parsed_body['data']['categories']['category_name']).to eq 'marriage'
+          expect(parsed_body['data']['category']['category_name']).to eq 'marriage'
           expect(response.status).to eq 201
         end
       end
