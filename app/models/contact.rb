@@ -8,7 +8,9 @@ class Contact < ApplicationRecord
   belongs_to :user
   has_many :album_recipients, dependent: :destroy
   has_many :testimonials, dependent: :destroy
+  has_one :photo, as: :imageable, dependent: :destroy
 
+  accepts_nested_attributes_for :photo
   # Validations
   validates :email, presence: true, :uniqueness => true
   validates_length_of :phone, :minimum => 10, :maximum => 13, :allow_nil => true
