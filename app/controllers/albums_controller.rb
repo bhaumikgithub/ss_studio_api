@@ -1,5 +1,5 @@
 class AlbumsController < ApplicationController
-  include InheritAction
+  # include InheritAction
 
   before_action :fetch_album, only: [ :update, :destroy, :show ]
 
@@ -34,9 +34,18 @@ class AlbumsController < ApplicationController
     }, 201)
   end
 
+  # GET /albums/:id
+  def show
+    json_response({
+      success: true,
+      data: {
+        album: single_record_serializer.new(@album, serializer: Albums::SingleAlbumAttributesSerializer),
+      }
+    }, 200)
+  end
+  
   # PATCH/PUT /albums/:id
   def update
-    binding.pry
     @album.update_attributes(album_params)
     # json_response({success: true, message: "Album update successfully.", data: {album: @album}}, 201)
     json_response({
@@ -48,31 +57,12 @@ class AlbumsController < ApplicationController
     }, 201)
   end
 
-  def show
-    json_response({success: true, data: {album: @album}}, 201)
-    # json_response({
-    #   success: true,
-     
-    #   data: {
-    #     album: single_record_serializer.new(@album, serializer: Albums::AlbumAttributesSerializer),
-    #   }
-    # }, 201)
-  end
-
   # DELETE /albums/:id
   def destroy
     @album.destroy!
     json_response({success: true, message: "Album destroy successfully.", data: {albums: @album}}, 200)
   end
 
-  def show
-    json_response({
-      success: true,
-      data: {
-        album: single_record_serializer.new(@album, serializer: Albums::SingleAlbumAttributesSerializer),
-      }
-    }, 200)
-  end
 
   private
 
@@ -81,7 +71,6 @@ class AlbumsController < ApplicationController
   end
 
   def fetch_album
-    binding.pry
     @album = current_resource_owner.albums.friendly.find(params[:id])
   end
 end
