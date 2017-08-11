@@ -1,5 +1,8 @@
 class Album < ApplicationRecord
   acts_as_paranoid
+
+  extend FriendlyId
+  friendly_id :album_name, use: :slugged
   # Callabcks
   after_create :generate_passcode
   # Associations

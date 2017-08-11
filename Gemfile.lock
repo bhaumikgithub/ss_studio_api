@@ -93,6 +93,8 @@ GEM
       railties (>= 3.0.0)
     ffi (1.9.18)
     formatador (0.2.5)
+    friendly_id (5.1.0)
+      activerecord (>= 4.0.0)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     guard (2.14.1)
@@ -274,6 +276,7 @@ DEPENDENCIES
   doorkeeper-jwt
   dotenv-rails
   factory_girl_rails
+  friendly_id (~> 5.1.0)
   guard-rspec
   kaminari
   letter_opener
