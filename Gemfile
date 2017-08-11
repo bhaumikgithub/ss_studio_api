@@ -74,4 +74,4 @@ gem 'kaminari'
 gem 'dotenv-rails'
 
 # For friendly slug
-gem 'friendly_id'
+gem 'friendly_id', '~> 5.1.0'

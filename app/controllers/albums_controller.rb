@@ -1,7 +1,7 @@
 class AlbumsController < ApplicationController
   include InheritAction
 
-  before_action :fetch_album, only: [ :update, :destroy ]
+  before_action :fetch_album, only: [ :update, :destroy, :show ]
 
   # GET /albums
   def index
@@ -49,6 +49,14 @@ class AlbumsController < ApplicationController
   end
 
   def show
+    json_response({success: true, data: {album: @album}}, 201)
+    # json_response({
+    #   success: true,
+     
+    #   data: {
+    #     album: single_record_serializer.new(@album, serializer: Albums::AlbumAttributesSerializer),
+    #   }
+    # }, 201)
   end
 
   # DELETE /albums/:id
@@ -65,6 +73,6 @@ class AlbumsController < ApplicationController
 
   def fetch_album
     binding.pry
-    @album = current_resource_owner.albums.friendly.find(params[:album_id])
+    @album = current_resource_owner.albums.friendly.find(params[:id])
   end
 end
