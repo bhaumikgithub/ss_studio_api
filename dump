@@ -1,0 +1,2061 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.7
+-- Dumped by pg_dump version 9.5.7
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: abouts; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE abouts (
+    id integer NOT NULL,
+    title_text character varying,
+    description character varying,
+    social_links jsonb DEFAULT '"{}"'::jsonb,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE abouts OWNER TO parul;
+
+--
+-- Name: abouts_id_seq; Type: SEQUENCE; Schema: public; Owner: parul
+--
+
+CREATE SEQUENCE abouts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE abouts_id_seq OWNER TO parul;
+
+--
+-- Name: abouts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: parul
+--
+
+ALTER SEQUENCE abouts_id_seq OWNED BY abouts.id;
+
+
+--
+-- Name: album_categories; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE album_categories (
+    id integer NOT NULL,
+    album_id integer,
+    category_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE album_categories OWNER TO parul;
+
+--
+-- Name: album_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: parul
+--
+
+CREATE SEQUENCE album_categories_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE album_categories_id_seq OWNER TO parul;
+
+--
+-- Name: album_categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: parul
+--
+
+ALTER SEQUENCE album_categories_id_seq OWNED BY album_categories.id;
+
+
+--
+-- Name: album_recipients; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE album_recipients (
+    id integer NOT NULL,
+    is_email_sent boolean,
+    custom_message character varying,
+    album_id integer,
+    contact_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE album_recipients OWNER TO parul;
+
+--
+-- Name: album_recipients_id_seq; Type: SEQUENCE; Schema: public; Owner: parul
+--
+
+CREATE SEQUENCE album_recipients_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE album_recipients_id_seq OWNER TO parul;
+
+--
+-- Name: album_recipients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: parul
+--
+
+ALTER SEQUENCE album_recipients_id_seq OWNED BY album_recipients.id;
+
+
+--
+-- Name: albums; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE albums (
+    id integer NOT NULL,
+    album_name character varying,
+    is_private boolean DEFAULT true,
+    status integer DEFAULT 1,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    deleted_at timestamp without time zone,
+    user_id integer,
+    delivery_status integer DEFAULT 0,
+    portfolio_visibility boolean DEFAULT false,
+    passcode character varying,
+    slug character varying
+);
+
+
+ALTER TABLE albums OWNER TO parul;
+
+--
+-- Name: albums_id_seq; Type: SEQUENCE; Schema: public; Owner: parul
+--
+
+CREATE SEQUENCE albums_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE albums_id_seq OWNER TO parul;
+
+--
+-- Name: albums_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: parul
+--
+
+ALTER SEQUENCE albums_id_seq OWNED BY albums.id;
+
+
+--
+-- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE ar_internal_metadata (
+    key character varying NOT NULL,
+    value character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE ar_internal_metadata OWNER TO parul;
+
+--
+-- Name: categories; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE categories (
+    id integer NOT NULL,
+    category_name character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    deleted_at timestamp without time zone,
+    status integer DEFAULT 1,
+    user_id integer
+);
+
+
+ALTER TABLE categories OWNER TO parul;
+
+--
+-- Name: categories_id_seq; Type: SEQUENCE; Schema: public; Owner: parul
+--
+
+CREATE SEQUENCE categories_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE categories_id_seq OWNER TO parul;
+
+--
+-- Name: categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: parul
+--
+
+ALTER SEQUENCE categories_id_seq OWNED BY categories.id;
+
+
+--
+-- Name: contact_details; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE contact_details (
+    id integer NOT NULL,
+    address text,
+    email character varying,
+    phone character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE contact_details OWNER TO parul;
+
+--
+-- Name: contact_details_id_seq; Type: SEQUENCE; Schema: public; Owner: parul
+--
+
+CREATE SEQUENCE contact_details_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE contact_details_id_seq OWNER TO parul;
+
+--
+-- Name: contact_details_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: parul
+--
+
+ALTER SEQUENCE contact_details_id_seq OWNED BY contact_details.id;
+
+
+--
+-- Name: contact_messages; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE contact_messages (
+    id integer NOT NULL,
+    name character varying,
+    email character varying,
+    phone character varying,
+    message text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE contact_messages OWNER TO parul;
+
+--
+-- Name: contact_messages_id_seq; Type: SEQUENCE; Schema: public; Owner: parul
+--
+
+CREATE SEQUENCE contact_messages_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE contact_messages_id_seq OWNER TO parul;
+
+--
+-- Name: contact_messages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: parul
+--
+
+ALTER SEQUENCE contact_messages_id_seq OWNED BY contact_messages.id;
+
+
+--
+-- Name: contacts; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE contacts (
+    id integer NOT NULL,
+    first_name character varying,
+    last_name character varying,
+    email character varying,
+    phone character varying,
+    status boolean DEFAULT true,
+    user_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    deleted_at timestamp without time zone,
+    token character varying
+);
+
+
+ALTER TABLE contacts OWNER TO parul;
+
+--
+-- Name: contacts_id_seq; Type: SEQUENCE; Schema: public; Owner: parul
+--
+
+CREATE SEQUENCE contacts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE contacts_id_seq OWNER TO parul;
+
+--
+-- Name: contacts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: parul
+--
+
+ALTER SEQUENCE contacts_id_seq OWNED BY contacts.id;
+
+
+--
+-- Name: friendly_id_slugs; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE friendly_id_slugs (
+    id integer NOT NULL,
+    slug character varying NOT NULL,
+    sluggable_id integer NOT NULL,
+    sluggable_type character varying(50),
+    scope character varying,
+    created_at timestamp without time zone
+);
+
+
+ALTER TABLE friendly_id_slugs OWNER TO parul;
+
+--
+-- Name: friendly_id_slugs_id_seq; Type: SEQUENCE; Schema: public; Owner: parul
+--
+
+CREATE SEQUENCE friendly_id_slugs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE friendly_id_slugs_id_seq OWNER TO parul;
+
+--
+-- Name: friendly_id_slugs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: parul
+--
+
+ALTER SEQUENCE friendly_id_slugs_id_seq OWNED BY friendly_id_slugs.id;
+
+
+--
+-- Name: homepage_photos; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE homepage_photos (
+    id integer NOT NULL,
+    is_active boolean DEFAULT false,
+    user_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    photo_id integer,
+    homepage_image_file_name character varying,
+    homepage_image_content_type character varying,
+    homepage_image_file_size integer,
+    homepage_image_updated_at timestamp without time zone
+);
+
+
+ALTER TABLE homepage_photos OWNER TO parul;
+
+--
+-- Name: homepage_photos_id_seq; Type: SEQUENCE; Schema: public; Owner: parul
+--
+
+CREATE SEQUENCE homepage_photos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE homepage_photos_id_seq OWNER TO parul;
+
+--
+-- Name: homepage_photos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: parul
+--
+
+ALTER SEQUENCE homepage_photos_id_seq OWNED BY homepage_photos.id;
+
+
+--
+-- Name: oauth_access_grants; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE oauth_access_grants (
+    id integer NOT NULL,
+    resource_owner_id integer NOT NULL,
+    application_id integer NOT NULL,
+    token character varying NOT NULL,
+    expires_in integer NOT NULL,
+    redirect_uri text NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    revoked_at timestamp without time zone,
+    scopes character varying
+);
+
+
+ALTER TABLE oauth_access_grants OWNER TO parul;
+
+--
+-- Name: oauth_access_grants_id_seq; Type: SEQUENCE; Schema: public; Owner: parul
+--
+
+CREATE SEQUENCE oauth_access_grants_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE oauth_access_grants_id_seq OWNER TO parul;
+
+--
+-- Name: oauth_access_grants_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: parul
+--
+
+ALTER SEQUENCE oauth_access_grants_id_seq OWNED BY oauth_access_grants.id;
+
+
+--
+-- Name: oauth_access_tokens; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE oauth_access_tokens (
+    id integer NOT NULL,
+    resource_owner_id integer,
+    application_id integer,
+    token character varying NOT NULL,
+    refresh_token character varying,
+    expires_in integer,
+    revoked_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    scopes character varying,
+    previous_refresh_token character varying DEFAULT ''::character varying NOT NULL
+);
+
+
+ALTER TABLE oauth_access_tokens OWNER TO parul;
+
+--
+-- Name: oauth_access_tokens_id_seq; Type: SEQUENCE; Schema: public; Owner: parul
+--
+
+CREATE SEQUENCE oauth_access_tokens_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE oauth_access_tokens_id_seq OWNER TO parul;
+
+--
+-- Name: oauth_access_tokens_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: parul
+--
+
+ALTER SEQUENCE oauth_access_tokens_id_seq OWNED BY oauth_access_tokens.id;
+
+
+--
+-- Name: oauth_applications; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE oauth_applications (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    uid character varying NOT NULL,
+    secret character varying NOT NULL,
+    redirect_uri text NOT NULL,
+    scopes character varying DEFAULT ''::character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE oauth_applications OWNER TO parul;
+
+--
+-- Name: oauth_applications_id_seq; Type: SEQUENCE; Schema: public; Owner: parul
+--
+
+CREATE SEQUENCE oauth_applications_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE oauth_applications_id_seq OWNER TO parul;
+
+--
+-- Name: oauth_applications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: parul
+--
+
+ALTER SEQUENCE oauth_applications_id_seq OWNED BY oauth_applications.id;
+
+
+--
+-- Name: photos; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE photos (
+    id integer NOT NULL,
+    photo_title character varying,
+    status integer DEFAULT 1,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    deleted_at timestamp without time zone,
+    image_file_name character varying,
+    image_content_type character varying,
+    image_file_size integer,
+    image_updated_at timestamp without time zone,
+    is_cover_photo boolean DEFAULT false,
+    user_id integer,
+    imageable_type character varying,
+    imageable_id integer,
+    is_selected boolean DEFAULT false
+);
+
+
+ALTER TABLE photos OWNER TO parul;
+
+--
+-- Name: photos_id_seq; Type: SEQUENCE; Schema: public; Owner: parul
+--
+
+CREATE SEQUENCE photos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE photos_id_seq OWNER TO parul;
+
+--
+-- Name: photos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: parul
+--
+
+ALTER SEQUENCE photos_id_seq OWNED BY photos.id;
+
+
+--
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE schema_migrations (
+    version character varying NOT NULL
+);
+
+
+ALTER TABLE schema_migrations OWNER TO parul;
+
+--
+-- Name: service_icons; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE service_icons (
+    id integer NOT NULL,
+    status integer DEFAULT 1,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    icon_image character varying,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE service_icons OWNER TO parul;
+
+--
+-- Name: service_icons_id_seq; Type: SEQUENCE; Schema: public; Owner: parul
+--
+
+CREATE SEQUENCE service_icons_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE service_icons_id_seq OWNER TO parul;
+
+--
+-- Name: service_icons_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: parul
+--
+
+ALTER SEQUENCE service_icons_id_seq OWNED BY service_icons.id;
+
+
+--
+-- Name: services; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE services (
+    id integer NOT NULL,
+    service_name character varying,
+    description character varying,
+    status integer DEFAULT 1,
+    service_icon_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE services OWNER TO parul;
+
+--
+-- Name: services_id_seq; Type: SEQUENCE; Schema: public; Owner: parul
+--
+
+CREATE SEQUENCE services_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE services_id_seq OWNER TO parul;
+
+--
+-- Name: services_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: parul
+--
+
+ALTER SEQUENCE services_id_seq OWNED BY services.id;
+
+
+--
+-- Name: testimonials; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE testimonials (
+    id integer NOT NULL,
+    client_name character varying,
+    contact_id integer,
+    message text,
+    user_id integer,
+    status character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE testimonials OWNER TO parul;
+
+--
+-- Name: testimonials_id_seq; Type: SEQUENCE; Schema: public; Owner: parul
+--
+
+CREATE SEQUENCE testimonials_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE testimonials_id_seq OWNER TO parul;
+
+--
+-- Name: testimonials_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: parul
+--
+
+ALTER SEQUENCE testimonials_id_seq OWNED BY testimonials.id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    email character varying DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying,
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0 NOT NULL,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip inet,
+    last_sign_in_ip inet,
+    confirmation_token character varying,
+    confirmed_at timestamp without time zone,
+    confirmation_sent_at timestamp without time zone,
+    unconfirmed_email character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    first_name character varying,
+    last_name character varying,
+    status integer DEFAULT 1,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE users OWNER TO parul;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: parul
+--
+
+CREATE SEQUENCE users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE users_id_seq OWNER TO parul;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: parul
+--
+
+ALTER SEQUENCE users_id_seq OWNED BY users.id;
+
+
+--
+-- Name: videos; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE videos (
+    id integer NOT NULL,
+    user_id integer,
+    is_youtube_url boolean DEFAULT false,
+    is_vimeo_url boolean DEFAULT false,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    video_file_name character varying,
+    video_content_type character varying,
+    video_file_size integer,
+    video_updated_at timestamp without time zone,
+    video_thumb character varying
+);
+
+
+ALTER TABLE videos OWNER TO parul;
+
+--
+-- Name: videos_id_seq; Type: SEQUENCE; Schema: public; Owner: parul
+--
+
+CREATE SEQUENCE videos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE videos_id_seq OWNER TO parul;
+
+--
+-- Name: videos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: parul
+--
+
+ALTER SEQUENCE videos_id_seq OWNED BY videos.id;
+
+
+--
+-- Name: watermarks; Type: TABLE; Schema: public; Owner: parul
+--
+
+CREATE TABLE watermarks (
+    id integer NOT NULL,
+    user_id integer,
+    status integer DEFAULT 1,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE watermarks OWNER TO parul;
+
+--
+-- Name: watermarks_id_seq; Type: SEQUENCE; Schema: public; Owner: parul
+--
+
+CREATE SEQUENCE watermarks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE watermarks_id_seq OWNER TO parul;
+
+--
+-- Name: watermarks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: parul
+--
+
+ALTER SEQUENCE watermarks_id_seq OWNED BY watermarks.id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY abouts ALTER COLUMN id SET DEFAULT nextval('abouts_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY album_categories ALTER COLUMN id SET DEFAULT nextval('album_categories_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY album_recipients ALTER COLUMN id SET DEFAULT nextval('album_recipients_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY albums ALTER COLUMN id SET DEFAULT nextval('albums_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY categories ALTER COLUMN id SET DEFAULT nextval('categories_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY contact_details ALTER COLUMN id SET DEFAULT nextval('contact_details_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY contact_messages ALTER COLUMN id SET DEFAULT nextval('contact_messages_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY contacts ALTER COLUMN id SET DEFAULT nextval('contacts_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY friendly_id_slugs ALTER COLUMN id SET DEFAULT nextval('friendly_id_slugs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY homepage_photos ALTER COLUMN id SET DEFAULT nextval('homepage_photos_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY oauth_access_grants ALTER COLUMN id SET DEFAULT nextval('oauth_access_grants_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY oauth_access_tokens ALTER COLUMN id SET DEFAULT nextval('oauth_access_tokens_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY oauth_applications ALTER COLUMN id SET DEFAULT nextval('oauth_applications_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY photos ALTER COLUMN id SET DEFAULT nextval('photos_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY service_icons ALTER COLUMN id SET DEFAULT nextval('service_icons_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY services ALTER COLUMN id SET DEFAULT nextval('services_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY testimonials ALTER COLUMN id SET DEFAULT nextval('testimonials_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY videos ALTER COLUMN id SET DEFAULT nextval('videos_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY watermarks ALTER COLUMN id SET DEFAULT nextval('watermarks_id_seq'::regclass);
+
+
+--
+-- Data for Name: abouts; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY abouts (id, title_text, description, social_links, created_at, updated_at) FROM stdin;
+1	title2	description	"--- !ruby/hash:ActiveSupport::HashWithIndifferentAccess\\nfacebook_link: www.facebook.com\\ntwitter_link: www.twitter.com\\ninstagram_link: www.instagram.com\\n"	2017-08-01 10:24:03.455274	2017-08-01 10:26:32.295316
+\.
+
+
+--
+-- Name: abouts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
+--
+
+SELECT pg_catalog.setval('abouts_id_seq', 1, true);
+
+
+--
+-- Data for Name: album_categories; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY album_categories (id, album_id, category_id, created_at, updated_at) FROM stdin;
+1	1	2	2017-08-10 06:35:30.924263	2017-08-10 06:35:30.924263
+2	1	3	2017-08-10 06:35:30.952755	2017-08-10 06:35:30.952755
+3	2	1	2017-08-10 06:37:03.156811	2017-08-10 06:37:03.156811
+4	3	1	2017-08-11 05:56:55.027696	2017-08-11 05:56:55.027696
+\.
+
+
+--
+-- Name: album_categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
+--
+
+SELECT pg_catalog.setval('album_categories_id_seq', 4, true);
+
+
+--
+-- Data for Name: album_recipients; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY album_recipients (id, is_email_sent, custom_message, album_id, contact_id, created_at, updated_at) FROM stdin;
+1	t	testing data	2	3	2017-08-10 08:43:16.981993	2017-08-10 08:43:17.164953
+2	t	testing data	2	4	2017-08-10 08:43:17.095332	2017-08-10 08:43:17.178617
+3	t	testing data	2	5	2017-08-10 08:43:17.118911	2017-08-10 08:43:17.190583
+4	t	testing data	2	6	2017-08-11 05:48:29.636286	2017-08-11 05:48:30.36794
+5	t	testing data	2	7	2017-08-11 05:48:29.77602	2017-08-11 05:48:30.387138
+6	t	testing data	2	8	2017-08-11 05:48:29.848709	2017-08-11 05:48:30.398967
+8	t	testing data	3	10	2017-08-11 06:07:10.010381	2017-08-11 06:07:10.311262
+9	t	testing data	3	11	2017-08-11 06:07:10.033813	2017-08-11 06:07:10.321488
+10	t	testing data	3	12	2017-08-11 06:37:28.621725	2017-08-11 06:39:13.885529
+11	t	testing data	3	12	2017-08-11 06:39:26.189008	2017-08-11 06:41:17.931072
+12	t	testing data	3	12	2017-08-11 06:58:54.90888	2017-08-11 07:01:22.124172
+13	\N	testing data	3	12	2017-08-11 07:01:30.696482	2017-08-11 07:01:30.696482
+14	t	testing data	3	12	2017-08-11 07:02:19.701574	2017-08-11 07:02:35.437893
+\.
+
+
+--
+-- Name: album_recipients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
+--
+
+SELECT pg_catalog.setval('album_recipients_id_seq', 14, true);
+
+
+--
+-- Data for Name: albums; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY albums (id, album_name, is_private, status, created_at, updated_at, deleted_at, user_id, delivery_status, portfolio_visibility, passcode, slug) FROM stdin;
+1	wedding	f	1	2017-08-10 06:35:30.898586	2017-08-10 06:35:30.898586	\N	1	0	f	Mv28B8nq	\N
+2	Joy birthday	t	1	2017-08-10 06:37:03.148122	2017-08-10 08:42:50.707382	\N	1	0	f	zLFJji3n	\N
+3	arpita wed	f	1	2017-08-11 05:56:55.013521	2017-08-11 05:56:55.013521	\N	1	0	f	sYuLtD2B	\N
+\.
+
+
+--
+-- Name: albums_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
+--
+
+SELECT pg_catalog.setval('albums_id_seq', 3, true);
+
+
+--
+-- Data for Name: ar_internal_metadata; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY ar_internal_metadata (key, value, created_at, updated_at) FROM stdin;
+environment	development	2017-07-28 10:18:53.540164	2017-07-28 10:18:53.540164
+\.
+
+
+--
+-- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY categories (id, category_name, created_at, updated_at, deleted_at, status, user_id) FROM stdin;
+1	Birthday	2017-08-10 06:33:33.947913	2017-08-10 06:33:33.947913	\N	1	1
+2	Marriage	2017-08-10 06:33:43.333006	2017-08-10 06:33:43.333006	\N	1	1
+3	Engagement	2017-08-10 06:33:55.911244	2017-08-10 06:33:55.911244	\N	1	1
+\.
+
+
+--
+-- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
+--
+
+SELECT pg_catalog.setval('categories_id_seq', 3, true);
+
+
+--
+-- Data for Name: contact_details; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY contact_details (id, address, email, phone, created_at, updated_at, deleted_at) FROM stdin;
+1	2nd floor, Tulsi complex, Nr Azad Society,\nBehind Sahjanand Collage, Ambavadi,\nAhemedabad-380 015, Gujarat, India.	johndoe@gmail.com	+910123456789	2017-08-01 10:24:03.433627	2017-08-01 10:24:03.433627	\N
+\.
+
+
+--
+-- Name: contact_details_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
+--
+
+SELECT pg_catalog.setval('contact_details_id_seq', 1, true);
+
+
+--
+-- Data for Name: contact_messages; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY contact_messages (id, name, email, phone, message, created_at, updated_at) FROM stdin;
+1	arpita	paresh01.tps@gmail.com	7894562231	hello testing	2017-08-10 06:55:04.627011	2017-08-10 06:55:04.627011
+\.
+
+
+--
+-- Name: contact_messages_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
+--
+
+SELECT pg_catalog.setval('contact_messages_id_seq', 1, true);
+
+
+--
+-- Data for Name: contacts; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY contacts (id, first_name, last_name, email, phone, status, user_id, created_at, updated_at, deleted_at, token) FROM stdin;
+1	parul	kanani	parul@gmail.com	9638527410	t	1	2017-08-01 07:12:35.957102	2017-08-01 07:12:35.957102	\N	sVVAoWfcAi
+2	parul	patel	parulv@gmail.com	9856327410	t	1	2017-08-10 07:00:14.978481	2017-08-10 07:00:14.978481	\N	9Qq2iR6wBw
+4	\N	\N	arpita11.sojitra@gmail.com	\N	t	\N	2017-08-10 08:43:17.084468	2017-08-10 08:43:17.084468	\N	9yX85qDgG4
+5	\N	\N	ashvin1@gmail.com	\N	t	\N	2017-08-10 08:43:17.108001	2017-08-10 08:43:17.108001	\N	i86fHWMstS
+6	parul	patel	parulvk@gmail.com	\N	t	1	2017-08-10 11:26:21.769804	2017-08-10 11:26:21.769804	\N	46CNV6T5HQ
+3	arpita	patel	arpita1.tps@gmail.com	\N	t	\N	2017-08-10 08:43:16.904372	2017-08-11 05:44:02.666563	\N	F9bzmMCVMK
+7	\N	\N	parulk@gmail.com	\N	t	\N	2017-08-11 05:48:29.707197	2017-08-11 05:48:29.707197	\N	5x6PhoF6uV
+8	\N	\N	pvk@gmail.com	\N	t	\N	2017-08-11 05:48:29.837261	2017-08-11 05:48:29.837261	\N	cJZUnsPfhT
+9	\N	\N	moni@gmail.com	\N	t	\N	2017-08-11 06:07:09.845487	2017-08-11 06:07:09.845487	\N	agsZA3kqBv
+10	\N	\N	kari@gmail.com	\N	t	\N	2017-08-11 06:07:09.939667	2017-08-11 06:07:09.939667	\N	jZ3Vvzo3oS
+11	\N	\N	monu@gmail.com	\N	t	\N	2017-08-11 06:07:10.024285	2017-08-11 06:07:10.024285	\N	pkZvKakFMJ
+12	\N	\N	moni1@gmail.com	\N	t	\N	2017-08-11 06:37:28.581331	2017-08-11 06:37:28.581331	\N	5mikzq8ZWh
+\.
+
+
+--
+-- Name: contacts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
+--
+
+SELECT pg_catalog.setval('contacts_id_seq', 12, true);
+
+
+--
+-- Data for Name: friendly_id_slugs; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY friendly_id_slugs (id, slug, sluggable_id, sluggable_type, scope, created_at) FROM stdin;
+\.
+
+
+--
+-- Name: friendly_id_slugs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
+--
+
+SELECT pg_catalog.setval('friendly_id_slugs_id_seq', 1, false);
+
+
+--
+-- Data for Name: homepage_photos; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY homepage_photos (id, is_active, user_id, created_at, updated_at, photo_id, homepage_image_file_name, homepage_image_content_type, homepage_image_file_size, homepage_image_updated_at) FROM stdin;
+2	t	1	2017-08-01 10:24:04.007607	2017-08-10 06:51:16.921724	\N	/system/homepage_photos/homepage_images/dark_pink.jpg	image/jpeg	12614	2017-08-01 10:24:03.986931
+3	t	1	2017-08-01 10:24:04.019517	2017-08-10 06:51:16.952537	\N	/system/homepage_photos/homepage_images/flowers_in_heart.jpg	image/jpeg	12817	2017-08-01 10:24:03.986932
+4	t	1	2017-08-01 10:24:04.031488	2017-08-10 06:51:17.012696	\N	/system/homepage_photos/homepage_images/girl_with_flower.jpg	image/jpeg	7964	2017-08-01 10:24:03.986932
+5	t	1	2017-08-01 10:24:04.043435	2017-08-10 06:51:17.03644	\N	/system/homepage_photos/homepage_images/pink_road.jpg	image/jpeg	16721	2017-08-01 10:24:03.986933
+8	f	1	2017-08-10 06:48:08.595075	2017-08-10 06:50:39.589769	\N	transport.png	image/png	152042	2017-08-10 06:48:08.263999
+9	f	1	2017-08-10 06:48:51.791988	2017-08-10 06:50:39.608243	8	\N	\N	\N	\N
+10	f	1	2017-08-10 06:49:16.233646	2017-08-10 06:50:39.620451	10	\N	\N	\N	\N
+11	f	1	2017-08-10 06:49:31.871661	2017-08-10 06:50:39.680244	10	\N	\N	\N	\N
+1	f	1	2017-08-01 10:24:03.994538	2017-08-01 10:24:03.994538	\N	/system/homepage_photos/homepage_images/background_sky.jpg	image/jpeg	22447	2017-08-01 10:24:03.986929
+6	f	1	2017-08-10 06:48:07.7714	2017-08-10 06:48:07.7714	\N	instruct_stud_count.png	image/png	178518	2017-08-10 06:48:07.325145
+7	f	1	2017-08-10 06:48:08.233946	2017-08-10 06:48:08.233946	\N	screenshot.png	image/png	127780	2017-08-10 06:48:07.904334
+12	f	1	2017-08-10 06:49:31.893922	2017-08-10 06:49:31.893922	11	\N	\N	\N	\N
+13	f	1	2017-08-10 06:49:44.129346	2017-08-10 06:49:44.129346	11	\N	\N	\N	\N
+14	f	1	2017-08-10 06:49:51.830465	2017-08-10 06:49:51.830465	10	\N	\N	\N	\N
+15	f	1	2017-08-10 06:49:57.2619	2017-08-10 06:49:57.2619	10	\N	\N	\N	\N
+\.
+
+
+--
+-- Name: homepage_photos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
+--
+
+SELECT pg_catalog.setval('homepage_photos_id_seq', 15, true);
+
+
+--
+-- Data for Name: oauth_access_grants; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY oauth_access_grants (id, resource_owner_id, application_id, token, expires_in, redirect_uri, created_at, revoked_at, scopes) FROM stdin;
+\.
+
+
+--
+-- Name: oauth_access_grants_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
+--
+
+SELECT pg_catalog.setval('oauth_access_grants_id_seq', 1, false);
+
+
+--
+-- Data for Name: oauth_access_tokens; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY oauth_access_tokens (id, resource_owner_id, application_id, token, refresh_token, expires_in, revoked_at, created_at, scopes, previous_refresh_token) FROM stdin;
+1	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMTU3MTUxMn19.krn9LOuB5P5vgt0qwEEKou2vpzAAACmkA3J_RA1OBEK-syiWvKoBI63ckryjGotgjn1Rr7hzEEtlq60XPS55VQ	\N	43200	\N	2017-08-01 07:11:52.909918		
+2	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMTU4MzE1Nn19.m0VIIRenysbXbkjmqhwBdVRyxyv9AumVwQByKzV4HQAvB_Z-fidEUcahAZmonU6YhpJKrq-lpSxoSk0LhRluKQ	\N	43200	\N	2017-08-01 10:25:56.741486		
+3	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjI3OTY1N319.qvFaofhcwlIzM5VJ9_ebgxJAwhprx7zXNMqjC7hgKIsjuTvrQxriNE6qVWTvawT4u9wkYCHgHjpysQ0DE7Gppg	\N	43200	\N	2017-08-09 11:54:17.524342		
+4	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM0NjY5Nn19.cqNNgJubFBTdorc0v7RN3B4rv2H7Oe9bbqAllrZKuBN26W8zbTRAFbtLgUAbNt6beLv4R9KWAPbDmteaBJl70Q	\N	43200	\N	2017-08-10 06:31:36.204072		
+5	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM1ODA4NX19.MlGB_n41oJhow8gJi5mF3HqnwE-gTGqY3yUiERpsJUmGHfUS-p3K6G6CIfdY2yt7gSZup9Rs9vZUMpWQ4DTTFg	\N	43200	\N	2017-08-10 09:41:25.462379		
+6	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM1OTczNX19.AX0pG9AY4zhkJCG8k-aBbYqNJ2R0-GFftFlT44y9__Uxg67Uvcg6SUR5ThrmjZkUQG-SZaToxG6_QYvo4J3DWg	\N	43200	\N	2017-08-10 10:08:55.396922		
+7	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM1OTc1MX19.bczw3y4spj3P7t68rfylcG3UbniumVRkopAVqVnBbrug0V6ca0a85QkoeVqDc86zy5Kt9dyriswc1r-IcHHlhA	\N	43200	\N	2017-08-10 10:09:11.63354		
+8	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM1OTc3OH19.O35lBkjrjL8zHeX9NwiAXuprr92J9yiwKLNZ8P-BbuYLVeDZFJ6PasRf6kuGFY2jPFL8DcqD3Z9u9yYuv2SErg	\N	43200	\N	2017-08-10 10:09:38.842469		
+9	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM1OTc5Nn19.O8rnfRbHgzR7wVWrAxPEFD_duM_lZcWO6DH-praaUdj7IGf9uOP6VFPYZ82q_aWQOmZ-DLKh-eADapeaM_cbQw	\N	43200	\N	2017-08-10 10:09:56.03276		
+10	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM1OTgxMn19.fCtkhwQdWj9e_Hb0519KV1__86eRnIaltO-p8kkXMdQZDeWQKoSUzUSXOEZYl-M5ryaVONL8suD0jAQHXg_DGA	\N	43200	\N	2017-08-10 10:10:12.603309		
+11	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM1OTgyNX19.GqjAo0spHF6Mdw8PaJkpOKUqQQRyCFoMS8smwK9VtHDDQfIAT_aXI3SUbpdJZZ3LkeEO3N_LaOy46fXqbbkmvA	\N	43200	\N	2017-08-10 10:10:25.340633		
+12	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM1OTg3MX19.FCVAdv-vCQqavnHVpzubikMP3sxzaHg6G5bDtu10tOA9h_-bXM0tN2SoW84BaMUNgFvw6mjjTZFQEn4_Vip0vA	\N	43200	\N	2017-08-10 10:11:11.192287		
+13	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM1OTg3Nn19.4N9zwT4ZgjE6rI3EafcsUtlhUjXsRDGqi5wi6IS36gwAA_wB262oxo_-AvOm_BTrFyDeckQn8fQpKF4TLFy0Ag	\N	43200	\N	2017-08-10 10:11:16.833655		
+14	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM1OTkwMn19.25nfhW2UGcSFPkUwG72g9aRmdyHMHLe_tBU9DnqlGUBRt4ncvBVqbhxqpB9Gm-QF2e2UoNYtE3VtiD9Zmcrj4A	\N	43200	\N	2017-08-10 10:11:42.891696		
+15	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM2MDE4M319.E8mhA1QLt3MsvB7FciXYTzSwgYmE27vv4LSkr4zNtGoVYb-3wn8OTl-CxkRtr4LQ2WYNxzwJ_Ps8zaQO402L1g	\N	43200	\N	2017-08-10 10:16:23.848997		
+16	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM2MDI0Mn19.EZ1Oxd3PF1b6uTinnEHh4c1Hqbvo1NsCu0tLpl3rEvtLu7QxQfcaJIamw_affU1ZIvrk60HUi8Ne3vpFVAi5aQ	\N	43200	\N	2017-08-10 10:17:22.761301		
+17	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM2MDMzNn19.4Dyrdj_pYo_kTzwQCTev4qBmZQ53sB4gtzJ48BvlFHTV5HxHaw8Nd5ys5fy8swP-Ny9YkJ6WUg21aAzJPGTluA	\N	43200	\N	2017-08-10 10:18:56.026699		
+18	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjM2MTA3Nn19.HQzKCt37-BSspLC4HhtAvHnwdyYsx2VNbQGZLtaUO4qLr1C7DG0pGV8TidOPd4OazBMofUjrKiiMMoO7cekESw	\N	43200	\N	2017-08-10 10:31:16.574759		
+19	1	\N	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6InBhcnVsay50cHNAZ21haWwuY29tIiwiaXNzdWVfdGltZSI6MTUwMjQyOTAxNX19._OHYkhc7Jx6IuGW-kwRFvBlBCyoLDnkxx4cm-JVSMJP9AFNOI6E91URbLS7Qe0Mh5E9v1y6jMHaVj1xrcKmmKQ	\N	43200	\N	2017-08-11 05:23:35.521246		
+\.
+
+
+--
+-- Name: oauth_access_tokens_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
+--
+
+SELECT pg_catalog.setval('oauth_access_tokens_id_seq', 19, true);
+
+
+--
+-- Data for Name: oauth_applications; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY oauth_applications (id, name, uid, secret, redirect_uri, scopes, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Name: oauth_applications_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
+--
+
+SELECT pg_catalog.setval('oauth_applications_id_seq', 1, false);
+
+
+--
+-- Data for Name: photos; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY photos (id, photo_title, status, created_at, updated_at, deleted_at, image_file_name, image_content_type, image_file_size, image_updated_at, is_cover_photo, user_id, imageable_type, imageable_id, is_selected) FROM stdin;
+1	\N	1	2017-08-01 07:12:49.764599	2017-08-01 07:12:49.798411	\N	screenshot.png	image/png	127780	2017-08-01 07:12:49.449596	f	1	Testimonial	1	f
+2	\N	1	2017-08-01 07:14:25.217027	2017-08-01 07:14:25.261621	\N	instruct_stud_count.png	image/png	178518	2017-08-01 07:14:24.919327	f	1	Testimonial	2	f
+3	\N	1	2017-08-01 08:46:14.67275	2017-08-01 08:46:14.689307	\N	download.jpg	image/jpeg	6826	2017-08-01 08:46:14.56145	f	1	Testimonial	3	f
+4	\N	1	2017-08-01 08:46:27.42654	2017-08-01 08:46:27.495752	\N	download.jpg	image/jpeg	6826	2017-08-01 08:46:27.338764	f	1	Testimonial	4	f
+5	\N	1	2017-08-01 08:46:47.428501	2017-08-01 08:46:47.483493	\N	screenshot.png	image/png	127780	2017-08-01 08:46:47.123078	f	1	Testimonial	5	f
+6	\N	1	2017-08-01 08:47:03.991124	2017-08-01 08:47:04.007476	\N	screenshot.png	image/png	127780	2017-08-01 08:47:03.685407	f	1	Testimonial	6	f
+7	\N	1	2017-08-01 10:24:03.762981	2017-08-01 10:55:38.711399	2017-08-01 10:55:38.711381	about-thumb.png	image/png	219292	2017-08-01 10:24:03.485012	f	4	About	1	f
+8	\N	1	2017-08-01 10:55:38.715225	2017-08-01 10:56:17.069282	2017-08-01 10:56:17.069263	instruct_stud_count.png	image/png	178518	2017-08-01 10:55:38.417086	f	\N	About	1	f
+9	\N	1	2017-08-01 10:56:17.072862	2017-08-01 10:57:03.570661	2017-08-01 10:57:03.570639	instruct_stud_count.png	image/png	178518	2017-08-01 10:56:16.767852	f	\N	About	1	f
+10	\N	1	2017-08-01 10:57:03.574733	2017-08-01 10:57:03.574733	\N	screenshot.png	image/png	127780	2017-08-01 10:57:03.258417	f	\N	About	1	f
+11	wedding photo 11	1	2017-08-10 06:39:33.341724	2017-08-10 06:39:33.341724	\N	instruct_stud_count.png	image/png	178518	2017-08-10 06:39:32.896872	f	1	Album	1	f
+12	wedding photo 12	1	2017-08-10 06:39:33.920136	2017-08-10 06:39:33.920136	\N	screenshot.png	image/png	127780	2017-08-10 06:39:33.466293	f	1	Album	1	f
+13	Joy birthday photo 13	1	2017-08-10 06:39:59.29508	2017-08-10 06:39:59.29508	\N	transport.png	image/png	152042	2017-08-10 06:39:58.83278	f	1	Album	2	f
+14	\N	1	2017-08-10 07:27:50.782325	2017-08-10 07:27:50.782325	\N	download.jpg	image/jpeg	6826	2017-08-10 07:27:50.639063	f	\N	Watermark	1	f
+15	arpita wed photo 15	1	2017-08-11 06:00:23.321763	2017-08-11 06:00:23.321763	\N	download.jpg	image/jpeg	6826	2017-08-11 06:00:22.627805	f	1	Album	3	f
+\.
+
+
+--
+-- Name: photos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
+--
+
+SELECT pg_catalog.setval('photos_id_seq', 15, true);
+
+
+--
+-- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY schema_migrations (version) FROM stdin;
+20170726062026
+20170713105242
+20170706085730
+20170707104908
+20170704124217
+20170711092145
+20170712100659
+20170710085712
+20170705120357
+20170720035235
+20170630062932
+20170703094601
+20170703124313
+20170726055106
+20170712072926
+20170703094125
+20170717091455
+20170712083447
+20170703094640
+20170720040152
+20170711094200
+20170630055626
+20170705123449
+20170714130720
+20170707103456
+20170712113517
+20170711042038
+20170703102015
+20170707094008
+20170714132034
+20170703123457
+20170707104925
+20170717111919
+20170713050400
+20170627055022
+20170703064433
+20170707095745
+20170703084441
+20170711042048
+20170712114815
+20170705115546
+20170707105132
+20170713051502
+20170706084947
+20170703093141
+20170630060215
+20170707104549
+20170714094954
+20170705070502
+20170710092009
+20170707132105
+20170713064513
+20170703092924
+20170725100120
+20170712103042
+20170713104548
+20170707104520
+20170711102336
+20170728050055
+20170810123907
+20170810124657
+\.
+
+
+--
+-- Data for Name: service_icons; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY service_icons (id, status, created_at, updated_at, icon_image, deleted_at) FROM stdin;
+1	1	2017-08-01 10:24:03.84775	2017-08-01 10:24:03.84775	/share_photos/service_icons/fashion-icon.png	\N
+2	1	2017-08-01 10:24:03.86473	2017-08-01 10:24:03.86473	/share_photos/service_icons/kids-icon.png	\N
+3	1	2017-08-01 10:24:03.875939	2017-08-01 10:24:03.875939	/share_photos/service_icons/poterait-icon.png	\N
+4	1	2017-08-01 10:24:03.887753	2017-08-01 10:24:03.887753	/share_photos/service_icons/product-icon.png	\N
+5	1	2017-08-01 10:24:03.8998	2017-08-01 10:24:03.8998	/share_photos/service_icons/wedding-icon.png	\N
+\.
+
+
+--
+-- Name: service_icons_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
+--
+
+SELECT pg_catalog.setval('service_icons_id_seq', 5, true);
+
+
+--
+-- Data for Name: services; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY services (id, service_name, description, status, service_icon_id, created_at, updated_at, deleted_at) FROM stdin;
+2	Product Photography	It was popularised in the 1960s with the release of the Letraset sheets containing	1	4	2017-08-01 10:24:03.936367	2017-08-01 10:24:03.936367	\N
+3	Portrait Photography	It was popularised in the 1960s with the release of the Letraset sheets containing	1	3	2017-08-01 10:24:03.948702	2017-08-01 10:24:03.948702	\N
+4	Fashion Photography	It was popularised in the 1960s with the release of the Letraset sheets containing	1	1	2017-08-01 10:24:03.961143	2017-08-01 10:24:03.961143	\N
+5	Kids Photography	It was popularised in the 1960s with the release of the Letraset sheets containing	1	2	2017-08-01 10:24:03.972588	2017-08-01 10:24:03.972588	\N
+6	Portfolio1	abc abc abc abc abc abc abc abc abc abcabcabcabc abc abc abc abcabc 	1	1	2017-08-10 06:41:39.859116	2017-08-10 06:41:39.859116	\N
+1	Portfolio 1	abc abc abc abc abc abc abc abc abc abcabcabcabc abc abc abc abcabc update service 	1	1	2017-08-01 10:24:03.927607	2017-08-10 06:46:51.706659	\N
+\.
+
+
+--
+-- Name: services_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
+--
+
+SELECT pg_catalog.setval('services_id_seq', 6, true);
+
+
+--
+-- Data for Name: testimonials; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY testimonials (id, client_name, contact_id, message, user_id, status, created_at, updated_at, deleted_at) FROM stdin;
+1	hello 123	1	hello is working	1	active	2017-08-01 07:12:49.762118	2017-08-01 07:12:49.762118	\N
+2	hello 123	1	hello is working	1	inactive	2017-08-01 07:14:25.215734	2017-08-01 07:14:25.215734	\N
+3	hello 123	1	hello is working	1	inactive	2017-08-01 08:46:14.670755	2017-08-01 08:46:14.670755	\N
+4	hello 123	1	hello is working	1	active	2017-08-01 08:46:27.424079	2017-08-01 08:46:27.424079	\N
+5	hello 123	1	hello is working	1	active	2017-08-01 08:46:47.427246	2017-08-01 08:46:47.427246	\N
+6	hello 123	1	hello is working	1	active	2017-08-01 08:47:03.988816	2017-08-01 08:47:03.988816	\N
+\.
+
+
+--
+-- Name: testimonials_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
+--
+
+SELECT pg_catalog.setval('testimonials_id_seq', 6, true);
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY users (id, email, encrypted_password, reset_password_token, reset_password_sent_at, remember_created_at, sign_in_count, current_sign_in_at, last_sign_in_at, current_sign_in_ip, last_sign_in_ip, confirmation_token, confirmed_at, confirmation_sent_at, unconfirmed_email, created_at, updated_at, first_name, last_name, status, deleted_at) FROM stdin;
+1	parulk.tps@gmail.com	$2a$11$/qoArFnshLmgQmSJdX7p9OMUHgljkbgpjK6nk5Ke2/0GzdmmZFM2K	\N	\N	\N	0	\N	\N	\N	\N	gVCF12xzMG-D7XZfZpNU	\N	2017-08-01 07:11:39.547426	\N	2017-08-01 07:11:39.54728	2017-08-10 07:30:23.298622	parul v	k	1	\N
+2	sagar1@gmail.com	$2a$11$wh2NI/U9r3ynZUsUWVoag.BDMO9WHJYnTPZl4bxKbGV4n8gDX66DK	\N	\N	\N	0	\N	\N	\N	\N	dkqsgASDiVTxsAN4BKix	\N	2017-08-01 10:24:03.191256	\N	2017-08-01 10:24:03.191089	2017-08-10 07:30:39.605173	parul	patel	1	\N
+\.
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
+--
+
+SELECT pg_catalog.setval('users_id_seq', 2, true);
+
+
+--
+-- Data for Name: videos; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY videos (id, user_id, is_youtube_url, is_vimeo_url, created_at, updated_at, video_file_name, video_content_type, video_file_size, video_updated_at, video_thumb) FROM stdin;
+1	1	f	f	2017-08-10 07:23:26.011495	2017-08-10 07:23:26.182961	samplevideo.mp4	video/mp4	1055736	2017-08-10 07:23:24.231433	/system/videos/videos/000/000/001/thumb/samplevideo.jpg?1502349804
+\.
+
+
+--
+-- Name: videos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
+--
+
+SELECT pg_catalog.setval('videos_id_seq', 1, true);
+
+
+--
+-- Data for Name: watermarks; Type: TABLE DATA; Schema: public; Owner: parul
+--
+
+COPY watermarks (id, user_id, status, created_at, updated_at, deleted_at) FROM stdin;
+1	1	1	2017-08-10 07:27:50.726907	2017-08-10 07:27:50.726907	\N
+\.
+
+
+--
+-- Name: watermarks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: parul
+--
+
+SELECT pg_catalog.setval('watermarks_id_seq', 1, true);
+
+
+--
+-- Name: abouts_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY abouts
+    ADD CONSTRAINT abouts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: album_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY album_categories
+    ADD CONSTRAINT album_categories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: album_recipients_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY album_recipients
+    ADD CONSTRAINT album_recipients_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: albums_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY albums
+    ADD CONSTRAINT albums_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY ar_internal_metadata
+    ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: categories_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY categories
+    ADD CONSTRAINT categories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: contact_details_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY contact_details
+    ADD CONSTRAINT contact_details_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: contact_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY contact_messages
+    ADD CONSTRAINT contact_messages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: contacts_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY contacts
+    ADD CONSTRAINT contacts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: friendly_id_slugs_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY friendly_id_slugs
+    ADD CONSTRAINT friendly_id_slugs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: homepage_photos_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY homepage_photos
+    ADD CONSTRAINT homepage_photos_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: oauth_access_grants_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY oauth_access_grants
+    ADD CONSTRAINT oauth_access_grants_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: oauth_access_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY oauth_access_tokens
+    ADD CONSTRAINT oauth_access_tokens_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: oauth_applications_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY oauth_applications
+    ADD CONSTRAINT oauth_applications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: photos_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY photos
+    ADD CONSTRAINT photos_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY schema_migrations
+    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: service_icons_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY service_icons
+    ADD CONSTRAINT service_icons_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: services_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY services
+    ADD CONSTRAINT services_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: testimonials_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY testimonials
+    ADD CONSTRAINT testimonials_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: videos_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY videos
+    ADD CONSTRAINT videos_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: watermarks_pkey; Type: CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY watermarks
+    ADD CONSTRAINT watermarks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_abouts_on_social_links; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_abouts_on_social_links ON abouts USING gin (social_links);
+
+
+--
+-- Name: index_album_categories_on_album_id; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_album_categories_on_album_id ON album_categories USING btree (album_id);
+
+
+--
+-- Name: index_album_categories_on_category_id; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_album_categories_on_category_id ON album_categories USING btree (category_id);
+
+
+--
+-- Name: index_album_recipients_on_album_id; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_album_recipients_on_album_id ON album_recipients USING btree (album_id);
+
+
+--
+-- Name: index_album_recipients_on_contact_id; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_album_recipients_on_contact_id ON album_recipients USING btree (contact_id);
+
+
+--
+-- Name: index_albums_on_deleted_at; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_albums_on_deleted_at ON albums USING btree (deleted_at);
+
+
+--
+-- Name: index_albums_on_slug; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE UNIQUE INDEX index_albums_on_slug ON albums USING btree (slug);
+
+
+--
+-- Name: index_albums_on_user_id; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_albums_on_user_id ON albums USING btree (user_id);
+
+
+--
+-- Name: index_categories_on_deleted_at; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_categories_on_deleted_at ON categories USING btree (deleted_at);
+
+
+--
+-- Name: index_categories_on_user_id; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_categories_on_user_id ON categories USING btree (user_id);
+
+
+--
+-- Name: index_contact_details_on_deleted_at; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_contact_details_on_deleted_at ON contact_details USING btree (deleted_at);
+
+
+--
+-- Name: index_contacts_on_deleted_at; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_contacts_on_deleted_at ON contacts USING btree (deleted_at);
+
+
+--
+-- Name: index_contacts_on_user_id; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_contacts_on_user_id ON contacts USING btree (user_id);
+
+
+--
+-- Name: index_friendly_id_slugs_on_slug_and_sluggable_type; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type ON friendly_id_slugs USING btree (slug, sluggable_type);
+
+
+--
+-- Name: index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE UNIQUE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope ON friendly_id_slugs USING btree (slug, sluggable_type, scope);
+
+
+--
+-- Name: index_friendly_id_slugs_on_sluggable_id; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_friendly_id_slugs_on_sluggable_id ON friendly_id_slugs USING btree (sluggable_id);
+
+
+--
+-- Name: index_friendly_id_slugs_on_sluggable_type; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_friendly_id_slugs_on_sluggable_type ON friendly_id_slugs USING btree (sluggable_type);
+
+
+--
+-- Name: index_homepage_photos_on_photo_id; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_homepage_photos_on_photo_id ON homepage_photos USING btree (photo_id);
+
+
+--
+-- Name: index_homepage_photos_on_user_id; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_homepage_photos_on_user_id ON homepage_photos USING btree (user_id);
+
+
+--
+-- Name: index_oauth_access_grants_on_token; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE UNIQUE INDEX index_oauth_access_grants_on_token ON oauth_access_grants USING btree (token);
+
+
+--
+-- Name: index_oauth_access_tokens_on_refresh_token; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE UNIQUE INDEX index_oauth_access_tokens_on_refresh_token ON oauth_access_tokens USING btree (refresh_token);
+
+
+--
+-- Name: index_oauth_access_tokens_on_resource_owner_id; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_oauth_access_tokens_on_resource_owner_id ON oauth_access_tokens USING btree (resource_owner_id);
+
+
+--
+-- Name: index_oauth_access_tokens_on_token; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE UNIQUE INDEX index_oauth_access_tokens_on_token ON oauth_access_tokens USING btree (token);
+
+
+--
+-- Name: index_oauth_applications_on_uid; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE UNIQUE INDEX index_oauth_applications_on_uid ON oauth_applications USING btree (uid);
+
+
+--
+-- Name: index_photos_on_deleted_at; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_photos_on_deleted_at ON photos USING btree (deleted_at);
+
+
+--
+-- Name: index_photos_on_imageable_type_and_imageable_id; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_photos_on_imageable_type_and_imageable_id ON photos USING btree (imageable_type, imageable_id);
+
+
+--
+-- Name: index_photos_on_user_id; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_photos_on_user_id ON photos USING btree (user_id);
+
+
+--
+-- Name: index_service_icons_on_deleted_at; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_service_icons_on_deleted_at ON service_icons USING btree (deleted_at);
+
+
+--
+-- Name: index_services_on_deleted_at; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_services_on_deleted_at ON services USING btree (deleted_at);
+
+
+--
+-- Name: index_services_on_service_icon_id; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_services_on_service_icon_id ON services USING btree (service_icon_id);
+
+
+--
+-- Name: index_testimonials_on_contact_id; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_testimonials_on_contact_id ON testimonials USING btree (contact_id);
+
+
+--
+-- Name: index_testimonials_on_deleted_at; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_testimonials_on_deleted_at ON testimonials USING btree (deleted_at);
+
+
+--
+-- Name: index_testimonials_on_user_id; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_testimonials_on_user_id ON testimonials USING btree (user_id);
+
+
+--
+-- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE UNIQUE INDEX index_users_on_confirmation_token ON users USING btree (confirmation_token);
+
+
+--
+-- Name: index_users_on_deleted_at; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_users_on_deleted_at ON users USING btree (deleted_at);
+
+
+--
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
+
+
+--
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
+
+
+--
+-- Name: index_videos_on_user_id; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_videos_on_user_id ON videos USING btree (user_id);
+
+
+--
+-- Name: index_watermarks_on_deleted_at; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_watermarks_on_deleted_at ON watermarks USING btree (deleted_at);
+
+
+--
+-- Name: index_watermarks_on_user_id; Type: INDEX; Schema: public; Owner: parul
+--
+
+CREATE INDEX index_watermarks_on_user_id ON watermarks USING btree (user_id);
+
+
+--
+-- Name: fk_rails_0275e649b6; Type: FK CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY album_recipients
+    ADD CONSTRAINT fk_rails_0275e649b6 FOREIGN KEY (contact_id) REFERENCES contacts(id);
+
+
+--
+-- Name: fk_rails_25ace86196; Type: FK CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY homepage_photos
+    ADD CONSTRAINT fk_rails_25ace86196 FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: fk_rails_330c32d8d9; Type: FK CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY oauth_access_grants
+    ADD CONSTRAINT fk_rails_330c32d8d9 FOREIGN KEY (resource_owner_id) REFERENCES users(id);
+
+
+--
+-- Name: fk_rails_3e7f2ed09f; Type: FK CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY album_recipients
+    ADD CONSTRAINT fk_rails_3e7f2ed09f FOREIGN KEY (album_id) REFERENCES albums(id);
+
+
+--
+-- Name: fk_rails_4d3e46b658; Type: FK CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY testimonials
+    ADD CONSTRAINT fk_rails_4d3e46b658 FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: fk_rails_732cb83ab7; Type: FK CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY oauth_access_tokens
+    ADD CONSTRAINT fk_rails_732cb83ab7 FOREIGN KEY (application_id) REFERENCES oauth_applications(id);
+
+
+--
+-- Name: fk_rails_785d6798f5; Type: FK CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY services
+    ADD CONSTRAINT fk_rails_785d6798f5 FOREIGN KEY (service_icon_id) REFERENCES service_icons(id);
+
+
+--
+-- Name: fk_rails_9b28489d17; Type: FK CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY testimonials
+    ADD CONSTRAINT fk_rails_9b28489d17 FOREIGN KEY (contact_id) REFERENCES contacts(id);
+
+
+--
+-- Name: fk_rails_a6e0af3813; Type: FK CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY homepage_photos
+    ADD CONSTRAINT fk_rails_a6e0af3813 FOREIGN KEY (photo_id) REFERENCES photos(id);
+
+
+--
+-- Name: fk_rails_b4b53e07b8; Type: FK CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY oauth_access_grants
+    ADD CONSTRAINT fk_rails_b4b53e07b8 FOREIGN KEY (application_id) REFERENCES oauth_applications(id);
+
+
+--
+-- Name: fk_rails_ba925d1105; Type: FK CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY videos
+    ADD CONSTRAINT fk_rails_ba925d1105 FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: fk_rails_ee63f25419; Type: FK CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY oauth_access_tokens
+    ADD CONSTRAINT fk_rails_ee63f25419 FOREIGN KEY (resource_owner_id) REFERENCES users(id);
+
+
+--
+-- Name: fk_rails_f57aa5fa79; Type: FK CONSTRAINT; Schema: public; Owner: parul
+--
+
+ALTER TABLE ONLY watermarks
+    ADD CONSTRAINT fk_rails_f57aa5fa79 FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

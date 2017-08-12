@@ -1,8 +1,7 @@
 FactoryGirl.define do
   factory :contact_detail do
-    address "MyText"
-    email "MyString"
-    phone "MyString"
-    user nil
+    address "Ahmedabad"
+    email "test@gmail.com"
+    phone "9639639639"
   end
 end

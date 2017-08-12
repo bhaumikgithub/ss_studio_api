@@ -2,6 +2,6 @@
 
 FactoryGirl.define do
   factory :category do
-    category_name 'MyString'
+    category_name 'Marriage'
   end
 end

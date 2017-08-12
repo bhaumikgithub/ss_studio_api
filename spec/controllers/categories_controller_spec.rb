@@ -4,7 +4,8 @@ require 'rails_helper'
 RSpec.describe CategoriesController, type: :request do
   let(:category) { FactoryGirl.create(:category) }
   before do
-    @header = { Authorization: "bearer " + token_generator }
+    @user = FactoryGirl.create(:user)
+    @header = { Authorization: "bearer " + token_generator(@user) }
   end
   # =======================categories#index=======================
   describe 'GET /categories' do
@@ -70,16 +71,6 @@ RSpec.describe CategoriesController, type: :request do
           expect(response.status).to eq 201
         end
       end
-
-      context 'Validations are failed' do
-        it 'returns 422' do
-          post '/categories', params: { category: { category_name: '' } }, headers: @header
-          parsed_body = JSON.parse(response.body)
-          expect(parsed_body['errors'][0]['field']).to eq 'category_name'
-          expect(parsed_body['errors'][0]['detail']).to eq "can't be blank"
-          expect(response.status).to eq 422
-        end
-      end
     end
   end
 
@@ -97,18 +88,8 @@ RSpec.describe CategoriesController, type: :request do
         it 'responds to PUT' do
           put "/categories/#{category.id}", params: { category: { category_name: 'marriage' } }, headers: @header
           parsed_body = JSON.parse(response.body)
-          expect(parsed_body['data']['categories']['category_name']).to eq 'marriage'
+          expect(parsed_body['data']['category']['category_name']).to eq 'marriage'
           expect(response.status).to eq 201
-        end
-      end
-
-      context 'Validations are failed' do
-        it 'returns 422' do
-          put "/categories/#{category.id}", params: { category: { category_name: '' } }, headers: @header
-          parsed_body = JSON.parse(response.body)
-          expect(parsed_body['errors'][0]['field']).to eq 'category_name'
-          expect(parsed_body['errors'][0]['detail']).to eq "can't be blank"
-          expect(response.status).to eq 422
         end
       end
     end
