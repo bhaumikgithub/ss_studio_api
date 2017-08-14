@@ -24,13 +24,13 @@ class ContactsController < ApplicationController
       data: {
         contact: single_record_serializer.new(@contact, serializer: Contacts::ContactAttributesSerializer),
       }
-    }, 200)
+    }, 201)
   end
 
   # DELETE /contacts/:id
   def destroy
     @contact.destroy!
-    json_response({success: true, message: "contact destroy successfully.", data: { :contacts => @contact }}, 201)
+    json_response({success: true, message: "contact destroy successfully.", data: { :contacts => @contact }}, 200)
   end
 
   # PATCH  /contacts/:id
@@ -42,7 +42,7 @@ class ContactsController < ApplicationController
       data: {
         contact: single_record_serializer.new(@contact, serializer: Contacts::ContactAttributesSerializer),
       }
-    }, 200)
+    }, 201)
   end
 
   private
