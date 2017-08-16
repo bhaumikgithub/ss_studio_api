@@ -1,20 +1,18 @@
 class AlbumRecipientMailer < ApplicationMailer
   default from: "info@techplussoftware.com"
 
-  def share_public_album_to_recipient_mail(contacts, album, album_recipients, email_add)
-    @contacts = contacts
+  def share_public_album_to_recipient_mail(album, album_recipient)
     @album = album
-    @album_recipients = album_recipients
-    @email_add = email_add
+    @album_recipient = album_recipient
+    @email_add = album_recipient.contact.email
     mail(to: @email_add, subject: "Share Album")
   end
   
-  def share_private_album_to_recipient_mail(contacts, album, album_recipients, email_add)
-    @contacts = contacts
+  def share_private_album_to_recipient_mail(album, album_recipient)
     @album = album
-    @album_recipients = album_recipients
+    @album_recipient = album_recipient
     @album_passcode = album.passcode
-    @email_add = email_add
+    @email_add = album_recipient.contact.email
     mail(to: @email_add , subject: "Share Album")
   end
 
