@@ -22,7 +22,7 @@ class AlbumRecipientsController < ApplicationController
       album_recipients << @album.album_recipients.create!(album_recipient_params.merge(contact_id: @contact.id).permit!)
     end
     album_recipients.each do |album_recipient|
-      send_album_link(@album, album_recipient)
+      album_recipient.shared_album_link(@album)
     end
 
     @album_recipient = @album.album_recipients.where("ID IN (?)", album_recipients)
@@ -33,9 +33,8 @@ class AlbumRecipientsController < ApplicationController
   #POST /albums/:album_id/album_recipients/:id/resend
   def resend
     album_recipient = @album.album_recipients.find_by(id: params[:id])
-    send_album_link(@album, album_recipient)
-    @album_recipient = @album.album_recipients.where("ID IN (?)", album_recipient)
-    json_response({success: true, message: "Album share successfully.", data: {album_recipients: @album_recipient}}, 201)
+    album_recipient.shared_album_link(@album)
+    json_response({success: true, message: "Album share successfully.", data: {album_recipients: album_recipient}}, 201)
   end
 
   private

@@ -1,7 +1,7 @@
 <p>Dear Client,</p>
 <p>Please check your photos by clicking on the View Album link. It will ask you to enter the passcode. Please apply provided passcode in this email.</p>
-<p> <%= link_to "View Album", album_url(@album, token: @album_recipients.contact.token) %> </p>
-<p> <%= @album_recipients.custom_message %> </p>
+<p> <%= link_to "View Album", album_url(@album, token: @album_recipient.contact.token) %> </p>
+<p> <%= @album_recipient.custom_message %> </p>
 <p> passcode: <%= @album_passcode %> </p>
 <p>Thanks,</p>
 <p>Admin Team</p>
