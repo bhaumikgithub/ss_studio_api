@@ -21,11 +21,8 @@ class AlbumRecipientsController < ApplicationController
       @contact = Contact.find_or_create_by!(email: email) # email find if not find from contact then its create first
       album_recipients << @album.album_recipients.create!(album_recipient_params.merge(contact_id: @contact.id).permit!)
     end
-    @email_add = (params[:album_recipient][:email]).flatten
-    if @album.is_private == true
-      @mail_response = AlbumRecipientMailer.share_private_album_to_recipient_mail( @contact, @album, album_recipients.first, @email_add).deliver
-    else
-      @mail_response = AlbumRecipientMailer.share_public_album_to_recipient_mail(@contact, @album, album_recipients.first, @email_add).deliver
+    album_recipients.each do |album_recipient|
+      send_album_link(@album, album_recipient)
     end
 
     @album_recipient = @album.album_recipients.where("ID IN (?)", album_recipients)
@@ -35,17 +32,9 @@ class AlbumRecipientsController < ApplicationController
 
   #POST /albums/:album_id/album_recipients/:id/resend
   def resend
-    album_recipients = @album.album_recipients.find_by(id: params[:id])
-    @contact = album_recipients.contact
-    @email_add = @contact.email
-
-    if @album.is_private == true
-      @mail_response = AlbumRecipientMailer.share_private_album_to_recipient_mail( @contact, @album, album_recipients, @email_add).deliver
-    else
-      @mail_response = AlbumRecipientMailer.share_public_album_to_recipient_mail(@contact, @album, album_recipients, @email_add).deliver
-    end
-
-    @album_recipient = @album.album_recipients.where("ID IN (?)", album_recipients)
+    album_recipient = @album.album_recipients.find_by(id: params[:id])
+    send_album_link(@album, album_recipient)
+    @album_recipient = @album.album_recipients.where("ID IN (?)", album_recipient)
     json_response({success: true, message: "Album share successfully.", data: {album_recipients: @album_recipient}}, 201)
   end
 

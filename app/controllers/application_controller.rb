@@ -91,4 +91,12 @@ class ApplicationController < ActionController::API
   def single_record_serializer
     ActiveModel::SerializableResource
   end
+
+  def send_album_link(album, album_recipient)
+    if album.is_private == true
+      @mail_response = AlbumRecipientMailer.share_private_album_to_recipient_mail(album, album_recipient).deliver
+    else
+      @mail_response = AlbumRecipientMailer.share_public_album_to_recipient_mail(album, album_recipient).deliver
+    end
+  end
 end
