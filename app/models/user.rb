@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
  # Associations
   has_many :contacts, dependent: :destroy
-  has_many :category, dependent: :destroy
+  has_many :categories, dependent: :destroy
   has_many :watermarks, dependent: :destroy
   has_many :albums, dependent: :destroy
   has_many :photos, dependent: :destroy

@@ -9,7 +9,7 @@ class CategoriesController < ApplicationController
 
   # GET   /categories
   def index
-    @categories = current_resource_owner.category
+    @categories = current_resource_owner.categories
     render_success_response({ :categories => @categories },200)
   end
 
@@ -38,7 +38,7 @@ class CategoriesController < ApplicationController
   end
 
    def fetch_category
-    @category = current_resource_owner.category.find(params[:id])
+    @category = current_resource_owner.categories.find(params[:id])
   end
 
 end
