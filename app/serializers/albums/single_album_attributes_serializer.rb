@@ -7,13 +7,17 @@ class Albums::SingleAlbumAttributesSerializer < ActiveModel::Serializer
     object.photos.count
   end
 
+  def photos
+    object.photos.where.not(is_cover_photo: true)
+  end
+
   def cover_photo
     photo = object.photos.where(is_cover_photo: true).first
     if photo.present?
       {
         id: photo.id,
         image_file_name: photo.image_file_name,
-        image: CommonSerializer.full_image_url(photo.image.url)
+        image: CommonSerializer.full_image_url(photo.image.url(:thumb))
       }
     else
       {
