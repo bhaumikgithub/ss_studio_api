@@ -27,15 +27,15 @@ class Photo < ApplicationRecord
                     },
                     :styles => lambda { |attachment| {
                       :small => {
-                        :geometry => "259x259#",
+                        :geometry => "250x250#",
                         :watermark_path => attachment.instance.class.watermark_url
                       },
                       :medium => {
-                        :geometry => "300x300#",
+                        :geometry => "259x259#",
                         :watermark_path => attachment.instance.class.watermark_url
                       },
                       :thumb => {
-                        :geometry => "185x185#",
+                        :geometry => "400x400#",
                         :watermark_path => attachment.instance.class.watermark_url
                       }, 
                     }
