@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ServiceIconController, type: :controller do
+RSpec.describe ServiceIconsController, type: :controller do
 
   describe "GET #index" do
     it "returns http success" do
