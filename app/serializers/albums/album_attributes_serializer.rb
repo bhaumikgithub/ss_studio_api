@@ -12,7 +12,7 @@ class Albums::AlbumAttributesSerializer < ActiveModel::Serializer
     if photo.present?
       {
         image_file_name: photo.image_file_name,
-        image: CommonSerializer.full_image_url(photo.image.url)
+        image: CommonSerializer.full_image_url(photo.image.url(:thumb))
       }
     else
       {

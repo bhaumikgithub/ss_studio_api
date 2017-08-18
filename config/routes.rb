@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
   
+
   get 'users/show'
 
   use_doorkeeper do
@@ -55,4 +56,5 @@ Rails.application.routes.draw do
   resources :contact_messages, only: [:create]
   resources :videos
   resources :users, only: [:show]
+  resources :service_icons, only: [:index]
 end

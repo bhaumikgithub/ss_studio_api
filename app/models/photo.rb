@@ -31,11 +31,11 @@ class Photo < ApplicationRecord
                         :watermark_path => attachment.instance.class.watermark_url
                       },
                       :medium => {
-                        :geometry => "300x300#",
+                        :geometry => "259x259#",
                         :watermark_path => attachment.instance.class.watermark_url
                       },
                       :thumb => {
-                        :geometry => "400x400#",
+                        :geometry => "185x185#",
                         :watermark_path => attachment.instance.class.watermark_url
                       }, 
                     }
