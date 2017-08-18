@@ -13,7 +13,7 @@ Rails.application.configure do
   # Show full error reports.
   config.consider_all_requests_local = true
 
-  config.action_controller.asset_host = "http://localhost:3000"
+  config.action_controller.asset_host = "http://localhost:4000"
 
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }

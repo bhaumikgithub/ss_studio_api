@@ -17,10 +17,10 @@ class PhotosController < ApplicationController
 
   # DELETE /photos/multi_delete
   def multi_delete
-    if params['photo']['id'].present?
-      Photo.where("id IN (?)",params[:photo][:id]).destroy_all
+    if params['photo']['ids'].present?
+      Photo.where("id IN (?)",params[:photo][:ids]).destroy_all
     else
-      Photo.destroy_all
+      json_response({success: false, message: 'Please select atleast one photo.'}, 400) and return
     end
     json_response({success: true, message: "Selected photos deleted successfully."}, 200)
   end
