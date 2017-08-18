@@ -35,10 +35,10 @@ Rails.application.routes.draw do
   end
 
   get 'contact_details', to: 'contact_details#show'
-  put 'contact_details', to: 'contact_details#update'
+  patch 'contact_details', to: 'contact_details#update'
 
   get 'abouts', to: 'abouts#show'
-  put 'abouts', to: 'abouts#update'
+  patch 'abouts', to: 'abouts#update'
 
   resources :services
   resources :testimonials do
@@ -48,8 +48,8 @@ Rails.application.routes.draw do
   end
   resources :homepage_photos do
     collection do
-      put 'select_uploaded_photo'
-      put 'active_gallery_photo'
+      patch 'select_uploaded_photo'
+      patch 'active_gallery_photo'
       get 'active'
     end
   end
