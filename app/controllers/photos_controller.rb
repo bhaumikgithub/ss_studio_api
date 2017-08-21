@@ -12,7 +12,12 @@ class PhotosController < ApplicationController
   # POST /photos
   def create
     @photos = Photo.create!(photo_params)
-    render_success_response({ :photos => @photos}, 201)
+    json_response({
+      success: true,
+      data: {
+        photos: array_serializer.new(@photos, serializer: Photos::CreatePhotoAttributesSerializer),
+      }
+    }, 201)
   end
 
   # DELETE /photos/multi_delete
