@@ -11,7 +11,7 @@ user = User.create(email: 'sagar1@gmail.com', password: 'hello123', password_con
 
 contact_details = ContactDetail.create(address: "7 Ekta Tower,\nOpposite Swastik Apartment, \nVasna, Ahmedabad - 380007", email: "photo.gadani51@gmail.com", phone: "+919662044902")
 
-about = About.create(title_text: "A young photographer taking lovely shots", description: "We are capture best moments which is impossible to recapture\nI have worked with over the year........ Stay in touch with Sagar Gadani. Thank you for visiting the website.", facebook_link: "https://www.facebook.com", twitter_link: "https://www.twitter.com", instagram_link: "https://www.instagram.com")
+about = About.create(title_text: "A young photographer taking lovely shots", description: "I thought that instead of me bragging about how good I am and how amazing my work is and how second to none is my customer service, I'll let others do the talking. Here are some of the exceptional individuals I have worked with over the years........ Stay in touch with Sagar Gadani. Thank you for visiting the website.", facebook_link: "https://www.facebook.com/sagarphotocam", twitter_link: "https://www.twitter.com", instagram_link: "https://www.instagram.com")
 
 Photo.create(status: "active", image: File.new("public/shared_photos/about/about-thumb.png"), is_cover_photo: false, user_id: 1, imageable_type: "About", imageable_id: about.id)
 
