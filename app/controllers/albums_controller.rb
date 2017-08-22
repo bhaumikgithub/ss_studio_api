@@ -65,11 +65,18 @@ class AlbumsController < ApplicationController
 
   # GET /albums/portfolio
   def portfolio
-    @portfolio_album = Album.where(status: "active", portfolio_visibility: true, is_private: false)
+    if params[:category].present? && params[:category] != "all"
+      category = Category.find_by_category_name(params[:category])
+      @portfolio_albums = category.albums
+    else
+      @portfolio_albums = Album.all
+    end
+
+    @portfolio_albums = @portfolio_albums.where(status: "active", portfolio_visibility: true, is_private: false)
     json_response({
       success: true,
       data: {
-        albums: array_serializer.new(@portfolio_album, serializer: Albums::PortfolioAlbumAttributesSerializer),
+        albums: array_serializer.new(@portfolio_albums, serializer: Albums::PortfolioAlbumAttributesSerializer),
       }
     }, 200)
   end

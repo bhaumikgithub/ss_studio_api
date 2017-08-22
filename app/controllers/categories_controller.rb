@@ -2,6 +2,7 @@
 
 # category controller
 class CategoriesController < ApplicationController
+  skip_before_action :doorkeeper_authorize!, only: [ :active ]
   include InheritAction
 
   # Callabcks
@@ -11,6 +12,11 @@ class CategoriesController < ApplicationController
   def index
     @categories = current_resource_owner.categories
     render_success_response({ :categories => @categories },200)
+  end
+
+  # GET  /categories/active
+  def active
+    render_success_response({ :categories => Category.where(status: 'active') },200)
   end
 
   # POST /categories
