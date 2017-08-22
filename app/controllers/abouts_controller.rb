@@ -20,7 +20,7 @@ class AboutsController < ApplicationController
       data: {
         about_us: single_record_serializer.new(@about_us_detail, serializer: Abouts::AboutAttributesSerializer),
       }
-    }, 200)
+    }, 201)
   end
 
   private

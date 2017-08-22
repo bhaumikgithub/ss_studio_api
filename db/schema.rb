@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170810124657) do
+ActiveRecord::Schema.define(version: 20170822084425) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -253,15 +253,17 @@ ActiveRecord::Schema.define(version: 20170810124657) do
 
   create_table "videos", force: :cascade do |t|
     t.integer  "user_id"
-    t.boolean  "is_youtube_url",     default: false
-    t.boolean  "is_vimeo_url",       default: false
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.string   "video_file_name"
     t.string   "video_content_type"
     t.integer  "video_file_size"
     t.datetime "video_updated_at"
     t.string   "video_thumb"
+    t.string   "title"
+    t.integer  "video_type"
+    t.string   "video_url"
+    t.integer  "status"
     t.index ["user_id"], name: "index_videos_on_user_id", using: :btree
   end
 
