@@ -13,7 +13,7 @@ contact_details = ContactDetail.create(address: "7 Ekta Tower,\nOpposite Swastik
 
 about = About.create(title_text: "A young photographer taking lovely shots", description: "I thought that instead of me bragging about how good I am and how amazing my work is and how second to none is my customer service, I'll let others do the talking. Here are some of the exceptional individuals I have worked with over the years........ Stay in touch with Sagar Gadani. Thank you for visiting the website.", facebook_link: "https://www.facebook.com/sagarphotocam", twitter_link: "https://www.twitter.com", instagram_link: "https://www.instagram.com")
 
-Photo.create(status: "active", image: File.new("public/shared_photos/about/about-thumb.png"), is_cover_photo: false, user_id: 1, imageable_type: "About", imageable_id: about.id)
+Photo.create(status: "active", image: File.new("public/shared_photos/about/about-thumb.png"), is_cover_photo: false, user_id: user.id, imageable_type: "About", imageable_id: about.id)
 
 service_icons = ServiceIcon.create!([
   { icon_image: "/shared_photos/service_icons/fashion-icon.png", status: 1},
@@ -32,19 +32,23 @@ service = Service.create([
 ])
 
 homepage_photo = HomepagePhoto.create!([
-  { homepage_image: File.new("public/shared_photos/homepage_photos/image_1.jpg"), is_active: true,user_id: 1},
-  { homepage_image: File.new("public/shared_photos/homepage_photos/image_2.jpg"), is_active: true,user_id: 1},
-  { homepage_image: File.new("public/shared_photos/homepage_photos/image_3.JPG"), is_active: true,user_id: 1},
-  { homepage_image: File.new("public/shared_photos/homepage_photos/image_4.jpg"), is_active: true,user_id: 1},
-  { homepage_image: File.new("public/shared_photos/homepage_photos/image_5.JPG"), is_active: true,user_id: 1}
+  { homepage_image: File.new("public/shared_photos/homepage_photos/image_1.jpg"), is_active: true,user_id: user.id},
+  { homepage_image: File.new("public/shared_photos/homepage_photos/image_2.jpg"), is_active: true,user_id: user.id},
+  { homepage_image: File.new("public/shared_photos/homepage_photos/image_3.JPG"), is_active: true,user_id: user.id},
+  { homepage_image: File.new("public/shared_photos/homepage_photos/image_4.jpg"), is_active: true,user_id: user.id},
+  { homepage_image: File.new("public/shared_photos/homepage_photos/image_5.JPG"), is_active: true,user_id: user.id}
 ])
 
 testimonials = Testimonial.create!([
   { client_name: "Hemali Gadani", message: "Sagar, thank you so much for capturing the best moments. The photos are absolutely amazing and honestly I can’t stop looking at them!!! You definitely captured Joy’s sweetness and cheerfulness . Great service and lovely photographs. Again, many thanks to you and the team.  By far the best photographer and I’d recommend to everyone!", status: 'active' },
-  { client_name: "Anjali Chauhan", message: "I want to say HUGE thank you to Sagar Gadani for capturing beautiful pictures of our pre-wedding photo shoot. Our pre-wedding photographs were beyond perfect. You have amazing creative skills. The photos are absolutely beautiful, you managed to capture our special day in such an amazing way. Every time we look at the images we can recall all the emotion, the laughs and fun of the day. Thanks again.", status: 'active' }
+  { client_name: "Anjali Chauhan", message: "I want to say HUGE thank you to Sagar Gadani for capturing beautiful pictures of our pre-wedding photo shoot. Our pre-wedding photographs were beyond perfect. You have amazing creative skills. The photos are absolutely beautiful, you managed to capture our special day in such an amazing way. Every time we look at the images we can recall all the emotion, the laughs and fun of the day. Thanks again.", status: 'active' },
+  { client_name: "Apurva Chauhan", message: "The best thing of your photography is how you conversate with your camera while clicking. You have an immense hold on poses, design, edition, crafting and ofcourse creativity in any occasion whatever you are brought forth for. Good Luck.", status: 'active' },
+  { client_name: "Vaibhav Prakash", message: "Good Work and More Creativity you bring to the Photography. Thank you and I wish you a good luck.", status: 'active' }
 ])
 
 testimonial_photos = Photo.create([
-  { status: "active", image: File.new("public/shared_photos/feedback/hemali_gadani.jpeg"), is_cover_photo: false, user_id: 1, imageable_type: "Testimonial", imageable_id: testimonials.first.id },
-  { status: "active", image: File.new("public/shared_photos/feedback/anjali_chauhan.jpeg"), is_cover_photo: false, user_id: 1, imageable_type: "Testimonial", imageable_id: testimonials.second.id }
+  { status: "active", image: File.new("public/shared_photos/feedback/hemali_gadani.jpeg"), is_cover_photo: false, user_id: user.id, imageable_type: "Testimonial", imageable_id: testimonials.first.id },
+  { status: "active", image: File.new("public/shared_photos/feedback/anjali_chauhan.jpeg"), is_cover_photo: false, user_id: user.id, imageable_type: "Testimonial", imageable_id: testimonials.second.id },
+  { status: "active", image: File.new("public/shared_photos/feedback/apurva_chauhan.jpg"), is_cover_photo: false, user_id: user.id, imageable_type: "Testimonial", imageable_id: testimonials.third.id },
+  { status: "active", image: File.new("public/shared_photos/feedback/vaibhav_prakash.jpg"), is_cover_photo: false, user_id: user.id, imageable_type: "Testimonial", imageable_id: testimonials.fourth.id }
 ])
