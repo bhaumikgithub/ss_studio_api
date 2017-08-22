@@ -13,7 +13,7 @@ contact_details = ContactDetail.create(address: "2nd floor, Tulsi complex, Nr Az
 
 about = About.create(title_text: "A young photographer taking lovely shots", description: "We are capture best moments which is impossible to recapture\nI have worked with over the year........ Stay in touch with Sagar Gadani. Thank you for visiting the website.", facebook_link: "https://www.facebook.com", twitter_link: "https://www.twitter.com", instagram_link: "https://www.instagram.com")
 
-Photo.create(status: "active", image: File.new("public/shared_photos/about/about-thumb.png"), is_cover_photo: false, user_id: User.find_by(email: 'sagar1@gmail.com').id, imageable_type: "About", imageable_id: about.id)
+Photo.create(status: "active", image: File.new("public/shared_photos/about/about-thumb.png"), is_cover_photo: false, user_id: user.id, imageable_type: "About", imageable_id: about.id)
 
 service_icons = ServiceIcon.create!([
   { icon_image: "/shared_photos/service_icons/fashion-icon.png", status: 1},
@@ -32,11 +32,11 @@ service = Service.create([
 ])
 
 homepage_photo = HomepagePhoto.create!([
-  { homepage_image: File.new("public/shared_photos/homepage_photos/image_1.jpg"), is_active: true,user_id: User.find_by(email: 'sagar1@gmail.com').id},
-  { homepage_image: File.new("public/shared_photos/homepage_photos/image_2.jpg"), is_active: true,user_id: User.find_by(email: 'sagar1@gmail.com').id},
-  { homepage_image: File.new("public/shared_photos/homepage_photos/image_3.JPG"), is_active: true,user_id: User.find_by(email: 'sagar1@gmail.com').id},
-  { homepage_image: File.new("public/shared_photos/homepage_photos/image_4.jpg"), is_active: true,user_id: User.find_by(email: 'sagar1@gmail.com').id},
-  { homepage_image: File.new("public/shared_photos/homepage_photos/image_5.JPG"), is_active: true,user_id: User.find_by(email: 'sagar1@gmail.com').id}
+  { homepage_image: File.new("public/shared_photos/homepage_photos/image_1.jpg"), is_active: true,user_id: user.id},
+  { homepage_image: File.new("public/shared_photos/homepage_photos/image_2.jpg"), is_active: true,user_id: user.id},
+  { homepage_image: File.new("public/shared_photos/homepage_photos/image_3.JPG"), is_active: true,user_id: user.id},
+  { homepage_image: File.new("public/shared_photos/homepage_photos/image_4.jpg"), is_active: true,user_id: user.id},
+  { homepage_image: File.new("public/shared_photos/homepage_photos/image_5.JPG"), is_active: true,user_id: user.id}
 ])
 
 testimonials = Testimonial.create!([
@@ -47,8 +47,8 @@ testimonials = Testimonial.create!([
 ])
 
 testimonial_photos = Photo.create([
-  { status: "active", image: File.new("public/shared_photos/feedback/hemali_gadani.jpeg"), is_cover_photo: false, user_id: User.find_by(email: 'sagar1@gmail.com').id, imageable_type: "Testimonial", imageable_id: testimonials.first.id },
-  { status: "active", image: File.new("public/shared_photos/feedback/anjali_chauhan.jpeg"), is_cover_photo: false, user_id: User.find_by(email: 'sagar1@gmail.com').id, imageable_type: "Testimonial", imageable_id: testimonials.second.id },
-  { status: "active", image: File.new("public/shared_photos/feedback/apurva_chauhan.jpg"), is_cover_photo: false, user_id: User.find_by(email: 'sagar1@gmail.com').id, imageable_type: "Testimonial", imageable_id: testimonials.third.id },
-  { status: "active", image: File.new("public/shared_photos/feedback/vaibhav_prakash.jpg"), is_cover_photo: false, user_id: User.find_by(email: 'sagar1@gmail.com').id, imageable_type: "Testimonial", imageable_id: testimonials.fourth.id }
+  { status: "active", image: File.new("public/shared_photos/feedback/hemali_gadani.jpeg"), is_cover_photo: false, user_id: user.id, imageable_type: "Testimonial", imageable_id: testimonials.first.id },
+  { status: "active", image: File.new("public/shared_photos/feedback/anjali_chauhan.jpeg"), is_cover_photo: false, user_id: user.id, imageable_type: "Testimonial", imageable_id: testimonials.second.id },
+  { status: "active", image: File.new("public/shared_photos/feedback/apurva_chauhan.jpg"), is_cover_photo: false, user_id: user.id, imageable_type: "Testimonial", imageable_id: testimonials.third.id },
+  { status: "active", image: File.new("public/shared_photos/feedback/vaibhav_prakash.jpg"), is_cover_photo: false, user_id: user.id, imageable_type: "Testimonial", imageable_id: testimonials.fourth.id }
 ])
