@@ -47,8 +47,16 @@ testimonials = Testimonial.create!([
 ])
 
 testimonial_photos = Photo.create([
+
   { status: "active", image: File.new("public/shared_photos/feedback/hemali_gadani.jpeg"), is_cover_photo: false, user_id: user.id, imageable_type: "Testimonial", imageable_id: testimonials.first.id },
   { status: "active", image: File.new("public/shared_photos/feedback/anjali_chauhan.jpeg"), is_cover_photo: false, user_id: user.id, imageable_type: "Testimonial", imageable_id: testimonials.second.id },
   { status: "active", image: File.new("public/shared_photos/feedback/apurva_chauhan.jpg"), is_cover_photo: false, user_id: user.id, imageable_type: "Testimonial", imageable_id: testimonials.third.id },
   { status: "active", image: File.new("public/shared_photos/feedback/vaibhav_prakash.jpg"), is_cover_photo: false, user_id: user.id, imageable_type: "Testimonial", imageable_id: testimonials.fourth.id }
+])
+
+Category.create([
+  { category_name: "Wedding", status: "active", user_id: user.id },
+  { category_name: "Candid", status: "active", user_id: user.id },
+  { category_name: "Kids", status: "active", user_id: user.id },
+  { category_name: "Model", status: "active", user_id: user.id }
 ])
