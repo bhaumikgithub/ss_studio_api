@@ -1,5 +1,5 @@
 class Albums::PortfolioAlbumAttributesSerializer < ActiveModel::Serializer
-  attributes :id, :album_name, :cover_photo
+  attributes :id, :album_name, :cover_photo, :slug
   has_many :categories, key: "categories",serializer: Albums::CategoriesAttributesSerializer
 
   def cover_photo
