@@ -1,6 +1,6 @@
 class AlbumsController < ApplicationController
   # include InheritAction
-  skip_before_action :doorkeeper_authorize!, only: [ :portfolio ]
+  skip_before_action :doorkeeper_authorize!, only: [ :portfolio, :show ]
   before_action :fetch_album, only: [ :update, :destroy, :show ]
 
   # GET /albums
@@ -88,6 +88,7 @@ class AlbumsController < ApplicationController
   end
 
   def fetch_album
-    @album = current_resource_owner.albums.friendly.find(params[:id])
+    # @album = current_resource_owner.album.friendly.find(params[:id])
+    @album = Album.friendly.find(params[:id])
   end
 end
