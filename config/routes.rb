@@ -14,8 +14,13 @@ Rails.application.routes.draw do
       confirmations: 'user/confirmations'
   }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  resources :categories
+  resources :categories do
+    get 'active', on: :collection
+  end
   resources :albums do
+    collection do
+      get 'portfolio'
+    end
     resources :album_recipients, only: [:create, :index, :destroy] do
         post 'resend', on: :member
     end

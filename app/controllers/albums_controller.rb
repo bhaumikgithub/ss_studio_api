@@ -1,6 +1,6 @@
 class AlbumsController < ApplicationController
   # include InheritAction
-
+  skip_before_action :doorkeeper_authorize!, only: [ :portfolio ]
   before_action :fetch_album, only: [ :update, :destroy, :show ]
 
   # GET /albums
@@ -63,6 +63,23 @@ class AlbumsController < ApplicationController
     json_response({success: true, message: "Album destroy successfully.", data: {albums: @album}}, 200)
   end
 
+  # GET /albums/portfolio
+  def portfolio
+    if params[:category].present? && params[:category] != "all"
+      category = Category.find_by_category_name(params[:category])
+      @portfolio_albums = category.albums
+    else
+      @portfolio_albums = Album.all
+    end
+
+    @portfolio_albums = @portfolio_albums.where(status: "active", portfolio_visibility: true, is_private: false)
+    json_response({
+      success: true,
+      data: {
+        albums: array_serializer.new(@portfolio_albums, serializer: Albums::PortfolioAlbumAttributesSerializer),
+      }
+    }, 200)
+  end
 
   private
 
