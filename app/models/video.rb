@@ -4,8 +4,8 @@ class Video < ApplicationRecord
   belongs_to :user
 
   # Enumerator
-  enum video_type: { youtube: 1, vimeo: 2, other: 3 }
-  enum status: { publish: 1, unpublish: 2 }
+  enum video_type: { youtube: 0, vimeo: 1, other: 2 }
+  enum status: { publish: 0, unpublish: 1 }
 
   # Validations
   has_attached_file :video, :styles => {
