@@ -6,7 +6,12 @@ class VideosController < ApplicationController
   # GET    /videos
   def index
     @videos = current_resource_owner.videos
-    render_success_response({ :videos => @videos })
+    json_response({
+      success: true,
+      data: {
+        videos: array_serializer.new(@videos, serializer: Videos::VideoAttributesSerializer),
+      }
+    }, 200)
   end
 
   # POST   /videos
@@ -32,7 +37,7 @@ class VideosController < ApplicationController
   private
 
   def resource_params
-    params.require(:video).permit(:is_youtube_url, :is_vimeo_url, :video)
+    params.require(:video).permit(:title, :video_type, :video_url, :status, :video)
   end
 
   def fetch_video
