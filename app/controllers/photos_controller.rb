@@ -38,7 +38,7 @@ class PhotosController < ApplicationController
       success: true,
       message: "Set as cover photo successfully.",
       data: {
-        photos: single_record_serializer.new(@photo, serializer: Photos::SetCoverPhotoAttributesSerializer),
+        photo: single_record_serializer.new(@photo, serializer: Photos::SetCoverPhotoAttributesSerializer),
       }
     }, 201)
   end
