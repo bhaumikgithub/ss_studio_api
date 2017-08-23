@@ -34,7 +34,13 @@ class PhotosController < ApplicationController
   def set_cover_photo
     @photo = Photo.find(params[:id])
     @photo.set_as_cover
-    json_response({success: true, message: "Set as cover photo successfully.", data: {photos: @photo}}, 200)
+    json_response({
+      success: true,
+      message: "Set as cover photo successfully.",
+      data: {
+        photos: single_record_serializer.new(@photo, serializer: Photos::SetCoverPhotoAttributesSerializer),
+      }
+    }, 201)
   end
 
   private
