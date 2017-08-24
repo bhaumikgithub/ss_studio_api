@@ -17,8 +17,16 @@ class TestimonialsController < ApplicationController
   # POST /testimonials
   def create
     @testimonial = Testimonial.create!(resource_params)
-    @testimonial.photo.update_user(current_resource_owner)
-    render_success_response({ :testimonial => @testimonial}, 201)
+    if @testimonial.photo.present?
+      @testimonial.photo.update_user(current_resource_owner)
+    end
+    json_response({
+      success: true,
+      data: {
+        testimonial: single_record_serializer.new(@testimonial, serializer: Testimonials::TestimonialAttributesSerializer),
+      }
+    }, 201)
+    # render_success_response({ :testimonial => @testimonial}, 201)
   end
 
   # GET /testimonials/:id
