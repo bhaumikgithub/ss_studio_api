@@ -11,7 +11,6 @@ class HomepagePhotosController < ApplicationController
   
   # POST /homepage_photos
   def create
-    binding.pry
     @homepage_photo = current_resource_owner.homepage_photos.create!(homepage_photo_params)
     render_success_response({ :homepage_photos => @homepage_photo}, 201)
   end
