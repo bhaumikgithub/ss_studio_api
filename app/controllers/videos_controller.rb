@@ -18,7 +18,12 @@ class VideosController < ApplicationController
   def create
     @video = current_resource_owner.videos.create!(resource_params)
     @video.update_attributes(video_thumb: @video.video.url(:thumb))
-    render_success_response({ :video => @video }, 201)
+    json_response({
+      success: true,
+      data: {
+        video: single_record_serializer.new(@video, serializer: Videos::VideoAttributesSerializer),
+      }
+    }, 201)
   end
 
   # DELETE /videos/:id
@@ -31,7 +36,12 @@ class VideosController < ApplicationController
   def update
     @video.update_attributes!(resource_params)
     @video.update_attributes(video_thumb: @video.video.url(:thumb))
-    render_success_response({ :video => @video }, 201)
+    json_response({
+      success: true,
+      data: {
+        video: single_record_serializer.new(@video, serializer: Videos::VideoAttributesSerializer),
+      }
+    }, 201)
   end
 
   private
