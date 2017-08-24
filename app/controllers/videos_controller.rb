@@ -1,6 +1,7 @@
 class VideosController < ApplicationController
 
   # Callabcks
+  skip_before_action :doorkeeper_authorize!, only: [ :publish ]
   before_action :fetch_video, only: [ :destroy, :update ]
 
   # GET    /videos
@@ -42,6 +43,17 @@ class VideosController < ApplicationController
         video: single_record_serializer.new(@video, serializer: Videos::VideoAttributesSerializer),
       }
     }, 201)
+  end
+
+  # GET /videos/publish
+  def publish
+    @videos = Video.where(status: 'publish')
+    json_response({
+      success: true,
+      data: {
+        videos: array_serializer.new(@videos, serializer: Videos::VideoAttributesSerializer),
+      }
+    }, 200)
   end
 
   private

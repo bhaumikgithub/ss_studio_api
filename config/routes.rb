@@ -59,7 +59,11 @@ Rails.application.routes.draw do
     end
   end
   resources :contact_messages, only: [:create]
-  resources :videos
+  resources :videos do
+    collection do
+      get 'publish'
+    end
+  end
   resources :users, only: [:show]
   resources :service_icons, only: [:index]
 end
