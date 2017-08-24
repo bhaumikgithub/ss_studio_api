@@ -1,7 +1,8 @@
 class HomepagePhotos::HomepagePhotoAttributesSerializer < ActiveModel::Serializer
-  attributes :id, :is_active, :homepage_image, :homepage_image_file_name
+  attributes :id, :homepage_image, :homepage_image_file_name
 
   def homepage_image
+  	# binding.pry
       CommonSerializer.full_image_url(object.homepage_image.present? ? object.homepage_image.url(:medium) : object.photo.image.url(:medium))
   end
 

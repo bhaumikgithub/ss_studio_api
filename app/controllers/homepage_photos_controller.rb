@@ -1,6 +1,7 @@
 class HomepagePhotosController < ApplicationController
-  include InheritAction
+  # include InheritAction
   skip_before_action :doorkeeper_authorize!, only: [ :active ]
+  before_action :fetch_homepage_photo, only: [ :update ]
   
   # GET /homepage_photos
   def index
@@ -10,6 +11,7 @@ class HomepagePhotosController < ApplicationController
   
   # POST /homepage_photos
   def create
+    binding.pry
     @homepage_photo = current_resource_owner.homepage_photos.create!(homepage_photo_params)
     render_success_response({ :homepage_photos => @homepage_photo}, 201)
   end
@@ -58,6 +60,18 @@ class HomepagePhotosController < ApplicationController
     }, 200)
   end
 
+  #  PATCH /homepage_photos/:id
+  def update
+    @homepage_photo.update_attributes(resource_params)
+    
+    json_response({
+      success: true,
+      data: {
+        homepage_photo: single_record_serializer.new(@homepage_photo, serializer: HomepagePhotos::HomepagePhotoAttributesSerializer),
+      }
+    }, 201)
+  end
+
   private
   
     def homepage_photo_params
@@ -76,6 +90,14 @@ class HomepagePhotosController < ApplicationController
 
     def action_params(p)
       ActionController::Parameters.new(p)
+    end
+
+    def fetch_homepage_photo
+      @homepage_photo = current_resource_owner.homepage_photos.find(params[:id])
+    end
+
+    def resource_params
+      params.require(:homepage_photo).permit(:homepage_image)
     end
 
 end
