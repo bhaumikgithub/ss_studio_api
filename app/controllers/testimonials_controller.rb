@@ -17,7 +17,9 @@ class TestimonialsController < ApplicationController
   # POST /testimonials
   def create
     @testimonial = current_resource_owner.testimonials.create!(resource_params)
-    @testimonial.photo.update_user(current_resource_owner)
+    if @testimonial.photo.present?
+      @testimonial.photo.update_user(current_resource_owner)
+    end
     json_response({
       success: true,
       data: {
