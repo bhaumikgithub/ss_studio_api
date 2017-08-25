@@ -1,11 +1,16 @@
 class HomepagePhotosController < ApplicationController
-  skip_before_action :doorkeeper_authorize!, only: [ :active ]
+  skip_before_action :doorkeeper_authorize!, only: [ :active, :index ]
   before_action :fetch_homepage_photo, only: [ :update ]
 
   # GET /homepage_photos
   def index
-    @homepage_photos = current_resource_owner.homepage_photos
-    render_success_response({ :homepage_photos => @homepage_photos }, 200)
+    @homepage_photos = current_resource_owner.homepage_photos.order('created_at desc')
+    json_response({
+      success: true,
+      data: {
+        active_photos: array_serializer.new(@homepage_photos, serializer: HomepagePhotos::HomepagePhotoAttributesSerializer, style: "medium"),
+      }
+    }, 200)
   end
 
   # POST /homepage_photos
@@ -49,11 +54,11 @@ class HomepagePhotosController < ApplicationController
 
   # GET /homepage_photos/active
   def active
-    @active_photos = HomepagePhoto.where(is_active: true)
+    @active_photos = HomepagePhoto.where(is_active: true).order('created_at desc')
     json_response({
       success: true,
       data: {
-        active_photos: array_serializer.new(@active_photos, serializer: HomepagePhotos::HomepagePhotoAttributesSerializer),
+        active_photos: array_serializer.new(@active_photos, serializer: HomepagePhotos::HomepagePhotoAttributesSerializer, style: "original"),
       }
     }, 200)
   end
