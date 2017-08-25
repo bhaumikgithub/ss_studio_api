@@ -1,7 +1,7 @@
 class TestimonialsController < ApplicationController
   include InheritAction
   skip_before_action :doorkeeper_authorize!, only: [ :active ]
-  before_action :fetch_testimonial, only: [ :show ]
+  before_action :fetch_testimonial, only: [ :show, :update ]
   
   # GET /testimonials
   def index
@@ -16,17 +16,26 @@ class TestimonialsController < ApplicationController
 
   # POST /testimonials
   def create
-    @testimonial = Testimonial.create!(resource_params)
-    if @testimonial.photo.present?
-      @testimonial.photo.update_user(current_resource_owner)
-    end
+    @testimonial = current_resource_owner.testimonials.create!(resource_params)
+    @testimonial.photo.update_user(current_resource_owner)
     json_response({
       success: true,
       data: {
         testimonial: single_record_serializer.new(@testimonial, serializer: Testimonials::TestimonialAttributesSerializer),
       }
     }, 201)
-    # render_success_response({ :testimonial => @testimonial}, 201)
+  end
+
+  # PATCH  /testimonials/:id
+  def update
+    @testimonial.update_attributes!(resource_params)
+    @testimonial.photo.update_user(current_resource_owner)
+    json_response({
+      success: true,
+      data: {
+        testimonial: single_record_serializer.new(@testimonial, serializer: Testimonials::TestimonialAttributesSerializer),
+      }
+    }, 201)
   end
 
   # GET /testimonials/:id
@@ -53,7 +62,7 @@ class TestimonialsController < ApplicationController
   private
 
   def resource_params
-    params.require(:testimonial).permit(:client_name, :message, :contact_id, :status, photo_attributes: [:id, :image, :_destroy]).merge(user_id: current_resource_owner.id)
+    params.require(:testimonial).permit(:client_name, :message, :contact_id, :rating, :status, photo_attributes: [:id, :image, :_destroy]).merge(user_id: current_resource_owner.id)
   end
 
   def fetch_testimonial
