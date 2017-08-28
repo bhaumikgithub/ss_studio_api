@@ -40,13 +40,7 @@ class AlbumRecipientsController < ApplicationController
   def resend
     album_recipient = @album.album_recipients.find_by(id: params[:id])
     album_recipient.shared_album_link(@album)
-    json_response({
-      success: true,
-      data: {
-        album_recipient: single_record_serializer.new(album_recipient, serializer: AlbumRecipients::AlbumRecipientsAttributesSerializer),
-      }
-    }, 201)
-    # json_response({success: true, message: "Album share successfully.", data: {album_recipients: album_recipient}}, 201)
+    json_response({success: true, message: "Album share successfully.", data: {album_recipients: album_recipient}}, 201)
   end
 
   private

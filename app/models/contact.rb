@@ -31,7 +31,7 @@ class Contact < ApplicationRecord
 
   def self.create_contact(email,user)
     @email = Contact.find_by(email: email)
-    if @email.present? == false
+    if !@email.present?
       @contact = Contact.create!(email: email, user_id: user.id)
       Photo.create(user_id: user.id,imageable_type: "Contact",imageable_id: @contact.id)
       return @contact
