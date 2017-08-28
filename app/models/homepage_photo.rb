@@ -7,9 +7,6 @@ class HomepagePhoto < ApplicationRecord
   # Validations
   has_attached_file :homepage_image,
                     :styles => {
-                      :small => {
-                        :geometry => "200x200#"
-                      },
                       :medium => {
                         :geometry => "270x270#"
                       },
