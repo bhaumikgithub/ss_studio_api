@@ -2,14 +2,14 @@ class TestimonialsController < ApplicationController
   include InheritAction
   skip_before_action :doorkeeper_authorize!, only: [ :active ]
   before_action :fetch_testimonial, only: [ :show, :update ]
-  
+
   # GET /testimonials
   def index
     @testimonials = current_resource_owner.testimonials
     json_response({
       success: true,
       data: {
-        testimonials: array_serializer.new(@testimonials, serializer: Testimonials::TestimonialAttributesSerializer),
+        testimonials: array_serializer.new(@testimonials, serializer: Testimonials::TestimonialAttributesSerializer, style: "thumb"),
       }
     }, 200)
   end
@@ -23,7 +23,7 @@ class TestimonialsController < ApplicationController
     json_response({
       success: true,
       data: {
-        testimonial: single_record_serializer.new(@testimonial, serializer: Testimonials::TestimonialAttributesSerializer),
+        testimonial: single_record_serializer.new(@testimonial, serializer: Testimonials::TestimonialAttributesSerializer, style: "thumb"),
       }
     }, 201)
   end
@@ -35,7 +35,7 @@ class TestimonialsController < ApplicationController
     json_response({
       success: true,
       data: {
-        testimonial: single_record_serializer.new(@testimonial, serializer: Testimonials::TestimonialAttributesSerializer),
+        testimonial: single_record_serializer.new(@testimonial, serializer: Testimonials::TestimonialAttributesSerializer, style: "thumb"),
       }
     }, 201)
   end
@@ -56,7 +56,7 @@ class TestimonialsController < ApplicationController
     json_response({
       success: true,
       data: {
-        testimonials: array_serializer.new(@testimonials, serializer: Testimonials::TestimonialAttributesSerializer),
+        testimonials: array_serializer.new(@testimonials, serializer: Testimonials::TestimonialAttributesSerializer, style: "medium"),
       }
     }, 200)
   end
