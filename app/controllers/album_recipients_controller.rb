@@ -16,25 +16,24 @@ class AlbumRecipientsController < ApplicationController
   
   # POST /albums/:album_id/album_recipients
   def create
-    album_recipients = []
+    album_recipient_ids = []
     params[:album_recipient][:emails].each do |email|
-      @contact = Contact.find_or_create_contact(email,current_resource_owner)
-      album_recipients << @album.album_recipients.create!(album_recipient_params.merge(contact_id: @contact.id).permit!)
-    end
-    album_recipients.each do |album_recipient|
-      album_recipient.shared_album_link(@album)
+      @contact = Contact.create_contact(email,current_resource_owner)
+      recipient = @album.album_recipients.create!(album_recipient_params.merge(contact_id: @contact.id).permit!)
+      recipient.shared_album_link(@album)
+      album_recipient_ids << recipient.id
     end
 
-    @album_recipient = @album.album_recipients.where("ID IN (?)", album_recipients)
-    @album_recipient.update(is_email_sent: true)
+    @album_recipients = @album.album_recipients.where("ID IN (?)", album_recipient_ids)
+    @album.Shared!
+
     json_response({
       success: true,
       message: "Album share successfully.",
       data: {
-        album_recipients: array_serializer.new(@album_recipient, serializer: AlbumRecipients::AlbumRecipientsAttributesSerializer),
+        album_recipients: array_serializer.new(@album_recipients, serializer: AlbumRecipients::AlbumRecipientsAttributesSerializer),
       }
     }, 201)
-    # json_response({success: true, message: "Album share successfully.", data: {album_recipients: @album_recipient}}, 201)
   end
 
   #POST /albums/:album_id/album_recipients/:id/resend
@@ -57,6 +56,6 @@ class AlbumRecipientsController < ApplicationController
   end
 
   def album_recipient_params
-    params.require(:album_recipient).permit(:custom_message, :album_id )
+    params.require(:album_recipient).permit(:custom_message)
   end
 end

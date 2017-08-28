@@ -29,7 +29,7 @@ class Contact < ApplicationRecord
     "#{first_name.capitalize} #{last_name.capitalize}"
   end
 
-  def self.find_or_create_contact(email,user)
+  def self.create_contact(email,user)
     @email = Contact.find_by(email: email)
     if @email.present? == false
       @contact = Contact.create!(email: email, user_id: user.id)
@@ -38,7 +38,5 @@ class Contact < ApplicationRecord
     else
       return @email
     end
-    # binding.pry
-    # exit
   end
 end
