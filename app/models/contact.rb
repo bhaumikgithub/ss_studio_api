@@ -28,4 +28,15 @@ class Contact < ApplicationRecord
     return first_name if last_name.blank?
     "#{first_name.capitalize} #{last_name.capitalize}"
   end
+
+  def self.create_contact(email,user)
+    @email = Contact.find_by(email: email)
+    if !@email.present?
+      @contact = Contact.create!(email: email, user_id: user.id)
+      Photo.create(user_id: user.id,imageable_type: "Contact",imageable_id: @contact.id)
+      return @contact
+    else
+      return @email
+    end
+  end
 end

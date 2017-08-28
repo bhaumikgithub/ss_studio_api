@@ -1,3 +1,3 @@
 class AlbumRecipients::ContactsAttributesSerializer < ActiveModel::Serializer
-  attributes :full_name, :email
+  attributes :id, :full_name, :email
 end
