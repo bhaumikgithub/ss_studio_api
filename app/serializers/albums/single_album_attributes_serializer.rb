@@ -1,10 +1,14 @@
 class Albums::SingleAlbumAttributesSerializer < ActiveModel::Serializer
-  attributes :id, :album_name, :is_private, :status, :updated_at, :created_at, :delivery_status, :portfolio_visibility, :passcode, :status, :photo_count, :cover_photo
+  attributes :id, :album_name, :is_private, :status, :updated_at, :created_at, :delivery_status, :portfolio_visibility, :passcode, :status, :photo_count, :recipients_count, :cover_photo
   has_many :photos, key: "photos", serializer: Albums::PhotoAttributesSerializer
   has_many :categories, key: "categories",serializer: Albums::SingleCategoriesAttributesSerializer
 
   def photo_count
     object.photos.count
+  end
+
+  def recipients_count
+    object.album_recipients.count
   end
 
   def photos
