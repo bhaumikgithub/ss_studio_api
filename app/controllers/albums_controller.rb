@@ -46,7 +46,7 @@ class AlbumsController < ApplicationController
   
   # PATCH/PUT /albums/:id
   def update
-    @album.update_attributes(album_params)
+    @album.update_attributes!(album_params)
     # json_response({success: true, message: "Album update successfully.", data: {album: @album}}, 201)
     json_response({
       success: true,
