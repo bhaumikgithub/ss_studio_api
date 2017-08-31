@@ -81,10 +81,10 @@ class AlbumsController < ApplicationController
     }, 200)
   end
 
-  # POST /albums/:id/passcode_verification
+  # GET /albums/:id/passcode_verification?passcode=''
   def passcode_verification
     if @album.is_private?
-      if @album.passcode === params[:params][:passcode]
+      if @album.passcode === params[:passcode]
         json_response({success: true, message: "Passcode verification successfully."}, 200)
       else
         json_response({success: false, message: "Enter Valid Passcode.", errors: 'Invalid Passcode' }, 401)
