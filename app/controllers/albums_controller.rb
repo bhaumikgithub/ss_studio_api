@@ -1,7 +1,7 @@
 class AlbumsController < ApplicationController
   # include InheritAction
-  skip_before_action :doorkeeper_authorize!, only: [ :portfolio, :show ]
-  before_action :fetch_album, only: [ :update, :destroy, :show ]
+  skip_before_action :doorkeeper_authorize!, only: [ :portfolio, :show, :passcode_verification ]
+  before_action :fetch_album, only: [ :update, :destroy, :show, :passcode_verification ]
 
   # GET /albums
   def index
@@ -79,6 +79,17 @@ class AlbumsController < ApplicationController
         albums: array_serializer.new(@portfolio_albums, serializer: Albums::PortfolioAlbumAttributesSerializer),
       }
     }, 200)
+  end
+
+  # GET /albums/:id/passcode_verification?passcode=''
+  def passcode_verification
+    if @album.is_private?
+      if @album.passcode === params[:passcode]
+        json_response({success: true, message: "Passcode verification successfully."}, 200)
+      else
+        json_response({success: false, message: "Enter Valid Passcode.", errors: 'Invalid Passcode' }, 401)
+      end
+    end
   end
 
   private
