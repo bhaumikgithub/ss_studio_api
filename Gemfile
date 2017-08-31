@@ -75,3 +75,7 @@ gem 'dotenv-rails'
 
 # For friendly slug
 gem 'friendly_id', '~> 5.1.0'
+
+# For Background Job
+gem 'delayed_job_active_record'
+gem "daemons"
