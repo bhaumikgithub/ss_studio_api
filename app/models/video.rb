@@ -14,4 +14,5 @@ class Video < ApplicationRecord
   }, :processors => [:ffmpeg]
 
   validates_attachment_content_type :video, :content_type => ['video/mp4']
+  validates :title, :video_url, presence: true
 end
