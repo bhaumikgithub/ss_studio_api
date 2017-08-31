@@ -3,9 +3,8 @@ class ContactMessage < ApplicationRecord
   # Associations
   # Enumerator
   # Validations
-  validates :name, presence: true
-  validates :phone, presence: true, :numericality => true 
-  validates :email, presence: true
+  validates :name, :email, :phone, :message, presence: true
+  validates :phone, :numericality => true
   # Scopes
   # Methods
 end

@@ -56,7 +56,9 @@ testimonial_photos = Photo.create([
 
 Category.create([
   { category_name: "Wedding", status: "active", user_id: user.id },
+  { category_name: "Pre-wedding", status: "active", user_id: user.id },
   { category_name: "Candid", status: "active", user_id: user.id },
-  { category_name: "Kids", status: "active", user_id: user.id },
-  { category_name: "Model", status: "active", user_id: user.id }
+  { category_name: "Model", status: "active", user_id: user.id },
+  { category_name: "Couple", status: "active", user_id: user.id },
+  { category_name: "Kids", status: "active", user_id: user.id }
 ])
