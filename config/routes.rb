@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     get 'active', on: :collection
   end
   resources :albums do
+      post 'passcode_verification', on: :member
     collection do
       get 'portfolio'
     end
