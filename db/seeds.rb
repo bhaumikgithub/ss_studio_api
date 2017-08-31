@@ -25,12 +25,12 @@ service_icons = ServiceIcon.create!([
 ])
 
 service = Service.create([
-  { service_name: "Wedding Photography", description: "We offer different packages for Wedding Photography. Capture your special day moments with us! After all, Wedding is the special event in anyone's life.", status: 1, service_icon_id:  service_icons.first.id },
-  { service_name: "Pre-Wedding Photography", description: "We provide themed Pre-Wedding photography & videography. We capture and bring emotion in the motions of Life.  Make your pre-wedding days memorable!", status: 1, service_icon_id:  service_icons.second.id },
-  { service_name: "Candid Photography", description: "We love clicking Candid Photographs, of the unexpected moments. We capture your Smile, Love and Joy with light composition of Candid Shots. It's about capturing Perfect Moment. ", status: 1, service_icon_id:  service_icons.third.id },
-  { service_name: "Model Shoot", description: "We are highly instrumental in offering Modelling photography services to the clients. our services includes Fashion Photography, Modelling Photo Shoot and Modelling Services.", status: 1, service_icon_id:  service_icons.fourth.id },
-  { service_name: "Couple Photography", description: "We are expert in Couple Shoot During the Couple Shoot, we create a Story for you and provide Props. Contact us to get a memorable gift for you and your partner in future!", status: 1, service_icon_id:  service_icons.fifth.id },
-  { service_name: "Kids Photography", description: "We undertake indoor and outdoor Kids Photo Shoots. Families have preferred this Kids Photography to have the whole time with lasting memories and also to fill walls within framed professional stills. ", status: 1, service_icon_id:  service_icons.sixth.id }
+  { service_name: "Wedding Photography", description: "We offer different packages for Wedding Photography. Capture your special day moments with us! After all, Wedding is the special event in anyone's life.", status: 1, service_icon_id:  service_icons[0].id },
+  { service_name: "Pre-Wedding Photography", description: "We provide themed Pre-Wedding photography & videography. We capture and bring emotion in the motions of Life.  Make your pre-wedding days memorable!", status: 1, service_icon_id:  service_icons[1].id },
+  { service_name: "Candid Photography", description: "We love clicking Candid Photographs, of the unexpected moments. We capture your Smile, Love and Joy with light composition of Candid Shots. It's about capturing Perfect Moment. ", status: 1, service_icon_id:  service_icons[2].id },
+  { service_name: "Model Shoot", description: "We are highly instrumental in offering Modelling photography services to the clients. our services includes Fashion Photography, Modelling Photo Shoot and Modelling Services.", status: 1, service_icon_id:  service_icons[3].id },
+  { service_name: "Couple Photography", description: "We are expert in Couple Shoot During the Couple Shoot, we create a Story for you and provide Props. Contact us to get a memorable gift for you and your partner in future!", status: 1, service_icon_id:  service_icons[4].id },
+  { service_name: "Kids Photography", description: "We undertake indoor and outdoor Kids Photo Shoots. Families have preferred this Kids Photography to have the whole time with lasting memories and also to fill walls within framed professional stills. ", status: 1, service_icon_id:  service_icons[5].id }
 ])
 
 homepage_photo = HomepagePhoto.create!([
