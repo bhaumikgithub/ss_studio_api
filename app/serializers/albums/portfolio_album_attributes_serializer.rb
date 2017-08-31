@@ -1,6 +1,11 @@
 class Albums::PortfolioAlbumAttributesSerializer < ActiveModel::Serializer
   attributes :id, :album_name, :cover_photo, :slug
+  has_many :photos, key: "photo_count"
   has_many :categories, key: "categories",serializer: Albums::CategoriesAttributesSerializer
+
+  def photos
+    object.photos.count
+  end
 
   def cover_photo
     photo = object.photos.where(is_cover_photo: true).first
