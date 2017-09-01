@@ -12,7 +12,7 @@ class Albums::SingleAlbumAttributesSerializer < ActiveModel::Serializer
   end
 
   def photos
-    object.photos.where.not(is_cover_photo: true)
+    object.photos
   end
 
   def cover_photo
