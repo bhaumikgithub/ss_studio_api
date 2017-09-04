@@ -43,6 +43,20 @@ class AlbumRecipientsController < ApplicationController
     json_response({success: true, message: "Album share successfully.", data: {album_recipients: album_recipient}}, 201)
   end
 
+  # GET albums/:album_id/album_recipients/not_invited_contacts
+  def not_invited_contacts
+    recipient_emails = []
+    @album_recipients = current_resource_owner.albums.find_by(id: params[:album_id]).album_recipients
+    @not_invited_contacts = current_resource_owner.contacts.where.not(id: @album_recipients.pluck(:contact_id)).includes(:photo)
+
+    json_response({
+      success: true,
+      data: {
+        contacts: array_serializer.new(@not_invited_contacts, serializer: Contacts::ContactAttributesSerializer),
+      }
+    }, 200)
+  end
+
   private
 
   def fetch_album
