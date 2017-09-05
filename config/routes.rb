@@ -23,7 +23,10 @@ Rails.application.routes.draw do
       get 'portfolio'
     end
     resources :album_recipients, only: [:create, :index, :destroy] do
-        post 'resend', on: :member
+      collection do
+        get 'not_invited_contacts'
+      end
+      post 'resend', on: :member
     end
   end
   resources :photos do
