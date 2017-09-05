@@ -10,7 +10,7 @@ class AlbumsController < ApplicationController
     ).per(
       params[:per_page]
     ).order(
-      "albums.updated_at DESC"
+      "albums.updated_at #{params[:sorting_order]}"
     )
     json_response({
       success: true,
