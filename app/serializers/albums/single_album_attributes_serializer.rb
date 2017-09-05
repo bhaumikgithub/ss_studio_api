@@ -21,12 +21,15 @@ class Albums::SingleAlbumAttributesSerializer < ActiveModel::Serializer
       {
         id: photo.id,
         image_file_name: photo.image_file_name,
-        image: CommonSerializer.full_image_url(photo.image.url(:thumb))
+        image: CommonSerializer.full_image_url(photo.image.url(:thumb)),
+        original_image: CommonSerializer.full_image_url(photo.image.url),
+        is_cover_photo: true
       }
     else
       {
         image_file_name: "No image available",
-        image: CommonSerializer.full_image_url("/shared_photos/missing.png")
+        image: CommonSerializer.full_image_url("/shared_photos/missing.png"),
+        is_cover_photo: false
       }
     end
   end
