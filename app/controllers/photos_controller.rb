@@ -13,15 +13,20 @@ class PhotosController < ApplicationController
   # POST /photos
   def create
     @photos = Photo.create!(photo_params)
-    render_success_response({ :photos => @photos}, 201)
+    json_response({
+      success: true,
+      data: {
+        photos: array_serializer.new(@photos, serializer: Photos::CreatePhotoAttributesSerializer),
+      }
+    }, 201)
   end
 
   # DELETE /photos/multi_delete
   def multi_delete
-    if params['photo']['id'].present?
-      Photo.where("id IN (?)",params[:photo][:id]).destroy_all
+    if params['photo']['ids'].present?
+      Photo.where("id IN (?)",params[:photo][:ids]).destroy_all
     else
-      Photo.destroy_all
+      json_response({success: false, message: 'Please select atleast one photo.'}, 400) and return
     end
     json_response({success: true, message: "Selected photos deleted successfully."}, 200)
   end
@@ -29,7 +34,13 @@ class PhotosController < ApplicationController
   # PATCH /photos/:id/set_cover_photo
   def set_cover_photo
     @photo.set_as_cover
-    json_response({success: true, message: "Set as cover photo successfully.", data: {photos: @photo}}, 200)
+    json_response({
+      success: true,
+      message: "Set as cover photo successfully.",
+      data: {
+        photo: single_record_serializer.new(@photo, serializer: Photos::SetCoverPhotoAttributesSerializer),
+      }
+    }, 201)
   end
 
   # PUT /photos/:id/mark_as_checked

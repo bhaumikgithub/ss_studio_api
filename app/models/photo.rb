@@ -4,20 +4,20 @@ class Photo < ApplicationRecord
 
   # Callabcks
   after_create :photo_name
-  
+
   # Associations
   belongs_to :imageable, polymorphic: true
   belongs_to :user
   has_many :homepage_photos
   belongs_to :watermark
-  
+
   # Enumerator
   enum status: { inactive: 0, active: 1 }
   cattr_accessor :watermark_url, :apply_watermark
-  
+
   # Validations
   # validates :imageable_id, :imageable_type, presence: true
-  has_attached_file :image, 
+  has_attached_file :image,
                     :processors => lambda {|attachment|
                       if attachment.class.apply_watermark
                         [:thumbnail,:watermark]
@@ -26,30 +26,26 @@ class Photo < ApplicationRecord
                       end
                     },
                     :styles => lambda { |attachment| {
-                      :small => {
-                        :geometry => "250x250#",
-                        :watermark_path => attachment.instance.class.watermark_url
-                      },
                       :medium => {
-                        :geometry => "300x300#",
+                        :geometry => "259x259#",
                         :watermark_path => attachment.instance.class.watermark_url
                       },
                       :thumb => {
-                        :geometry => "400x400#",
+                        :geometry => "185x185#",
                         :watermark_path => attachment.instance.class.watermark_url
-                      }, 
+                      },
                     }
-                  }
+                  }, default_url: "/shared_photos/missing.png"
   validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
- 
+
   # Scopes
-  
+
   # Methods
-  
+
   # create default photo_title
   def photo_name
     if imageable_type == "Album"
-      self.update(photo_title: "#{self.imageable.album_name} photo #{self.id}") 
+      self.update(photo_title: "#{self.imageable.album_name} photo #{self.id}")
     end
   end
 

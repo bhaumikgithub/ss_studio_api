@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
  # Associations
   has_many :contacts, dependent: :destroy
-  has_many :category, dependent: :destroy
+  has_many :categories, dependent: :destroy
   has_many :watermarks, dependent: :destroy
   has_many :albums, dependent: :destroy
   has_many :photos, dependent: :destroy
@@ -21,7 +21,13 @@ class User < ApplicationRecord
   enum status: { inactive: 0, active: 1 }
   # Validations
 
-   # Scopes
+  # Scopes
 
-   # Methods
+  # Methods
+  def full_name
+    return nil if first_name.blank? && last_name.blank?
+    return first_name if last_name.blank?
+    "#{first_name.capitalize} #{last_name.capitalize}"
+  end
+
 end

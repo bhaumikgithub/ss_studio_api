@@ -12,6 +12,7 @@ class ValidationErrorSerializer
     {
       resource: resource,
       field: field,
+      field_label: field_label,
       detail: detail
     }
   end
@@ -32,6 +33,14 @@ class ValidationErrorSerializer
       scope: [:fields, underscored_resource_name],
       default: @field.to_s
     )
+  end
+
+  def field_label
+    I18n.t(
+      @field,
+      scope: [:fields, underscored_resource_name],
+      default: @field.to_s
+    ).split('_').join(' ')
   end
 
   def detail

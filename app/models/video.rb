@@ -3,6 +3,10 @@ class Video < ApplicationRecord
   # Associations
   belongs_to :user
 
+  # Enumerator
+  enum video_type: { youtube: 0, vimeo: 1, other: 2 }
+  enum status: { published: 0, unpublished: 1 }
+
   # Validations
   has_attached_file :video, :styles => {
     :medium => { :geometry => "640x480", :format => 'mp4',:convert_options => {:output => {:ar => 44100}} },
@@ -10,4 +14,5 @@ class Video < ApplicationRecord
   }, :processors => [:ffmpeg]
 
   validates_attachment_content_type :video, :content_type => ['video/mp4']
+  validates :title, :video_url, presence: true
 end

@@ -1,19 +1,30 @@
 class VideosController < ApplicationController
 
   # Callabcks
+  skip_before_action :doorkeeper_authorize!, only: [ :publish ]
   before_action :fetch_video, only: [ :destroy, :update ]
 
   # GET    /videos
   def index
     @videos = current_resource_owner.videos
-    render_success_response({ :videos => @videos })
+    json_response({
+      success: true,
+      data: {
+        videos: array_serializer.new(@videos, serializer: Videos::VideoAttributesSerializer),
+      }
+    }, 200)
   end
 
   # POST   /videos
   def create
     @video = current_resource_owner.videos.create!(resource_params)
     @video.update_attributes(video_thumb: @video.video.url(:thumb))
-    render_success_response({ :video => @video }, 201)
+    json_response({
+      success: true,
+      data: {
+        video: single_record_serializer.new(@video, serializer: Videos::VideoAttributesSerializer),
+      }
+    }, 201)
   end
 
   # DELETE /videos/:id
@@ -26,13 +37,29 @@ class VideosController < ApplicationController
   def update
     @video.update_attributes!(resource_params)
     @video.update_attributes(video_thumb: @video.video.url(:thumb))
-    render_success_response({ :video => @video }, 201)
+    json_response({
+      success: true,
+      data: {
+        video: single_record_serializer.new(@video, serializer: Videos::VideoAttributesSerializer),
+      }
+    }, 201)
+  end
+
+  # GET /videos/publish
+  def publish
+    @videos = Video.where(status: 'published')
+    json_response({
+      success: true,
+      data: {
+        videos: array_serializer.new(@videos, serializer: Videos::VideoAttributesSerializer),
+      }
+    }, 200)
   end
 
   private
 
   def resource_params
-    params.require(:video).permit(:is_youtube_url, :is_vimeo_url, :video)
+    params.require(:video).permit(:title, :video_type, :video_url, :status, :video)
   end
 
   def fetch_video

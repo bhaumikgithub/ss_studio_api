@@ -1,12 +1,18 @@
 class HomepagePhotosController < ApplicationController
-  include InheritAction
-  
-  
+  skip_before_action :doorkeeper_authorize!, only: [ :active, :index ]
+  before_action :fetch_homepage_photo, only: [ :update ]
+
   # GET /homepage_photos
   def index
-    @homepage_photos = current_resource_owner.homepage_photos
-    render_success_response({ :homepage_photos => @homepage_photos }, 200)
+    @homepage_photos = current_resource_owner.homepage_photos.order('created_at desc')
+    json_response({
+      success: true,
+      data: {
+        active_photos: array_serializer.new(@homepage_photos, serializer: HomepagePhotos::HomepagePhotoAttributesSerializer, style: "medium"),
+      }
+    }, 200)
   end
+
   # POST /homepage_photos
   def create
     @homepage_photo = current_resource_owner.homepage_photos.create!(homepage_photo_params)
@@ -20,7 +26,12 @@ class HomepagePhotosController < ApplicationController
       select_photos.push(current_resource_owner.homepage_photos.create!(selected_photo_params(photo)))
     end
     @select_photo = select_photos
-    render_success_response({ :homepage_photos => @select_photo}, 201)
+    json_response({
+      success: true,
+      data: {
+        homepage_photos: array_serializer.new(@select_photo, serializer: HomepagePhotos::HomepagePhotoAttributesSerializer),
+      }
+    }, 200)
   end
 
   # PUT /homepage_photo/active_gallery_photo
@@ -32,28 +43,64 @@ class HomepagePhotosController < ApplicationController
     @gallery_photo = current_resource_owner.homepage_photos.where("ID IN (?)", gallery_photo)
     @active_photo = @gallery_photo.update(is_active: true)
     @inactive_photo = HomepagePhoto.where.not(id: @active_photo.pluck(:id)).update_all(is_active: false)
-    render_success_response({ :homepage_photos => @active_photo}, 200)
+    json_response({
+      success: true,
+      data: {
+        homepage_photos: array_serializer.new(@active_photo, serializer: HomepagePhotos::HomepagePhotoAttributesSerializer),
+      }
+    }, 201)
 
   end
 
+  # GET /homepage_photos/active
+  def active
+    @active_photos = HomepagePhoto.where(is_active: true).order('created_at desc')
+    json_response({
+      success: true,
+      data: {
+        active_photos: array_serializer.new(@active_photos, serializer: HomepagePhotos::HomepagePhotoAttributesSerializer, style: "original"),
+      }
+    }, 200)
+  end
+
+  #  PATCH /homepage_photos/:id
+  def update
+    @homepage_photo.update_attributes(resource_params)
+
+    json_response({
+      success: true,
+      data: {
+        homepage_photo: single_record_serializer.new(@homepage_photo, serializer: HomepagePhotos::HomepagePhotoAttributesSerializer),
+      }
+    }, 201)
+  end
+
   private
-  
-    def homepage_photo_params
-      params.require(:homepage_photo).map do |p|
-        params_attributes(p)
-      end
-    end
 
-    def selected_photo_params(id)
-      action_params({photo_id: id}).permit(:photo_id)
+  def homepage_photo_params
+    params.require(:homepage_photo).map do |p|
+      params_attributes(p)
     end
+  end
 
-    def params_attributes(p)
-      action_params(p).permit(:homepage_image, :user_id, :is_active, :photo_id)
-    end 
+  def selected_photo_params(id)
+    action_params({photo_id: id}).permit(:photo_id)
+  end
 
-    def action_params(p)
-      ActionController::Parameters.new(p)
-    end
+  def params_attributes(p)
+    action_params(p).permit(:homepage_image, :user_id, :is_active, :photo_id)
+  end
+
+  def action_params(p)
+    ActionController::Parameters.new(p)
+  end
+
+  def fetch_homepage_photo
+    @homepage_photo = current_resource_owner.homepage_photos.find(params[:id])
+  end
+
+  def resource_params
+    params.require(:homepage_photo).permit(:homepage_image)
+  end
 
 end

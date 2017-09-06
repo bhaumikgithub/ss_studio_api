@@ -37,5 +37,6 @@ module SsStudioApi
         config.generators do |g|
       g.fixture_replacement :factory_girl
     end
+    config.active_job.queue_adapter = :delayed_job
   end
 end

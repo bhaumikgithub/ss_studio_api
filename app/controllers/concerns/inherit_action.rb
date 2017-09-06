@@ -20,19 +20,19 @@ module InheritAction
     @resource ||= resource_class.create!(resource_params) 
     yield @resource if block_given?
 
-    render_success_response({ :"#{resource_name_plural}" => @resource }, 201)
+    render_success_response({ :"#{resource_name}" => @resource }, 201)
   end
 
   # GET
   def show
-    render_success_response({ :"#{resource_name_plural}" => @resource })
+    render_success_response({ :"#{resource_name}" => @resource })
   end
 
   # PATCH/PUT
   def update
     @resource.update_attributes!(resource_params)
 
-    render_success_response({ :"#{resource_name_plural}" => @resource }, 201)
+    render_success_response({ :"#{resource_name}" => @resource }, 201)
   end
 
   # DELETE

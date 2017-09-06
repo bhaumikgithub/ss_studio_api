@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170726062026) do
+ActiveRecord::Schema.define(version: 20170829062107) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,7 +55,9 @@ ActiveRecord::Schema.define(version: 20170726062026) do
     t.integer  "delivery_status",      default: 0
     t.boolean  "portfolio_visibility", default: false
     t.string   "passcode"
+    t.string   "slug"
     t.index ["deleted_at"], name: "index_albums_on_deleted_at", using: :btree
+    t.index ["slug"], name: "index_albums_on_slug", unique: true, using: :btree
     t.index ["user_id"], name: "index_albums_on_user_id", using: :btree
   end
 
@@ -102,6 +104,33 @@ ActiveRecord::Schema.define(version: 20170726062026) do
     t.string   "token"
     t.index ["deleted_at"], name: "index_contacts_on_deleted_at", using: :btree
     t.index ["user_id"], name: "index_contacts_on_user_id", using: :btree
+  end
+
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer  "priority",   default: 0, null: false
+    t.integer  "attempts",   default: 0, null: false
+    t.text     "handler",                null: false
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+  end
+
+  create_table "friendly_id_slugs", force: :cascade do |t|
+    t.string   "slug",                      null: false
+    t.integer  "sluggable_id",              null: false
+    t.string   "sluggable_type", limit: 50
+    t.string   "scope"
+    t.datetime "created_at"
+    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, using: :btree
+    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
+    t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
+    t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
   end
 
   create_table "homepage_photos", force: :cascade do |t|
@@ -170,7 +199,6 @@ ActiveRecord::Schema.define(version: 20170726062026) do
     t.integer  "user_id"
     t.string   "imageable_type"
     t.integer  "imageable_id"
-    t.boolean  "is_selected",        default: false
     t.index ["deleted_at"], name: "index_photos_on_deleted_at", using: :btree
     t.index ["imageable_type", "imageable_id"], name: "index_photos_on_imageable_type_and_imageable_id", using: :btree
     t.index ["user_id"], name: "index_photos_on_user_id", using: :btree
@@ -192,6 +220,8 @@ ActiveRecord::Schema.define(version: 20170726062026) do
     t.integer  "service_icon_id"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_services_on_deleted_at", using: :btree
     t.index ["service_icon_id"], name: "index_services_on_service_icon_id", using: :btree
   end
 
@@ -204,6 +234,7 @@ ActiveRecord::Schema.define(version: 20170726062026) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.datetime "deleted_at"
+    t.integer  "rating"
     t.index ["contact_id"], name: "index_testimonials_on_contact_id", using: :btree
     t.index ["deleted_at"], name: "index_testimonials_on_deleted_at", using: :btree
     t.index ["user_id"], name: "index_testimonials_on_user_id", using: :btree
@@ -238,15 +269,17 @@ ActiveRecord::Schema.define(version: 20170726062026) do
 
   create_table "videos", force: :cascade do |t|
     t.integer  "user_id"
-    t.boolean  "is_youtube_url",     default: false
-    t.boolean  "is_vimeo_url",       default: false
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.string   "video_file_name"
     t.string   "video_content_type"
     t.integer  "video_file_size"
     t.datetime "video_updated_at"
     t.string   "video_thumb"
+    t.string   "title"
+    t.integer  "video_type"
+    t.string   "video_url"
+    t.integer  "status"
     t.index ["user_id"], name: "index_videos_on_user_id", using: :btree
   end
 

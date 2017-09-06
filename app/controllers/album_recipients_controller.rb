@@ -1,25 +1,60 @@
 class AlbumRecipientsController < ApplicationController
   include InheritAction
 
-  before_action :fetch_album, only: [:create]
+  before_action :fetch_album, only: [:create, :resend]
+
+  # GET /albums/:album_id/album_recipients
+  def index
+    @album_recipients = current_resource_owner.albums.find_by(id: params[:album_id]).album_recipients
+    json_response({
+      success: true,
+      data: {
+        album_recipients: array_serializer.new(@album_recipients, serializer: AlbumRecipients::AlbumRecipientsAttributesSerializer),
+      }
+    }, 200)
+  end
   
   # POST /albums/:album_id/album_recipients
   def create
-    album_recipients = []
-    params[:album_recipient][:email].each do |email|
-      @contact = Contact.find_or_create_by!(email: email) # email find if not find from contact then its create first
-      album_recipients << @album.album_recipients.create!(album_recipient_params.merge(contact_id: @contact.id).permit!)
-    end
-    @email_add = (params[:album_recipient][:email]).flatten
-    if @album.is_private == true
-      @mail_response = AlbumRecipientMailer.share_private_album_to_recipient_mail( @contact, @album, album_recipients, @email_add).deliver
-    else
-      @mail_response = AlbumRecipientMailer.share_public_album_to_recipient_mail(@contact, @album, album_recipients, @email_add).deliver
+    album_recipient_ids = []
+    params[:album_recipient][:emails].each do |email|
+      @contact = Contact.create_contact(email,current_resource_owner)
+      recipient = @album.album_recipients.create!(album_recipient_params.merge(contact_id: @contact.id).permit!)
+      recipient.shared_album_link(@album)
+      album_recipient_ids << recipient.id
     end
 
-    @album_recipient = @album.album_recipients.where("ID IN (?)", album_recipients)
-    @album_recipient.update(is_email_sent: true)
-    json_response({success: true, message: "Album share successfully.", data: {album_recipients: @album_recipient}}, 201)
+    @album_recipients = @album.album_recipients.where("ID IN (?)", album_recipient_ids)
+    @album.Shared!
+
+    json_response({
+      success: true,
+      message: "Album share successfully.",
+      data: {
+        album_recipients: array_serializer.new(@album_recipients, serializer: AlbumRecipients::AlbumRecipientsAttributesSerializer),
+      }
+    }, 201)
+  end
+
+  #POST /albums/:album_id/album_recipients/:id/resend
+  def resend
+    album_recipient = @album.album_recipients.find_by(id: params[:id])
+    album_recipient.shared_album_link(@album)
+    json_response({success: true, message: "Album share successfully.", data: {album_recipients: album_recipient}}, 201)
+  end
+
+  # GET albums/:album_id/album_recipients/not_invited_contacts
+  def not_invited_contacts
+    recipient_emails = []
+    @album_recipients = current_resource_owner.albums.find_by(id: params[:album_id]).album_recipients
+    @not_invited_contacts = current_resource_owner.contacts.where.not(id: @album_recipients.pluck(:contact_id)).includes(:photo)
+
+    json_response({
+      success: true,
+      data: {
+        contacts: array_serializer.new(@not_invited_contacts, serializer: Contacts::ContactAttributesSerializer),
+      }
+    }, 200)
   end
 
   private
@@ -29,6 +64,6 @@ class AlbumRecipientsController < ApplicationController
   end
 
   def album_recipient_params
-    params.require(:album_recipient).permit(:custom_message, :album_id )
+    params.require(:album_recipient).permit(:custom_message)
   end
 end

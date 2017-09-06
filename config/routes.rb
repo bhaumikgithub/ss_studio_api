@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
-  
+
+  get 'users/show'
+
   use_doorkeeper do
   	skip_controllers :applications, :authorized_applications
   end
@@ -11,10 +13,23 @@ Rails.application.routes.draw do
       confirmations: 'user/confirmations'
   }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  resources :categories
+  resources :categories do
+    get 'active', on: :collection
+  end
   resources :albums do
-    put 'mark_as_submitted', on: :member
-    resources :album_recipients, only: [:create]
+    collection do
+      get 'portfolio'
+    end
+    memebr do
+      get 'passcode_verification'
+      put 'mark_as_submitted'
+    end
+    resources :album_recipients, only: [:create, :index, :destroy] do
+      collection do
+        get 'not_invited_contacts'
+      end
+      post 'resend', on: :member
+    end
   end
   resources :photos do
     patch 'set_cover_photo', on: :member
@@ -25,20 +40,37 @@ Rails.application.routes.draw do
   end
   resources :watermarks
   resources :contacts
+  resources :services do
+    collection do
+      get 'active_services'
+    end
+  end
 
   get 'contact_details', to: 'contact_details#show'
-  put 'contact_details', to: 'contact_details#update'
+  patch 'contact_details', to: 'contact_details#update'
 
-  resources :abouts, only: [:index, :update]
+  get 'abouts', to: 'abouts#show'
+  patch 'abouts', to: 'abouts#update'
+
   resources :services
-  resources :testimonials
+  resources :testimonials do
+    collection do
+      get 'active'
+    end
+  end
   resources :homepage_photos do
     collection do
-      put 'select_uploaded_photo'
-      put 'active_gallery_photo'
+      patch 'select_uploaded_photo'
+      patch 'active_gallery_photo'
+      get 'active'
     end
   end
   resources :contact_messages, only: [:create]
-  resources :videos
-
+  resources :videos do
+    collection do
+      get 'publish'
+    end
+  end
+  resources :users, only: [:show]
+  resources :service_icons, only: [:index]
 end

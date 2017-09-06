@@ -1,5 +1,8 @@
 class Album < ApplicationRecord
   acts_as_paranoid
+
+  extend FriendlyId
+  friendly_id :album_name, use: :slugged
   # Callabcks
   after_create :generate_passcode
   # Associations
@@ -12,7 +15,8 @@ class Album < ApplicationRecord
   enum status: { inactive: 0, active: 1 }
   enum delivery_status: {  New: 0 , Shared: 1, Submitted: 2, Delivered: 3 }
   # Validations
-  validates :album_name, presence: true, :uniqueness => true
+  validates :album_name, presence: true, :uniqueness => {:case_sensitive => false}
+  validates :category_ids,presence: true
   validates_length_of :album_name, :minimum => 3, :maximum => 30
   # Scopes
 
