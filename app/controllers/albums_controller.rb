@@ -11,7 +11,10 @@ class AlbumsController < ApplicationController
       params[:per_page]
     ).order(
       "albums.updated_at #{params[:sorting_order]}"
+    ).includes(
+      :photos, :categories
     )
+
     json_response({
       success: true,
       data: {
