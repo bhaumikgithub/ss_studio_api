@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     collection do
       get 'portfolio'
     end
-    memebr do
+    member do
       get 'passcode_verification'
       put 'mark_as_submitted'
     end
