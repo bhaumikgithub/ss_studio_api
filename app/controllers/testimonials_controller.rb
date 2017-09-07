@@ -5,12 +5,19 @@ class TestimonialsController < ApplicationController
 
   # GET /testimonials
   def index
-    @testimonials = current_resource_owner.testimonials
+    @testimonials = current_resource_owner.testimonials.page(
+      params[:page]
+    ).per(
+      params[:per_page]
+    ).order(
+      "testimonials.updated_at #{params[:sorting_order]}"
+    )
     json_response({
       success: true,
       data: {
         testimonials: array_serializer.new(@testimonials, serializer: Testimonials::TestimonialAttributesSerializer, style: "thumb"),
-      }
+      },
+      meta: meta_attributes(@testimonials)
     }, 200)
   end
 
