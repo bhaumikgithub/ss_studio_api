@@ -6,12 +6,19 @@ class VideosController < ApplicationController
 
   # GET    /videos
   def index
-    @videos = current_resource_owner.videos
+    @videos = current_resource_owner.videos.page(
+      params[:page]
+    ).per(
+      params[:per_page]
+    ).order(
+      "videos.updated_at #{params[:sorting_order]}"
+    )
     json_response({
       success: true,
       data: {
         videos: array_serializer.new(@videos, serializer: Videos::VideoAttributesSerializer),
-      }
+      },
+      meta: meta_attributes(@videos)
     }, 200)
   end
 
