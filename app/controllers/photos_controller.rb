@@ -1,10 +1,10 @@
 class PhotosController < ApplicationController
   include InheritAction
-  # before_action :fetch_album, only: [:multi_delete, :set_cover_photo, :index]
-    before_action :fetch_active_watermark,:watermark_processor,only: [:create]
-    before_action :fetch_photo, only: [:mark_as_checked, :set_cover_photo]
+  skip_before_action :doorkeeper_authorize!, only: [ :mark_as_checked ]
+  before_action :fetch_active_watermark,:watermark_processor,only: [:create]
+  before_action :fetch_photo, only: [:mark_as_checked, :set_cover_photo]
 
-  # GET /photos 
+  # GET /photos
   def index
     @photos = Photo.all
     json_response({ success: true , data: {photos: @photos} }, 200)
@@ -50,6 +50,8 @@ class PhotosController < ApplicationController
     else
       @photo.update_attribute :is_selected, false
     end
+
+    render_success_response({ photo: single_record_serializer.new(@photo, serializer: Photos::SetCoverPhotoAttributesSerializer) }, 201)
   end
 
   private

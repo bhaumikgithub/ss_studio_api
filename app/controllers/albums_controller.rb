@@ -1,5 +1,5 @@
 class AlbumsController < ApplicationController
-  skip_before_action :doorkeeper_authorize!, only: [ :portfolio, :show, :passcode_verification ]
+  skip_before_action :doorkeeper_authorize!, only: [ :portfolio, :show, :passcode_verification, :mark_as_submitted ]
   before_action :fetch_album, only: [ :update, :destroy, :show, :passcode_verification, :mark_as_submitted ]
 
   # GET /albums
@@ -97,7 +97,7 @@ class AlbumsController < ApplicationController
   #PUT /albums/:id/mark_as_submitted
   def mark_as_submitted
     if @album.delivery_status == "Submitted"
-      json_response({success: false, message: "Album already submitted."})
+      json_response({success: false, message: "Album already submitted."}, 208)
     else
       @album.update_attribute :delivery_status, "Submitted"
       json_response({success: true, message: "Album successfully submitted."}, 201)

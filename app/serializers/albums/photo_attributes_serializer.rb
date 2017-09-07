@@ -1,5 +1,5 @@
 class Albums::PhotoAttributesSerializer < ActiveModel::Serializer
-  attributes :id, :image_file_name, :image, :original_image
+  attributes :id, :image_file_name, :image, :original_image, :is_selected
 
   def image
     CommonSerializer.full_image_url(object.image.url(:thumb))
