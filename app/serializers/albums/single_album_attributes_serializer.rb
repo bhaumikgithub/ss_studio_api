@@ -1,5 +1,5 @@
 class Albums::SingleAlbumAttributesSerializer < ActiveModel::Serializer
-  attributes :id, :album_name, :is_private, :status, :updated_at, :created_at, :delivery_status, :portfolio_visibility, :passcode, :status, :photo_count, :selected_photo_count, :recipients_count, :cover_photo
+  attributes :id, :album_name, :is_private, :status, :updated_at, :created_at, :delivery_status, :portfolio_visibility, :passcode, :status, :photo_count, :selected_photo_count, :recipients_count, :cover_photo, :photo_pagination
   has_many :photos, key: "photos", serializer: Albums::PhotoAttributesSerializer
   has_many :categories, key: "categories",serializer: Albums::SingleCategoriesAttributesSerializer
 
@@ -16,7 +16,27 @@ class Albums::SingleAlbumAttributesSerializer < ActiveModel::Serializer
   end
 
   def photos
-    object.photos.order('updated_at DESC')
+    object.photos.order(
+      'created_at DESC'
+    ).page(
+      instance_options[:params][:page]
+    ).per(
+      instance_options[:params][:per_page]
+    )
+  end
+
+  def photo_pagination
+    meta_attributes(photos)
+  end
+
+  def meta_attributes(collection, extra_meta = {})
+    {
+      current_page: collection.current_page,
+      next_page: collection.next_page,
+      prev_page: collection.prev_page,
+      total_pages: collection.total_pages,
+      total_count: collection.total_count
+    }
   end
 
   def cover_photo

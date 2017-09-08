@@ -34,7 +34,8 @@ module SsStudioApi
       end
     end
     config.autoload_paths << "#{Rails.root}/lib"
-        config.generators do |g|
+    config.autoload_paths += Dir[Rails.root.join('app', 'services')]
+    config.generators do |g|
       g.fixture_replacement :factory_girl
     end
     config.active_job.queue_adapter = :delayed_job
