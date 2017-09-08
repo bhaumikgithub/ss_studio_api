@@ -1,9 +1,10 @@
 class PhotosController < ApplicationController
   include InheritAction
-  # before_action :fetch_album, only: [:multi_delete, :set_cover_photo, :index]
-    before_action :fetch_active_watermark,:watermark_processor,only: [:create]
+  skip_before_action :doorkeeper_authorize!, only: [ :mark_as_checked ]
+  before_action :fetch_active_watermark,:watermark_processor,only: [:create]
+  before_action :fetch_photo, only: [:mark_as_checked, :set_cover_photo]
 
-  # GET /photos 
+  # GET /photos
   def index
     @photos = Photo.all
     json_response({ success: true , data: {photos: @photos} }, 200)
@@ -32,7 +33,6 @@ class PhotosController < ApplicationController
 
   # PATCH /photos/:id/set_cover_photo
   def set_cover_photo
-    @photo = Photo.find(params[:id])
     @photo.set_as_cover
     json_response({
       success: true,
@@ -41,6 +41,17 @@ class PhotosController < ApplicationController
         photo: single_record_serializer.new(@photo, serializer: Photos::SetCoverPhotoAttributesSerializer),
       }
     }, 201)
+  end
+
+  # PUT /photos/:id/mark_as_checked
+  def mark_as_checked
+    if @photo.is_selected == false
+      @photo.update_attribute :is_selected, true
+    else
+      @photo.update_attribute :is_selected, false
+    end
+
+    render_success_response({ photo: single_record_serializer.new(@photo, serializer: Photos::SetCoverPhotoAttributesSerializer) }, 201)
   end
 
   private
@@ -53,6 +64,10 @@ class PhotosController < ApplicationController
     params.require(:photo).map do |p|
       ActionController::Parameters.new(p).permit(:image, :photo_title, :status, :user_id, :imageable_id, :imageable_type, :is_cover_photo).merge(:user_id => current_resource_owner.id)
     end 
+  end
+
+  def fetch_photo
+    @photo = Photo.find(params[:id])
   end
 
   # Finding active watermark for logged in user.

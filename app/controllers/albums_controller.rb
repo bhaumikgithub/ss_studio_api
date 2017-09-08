@@ -1,7 +1,6 @@
 class AlbumsController < ApplicationController
-  # include InheritAction
-  skip_before_action :doorkeeper_authorize!, only: [ :portfolio, :show, :passcode_verification ]
-  before_action :fetch_album, only: [ :update, :destroy, :show, :passcode_verification ]
+  skip_before_action :doorkeeper_authorize!, only: [ :portfolio, :show, :passcode_verification, :mark_as_submitted ]
+  before_action :fetch_album, only: [ :update, :destroy, :show, :passcode_verification, :mark_as_submitted ]
 
   # GET /albums
   def index
@@ -42,15 +41,14 @@ class AlbumsController < ApplicationController
     json_response({
       success: true,
       data: {
-        album: single_record_serializer.new(@album, serializer: Albums::SingleAlbumAttributesSerializer),
+        album: single_record_serializer.new(@album, serializer: Albums::SingleAlbumAttributesSerializer, params: params)
       }
     }, 200)
   end
-  
+
   # PATCH/PUT /albums/:id
   def update
     @album.update_attributes!(album_params)
-    # json_response({success: true, message: "Album update successfully.", data: {album: @album}}, 201)
     json_response({
       success: true,
       message: "Album updated successfully.",
@@ -93,6 +91,12 @@ class AlbumsController < ApplicationController
         json_response({success: false, message: "Enter Valid Passcode.", errors: 'Invalid Passcode' }, 401)
       end
     end
+  end
+
+  #PUT /albums/:id/mark_as_submitted
+  def mark_as_submitted
+    response = SubmitAlbum.new(@album).call
+    json_response({success: response.success?, message: response.message}, response.status)
   end
 
   private

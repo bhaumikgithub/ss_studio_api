@@ -1,0 +1,16 @@
+<p>Dear Client,</p>
+
+<p>Your album is submitted successfully, thanks for selecting photos.</p>
+<p>Total photos: <%= @total_photos %></p>
+<p>Selected photos: <%= @selected_photos %></p>
+
+<p>You can view selected photos from following link.</p>
+<% if @is_private %>
+	<p><%= link_to "View Album", ENV['FRONT_URL'] + "shared_album_login/" + @album.slug + "?token=" + @contact["token"], target: "_blank" %> </p>
+	<p> passcode: <%= @album.passcode %> </p>
+<% else %>
+	<p><%= link_to "View Album", ENV['FRONT_URL'] + "shared_album/" + @album.slug + "?token=" + @contact["token"], target: "_blank" %> </p>
+<% end %>
+
+<p>Thanks,</p>
+<p>Admin Team</p>

@@ -8,7 +8,6 @@ class ApplicationController < ActionController::API
 
 
   def doorkeeper_unauthorized_render_options(error: nil)
-    # puts "===error====#{error.inspect}========="
     { json: { error: "You are not authorized." } }
   end
 

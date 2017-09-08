@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
-  
 
   get 'users/show'
 
@@ -18,9 +17,12 @@ Rails.application.routes.draw do
     get 'active', on: :collection
   end
   resources :albums do
-    get 'passcode_verification', on: :member
     collection do
       get 'portfolio'
+    end
+    member do
+      get 'passcode_verification'
+      put 'mark_as_submitted'
     end
     resources :album_recipients, only: [:create, :index, :destroy] do
       collection do
@@ -34,6 +36,7 @@ Rails.application.routes.draw do
     collection do
       delete 'multi_delete'
     end
+    put 'mark_as_checked', on: :member
   end
   resources :watermarks
   resources :contacts
