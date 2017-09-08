@@ -6,4 +6,9 @@ class About < ApplicationRecord
   has_one :photo, as: :imageable, dependent: :destroy
   
   accepts_nested_attributes_for :photo
+
+  # Validations
+  validates :title_text, :description, presence: true
+  validates_length_of :description, :minimum => 30, :maximum => 300
+
 end
