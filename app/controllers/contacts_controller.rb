@@ -15,7 +15,7 @@ class ContactsController < ApplicationController
     json_response({
       success: true,
       data: {
-        contacts: array_serializer.new(@contacts, serializer: Contacts::ContactAttributesSerializer),
+        contacts: array_serializer.new(@contacts, serializer: Contacts::ContactAttributesSerializer, style: "thumb"),
       },
       meta: meta_attributes(@contacts)
     }, 200)
