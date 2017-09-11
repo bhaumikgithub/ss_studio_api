@@ -11,7 +11,9 @@ class Contact < ApplicationRecord
   has_one :photo, as: :imageable, dependent: :destroy
 
   accepts_nested_attributes_for :photo
+  attr_accessor :validation
   # Validations
+  validates :first_name, :last_name, presence: true, if: :is_validate?
   validates :email, presence: true, :uniqueness => true
   validates_length_of :phone, :minimum => 10, :maximum => 13, :allow_nil => true
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
@@ -38,5 +40,9 @@ class Contact < ApplicationRecord
     else
       return @email
     end
+  end
+
+  def is_validate?
+    validation == "true"
   end
 end
