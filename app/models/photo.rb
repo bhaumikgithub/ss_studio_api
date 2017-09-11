@@ -13,7 +13,7 @@ class Photo < ApplicationRecord
 
   # Enumerator
   enum status: { inactive: 0, active: 1 }
-  cattr_accessor :watermark_url, :apply_watermark
+  cattr_accessor :watermark_url, :apply_watermark, :watermark_thumb_url, :is_watermark
 
   # Validations
   # validates :imageable_id, :imageable_type, presence: true
@@ -28,11 +28,18 @@ class Photo < ApplicationRecord
                     :styles => lambda { |attachment| {
                       :medium => {
                         :geometry => "259x259#",
-                        :watermark_path => attachment.instance.class.watermark_url
+                        :watermark_path => attachment.instance.class.watermark_url,
+                        :position => "SouthEast"
                       },
                       :thumb => {
                         :geometry => "185x185#",
-                        :watermark_path => attachment.instance.class.watermark_url
+                        :watermark_path => attachment.instance.class.watermark_thumb_url,
+                        :position => "SouthEast"
+                      },
+                      :original => {
+                        :geometry => '1200>',
+                        :watermark_path => attachment.instance.class.watermark_url,
+                        :position => 'SouthEast',
                       },
                     }
                   }, default_url: "/shared_photos/missing.png"

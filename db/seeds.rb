@@ -64,3 +64,7 @@ Category.create([
   { category_name: "Couple", status: "active", user_id: user.id },
   { category_name: "Kids", status: "active", user_id: user.id }
 ])
+
+watermark = Watermark.create(user_id: user.id, status: 1)
+
+Photo.create(status: "active", image: File.new("public/shared_photos/watermark.png"), user_id: user.id, imageable_type: "Watermark", imageable_id: watermark.id)

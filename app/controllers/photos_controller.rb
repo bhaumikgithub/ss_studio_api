@@ -74,6 +74,7 @@ class PhotosController < ApplicationController
   def fetch_active_watermark
     if current_resource_owner.watermarks.present?
       Photo.watermark_url = current_resource_owner.watermarks.find_by(status: "active").photo.image.path
+      Photo.watermark_thumb_url = current_resource_owner.watermarks.find_by(status: "active").photo.image.path(:thumb)
     else
       Photo.watermark_url = "#{Rails.root}/public/watermark.png"
     end 
