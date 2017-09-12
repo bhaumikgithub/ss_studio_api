@@ -1,5 +1,7 @@
 class Contact < ApplicationRecord
   acts_as_paranoid
+
+  attr_accessor :not_validate
   
   # Callabcks
   after_create :generate_token
@@ -12,6 +14,9 @@ class Contact < ApplicationRecord
 
   accepts_nested_attributes_for :photo
   # Validations
+  validates :first_name, presence: true, :unless => Proc.new{ not_validate&.include?('first_name') }
+  validates :last_name, presence: true, :unless => Proc.new{ not_validate&.include?('last_name') }
+  validates :phone, presence: true, :unless => Proc.new{ not_validate&.include?('phone') }
   validates :email, presence: true, :uniqueness => true
   validates_length_of :phone, :minimum => 10, :maximum => 13, :allow_nil => true
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
@@ -32,7 +37,7 @@ class Contact < ApplicationRecord
   def self.create_contact(email,user)
     @email = Contact.find_by(email: email)
     if !@email.present?
-      @contact = Contact.create!(email: email, user_id: user.id)
+      @contact = Contact.create!(email: email, user_id: user.id, not_validate: ['first_name', 'last_name', 'phone'])
       Photo.create(user_id: user.id,imageable_type: "Contact",imageable_id: @contact.id)
       return @contact
     else
