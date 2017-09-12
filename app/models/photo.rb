@@ -25,24 +25,36 @@ class Photo < ApplicationRecord
                         [:thumbnail]
                       end
                     },
-                    :styles => lambda { |attachment| {
-                      :medium => {
-                        :geometry => "259x259#",
-                        :watermark_path => attachment.instance.class.watermark_url,
-                        :position => "SouthEast"
-                      },
-                      :thumb => {
-                        :geometry => "185x185#",
-                        :watermark_path => attachment.instance.class.watermark_thumb_url,
-                        :position => "SouthEast"
-                      },
-                      :original => {
-                        :geometry => '1200>',
-                        :watermark_path => attachment.instance.class.watermark_url,
-                        :position => 'SouthEast',
-                      },
-                    }
-                  }, default_url: "/shared_photos/missing.png"
+                    :styles => lambda { |attachment|
+                      unless attachment.instance.class.is_watermark
+                        {
+                          :medium => {
+                            :geometry => "259x259#",
+                            :watermark_path => attachment.instance.class.watermark_url,
+                            :position => "SouthEast"
+                          },
+                          :thumb => {
+                            :geometry => "185x185#",
+                            :watermark_path => attachment.instance.class.watermark_thumb_url,
+                            :position => "SouthEast"
+                          },
+                          :original => {
+                            :geometry => '1200>',
+                            :watermark_path => attachment.instance.class.watermark_url,
+                            :position => 'SouthEast',
+                          },
+                        }
+                      else
+                        {
+                          :medium => {
+                            :geometry => "150x150#",
+                          },
+                          :thumb => {
+                            :geometry => "100x100#"
+                          },
+                        }
+                      end
+                    }, default_url: "/shared_photos/missing.png"
   validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
 
   # Scopes
