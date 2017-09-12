@@ -53,7 +53,7 @@ class ContactsController < ApplicationController
 
   private
   def resource_params
-    params.require(:contact).permit(:first_name, :last_name, :email, :phone, :status, :user_id,:validation, photo_attributes: [:id, :image, :_destroy] )
+    params.require(:contact).permit(:first_name, :last_name, :email, :phone, :status, :user_id, photo_attributes: [:id, :image, :_destroy] )
   end
 
   def fetch_contact
