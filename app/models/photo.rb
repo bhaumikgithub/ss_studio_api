@@ -10,6 +10,7 @@ class Photo < ApplicationRecord
   belongs_to :user
   has_many :homepage_photos
   belongs_to :watermark
+  has_one :comment
 
   # Enumerator
   enum status: { inactive: 0, active: 1 }
