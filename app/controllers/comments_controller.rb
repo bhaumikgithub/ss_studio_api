@@ -3,9 +3,10 @@ class CommentsController < ApplicationController
   before_action :fetch_photo, only: [ :create ]
   include InheritAction
 
+  # POST /photos/:id/comments
   def create
     @comment = @photo.create_comment!(resource_params)
-    json_response({success: true, message: "comment created successfully.", data: { :comment => @comment }}, 201)
+    render_success_response({ :comment => @comment }, 201)
   end
 
   private
