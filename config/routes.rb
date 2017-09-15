@@ -36,6 +36,9 @@ Rails.application.routes.draw do
     collection do
       delete 'multi_delete'
     end
+    member do
+      resources :comments
+    end
     put 'mark_as_checked', on: :member
   end
   resources :watermarks
