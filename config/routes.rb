@@ -39,7 +39,7 @@ Rails.application.routes.draw do
     member do
       resources :comments
     end
-    put 'mark_as_checked', on: :member
+    put 'mark_as_checked', on: :collection
   end
   resources :watermarks
   resources :contacts
