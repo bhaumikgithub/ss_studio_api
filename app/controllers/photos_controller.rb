@@ -54,7 +54,7 @@ class PhotosController < ApplicationController
       end
     end
     @photos = Photo.where("id IN (?)",params[:photo][:ids])
-    render_success_response({ photo: array_serializer.new(@photos, serializer: Photos::SetCoverPhotoAttributesSerializer) }, 201)
+    render_success_response({ photos: array_serializer.new(@photos, serializer: Photos::SetCoverPhotoAttributesSerializer) }, 201)
   end
 
   private
