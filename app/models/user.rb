@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   acts_as_paranoid
+  attr_accessor :validate_password
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -20,6 +21,8 @@ class User < ApplicationRecord
 
   enum status: { inactive: 0, active: 1 }
   # Validations
+  validates :password, :presence => true , :if => Proc.new{ validate_password&.include?('password') }
+  validates :password_confirmation, :presence => true , :if => Proc.new{ validate_password&.include?('password_confirmation') }
 
   # Scopes
 
