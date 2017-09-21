@@ -74,6 +74,11 @@ Rails.application.routes.draw do
       get 'publish'
     end
   end
-  resources :users, only: [:show]
+  resources :users, only: [:show] do
+    member do
+      patch 'update_password'
+    end
+  end
+
   resources :service_icons, only: [:index]
 end
