@@ -2,7 +2,7 @@ class PhotosController < ApplicationController
   include InheritAction
   skip_before_action :doorkeeper_authorize!, only: [ :mark_as_checked ]
   before_action :fetch_active_watermark,:watermark_processor,only: [:create]
-  before_action :fetch_photo, only: [:mark_as_checked, :set_cover_photo]
+  before_action :fetch_photo, only: [:set_cover_photo]
 
   # GET /photos
   def index
@@ -43,15 +43,18 @@ class PhotosController < ApplicationController
     }, 201)
   end
 
-  # PUT /photos/:id/mark_as_checked
+  # PUT /photos/mark_as_checked
   def mark_as_checked
-    if @photo.is_selected == false
-      @photo.update_attribute :is_selected, true
-    else
-      @photo.update_attribute :is_selected, false
+    @photos = Photo.where("id IN (?)",params[:photo][:ids])
+    if @photos.length > 0
+      if @photos.first.is_selected == false
+        @photos.update_all(is_selected: true)
+      else
+        @photos.update_all(is_selected: false)
+      end
     end
-
-    render_success_response({ photo: single_record_serializer.new(@photo, serializer: Photos::SetCoverPhotoAttributesSerializer) }, 201)
+    @photos = Photo.where("id IN (?)",params[:photo][:ids])
+    render_success_response({ photos: array_serializer.new(@photos, serializer: Photos::SetCoverPhotoAttributesSerializer) }, 201)
   end
 
   private

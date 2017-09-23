@@ -39,7 +39,7 @@ Rails.application.routes.draw do
     member do
       resources :comments
     end
-    put 'mark_as_checked', on: :member
+    put 'mark_as_checked', on: :collection
   end
   resources :watermarks
   resources :contacts do
@@ -76,6 +76,11 @@ Rails.application.routes.draw do
       get 'publish'
     end
   end
-  resources :users, only: [:show]
+  resources :users, only: [:show] do
+    member do
+      patch 'update_password'
+    end
+  end
+
   resources :service_icons, only: [:index]
 end
