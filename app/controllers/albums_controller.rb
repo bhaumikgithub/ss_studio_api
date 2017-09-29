@@ -1,6 +1,6 @@
 class AlbumsController < ApplicationController
   skip_before_action :doorkeeper_authorize!, only: [ :portfolio, :show, :passcode_verification, :mark_as_submitted ]
-  before_action :fetch_album, only: [ :update, :destroy, :show, :passcode_verification, :mark_as_submitted ]
+  before_action :fetch_album, only: [ :update, :destroy, :show, :passcode_verification, :mark_as_submitted, :get_selected_photos, :get_commented_photos, :mark_as_deliverd ]
 
   # GET /albums
   def index
@@ -97,6 +97,24 @@ class AlbumsController < ApplicationController
   def mark_as_submitted
     response = SubmitAlbum.new(@album).call
     json_response({success: response.success?, message: response.message}, response.status)
+  end
+
+  # GET  /albums/:id/get_selected_photos
+  def get_selected_photos
+    @photos = @album.photos.where('is_selected = true')
+    render_success_response({photos: array_serializer.new(@photos, serializer: Photos::CreatePhotoAttributesSerializer)}, 200)
+  end
+
+  # GET    /albums/:id/get_commented_photos
+  def get_commented_photos
+    @photos = @album.photos.joins(:comment)
+    render_success_response({photos: array_serializer.new(@photos, serializer: Photos::CreatePhotoAttributesSerializer)}, 200)
+  end
+
+  # PUT    /albums/:id/mark_as_deliverd
+  def mark_as_deliverd
+    @album.update_attributes(delivery_status: "Delivered")
+    render_success_response({success: true}, 200)
   end
 
   private

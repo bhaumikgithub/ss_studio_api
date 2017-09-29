@@ -2,6 +2,10 @@
 <p>Please check your photos by clicking on the View Album link. It will ask you to enter the passcode. Please apply provided passcode in this email.</p>
 <p> <%= link_to "View Album", ENV['FRONT_URL'] + "shared_album_login/" + @album.slug + "?token=" + @album_recipient.contact.token, target: "_blank" %> </p>
 <p> <%= @album_recipient.custom_message %> </p>
+<% if @album_recipient.recipient_type == 'admin' %>
+	<p>Minimum Photo Selection : <%= @album_recipient.minimum_photo_selection %> </p>
+	<p>Allow Comments : <%= @album_recipient.allow_comments %> </p>
+<% end %>
 <p> passcode: <%= @album_passcode %> </p>
 <p>Thanks,</p>
 <p>Admin Team</p>
