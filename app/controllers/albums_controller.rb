@@ -113,7 +113,7 @@ class AlbumsController < ApplicationController
 
   # PUT    /albums/:id/mark_as_deliverd
   def mark_as_deliverd
-    @album.update_attributes(delivery_status: "Delivered")
+    @album.update_attributes!(delivery_status: "Delivered")
     render_success_response({success: true}, 200)
   end
 
