@@ -23,10 +23,14 @@ Rails.application.routes.draw do
     member do
       get 'passcode_verification'
       put 'mark_as_submitted'
+      get 'get_selected_photos'
+      get 'get_commented_photos'
+      put 'mark_as_deliverd'
     end
     resources :album_recipients, only: [:create, :index, :destroy] do
       collection do
         get 'not_invited_contacts'
+        get 'get_admin_album_recipients'
       end
       post 'resend', on: :member
     end
