@@ -13,7 +13,7 @@ class Albums::SingleAlbumAttributesSerializer < ActiveModel::Serializer
   end
 
   def recipients_count
-    object.album_recipients.count
+    object.album_recipients.where("recipient_type=(?)",0).count
   end
 
   def photos

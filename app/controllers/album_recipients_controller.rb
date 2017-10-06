@@ -1,7 +1,7 @@
 class AlbumRecipientsController < ApplicationController
   include InheritAction
 
-  before_action :fetch_album, only: [:create, :resend, :get_admin_album_recipients]
+  before_action :fetch_album, only: [:create, :resend, :get_admin_album_recipients, :destroy_admin_album_recipients]
 
   # GET /albums/:album_id/album_recipients
   def index
@@ -69,6 +69,19 @@ class AlbumRecipientsController < ApplicationController
         album_recipients: array_serializer.new(@album_recipients, serializer: AlbumRecipients::AdminAlbumRecipientsAttributesSerializer),
       }
     }, 200)
+  end
+
+  # DELETE /albums/:album_id/album_recipients/destroy_admin_album_recipients
+  def destroy_admin_album_recipients
+    @album.album_recipients.where("recipient_type=(?)",1).destroy_all
+    @album.update_attributes(delivery_status: "Shared")
+    photo_id = @album.photos.joins(:comment).pluck(:id)
+    Comment.where("photo_id IN (?)",photo_id).destroy_all
+    @album.photos.where(is_selected: true).update_all(is_selected: false)
+    render_success_response({success: true,
+      data: {
+        photos: array_serializer.new(@album.photos, serializer: Albums::PhotoAttributesSerializer)
+      }}, 200)
   end
 
   private
