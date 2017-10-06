@@ -1,7 +1,7 @@
 class AlbumRecipientsController < ApplicationController
   include InheritAction
 
-  before_action :fetch_album, only: [:create, :resend]
+  before_action :fetch_album, only: [:create, :resend, :get_admin_album_recipients]
 
   # GET /albums/:album_id/album_recipients
   def index
@@ -16,6 +16,9 @@ class AlbumRecipientsController < ApplicationController
   
   # POST /albums/:album_id/album_recipients
   def create
+    if params[:album_recipient][:ids].present?
+      AlbumRecipient.where("ID IN (?)",params[:album_recipient][:ids]).destroy_all
+    end
     album_recipient_ids = []
     params[:album_recipient][:emails].each do |email|
       @contact = Contact.create_contact(email,current_resource_owner)
@@ -25,7 +28,7 @@ class AlbumRecipientsController < ApplicationController
     end
 
     @album_recipients = @album.album_recipients.where("ID IN (?)", album_recipient_ids)
-    @album.Shared!
+    @album.Shared! unless @album.Submitted? && @album.Delivered?
 
     json_response({
       success: true,
@@ -57,6 +60,17 @@ class AlbumRecipientsController < ApplicationController
     }, 200)
   end
 
+  # GET   /albums/:album_id/album_recipients/get_admin_album_recipients
+  def get_admin_album_recipients
+    @album_recipients = @album.album_recipients.where("recipient_type=(?)",params[:type])
+    json_response({
+      success: true,
+      data: {
+        album_recipients: array_serializer.new(@album_recipients, serializer: AlbumRecipients::AdminAlbumRecipientsAttributesSerializer),
+      }
+    }, 200)
+  end
+
   private
 
   def fetch_album
@@ -64,6 +78,6 @@ class AlbumRecipientsController < ApplicationController
   end
 
   def album_recipient_params
-    params.require(:album_recipient).permit(:custom_message)
+    params.require(:album_recipient).permit(:custom_message, :minimum_photo_selection, :allow_comments, :recipient_type)
   end
 end

@@ -23,10 +23,14 @@ Rails.application.routes.draw do
     member do
       get 'passcode_verification'
       put 'mark_as_submitted'
+      get 'get_selected_photos'
+      get 'get_commented_photos'
+      put 'mark_as_deliverd'
     end
     resources :album_recipients, only: [:create, :index, :destroy] do
       collection do
         get 'not_invited_contacts'
+        get 'get_admin_album_recipients'
       end
       post 'resend', on: :member
     end
@@ -39,7 +43,7 @@ Rails.application.routes.draw do
     member do
       resources :comments
     end
-    put 'mark_as_checked', on: :member
+    put 'mark_as_checked', on: :collection
   end
   resources :watermarks
   resources :contacts do
@@ -76,6 +80,11 @@ Rails.application.routes.draw do
       get 'publish'
     end
   end
-  resources :users, only: [:show]
+  resources :users, only: [:show] do
+    member do
+      patch 'update_password'
+    end
+  end
+
   resources :service_icons, only: [:index]
 end
