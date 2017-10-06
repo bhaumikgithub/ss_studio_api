@@ -5,19 +5,12 @@ class ContactsController < ApplicationController
 
   # GET  /contacts
   def index
-    @contacts = current_resource_owner.contacts.page(
-      params[:page]
-    ).per(
-      params[:per_page]
-    ).order(
-      "contacts.updated_at #{params[:sorting_order]}"
-    )
+    response = ContactService.new(current_resource_owner, params ).call
+
     json_response({
       success: true,
-      data: {
-        contacts: array_serializer.new(@contacts, serializer: Contacts::ContactAttributesSerializer, style: "thumb"),
-      },
-      meta: meta_attributes(@contacts)
+      data: response[:data],
+      meta: meta_attributes(response[:contacts])
     }, 200)
   end
 
