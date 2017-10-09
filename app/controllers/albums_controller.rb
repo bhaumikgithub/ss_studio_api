@@ -1,6 +1,6 @@
 class AlbumsController < ApplicationController
   skip_before_action :doorkeeper_authorize!, only: [ :portfolio, :show, :passcode_verification, :mark_as_submitted ]
-  before_action :fetch_album, only: [ :update, :destroy, :show, :passcode_verification, :mark_as_submitted, :get_selected_photos, :get_commented_photos, :mark_as_deliverd ]
+  before_action :fetch_album, only: [ :update, :destroy, :show, :passcode_verification, :mark_as_submitted, :get_selected_photos, :get_commented_photos, :mark_as_deliverd, :mark_as_stoped_selection, :mark_as_shared ]
 
   # GET /albums
   def index
@@ -114,6 +114,18 @@ class AlbumsController < ApplicationController
   # PUT    /albums/:id/mark_as_deliverd
   def mark_as_deliverd
     @album.update_attributes!(delivery_status: "Delivered")
+    render_success_response({success: true}, 200)
+  end
+
+  # PUT    /albums/:id/mark_as_stoped_selection
+  def mark_as_stoped_selection
+    @album.update_attributes!(delivery_status: "Stoped_selection")
+    render_success_response({success: true}, 200)
+  end
+
+  # PUT    /albums/:id/mark_as_shared
+  def mark_as_shared
+    @album.update_attributes!(delivery_status: "Shared")
     render_success_response({success: true}, 200)
   end
 

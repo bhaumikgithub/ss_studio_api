@@ -26,11 +26,14 @@ Rails.application.routes.draw do
       get 'get_selected_photos'
       get 'get_commented_photos'
       put 'mark_as_deliverd'
+      put 'mark_as_stoped_selection'
+      put 'mark_as_shared'
     end
     resources :album_recipients, only: [:create, :index, :destroy] do
       collection do
         get 'not_invited_contacts'
         get 'get_admin_album_recipients'
+        delete 'reset_admin_recipients'
       end
       post 'resend', on: :member
     end
