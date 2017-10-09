@@ -33,7 +33,7 @@ Rails.application.routes.draw do
       collection do
         get 'not_invited_contacts'
         get 'get_admin_album_recipients'
-        delete 'destroy_admin_album_recipients'
+        delete 'reset_admin_recipients'
       end
       post 'resend', on: :member
     end
