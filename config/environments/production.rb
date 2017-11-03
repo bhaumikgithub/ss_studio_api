@@ -84,20 +84,12 @@ Rails.application.configure do
   #   :password             => ENV['GMAIL_PASSWORD'],
   #   :authentication       => 'plain'
   # }
-  # config.action_mailer.smtp_settings = {
-  #   :address              => "smtp.sendgrid.net",
-  #   :port                 => 587,
-  #   :domain               => 'sagargadani.com',
-  #   :user_name            => ENV['SENDGRID_USER_NAME'],
-  #   :password             => ENV['SENDGRID_PASSWORD'],
-  #   :authentication       => :plain,
-  #   :enable_starttls_auto => true
-  # }
+
   config.action_mailer.smtp_settings = {
     :address              => "smtp.elasticemail.com",
     :port                 => 2525,
-    :user_name            => "019c7055-024a-4b23-923d-626ab9ae037a",
-    :password             => "019c7055-024a-4b23-923d-626ab9ae037a",
+    :user_name            => ENV['ELASTICMAIL_USER_NAME'],
+    :password             => ENV['ELASTICMAIL_PASSWORD'],
     :authentication       => 'login',
     :domain               => 'sagargadani.com',
     :enable_starttls_auto => true
