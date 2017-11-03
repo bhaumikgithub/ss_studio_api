@@ -24,7 +24,7 @@ Rails.application.configure do
 
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  config.action_controller.asset_host = 'http://104.251.216.241/tps/sites/sagargadani/ss_studio_api/public'
+  config.action_controller.asset_host = 'http://104.251.216.241/sites/sagargadani/ss_studio_api/public'
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
@@ -84,13 +84,14 @@ Rails.application.configure do
   #   :password             => ENV['GMAIL_PASSWORD'],
   #   :authentication       => 'plain'
   # }
+
   config.action_mailer.smtp_settings = {
-    :address              => "smtp.sendgrid.net",
-    :port                 => 587,
+    :address              => "smtp.elasticemail.com",
+    :port                 => 2525,
+    :user_name            => ENV['ELASTICMAIL_USER_NAME'],
+    :password             => ENV['ELASTICMAIL_PASSWORD'],
+    :authentication       => 'login',
     :domain               => 'sagargadani.com',
-    :user_name            => ENV['SENDGRID_USER_NAME'],
-    :password             => ENV['SENDGRID_PASSWORD'],
-    :authentication       => :plain,
     :enable_starttls_auto => true
   }
 
