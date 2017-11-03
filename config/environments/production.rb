@@ -86,12 +86,12 @@ Rails.application.configure do
   # }
 
   config.action_mailer.smtp_settings = {
-    :address              => "smtp.elasticemail.com",
-    :port                 => 2525,
-    :user_name            => ENV['ELASTICMAIL_USER_NAME'],
-    :password             => ENV['ELASTICMAIL_PASSWORD'],
-    :authentication       => 'login',
+    :address              => "smtp.sendgrid.net",
+    :port                 => 587,
     :domain               => 'sagargadani.com',
+    :user_name            => ENV['SENDGRID_USER_NAME'],
+    :password             => ENV['SENDGRID_PASSWORD'],
+    :authentication       => :plain,
     :enable_starttls_auto => true
   }
 
