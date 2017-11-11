@@ -55,12 +55,13 @@ class HomepagePhotosController < ApplicationController
   # GET /homepage_photos/active
   def active
     @active_photos = HomepagePhoto.where(is_active: true).order('created_at desc')
-    json_response({
-      success: true,
-      data: {
-        active_photos: array_serializer.new(@active_photos, serializer: HomepagePhotos::HomepagePhotoAttributesSerializer, style: "original"),
-      }
-    }, 200)
+    @style = mobile? ? "large" : "original"
+      json_response({
+        success: true,
+        data: {
+          active_photos: array_serializer.new(@active_photos, serializer: HomepagePhotos::HomepagePhotoAttributesSerializer, style: @style),
+        }
+      }, 200)
   end
 
   #  PATCH /homepage_photos/:id
