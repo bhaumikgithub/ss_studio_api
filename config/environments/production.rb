@@ -90,7 +90,7 @@ Rails.application.configure do
     :port                 => 2525,
     :user_name            => ENV['ELASTICMAIL_USER_NAME'],
     :password             => ENV['ELASTICMAIL_PASSWORD'],
-    :authentication       => :login,
+    :authentication       => 'login',
     :domain               => 'sagargadani.com',
     :enable_starttls_auto => true
   }
