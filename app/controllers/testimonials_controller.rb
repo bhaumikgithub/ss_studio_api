@@ -2,6 +2,7 @@ class TestimonialsController < ApplicationController
   include InheritAction
   skip_before_action :doorkeeper_authorize!, only: [ :active ]
   before_action :fetch_testimonial, only: [ :show, :update ]
+  before_action :watermark_processor,only: [:create, :update]
 
   # GET /testimonials
   def index
@@ -76,6 +77,10 @@ class TestimonialsController < ApplicationController
 
   def fetch_testimonial
     @testimonial = current_resource_owner.testimonials.find(params[:id])
+  end
+
+  def watermark_processor
+    Photo.apply_watermark = false if params[:testimonial][:photo_attributes][:image].present?
   end
 
 end
