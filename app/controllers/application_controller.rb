@@ -90,8 +90,4 @@ class ApplicationController < ActionController::API
   def single_record_serializer
     ActiveModel::SerializableResource
   end
-
-  def mobile? # has to be in here because it has access to "request"
-      request.user_agent =~ /\b(Android|iPhone|iPad|Windows Phone)\b/i
-   end
 end
