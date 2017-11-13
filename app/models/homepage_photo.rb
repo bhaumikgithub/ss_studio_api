@@ -10,6 +10,9 @@ class HomepagePhoto < ApplicationRecord
                       :original => {
                         :geometry => "1920x1920>"
                       },
+                      :large => {
+                        :geometry => "1024x768#"
+                      },
                       :medium => {
                         :geometry => "270x270#"
                       },
