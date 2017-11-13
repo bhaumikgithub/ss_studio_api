@@ -2,6 +2,6 @@
 
 # Application Mailer
 class ApplicationMailer < ActionMailer::Base
-  default from: 'info@techplussoftware.com'
+  default from: 'info@sagargadani.com'
   layout 'mailer'
 end
