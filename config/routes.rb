@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   resources :albums do
     collection do
       get 'portfolio'
+      get 'get_album_status_wise'
     end
     member do
       get 'passcode_verification'

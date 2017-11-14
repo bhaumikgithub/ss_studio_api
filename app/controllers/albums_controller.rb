@@ -135,6 +135,27 @@ class AlbumsController < ApplicationController
     render_success_response({success: true}, 200)
   end
 
+  # GET    /albums/get_album_status_wise
+  def get_album_status_wise
+    albums = params[:checked] == "true" ? current_resource_owner.albums.where(status: params[:status]) : current_resource_owner.albums.where.not(status: params[:status])
+    @albums = albums.page(
+        params[:page]
+      ).per(
+        params[:per_page]
+      ).order(
+        "albums.updated_at #{params[:sorting_order]}"
+      ).includes(
+        :photos, :categories
+      )
+    json_response({
+      success: true,
+      data: {
+        albums: array_serializer.new(@albums, serializer: Albums::AlbumAttributesSerializer),
+      },
+      meta: meta_attributes(@albums)
+    }, 200)
+  end
+
   private
 
   def album_params
