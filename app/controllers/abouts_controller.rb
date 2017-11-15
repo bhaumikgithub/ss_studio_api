@@ -26,7 +26,7 @@ class AboutsController < ApplicationController
   private
 
   def about_us_params
-    params.require(:about).permit(:title_text, :description, :facebook_link, :twitter_link, :instagram_link, photo_attributes: [:id, :image, :imageable_id, :imageable_type, :_destroy, :user_id])
+    params.require(:about).permit(:title_text, :description, :facebook_link, :twitter_link, :instagram_link, :youtube_link, :vimeo_link,:linkedin_link, :pinterest_link, :flickr_link, photo_attributes: [:id, :image, :imageable_id, :imageable_type, :_destroy, :user_id])
   end
 
   def fetch_about_us_detail
