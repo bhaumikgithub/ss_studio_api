@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   resources :albums do
     collection do
       get 'portfolio'
+      get 'get_album_status_wise'
     end
     member do
       get 'passcode_verification'
@@ -28,6 +29,7 @@ Rails.application.routes.draw do
       put 'mark_as_deliverd'
       put 'mark_as_stoped_selection'
       put 'mark_as_shared'
+      put 'acivate_album'
     end
     resources :album_recipients, only: [:create, :index, :destroy] do
       collection do
