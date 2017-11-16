@@ -1,5 +1,5 @@
 class Albums::AlbumAttributesSerializer < ActiveModel::Serializer
-  attributes :id, :album_name, :is_private, :status, :updated_at, :delivery_status, :portfolio_visibility, :cover_photo, :slug
+  attributes :id, :album_name, :is_private, :status, :updated_at, :delivery_status, :portfolio_visibility, :cover_photo, :slug, :created_at
   has_many :photos, key: "photo_count"
   has_many :categories, key: "categories",serializer: Albums::CategoriesAttributesSerializer
 
@@ -24,5 +24,9 @@ class Albums::AlbumAttributesSerializer < ActiveModel::Serializer
 
   def updated_at
     CommonSerializer.date_formate(object.updated_at)
+  end
+
+  def created_at
+    CommonSerializer.date_formate(object.created_at)
   end
 end

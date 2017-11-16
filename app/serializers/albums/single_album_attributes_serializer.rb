@@ -76,9 +76,11 @@ class Albums::SingleAlbumAttributesSerializer < ActiveModel::Serializer
   end
 
   def can_moderate_album
-    if instance_options[:params][:token].present?
+    if instance_options[:params][:token].present? && instance_options[:params][:token] != "null"
       @recipient = Contact.find_by(token: instance_options[:params][:token]).album_recipients.where("recipient_type = (?)",1)
       return @recipient.present? ? true : false
+    else
+      return false
     end
   end
 end
