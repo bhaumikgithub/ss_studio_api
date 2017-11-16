@@ -9,6 +9,5 @@ class About < ApplicationRecord
 
   # Validations
   validates :title_text, :description, presence: true
-  validates_length_of :description, :minimum => 30, :maximum => 300
 
 end
