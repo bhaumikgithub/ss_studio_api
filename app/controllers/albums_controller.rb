@@ -9,7 +9,7 @@ class AlbumsController < ApplicationController
     ).per(
       params[:per_page]
     ).order(
-      "albums.updated_at #{params[:sorting_order]}"
+      "albums.#{params[:sorting_field]} #{params[:sorting_order]}"
     ).includes(
       :photos, :categories
     )
@@ -143,7 +143,7 @@ class AlbumsController < ApplicationController
       ).per(
         params[:per_page]
       ).order(
-        "albums.updated_at #{params[:sorting_order]}"
+        "albums.#{params[:sorting_field]} #{params[:sorting_order]}"
       ).includes(
         :photos, :categories
       )
@@ -154,6 +154,7 @@ class AlbumsController < ApplicationController
       },
       meta: meta_attributes(@albums)
     }, 200)
+
   end
 
   private
