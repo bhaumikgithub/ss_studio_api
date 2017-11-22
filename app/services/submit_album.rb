@@ -40,6 +40,6 @@ class SubmitAlbum < BaseService
 	end
 
 	def contacts
-		album.album_recipients.joins(:contact).select("album_recipients.id as id, contacts.email as email, contacts.token as token")
+		album.album_recipients.where(recipient_type: 'admin').joins(:contact).select("album_recipients.id as id, contacts.email as email, contacts.token as token")
 	end
 end

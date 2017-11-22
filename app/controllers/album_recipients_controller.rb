@@ -28,7 +28,7 @@ class AlbumRecipientsController < ApplicationController
     end
 
     @album_recipients = @album.album_recipients.where("ID IN (?)", album_recipient_ids)
-    @album.Shared! unless @album.Submitted? && @album.Delivered?
+    # @album.Shared! unless @album.Submitted? && @album.Delivered?
 
     json_response({
       success: true,
