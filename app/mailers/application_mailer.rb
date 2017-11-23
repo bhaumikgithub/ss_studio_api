@@ -2,6 +2,6 @@
 
 # Application Mailer
 class ApplicationMailer < ActionMailer::Base
-  default from: 'info@sagargadani.com'
+  default from: 'sagargadanistudio@gmail.com'
   layout 'mailer'
 end

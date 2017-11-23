@@ -95,7 +95,8 @@ class AlbumsController < ApplicationController
 
   #PUT /albums/:id/mark_as_submitted
   def mark_as_submitted
-    response = SubmitAlbum.new(@album).call
+    @admin_email = ContactDetail.first.email
+    response = SubmitAlbum.new(@album, @admin_email).call
     json_response({success: response.success?, message: response.message}, response.status)
   end
 
