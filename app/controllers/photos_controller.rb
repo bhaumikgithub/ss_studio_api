@@ -75,18 +75,24 @@ class PhotosController < ApplicationController
 
   # Finding active watermark for logged in user.
   def fetch_active_watermark
-    if current_resource_owner.watermarks.present?
-      Photo.watermark_url = current_resource_owner.watermarks.find_by(status: "active").photo.image.path
-      Photo.watermark_thumb_url = current_resource_owner.watermarks.find_by(status: "active").photo.image.path(:thumb)
-    else
-      Photo.watermark_url = "#{Rails.root}/public/watermark.png"
-    end 
+    if current_resource_owner.watermarks.present? && current_resource_owner.watermarks.find_by(status: "active") != nil
+      if current_resource_owner.watermarks.present?
+        Photo.watermark_url = current_resource_owner.watermarks.find_by(status: "active").photo.image.path
+        Photo.watermark_thumb_url = current_resource_owner.watermarks.find_by(status: "active").photo.image.path(:thumb)
+      else
+        Photo.watermark_url = "#{Rails.root}/public/watermark.png"
+      end 
+    end
   end
 
   # Decide whether to apply watermark or not.
   def watermark_processor
-    if params[:photo][0][:imageable_type] == "Album"
-      Photo.apply_watermark = true
+    if current_resource_owner.watermarks.present? && current_resource_owner.watermarks.find_by(status: "active") != nil
+      if params[:photo][0][:imageable_type] == "Album"
+        Photo.apply_watermark = true
+      else
+        Photo.apply_watermark = false
+      end
     else
       Photo.apply_watermark = false
     end

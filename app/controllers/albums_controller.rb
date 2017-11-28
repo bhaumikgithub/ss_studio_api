@@ -9,7 +9,7 @@ class AlbumsController < ApplicationController
     ).per(
       params[:per_page]
     ).order(
-      "albums.updated_at #{params[:sorting_order]}"
+      "albums.#{params[:sorting_field]} #{params[:sorting_order]}"
     ).includes(
       :photos, :categories
     )
@@ -95,7 +95,8 @@ class AlbumsController < ApplicationController
 
   #PUT /albums/:id/mark_as_submitted
   def mark_as_submitted
-    response = SubmitAlbum.new(@album).call
+    @admin_email = ContactDetail.first.email
+    response = SubmitAlbum.new(@album, @admin_email).call
     json_response({success: response.success?, message: response.message}, response.status)
   end
 
@@ -143,7 +144,7 @@ class AlbumsController < ApplicationController
       ).per(
         params[:per_page]
       ).order(
-        "albums.updated_at #{params[:sorting_order]}"
+        "albums.#{params[:sorting_field]} #{params[:sorting_order]}"
       ).includes(
         :photos, :categories
       )
@@ -154,6 +155,7 @@ class AlbumsController < ApplicationController
       },
       meta: meta_attributes(@albums)
     }, 200)
+
   end
 
   private

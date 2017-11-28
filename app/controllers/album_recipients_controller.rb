@@ -2,6 +2,7 @@ class AlbumRecipientsController < ApplicationController
   include InheritAction
 
   before_action :fetch_album, only: [:create, :resend, :get_admin_album_recipients, :reset_admin_recipients]
+  before_action :fetch_admin_email, only: [:create, :resend]
 
   # GET /albums/:album_id/album_recipients
   def index
@@ -23,13 +24,13 @@ class AlbumRecipientsController < ApplicationController
     params[:album_recipient][:emails].each do |email|
       @contact = Contact.create_contact(email,current_resource_owner)
       recipient = @album.album_recipients.create!(album_recipient_params.merge(contact_id: @contact.id).permit!)
-      recipient.shared_album_link(@album)
+      recipient.shared_album_link(@album, @admin_email)
       album_recipient_ids << recipient.id
     end
 
     @album_recipients = @album.album_recipients.where("ID IN (?)", album_recipient_ids)
-    @album.Shared! unless @album.Submitted? && @album.Delivered?
-
+    # @album.Shared! unless @album.Submitted? && @album.Delivered?
+    @album.Shared! if @album.New?
     json_response({
       success: true,
       message: "Album share successfully.",
@@ -42,7 +43,7 @@ class AlbumRecipientsController < ApplicationController
   #POST /albums/:album_id/album_recipients/:id/resend
   def resend
     album_recipient = @album.album_recipients.find_by(id: params[:id])
-    album_recipient.shared_album_link(@album)
+    album_recipient.shared_album_link(@album, @admin_email)
     json_response({success: true, message: "Album share successfully.", data: {album_recipients: album_recipient}}, 201)
   end
 
@@ -89,6 +90,9 @@ class AlbumRecipientsController < ApplicationController
     @album = current_resource_owner.albums.find(params[:album_id])
   end
 
+  def fetch_admin_email
+    @admin_email = ContactDetail.first.email
+  end
   def album_recipient_params
     params.require(:album_recipient).permit(:custom_message, :minimum_photo_selection, :allow_comments, :recipient_type)
   end

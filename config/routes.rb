@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :categories do
     get 'active', on: :collection
   end
+  resources :watermarks
   resources :albums do
     collection do
       get 'portfolio'
