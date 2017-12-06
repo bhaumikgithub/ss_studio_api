@@ -52,7 +52,9 @@ Rails.application.routes.draw do
     put 'mark_as_checked', on: :collection
   end
   resources :watermarks
-  resources :contacts
+  resources :contacts do
+    get 'import', on: :collection
+  end
   resources :services do
     collection do
       get 'active_services'
