@@ -2,7 +2,7 @@ class Contact < ApplicationRecord
   acts_as_paranoid
 
   attr_accessor :not_validate
-  
+
   # Callabcks
   after_create :generate_token
 
@@ -34,7 +34,7 @@ class Contact < ApplicationRecord
     "#{first_name.capitalize} #{last_name.capitalize}"
   end
 
-  def self.create_contact(email,user)
+  def self.create_contact(email, user)
     @email = Contact.find_by(email: email)
     if !@email.present?
       @contact = Contact.create!(email: email, user_id: user.id, not_validate: ['first_name', 'last_name', 'phone'])

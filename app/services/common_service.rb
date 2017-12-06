@@ -1,16 +1,17 @@
 class CommonService < BaseService
-  attr_accessor :request
-  def initialize(request)
-    @request = request 
-  end
-
-  def call
-    is_mobile_device?
-  end
-
-  private
-
-  def is_mobile_device? # has to be in here because it has access to "request"
+  class << self
+    def is_mobile_devise(request)
       request.user_agent =~ /\b(Android|iPhone|iPad|Windows Phone)\b/i
-   end
+    end
+
+    def get_contacts(current_user, params = {})
+      current_user.contacts.page(
+        params[:page]
+      ).per(
+        params[:per_page]
+      ).order(
+        "contacts.updated_at #{params[:sorting_order]}"
+      )
+    end
+  end
 end
