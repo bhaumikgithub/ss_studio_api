@@ -1,7 +1,8 @@
 class SubmitAlbum < BaseService
-	attr_accessor :album, :total_photos_count, :selected_photos_count, :is_private
+	attr_accessor :album, :total_photos_count, :selected_photos_count, :is_private, :admin_email
 
-	def initialize(album)
+	def initialize(album,admin_email)
+		@admin_email = admin_email
 		@album = album
 		@total_photos_count = total_photos
 		@selected_photos_count = selected_photos
@@ -21,9 +22,9 @@ class SubmitAlbum < BaseService
 	def submit_album
 		album.update_attributes(delivery_status: "Submitted")
 		contacts.each do |contact|
-			AlbumMailer.delay.album_submitted_notification_to_user(album, contact.attributes, total_photos_count, selected_photos_count, is_private)
+			AlbumMailer.delay.album_submitted_notification_to_user(album,admin_email, contact.attributes, total_photos_count, selected_photos_count, is_private)
 		end
-		AlbumMailer.delay.album_submitted_notification_to_admin(album, total_photos_count, selected_photos_count)
+		AlbumMailer.delay.album_submitted_notification_to_admin(album, admin_email, total_photos_count, selected_photos_count)
 		Success.new(nil, "Album successfully submitted.", 201)
 	end
 
@@ -40,6 +41,6 @@ class SubmitAlbum < BaseService
 	end
 
 	def contacts
-		album.album_recipients.joins(:contact).select("album_recipients.id as id, contacts.email as email, contacts.token as token")
+		album.album_recipients.where(recipient_type: 'admin').joins(:contact).select("album_recipients.id as id, contacts.email as email, contacts.token as token")
 	end
 end

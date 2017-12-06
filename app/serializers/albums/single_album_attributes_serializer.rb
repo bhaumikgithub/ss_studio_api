@@ -1,7 +1,8 @@
 class Albums::SingleAlbumAttributesSerializer < ActiveModel::Serializer
-  attributes :id, :album_name, :is_private, :status, :updated_at, :created_at, :delivery_status, :portfolio_visibility, :passcode, :status, :photo_count, :selected_photo_count, :recipients_count, :cover_photo, :photo_pagination
+  attributes :id, :album_name, :is_private, :status, :updated_at, :created_at, :delivery_status, :portfolio_visibility, :passcode, :status, :photo_count, :selected_photo_count, :recipients_count, :cover_photo, :photo_pagination, :commented_photo_count, :can_moderate_album
   has_many :photos, key: "photos", serializer: Albums::PhotoAttributesSerializer
   has_many :categories, key: "categories",serializer: Albums::SingleCategoriesAttributesSerializer
+  has_many :album_recipients, key: "album_recipients", serializer: AlbumRecipients::AdminAlbumRecipientsAttributesSerializer
 
   def photo_count
     object.photos.count
@@ -12,7 +13,7 @@ class Albums::SingleAlbumAttributesSerializer < ActiveModel::Serializer
   end
 
   def recipients_count
-    object.album_recipients.count
+    object.album_recipients.where("recipient_type=(?)",0).count
   end
 
   def photos
@@ -64,5 +65,22 @@ class Albums::SingleAlbumAttributesSerializer < ActiveModel::Serializer
 
   def created_at
     CommonSerializer.date_formate(object.created_at)
+  end
+
+  def album_recipients
+    object.album_recipients.where("recipient_type=(?)",1)
+  end
+
+  def commented_photo_count
+    object.photos.joins(:comment).count
+  end
+
+  def can_moderate_album
+    if instance_options[:params][:token].present? && instance_options[:params][:token] != "null"
+      @recipient = Contact.find_by(token: instance_options[:params][:token]).album_recipients.where("recipient_type = (?)",1)
+      return @recipient.present? ? true : false
+    else
+      return false
+    end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170913061248) do
+ActiveRecord::Schema.define(version: 20170923090933) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,8 +38,11 @@ ActiveRecord::Schema.define(version: 20170913061248) do
     t.string   "custom_message"
     t.integer  "album_id"
     t.integer  "contact_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.integer  "minimum_photo_selection"
+    t.boolean  "allow_comments",          default: false
+    t.integer  "recipient_type",          default: 0
     t.index ["album_id"], name: "index_album_recipients_on_album_id", using: :btree
     t.index ["contact_id"], name: "index_album_recipients_on_contact_id", using: :btree
   end
