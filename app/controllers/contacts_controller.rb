@@ -5,43 +5,13 @@ class ContactsController < ApplicationController
 
   # GET  /contacts
   def index
-    @contacts = current_resource_owner.contacts.page(
-      params[:page]
-    ).per(
-      params[:per_page]
-    ).order(
-      "contacts.updated_at #{params[:sorting_order]}"
-    )
-    json_response({
-      success: true,
-      data: {
-        contacts: array_serializer.new(@contacts, serializer: Contacts::ContactAttributesSerializer, style: "thumb"),
-      },
-      meta: meta_attributes(@contacts)
-    }, 200)
+    all_contacts_josn
   end
 
   # GET /contacts/import
   def import
-    contacts_josn = JSON.parse(open("https://www.google.com/m8/feeds/contacts/default/full?max-results=50&alt=json", "Authorization" =>  "Bearer #{params[:access_token]}", "GData-Version" => "3.0").read)
-
-    contacts = contacts_josn["feed"]["entry"].collect{ |p|
-      {
-        first_name: (p["gd$name"]["gd$givenName"]["$t"] unless p["gd$name"].nil?),
-        last_name:  (p["gd$name"]["gd$familyName"]["$t"] unless p["gd$name"].nil? || p["gd$name"]["gd$familyName"].nil?),
-        email: (p["gd$email"][0]['address'] unless p["gd$email"].nil?),
-        phone: (p["gd$phoneNumber"][0]["$t"] unless p["gd$phoneNumber"].nil?)
-      }
-    }
-    contacts.each do |contact|
-      begin
-        new_contact = current_resource_owner.contacts.new(contact)
-        new_contact.save(validate: false)
-      rescue StandardError => e
-        puts "===#{e.inspect}======"
-      end
-    end
-    render json: {response: contacts}
+    ImportGoogleContacts.new(params[:access_token], current_resource_owner).call
+    all_contacts_josn
   end
 
   # POST  /contacts
@@ -81,5 +51,16 @@ class ContactsController < ApplicationController
 
   def fetch_contact
     @contact = current_resource_owner.contacts.find(params[:id])
+  end
+
+  def all_contacts_josn
+    contacts = CommonService.get_contacts(current_resource_owner, params)
+    json_response({
+      success: true,
+      data: {
+        contacts: array_serializer.new(contacts, serializer: Contacts::ContactAttributesSerializer, style: "thumb"),
+      },
+      meta: meta_attributes(contacts)
+    }, 200)
   end
 end
