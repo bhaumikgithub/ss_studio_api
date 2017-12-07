@@ -1,6 +1,6 @@
 class AlbumsController < ApplicationController
   skip_before_action :doorkeeper_authorize!, only: [ :portfolio, :show, :passcode_verification, :mark_as_submitted ]
-  before_action :fetch_album, only: [ :update, :destroy, :show, :passcode_verification, :mark_as_submitted, :get_selected_photos, :get_commented_photos, :mark_as_deliverd, :mark_as_stoped_selection, :mark_as_shared ]
+  before_action :fetch_album, only: [ :update, :destroy, :show, :passcode_verification, :mark_as_submitted, :get_selected_photos, :get_commented_photos, :mark_as_deliverd, :mark_as_stoped_selection, :mark_as_shared, :acivate_album ]
 
   # GET /albums
   def index
@@ -9,7 +9,7 @@ class AlbumsController < ApplicationController
     ).per(
       params[:per_page]
     ).order(
-      "albums.updated_at #{params[:sorting_order]}"
+      "albums.#{params[:sorting_field]} #{params[:sorting_order]}"
     ).includes(
       :photos, :categories
     )
@@ -95,7 +95,8 @@ class AlbumsController < ApplicationController
 
   #PUT /albums/:id/mark_as_submitted
   def mark_as_submitted
-    response = SubmitAlbum.new(@album).call
+    @admin_email = ContactDetail.first.email
+    response = SubmitAlbum.new(@album, @admin_email).call
     json_response({success: response.success?, message: response.message}, response.status)
   end
 
@@ -127,6 +128,34 @@ class AlbumsController < ApplicationController
   def mark_as_shared
     @album.update_attributes!(delivery_status: "Shared")
     render_success_response({success: true}, 200)
+  end
+
+  # PUT    /albums/:id/acivate_album
+  def acivate_album
+    @album.update_attributes!(status: 1)
+    render_success_response({success: true}, 200)
+  end
+
+  # GET    /albums/get_album_status_wise
+  def get_album_status_wise
+    albums = params[:checked] == "true" ? current_resource_owner.albums.where(status: params[:status]) : current_resource_owner.albums.where.not(status: params[:status])
+    @albums = albums.page(
+        params[:page]
+      ).per(
+        params[:per_page]
+      ).order(
+        "albums.#{params[:sorting_field]} #{params[:sorting_order]}"
+      ).includes(
+        :photos, :categories
+      )
+    json_response({
+      success: true,
+      data: {
+        albums: array_serializer.new(@albums, serializer: Albums::AlbumAttributesSerializer),
+      },
+      meta: meta_attributes(@albums)
+    }, 200)
+
   end
 
   private

@@ -54,7 +54,7 @@ class HomepagePhotosController < ApplicationController
 
   # GET /homepage_photos/active
   def active
-    response = CommonService.new(request).call
+    response = CommonService.is_mobile_devise(request)
     @active_photos = HomepagePhoto.where(is_active: true).order('created_at desc')
     @style = response.present? ? "large" : "original"
       json_response({

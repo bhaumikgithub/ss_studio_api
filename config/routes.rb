@@ -16,9 +16,11 @@ Rails.application.routes.draw do
   resources :categories do
     get 'active', on: :collection
   end
+  resources :watermarks
   resources :albums do
     collection do
       get 'portfolio'
+      get 'get_album_status_wise'
     end
     member do
       get 'passcode_verification'
@@ -28,6 +30,7 @@ Rails.application.routes.draw do
       put 'mark_as_deliverd'
       put 'mark_as_stoped_selection'
       put 'mark_as_shared'
+      put 'acivate_album'
     end
     resources :album_recipients, only: [:create, :index, :destroy] do
       collection do
@@ -49,7 +52,9 @@ Rails.application.routes.draw do
     put 'mark_as_checked', on: :collection
   end
   resources :watermarks
-  resources :contacts
+  resources :contacts do
+    get 'import', on: :collection
+  end
   resources :services do
     collection do
       get 'active_services'
