@@ -1,0 +1,13 @@
+# Gmail creadentail, set this if you are using smtp for sending mail
+GMAIL_USER_NAME="username"
+GMAIL_PASSWORD="password"
+
+# Sendgrid credentail, set this if you are using sendgrid for sending mail
+SENDGRID_USER_NAME="username"
+SENDGRID_PASSWORD="password"
+
+# Elastic credentail, set this if you are using elastic mail for sending mail
+ELASTICMAIL_USER_NAME="user name"
+ELASTICMAIL_PASSWORD="password"
+
+FRONT_URL="react app url for exa. http://localhost:3000/"
