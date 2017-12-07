@@ -1,24 +1,28 @@
-# README
+SagarGadaniAPI
+=======
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+<img src="http://104.251.216.241/sites/sagargadani/ss_studio_api/public/logo.png" align="right" title="SagarGadani">
 
-Things you may want to cover:
+SagarGadani is live at **[SagarGadani](http://www.sagargadani.com)**
 
-* Ruby version
+#Versions
 
-* System dependencies
+* Rails version: 5.0.4
+* Ruby version: 2.4.0
 
-* Configuration
+#Getting Started
 
-* Database creation
+To install on your local machine
 
-* Database initialization
+* `git clone https://github.com/bhaumikgithub/ss_studio_api.git`
+* `cd ss_studio_api`
+* `bin/setup`
+  This will install all dependencies and create the database and other things.
+* Please update `.env` and `config/database.yml` with your configuration.
+* Go to `localhost:3000`
 
-* How to run the test suite
+Here you go!
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
 
-* ...
+
