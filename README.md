@@ -16,7 +16,7 @@ To install on your local machine
 
 * `git clone https://github.com/bhaumikgithub/ss_studio_api.git`
 * `cd ss_studio_api`
-* `bin/setup`
+* Run `bin/setup`
   This will install all dependencies and create the database and other things.
 * Please update `.env` and `config/database.yml` with your configuration.
 * Go to `localhost:3000`
