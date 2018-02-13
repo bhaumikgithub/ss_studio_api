@@ -66,7 +66,7 @@ class VideosController < ApplicationController
   private
 
   def resource_params
-    params.require(:video).permit(:title, :video_type, :video_url, :status, :video)
+    params.require(:video).permit(:title, :video_type, :video_url, :video_embed_url, :status, :video)
   end
 
   def fetch_video

@@ -1,5 +1,5 @@
 class Videos::VideoAttributesSerializer < ActiveModel::Serializer
-  attributes :id, :created_at, :title, :video_type, :status, :video_url, :video_thumb, :updated_at
+  attributes :id, :created_at, :title, :video_type, :status, :video_url, :video_thumb, :updated_at, :video_embed_url
 
   def created_at
     CommonSerializer.date_formate(object.created_at)
