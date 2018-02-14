@@ -8,7 +8,7 @@ class Video < ApplicationRecord
   enum status: { published: 0, unpublished: 1 }
 
   # Callbacks
-  before_commit :generate_embed_video_url
+  before_commit :generate_embed_video_url, on: [ :create, :update ]
 
   # Validations
   has_attached_file :video, :styles => {
