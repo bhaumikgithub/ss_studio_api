@@ -54,7 +54,7 @@ class VideosController < ApplicationController
 
   # GET /videos/publish
   def publish
-    @videos = Video.where(status: 'published')
+    @videos = Video.where(status: 'published').order(updated_at: 'desc')
     json_response({
       success: true,
       data: {
