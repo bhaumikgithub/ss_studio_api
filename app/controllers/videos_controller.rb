@@ -1,7 +1,7 @@
 class VideosController < ApplicationController
 
   # Callabcks
-  skip_before_action :doorkeeper_authorize!, only: [ :publish ]
+  skip_before_action :doorkeeper_authorize!, only: [ :publish, :update_position]
   before_action :fetch_video, only: [ :destroy, :update ]
 
   # GET    /videos
@@ -61,6 +61,9 @@ class VideosController < ApplicationController
         videos: array_serializer.new(@videos, serializer: Videos::VideoAttributesSerializer),
       }
     }, 200)
+  end
+
+  def update_position
   end
 
   private
