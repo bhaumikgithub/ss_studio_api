@@ -4,20 +4,27 @@ class AlbumsController < ApplicationController
 
   # GET /albums
   def index
-    @albums = current_resource_owner.albums.page(
-      params[:page]
-    ).per(
-      params[:per_page]
-    ).order(
-      "albums.#{params[:sorting_field]} #{params[:sorting_order]}"
-    ).includes(
-      :photos, :categories
-    )
+    if params[:category_id].present?
+      albums = current_resource_owner.categories.find_by(id: params[:category_id]).albums
+    else
+      albums = current_resource_owner.albums
+    end
+    @albums = albums.page(
+        params[:page]
+      ).per(
+        params[:per_page]
+      ).order(
+        updated_at: :desc
+      ).includes(
+        :photos, :categories
+      )
+    @categories = current_resource_owner.categories
 
     json_response({
       success: true,
       data: {
         albums: array_serializer.new(@albums, serializer: Albums::AlbumAttributesSerializer),
+        categories: { :categories => @categories },
       },
       meta: meta_attributes(@albums)
     }, 200)
@@ -138,16 +145,21 @@ class AlbumsController < ApplicationController
 
   # GET    /albums/get_album_status_wise
   def get_album_status_wise
-    albums = params[:checked] == "true" ? current_resource_owner.albums.where(status: params[:status]) : current_resource_owner.albums.where.not(status: params[:status])
+    if params[:category_id].present?
+      albums = current_resource_owner.categories.find_by(id: params[:category_id]).albums
+    else
+      albums = current_resource_owner.albums
+    end
+    albums = params[:checked] == "true" ? albums.where(status: params[:status]) : albums.where.not(status: params[:status])
     @albums = albums.page(
-        params[:page]
-      ).per(
-        params[:per_page]
-      ).order(
-        "albums.#{params[:sorting_field]} #{params[:sorting_order]}"
-      ).includes(
-        :photos, :categories
-      )
+      params[:page]
+    ).per(
+      params[:per_page]
+    ).order(
+      updated_at: :desc
+    ).includes(
+      :photos, :categories
+    )
     json_response({
       success: true,
       data: {
