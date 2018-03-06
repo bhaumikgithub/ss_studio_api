@@ -1,7 +1,7 @@
 class VideosController < ApplicationController
 
   # Callabcks
-  skip_before_action :doorkeeper_authorize!, only: [ :publish ]
+  skip_before_action :doorkeeper_authorize!, only: [ :publish, :update_position]
   before_action :fetch_video, only: [ :destroy, :update ]
 
   # GET    /videos
@@ -11,7 +11,7 @@ class VideosController < ApplicationController
     ).per(
       params[:per_page]
     ).order(
-      "videos.updated_at #{params[:sorting_order]}"
+      "videos.position asc","videos.updated_at desc"
     )
     json_response({
       success: true,
@@ -54,13 +54,33 @@ class VideosController < ApplicationController
 
   # GET /videos/publish
   def publish
-    @videos = Video.where(status: 'published')
+    @videos = Video.where(status: 'published').order(:position, :updated_at => :desc)
     json_response({
       success: true,
       data: {
         videos: array_serializer.new(@videos, serializer: Videos::VideoAttributesSerializer),
       }
     }, 200)
+  end
+
+  def update_position
+    @video_position = Hash[*params[:video_position].flatten]
+    @video_position.each do |key,value|
+      Video.find(key).update_attributes(position: value)
+    end
+    @videos = current_resource_owner.videos.page(
+      params[:page]
+    ).per(
+      params[:per_page]
+    ).order(
+      :position, :updated_at => :desc
+    )
+    json_response({
+      success: true,
+      data: {
+        videos: array_serializer.new(@videos, serializer: Videos::VideoAttributesSerializer),
+      }
+    }, 201)
   end
 
   private
