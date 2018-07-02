@@ -1,10 +1,11 @@
 class ServicesController < ApplicationController
   include InheritAction
-  skip_before_action :doorkeeper_authorize!, only: [ :active_services ]
+  skip_before_action :doorkeeper_authorize!, only: [ :service_details ]
   before_action :fetch_service, only: [:update]
 
+  # GET  /services/active_services
   def active_services
-    @active_services = Service.where(status: "active")
+    @active_services = current_resource_owner.services.where(status: "active")
     json_response({
       success: true,
       data: {
@@ -25,9 +26,26 @@ class ServicesController < ApplicationController
     }, 201)
   end
 
+  # GET  /services/service_details
+  def service_details
+    @active_services = User.get_user(params[:user]).services.where(status: "active")
+    json_response({
+      success: true,
+      data: {
+        active_services: array_serializer.new(@active_services, serializer: Services::ServiceAttributesSerializer),
+      }
+    }, 200)
+  end
+
+  # POST /services
+  def create
+    @resource = current_resource_owner.services.create!(resource_params)
+    render_success_response({ service: @resource }, 201) if @resource
+  end
+
   private
 
   def fetch_service
-    @service = Service.find(params[:id])
+    @service = current_resource_owner.services.find(params[:id])
   end
 end

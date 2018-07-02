@@ -54,7 +54,7 @@ class VideosController < ApplicationController
 
   # GET /videos/publish
   def publish
-    @videos = Video.where(status: 'published').order(:position, :updated_at => :desc)
+    @videos = User.get_user(params[:user]).videos.where(status: 'published').order(:position, :updated_at => :desc)
     json_response({
       success: true,
       data: {

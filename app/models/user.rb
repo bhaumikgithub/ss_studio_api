@@ -18,6 +18,10 @@ class User < ApplicationRecord
   has_many :videos, dependent: :destroy
   has_many :homepage_photos, dependent: :destroy 
   has_many :testimonials, dependent: :destroy
+  has_many :services, dependent: :destroy
+
+  has_one :about, dependent: :destroy
+  has_one :contact_detail, dependent: :destroy
 
   enum status: { inactive: 0, active: 1 }
   # Validations
@@ -31,6 +35,10 @@ class User < ApplicationRecord
     return nil if first_name.blank? && last_name.blank?
     return first_name if last_name.blank?
     "#{first_name.capitalize} #{last_name.capitalize}"
+  end
+
+  def self.get_user(name)
+    user = User.find_by(first_name: name)
   end
 
 end

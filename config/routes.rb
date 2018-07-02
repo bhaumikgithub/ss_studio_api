@@ -51,21 +51,23 @@ Rails.application.routes.draw do
     end
     put 'mark_as_checked', on: :collection
   end
-  resources :watermarks
   resources :contacts do
     get 'import', on: :collection
   end
   resources :services do
     collection do
       get 'active_services'
+      get 'service_details'
     end
   end
 
   get 'contact_details', to: 'contact_details#show'
   patch 'contact_details', to: 'contact_details#update'
+  get 'contact_detail', to: 'contact_details#contact_detail'
 
   get 'abouts', to: 'abouts#show'
   patch 'abouts', to: 'abouts#update'
+  get 'about_us', to: 'abouts#about_us_detail'
 
   resources :services
   resources :testimonials do

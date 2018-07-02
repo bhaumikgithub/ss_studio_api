@@ -45,6 +45,9 @@ class AlbumsController < ApplicationController
 
   # GET /albums/:id
   def show
+    if params[:user]
+      @album = User.get_user(params[:user]).albums.find_by(slug: params[:id])
+    end
     json_response({
       success: true,
       data: {
@@ -75,9 +78,9 @@ class AlbumsController < ApplicationController
   def portfolio
     if params[:category].present? && params[:category] != "all"
       category = Category.find_by_category_name(params[:category])
-      @portfolio_albums = category.albums
+      @portfolio_albums = category.albums.where(user_id: User.get_user(params[:user]).id)
     else
-      @portfolio_albums = Album.all
+      @portfolio_albums = User.get_user(params[:user]).albums
     end
 
     @portfolio_albums = @portfolio_albums.where(status: "active", portfolio_visibility: true, is_private: false)
