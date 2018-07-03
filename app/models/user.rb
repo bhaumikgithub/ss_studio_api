@@ -22,6 +22,7 @@ class User < ApplicationRecord
 
   has_one :about, dependent: :destroy
   has_one :contact_detail, dependent: :destroy
+  has_one :user_logo, dependent: :destroy
 
   enum status: { inactive: 0, active: 1 }
   # Validations
