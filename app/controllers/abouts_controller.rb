@@ -39,12 +39,14 @@ class AboutsController < ApplicationController
   # GET  /about_us
   def about_us_detail
     about_us_detail = User.get_user(params[:user]).about
-    json_response({
-      success: true,
-      data: {
-        about_us: single_record_serializer.new(about_us_detail, serializer: Abouts::AboutAttributesSerializer),
-      }
-    }, 200)
+    if about_us_detail
+      json_response({
+        success: true,
+        data: {
+          about_us: single_record_serializer.new(about_us_detail, serializer: Abouts::AboutAttributesSerializer),
+        }
+      }, 200)
+    end
   end
 
   private

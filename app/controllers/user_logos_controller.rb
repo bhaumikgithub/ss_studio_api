@@ -35,7 +35,7 @@ class UserLogosController < ApplicationController
       data: {
         user_logo: single_record_serializer.new(@user_logo, serializer: UserLogos::UserLogoAttributesSerializer),
       }
-    }, 200)
+    }, 200) if @user_logo
   end
 
   private
