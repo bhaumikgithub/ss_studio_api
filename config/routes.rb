@@ -68,6 +68,7 @@ Rails.application.routes.draw do
   get 'abouts', to: 'abouts#show'
   patch 'abouts', to: 'abouts#update'
   get 'about_us', to: 'abouts#about_us_detail'
+  post 'abouts', to: 'abouts#create'
 
   resources :services
   resources :testimonials do
