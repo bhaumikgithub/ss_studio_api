@@ -17,7 +17,7 @@ class Contact < ApplicationRecord
   validates :first_name, presence: true, :unless => Proc.new{ not_validate&.include?('first_name') }
   validates :last_name, presence: true, :unless => Proc.new{ not_validate&.include?('last_name') }
   validates :phone, presence: true, :unless => Proc.new{ not_validate&.include?('phone') }
-  validates :email, presence: true, :uniqueness => true
+  validates :email, presence: true, :uniqueness => {:scope=>:user_id}
   validates_length_of :phone, :minimum => 10, :maximum => 13, :allow_nil => true
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
 

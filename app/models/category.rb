@@ -12,7 +12,7 @@ class Category < ApplicationRecord
 
   enum status: { inactive: 0, active: 1 }
   # Validations
-  validates :category_name, presence: true, uniqueness: true
+  validates :category_name, presence: true, :uniqueness => {:scope=>:user_id}
 
   # Scopes
 
