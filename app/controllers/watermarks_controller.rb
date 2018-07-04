@@ -19,7 +19,12 @@ class WatermarksController < ApplicationController
   def create
     @watermark = current_resource_owner.watermarks.create(resource_params)
     current_resource_owner.watermarks.where.not(id: @watermark.id).update_all(status: 0)
-    render_success_response({ :watermarks => @watermark }, 201)
+    json_response({
+      success: true,
+      data: {
+        watermark: single_record_serializer.new(@watermark, serializer: Watermarks::WatermarkAttributesSerializer),
+      }
+    }, 201)
   end
 
   # PATCH  /watermarks/:id
