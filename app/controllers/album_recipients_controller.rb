@@ -91,7 +91,11 @@ class AlbumRecipientsController < ApplicationController
   end
 
   def fetch_admin_email
-    @admin_email = ContactDetail.first.email
+    if current_resource_owner.contact_detail.present?
+      @admin_email = current_resource_owner.contact_detail.email
+    else
+       @admin_email = current_resource_owner.email
+    end
   end
   def album_recipient_params
     params.require(:album_recipient).permit(:custom_message, :minimum_photo_selection, :allow_comments, :recipient_type)

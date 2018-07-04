@@ -16,7 +16,7 @@ class CategoriesController < ApplicationController
 
   # GET  /categories/active
   def active
-    render_success_response({ :categories => Category.where(status: 'active') },200)
+    render_success_response({ :categories => User.get_user(params[:user]).categories.where(status: 'active') },200)
   end
 
   # POST /categories

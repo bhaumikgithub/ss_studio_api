@@ -1,15 +1,28 @@
 class AboutsController < ApplicationController
-	skip_before_action :doorkeeper_authorize!, only: [ :show ]
+	skip_before_action :doorkeeper_authorize!, only: [ :about_us_detail ]
 	before_action :fetch_about_us_detail, only: [ :show, :update ]
 
   #  GET  /abouts
   def show
-  	json_response({
+    if @about_us_detail
+      json_response({
+        success: true,
+        data: {
+          about_us: single_record_serializer.new(@about_us_detail, serializer: Abouts::AboutAttributesSerializer),
+        }
+      }, 200)
+    end
+  end
+
+  def create
+    @about = current_resource_owner.create_about(about_us_params)
+    @about.update_attributes!(facebook_link: '', twitter_link: '',instagram_link: '', youtube_link: '',vimeo_link: '', linkedin_link: '',pinterest_link:'',flickr_link:'') if @about
+    json_response({
       success: true,
       data: {
-        about_us: single_record_serializer.new(@about_us_detail, serializer: Abouts::AboutAttributesSerializer),
+        about_us: single_record_serializer.new(@about, serializer: Abouts::AboutAttributesSerializer),
       }
-    }, 200)
+    }, 201)
   end
 
   # PUT    /abouts
@@ -23,6 +36,19 @@ class AboutsController < ApplicationController
     }, 201)
   end
 
+  # GET  /about_us
+  def about_us_detail
+    about_us_detail = User.get_user(params[:user]).about
+    if about_us_detail
+      json_response({
+        success: true,
+        data: {
+          about_us: single_record_serializer.new(about_us_detail, serializer: Abouts::AboutAttributesSerializer),
+        }
+      }, 200)
+    end
+  end
+
   private
 
   def about_us_params
@@ -30,6 +56,6 @@ class AboutsController < ApplicationController
   end
 
   def fetch_about_us_detail
-    @about_us_detail = About.first
+    @about_us_detail = current_resource_owner&.about
   end
 end

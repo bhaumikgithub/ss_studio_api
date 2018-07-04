@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180305061432) do
+ActiveRecord::Schema.define(version: 20180703094415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,7 +21,9 @@ ActiveRecord::Schema.define(version: 20180305061432) do
     t.jsonb    "social_links", default: "{}"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+    t.integer  "user_id"
     t.index ["social_links"], name: "index_abouts_on_social_links", using: :gin
+    t.index ["user_id"], name: "index_abouts_on_user_id", using: :btree
   end
 
   create_table "album_categories", force: :cascade do |t|
@@ -90,7 +92,9 @@ ActiveRecord::Schema.define(version: 20180305061432) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
+    t.integer  "user_id"
     t.index ["deleted_at"], name: "index_contact_details_on_deleted_at", using: :btree
+    t.index ["user_id"], name: "index_contact_details_on_user_id", using: :btree
   end
 
   create_table "contact_messages", force: :cascade do |t|
@@ -233,8 +237,10 @@ ActiveRecord::Schema.define(version: 20180305061432) do
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
     t.datetime "deleted_at"
+    t.integer  "user_id"
     t.index ["deleted_at"], name: "index_services_on_deleted_at", using: :btree
     t.index ["service_icon_id"], name: "index_services_on_service_icon_id", using: :btree
+    t.index ["user_id"], name: "index_services_on_user_id", using: :btree
   end
 
   create_table "testimonials", force: :cascade do |t|
@@ -250,6 +256,13 @@ ActiveRecord::Schema.define(version: 20180305061432) do
     t.index ["contact_id"], name: "index_testimonials_on_contact_id", using: :btree
     t.index ["deleted_at"], name: "index_testimonials_on_deleted_at", using: :btree
     t.index ["user_id"], name: "index_testimonials_on_user_id", using: :btree
+  end
+
+  create_table "user_logos", force: :cascade do |t|
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_logos_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -307,9 +320,11 @@ ActiveRecord::Schema.define(version: 20180305061432) do
     t.index ["user_id"], name: "index_watermarks_on_user_id", using: :btree
   end
 
+  add_foreign_key "abouts", "users"
   add_foreign_key "album_recipients", "albums"
   add_foreign_key "album_recipients", "contacts"
   add_foreign_key "comments", "photos"
+  add_foreign_key "contact_details", "users"
   add_foreign_key "homepage_photos", "photos"
   add_foreign_key "homepage_photos", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
@@ -317,8 +332,10 @@ ActiveRecord::Schema.define(version: 20180305061432) do
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
   add_foreign_key "services", "service_icons"
+  add_foreign_key "services", "users"
   add_foreign_key "testimonials", "contacts"
   add_foreign_key "testimonials", "users"
+  add_foreign_key "user_logos", "users"
   add_foreign_key "videos", "users"
   add_foreign_key "watermarks", "users"
 end

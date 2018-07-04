@@ -55,7 +55,11 @@ class HomepagePhotosController < ApplicationController
   # GET /homepage_photos/active
   def active
     response = CommonService.is_mobile_devise(request)
-    @active_photos = HomepagePhoto.where(is_active: true).order('created_at desc')
+    if params[:user]
+      @active_photos = User.get_user(params[:user]).homepage_photos.where(is_active: true).order('created_at desc')
+    else
+      @active_photos = []
+    end
     @style = response.present? ? "large" : "original"
       json_response({
         success: true,

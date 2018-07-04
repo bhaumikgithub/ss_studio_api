@@ -60,7 +60,7 @@ class TestimonialsController < ApplicationController
 
   # GET /testimonials/active
   def active
-    @testimonials = Testimonial.all.where(status: 'active')
+    @testimonials = User.get_user(params[:user]).testimonials.all.where(status: 'active')
     json_response({
       success: true,
       data: {

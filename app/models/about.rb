@@ -4,6 +4,7 @@ class About < ApplicationRecord
 
   # Associations
   has_one :photo, as: :imageable, dependent: :destroy
+  belongs_to :user
   
   accepts_nested_attributes_for :photo
 

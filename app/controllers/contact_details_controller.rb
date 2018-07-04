@@ -1,5 +1,5 @@
 class ContactDetailsController < ApplicationController
-  skip_before_action :doorkeeper_authorize!, only: [ :show ]
+  skip_before_action :doorkeeper_authorize!, only: [ :contact_detail ]
   before_action :fetch_contact_detail, only: [ :show, :update ]
 
   # GET /contact_details
@@ -13,6 +13,17 @@ class ContactDetailsController < ApplicationController
     render_success_response({ :contact_detail => @contact_detail}, 201)
   end
 
+  # GET /contact_detail
+  def contact_detail
+    render_success_response({ :contact_detail => User.get_user(params[:user]).contact_detail}, 200)
+  end
+
+  # Post /contact_details
+  def create
+    @contact_detail = current_resource_owner.create_contact_detail(contact_detail_param)
+    render_success_response({ :contact_detail => @contact_detail}, 201)
+  end
+
   private
 
   def contact_detail_param
@@ -20,6 +31,6 @@ class ContactDetailsController < ApplicationController
   end
 
   def fetch_contact_detail
-    @contact_detail = ContactDetail.first
+    @contact_detail = current_resource_owner.contact_detail
   end
 end
