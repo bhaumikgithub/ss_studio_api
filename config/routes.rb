@@ -64,6 +64,7 @@ Rails.application.routes.draw do
   get 'contact_details', to: 'contact_details#show'
   patch 'contact_details', to: 'contact_details#update'
   get 'contact_detail', to: 'contact_details#contact_detail'
+  post 'contact_details', to: 'contact_details#create'
 
   get 'abouts', to: 'abouts#show'
   patch 'abouts', to: 'abouts#update'

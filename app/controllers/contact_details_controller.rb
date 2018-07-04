@@ -18,6 +18,12 @@ class ContactDetailsController < ApplicationController
     render_success_response({ :contact_detail => User.get_user(params[:user]).contact_detail}, 200)
   end
 
+  # Post /contact_details
+  def create
+    @contact_detail = current_resource_owner.create_contact_detail(contact_detail_param)
+    render_success_response({ :contact_detail => @contact_detail}, 201)
+  end
+
   private
 
   def contact_detail_param
