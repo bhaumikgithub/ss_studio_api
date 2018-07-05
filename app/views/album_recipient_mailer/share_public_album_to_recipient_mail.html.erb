@@ -1,6 +1,5 @@
 <p>Dear Client,</p>
 <p>Please check your photos by clicking on the View Album link. </p>
-<p>testing staging public</p>
 <p><%= link_to "View Album", ENV['FRONT_URL'] +@album.user.first_name+"/shared_album/" + @album.slug + "?token=" + @album_recipient.contact.token, target: "_blank" %></p>
 <p> <%= @album_recipient.custom_message %> </p>
 <% if @album_recipient.recipient_type == 'admin' %>
