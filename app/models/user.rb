@@ -7,7 +7,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
  # Callabcks
- after_create :update_home_page_photos
+ after_create :update_home_page_photos, :create_website_detail
  # Associations
   has_many :contacts, dependent: :destroy
   has_many :categories, dependent: :destroy
@@ -23,6 +23,7 @@ class User < ApplicationRecord
   has_one :about, dependent: :destroy
   has_one :contact_detail, dependent: :destroy
   has_one :user_logo, dependent: :destroy
+  has_one :website_detail, dependent: :destroy
 
   enum status: { inactive: 0, active: 1 }
   # Validations
@@ -50,6 +51,10 @@ class User < ApplicationRecord
     { homepage_image: File.new("public/shared_photos/homepage_photos/image_4.jpg"), is_active: true,user_id: self.id},
     { homepage_image: File.new("public/shared_photos/homepage_photos/image_5.JPG"), is_active: true,user_id: self.id}
   ])
+  end
+
+  def create_website_detail
+    WebsiteDetail.create!(title: full_name, copyright_text: "© Copyright 2017 - "+ full_name + ", All rights reserved", user_id: self.id)
   end
 
 end

@@ -65,6 +65,8 @@ Category.create([
   { category_name: "Kids", status: "active", user_id: user.id }
 ])
 
+WebsiteDetail.create!(title: user.full_name, copyright_text: "© Copyright 2017 - "+ user.full_name + ", All rights reserved", user_id: user.id)
+
 watermark = Watermark.create(user_id: user.id, status: 1)
 
 Photo.is_watermark = true

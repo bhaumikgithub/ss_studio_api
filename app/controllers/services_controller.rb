@@ -5,7 +5,7 @@ class ServicesController < ApplicationController
 
   # GET  /services/active_services
   def active_services
-    @active_services = current_resource_owner.services.where(status: "active")
+    @active_services = current_resource_owner.services.where(status: "active").order('updated_at DESC')
     json_response({
       success: true,
       data: {
@@ -28,7 +28,7 @@ class ServicesController < ApplicationController
 
   # GET  /services/service_details
   def service_details
-    @active_services = User.get_user(params[:user]).services.where(status: "active")
+    @active_services = User.get_user(params[:user]).services.where(status: "active").order('updated_at DESC')
     json_response({
       success: true,
       data: {
