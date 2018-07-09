@@ -14,7 +14,7 @@ class Photo < ApplicationRecord
 
   # Enumerator
   enum status: { inactive: 0, active: 1 }
-  cattr_accessor :watermark_url, :apply_watermark, :watermark_thumb_url, :is_watermark
+  cattr_accessor :watermark_url, :apply_watermark, :watermark_thumb_url, :watermark_medium_url, :is_watermark
 
   # Validations
   # validates :imageable_id, :imageable_type, presence: true
@@ -41,7 +41,7 @@ class Photo < ApplicationRecord
                           },
                           :original => {
                             :geometry => '1200>',
-                            :watermark_path => attachment.instance.class.watermark_url,
+                            :watermark_path => attachment.instance.class.watermark_medium_url,
                             :position => 'SouthEast',
                           },
                         }
