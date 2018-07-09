@@ -71,6 +71,11 @@ Rails.application.routes.draw do
   get 'about_us', to: 'abouts#about_us_detail'
   post 'abouts', to: 'abouts#create'
 
+  get 'website_detail', to: 'website_details#show'
+  patch 'website_details', to: 'website_details#update'
+  post 'website_details', to: 'website_details#create'
+  get 'website_details', to: 'website_details#website_details'
+
   resources :services
   resources :testimonials do
     collection do

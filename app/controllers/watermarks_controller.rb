@@ -17,8 +17,10 @@ class WatermarksController < ApplicationController
 
   # POST /watermarks
   def create
+    Photo.is_watermark = true
     @watermark = current_resource_owner.watermarks.create(resource_params)
     current_resource_owner.watermarks.where.not(id: @watermark.id).update_all(status: 0)
+    Photo.is_watermark = false
     json_response({
       success: true,
       data: {
@@ -29,10 +31,12 @@ class WatermarksController < ApplicationController
 
   # PATCH  /watermarks/:id
   def update
+    Photo.is_watermark = true
     @watermark.update_attributes!(resource_params)
     if @watermark.status == "active"
       current_resource_owner.watermarks.where("status=(?) and ID NOT IN (?)",1,@resource.id).update_all(status: 0)
     end
+    Photo.is_watermark = false
     json_response({
       success: true,
       data: {

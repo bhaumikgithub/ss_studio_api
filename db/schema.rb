@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180703094415) do
+ActiveRecord::Schema.define(version: 20180706131024) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -320,6 +320,15 @@ ActiveRecord::Schema.define(version: 20180703094415) do
     t.index ["user_id"], name: "index_watermarks_on_user_id", using: :btree
   end
 
+  create_table "website_details", force: :cascade do |t|
+    t.string   "title"
+    t.text     "copyright_text"
+    t.integer  "user_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["user_id"], name: "index_website_details_on_user_id", using: :btree
+  end
+
   add_foreign_key "abouts", "users"
   add_foreign_key "album_recipients", "albums"
   add_foreign_key "album_recipients", "contacts"
@@ -338,4 +347,5 @@ ActiveRecord::Schema.define(version: 20180703094415) do
   add_foreign_key "user_logos", "users"
   add_foreign_key "videos", "users"
   add_foreign_key "watermarks", "users"
+  add_foreign_key "website_details", "users"
 end
