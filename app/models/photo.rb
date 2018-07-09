@@ -14,7 +14,7 @@ class Photo < ApplicationRecord
 
   # Enumerator
   enum status: { inactive: 0, active: 1 }
-  cattr_accessor :watermark_url, :apply_watermark, :watermark_thumb_url, :watermark_medium_url, :is_watermark
+  cattr_accessor :watermark_url, :apply_watermark, :watermark_thumb_url, :watermark_medium_url, :is_watermark, :is_logo
 
   # Validations
   # validates :imageable_id, :imageable_type, presence: true
@@ -27,7 +27,7 @@ class Photo < ApplicationRecord
                       end
                     },
                     :styles => lambda { |attachment|
-                      unless attachment.instance.class.is_watermark
+                      if !attachment.instance.class.is_watermark
                         {
                           :medium => {
                             :geometry => "259x259#",
@@ -42,6 +42,25 @@ class Photo < ApplicationRecord
                           :original => {
                             :geometry => '1200>',
                             :watermark_path => attachment.instance.class.watermark_medium_url,
+                            :position => 'SouthEast',
+                          },
+                        }
+                        elsif attachment.instance.class.is_logo
+                        {
+                          :medium => {
+                            :geometry => "259x259#",
+                            :position => "SouthEast"
+                          },
+                          :thumb => {
+                            :geometry => "185x185#",
+                            :position => "SouthEast"
+                          },
+                          :original => {
+                            :geometry => '1200>',
+                            :position => 'SouthEast',
+                          },
+                          :logo => {
+                            :geometry => "185x70",
                             :position => 'SouthEast',
                           },
                         }

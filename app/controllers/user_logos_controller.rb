@@ -5,6 +5,7 @@ class UserLogosController < ApplicationController
 	# Post /users/:id/user_logos
 	def create
 		Photo.apply_watermark = false
+    Photo.is_watermark = true
     Photo.is_logo = true
 		@user_logo = current_resource_owner.create_user_logo(resource_params)
     Photo.is_logo = false
@@ -20,6 +21,7 @@ class UserLogosController < ApplicationController
   def update
     @userlogo = UserLogo.find_by(id: params[:id])
     @userlogo.photo.apply_watermark = false
+    @userlogo.photo.is_watermark = true
     @userlogo.photo.is_logo = true
     @userlogo.update(resource_params)
     @userlogo.photo.is_logo = false
