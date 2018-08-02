@@ -4,6 +4,7 @@ class ContactMessagesController < ApplicationController
 
   # POST /contact_messages
   def create
+    ContactMessage.captcha = params[:contact_message][:captcha]
     @user = User.get_user(params[:user])
     @admin_email = @user.contact_detail.email
     @contact_message = ContactMessage.create!(resource_params)
