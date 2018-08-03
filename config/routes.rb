@@ -84,6 +84,7 @@ Rails.application.routes.draw do
   resources :videos do
     collection do
       get 'publish'
+      patch 'update_position'
     end
   end
   resources :users, only: [:show] do
