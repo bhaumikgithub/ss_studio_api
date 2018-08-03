@@ -4,6 +4,7 @@ class ContactMessagesController < ApplicationController
 
   # POST /contact_messages
   def create
+    ContactMessage.captcha = params[:contact_message][:captcha]
     @admin_email = ContactDetail.first.email
     @contact_message = ContactMessage.create!(resource_params)
     ContactMailer.delay.contact_message_mail(@contact_message,@admin_email)
