@@ -6,7 +6,11 @@ class ContactMessagesController < ApplicationController
   def create
     ContactMessage.captcha = params[:contact_message][:captcha]
     @user = User.get_user(params[:user])
-    @admin_email = @user.contact_detail.email
+    if @user
+      @admin_email = @user.contact_detail.email
+    else
+      @admin_email = "info@techplussoftware.com"
+    end
     @contact_message = ContactMessage.create!(resource_params)
     ContactMailer.delay.contact_message_mail(@contact_message,@admin_email)
     json_response({success: true, message: "contact message sent successfully.", data: { :contact_messages => @contact_message }}, 201)
