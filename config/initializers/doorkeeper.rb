@@ -12,12 +12,13 @@ Doorkeeper.configure do
 
   resource_owner_from_credentials do |routes|
     user = User.find_by(email: params[:email])
-    if user.present? && user.valid_password?(params[:password])
+    if user.present? && !user.confirmed?
+      raise Doorkeeper::Errors::DoorkeeperError.new('You have to confirm your email address before continue.')
+    elsif user.present? && user.confirmed? && user.valid_password?(params[:password])
       user
     else
       raise Doorkeeper::Errors::DoorkeeperError.new('Invalid email and password.')
     end
-    
   end
   # If you want to restrict access to the web interface for adding oauth authorized applications, you need to declare the block below.
   # admin_authenticator do

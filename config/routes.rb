@@ -100,6 +100,9 @@ Rails.application.routes.draw do
     member do
       patch 'update_password'
     end
+    collection do
+      get 'get_countries'
+    end
     resources :user_logos, only: [:show,:create,:update]
   end
 

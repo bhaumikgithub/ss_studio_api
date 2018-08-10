@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   include InheritAction
+  skip_before_action :doorkeeper_authorize!, only: [ :get_countries ]
 
   # GET /users/:id
   def show
@@ -20,6 +21,11 @@ class UsersController < ApplicationController
     else
       render_unprocessable_entity_response(@user)
     end
+  end
+
+  def get_countries
+    @countries = Country.all
+    render_success_response({ :countries => @countries },200)
   end
 
   private
