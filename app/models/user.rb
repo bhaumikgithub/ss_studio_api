@@ -24,9 +24,13 @@ class User < ApplicationRecord
   has_one :contact_detail, dependent: :destroy
   has_one :user_logo, dependent: :destroy
   has_one :website_detail, dependent: :destroy
+  belongs_to :package
+  belongs_to :country
 
-  enum status: { inactive: 0, active: 1 }
+  enum status: { inactive: 0, pending_activation: 1, active: 2, subscription_expire: 3 }
   # Validations
+  validates :alias, :phone, :email, presence: true
+  validates :email, :alias, uniqueness: true
   validates :password, :presence => true , :if => Proc.new{ validate_password&.include?('password') }
   validates :password_confirmation, :presence => true , :if => Proc.new{ validate_password&.include?('password_confirmation') }
 
@@ -51,6 +55,8 @@ class User < ApplicationRecord
     { homepage_image: File.new("public/shared_photos/homepage_photos/image_4.jpg"), is_active: true,user_id: self.id},
     { homepage_image: File.new("public/shared_photos/homepage_photos/image_5.JPG"), is_active: true,user_id: self.id}
   ])
+    # package = Package.find_by_name('free')
+    # self.update(package_id: package.id)
   end
 
   def create_website_detail

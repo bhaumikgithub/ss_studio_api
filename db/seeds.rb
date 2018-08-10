@@ -74,3 +74,12 @@ Photo.create(status: "active", image: File.new("public/shared_photos/watermark.p
 Photo.is_watermark = false
 
 About.first.update_attributes!(facebook_link: "https://www.facebook.com/sagarphotocam", twitter_link: '',instagram_link: '', youtube_link: '',vimeo_link: '', linkedin_link: '',pinterest_link:'',flickr_link:'')
+Package.create(name: 'free', price: 0.0, days: 15)
+
+Country.create([
+  {name: 'India'},
+  {name: 'Singapore'},
+  {name: 'Australia'},
+  {name: 'USA'},
+  {name: 'Canada'}
+])
