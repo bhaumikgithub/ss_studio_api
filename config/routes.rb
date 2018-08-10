@@ -9,8 +9,8 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: {
       registrations: 'users/registrations',
-      passwords: 'user/passwords',
-      confirmations: 'user/confirmations'
+      passwords: 'users/passwords',
+      confirmations: 'users/confirmations'
   }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :categories do
