@@ -9,6 +9,13 @@ class User < ApplicationRecord
  # Callabcks
  after_create :update_home_page_photos, :create_website_detail
  # Associations
+  has_many :access_grants, class_name: "Doorkeeper::AccessGrant",
+                           foreign_key: :resource_owner_id,
+                           dependent: :delete_all # or :destroy if you need callbacks
+
+  has_many :access_tokens, class_name: "Doorkeeper::AccessToken",
+                           foreign_key: :resource_owner_id,
+                           dependent: :delete_all
   has_many :contacts, dependent: :destroy
   has_many :categories, dependent: :destroy
   has_many :watermarks, dependent: :destroy
