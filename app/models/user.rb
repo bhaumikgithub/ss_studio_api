@@ -33,10 +33,11 @@ class User < ApplicationRecord
   has_one :website_detail, dependent: :destroy
   belongs_to :package
   belongs_to :country
-
+  cattr_accessor :captcha
+  validate :captcha_code
   enum status: { inactive: 0, pending_activation: 1, active: 2, subscription_expire: 3 }
   # Validations
-  validates :alias, :phone, :email, presence: true
+  validates :alias, :phone, :email, :country_id, presence: true
   validates :email, :alias, uniqueness: true
   validates :password, :presence => true , :if => Proc.new{ validate_password&.include?('password') }
   validates :password_confirmation, :presence => true , :if => Proc.new{ validate_password&.include?('password_confirmation') }
@@ -54,6 +55,10 @@ class User < ApplicationRecord
     user = User.find_by(first_name: name)
   end
 
+  def after_confirmation
+    self.update_attribute(:status, 2)
+  end
+
   def update_home_page_photos
     homepage_photo = HomepagePhoto.create!([
     { homepage_image: File.new("public/shared_photos/homepage_photos/image_1.jpg"), is_active: true,user_id: self.id},
@@ -68,6 +73,10 @@ class User < ApplicationRecord
 
   def create_website_detail
     WebsiteDetail.create!(title: full_name, copyright_text: "© Copyright 2017 - "+ full_name + ", All rights reserved", user_id: self.id)
+  end
+
+  def captcha_code
+    errors.add("captcha","is invalid. Please Enter valid captcha") if self.captcha != "28"
   end
 
 end
