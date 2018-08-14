@@ -13,6 +13,24 @@ class UsersController < ApplicationController
     
   end
 
+  # PATCH  /users/:id
+  def update
+    @resource.update_attributes!(resource_params)
+    json_response({
+      success: true,
+      data: {
+        user: single_record_serializer.new(@resource, serializer: Users::UserAttributesSerializer),
+      }
+    }, 201)
+
+  end
+
+  # DELETE  /users/:id
+  def destroy
+    @resource.destroy!
+    json_response({success: true, message: "user destroy successfully.", data: { :users => @resource }}, 200)
+  end
+
   # PATCH  /users/:id/update_password
   def update_password
     @user = User.find(params[:id])

@@ -96,7 +96,7 @@ Rails.application.routes.draw do
       patch 'update_position'
     end
   end
-  resources :users, only: [:show] do
+  resources :users, only: [:show, :update, :destroy] do
     member do
       patch 'update_password'
     end
