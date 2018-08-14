@@ -26,7 +26,6 @@ module Paperclip
       cmd << %Q["#{File.expand_path(dst.path)}"]
 
       begin
-        binding.pry
         success = Paperclip.run('ffmpeg', cmd)
         puts "===========suc====#{success}======================="
       # rescue PaperclipCommandLineError

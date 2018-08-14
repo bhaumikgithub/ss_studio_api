@@ -79,3 +79,6 @@ gem 'friendly_id', '~> 5.1.0'
 # For Background Job
 gem 'delayed_job_active_record'
 gem "daemons"
+
+# Cron jobs in Ruby
+gem 'whenever', require: false

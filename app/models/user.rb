@@ -33,7 +33,9 @@ class User < ApplicationRecord
   has_one :website_detail, dependent: :destroy
   belongs_to :package
   belongs_to :country
-  cattr_accessor :captcha
+  belongs_to :role
+
+  cattr_accessor :captcha, :is_validate
   validate :captcha_code
   enum status: { inactive: 0, pending_activation: 1, active: 2, subscription_expire: 3 }
   # Validations
@@ -43,6 +45,12 @@ class User < ApplicationRecord
   validates :password_confirmation, :presence => true , :if => Proc.new{ validate_password&.include?('password_confirmation') }
 
   # Scopes
+
+  ['admin', "super_admin"].each do |user_role|
+    define_method "#{user_role}?" do
+      self.role.name == user_role
+    end
+  end
 
   # Methods
   def full_name
@@ -56,7 +64,9 @@ class User < ApplicationRecord
   end
 
   def after_confirmation
-    self.update_attribute(:status, 2)
+    package = Package.find_by_name('free')
+    role = Role.find_by_name('admin')
+    self.update_attributes(status: 2, package_id: package.id, role_id: role.id)
   end
 
   def update_home_page_photos
@@ -67,8 +77,6 @@ class User < ApplicationRecord
     { homepage_image: File.new("public/shared_photos/homepage_photos/image_4.jpg"), is_active: true,user_id: self.id},
     { homepage_image: File.new("public/shared_photos/homepage_photos/image_5.JPG"), is_active: true,user_id: self.id}
   ])
-    # package = Package.find_by_name('free')
-    # self.update(package_id: package.id)
   end
 
   def create_website_detail
@@ -76,7 +84,7 @@ class User < ApplicationRecord
   end
 
   def captcha_code
-    errors.add("captcha","is invalid. Please Enter valid captcha") if self.captcha != "28"
+    errors.add("captcha","is invalid. Please Enter valid captcha") if self.captcha != "28" && self.is_validate
   end
 
 end

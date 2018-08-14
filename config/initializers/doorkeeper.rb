@@ -14,6 +14,8 @@ Doorkeeper.configure do
     user = User.find_by(email: params[:email])
     if user.present? && !user.confirmed?
       raise Doorkeeper::Errors::DoorkeeperError.new('You have to confirm your email address before continue.')
+    elsif user.present? && user.subscription_expire?
+      raise Doorkeeper::Errors::DoorkeeperError.new('Your trial period was expired. You have to renew your plan before continue.')
     elsif user.present? && user.confirmed? && user.valid_password?(params[:password])
       user
     else

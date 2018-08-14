@@ -83,3 +83,9 @@ Country.create([
   {name: 'USA'},
   {name: 'Canada'}
 ])
+Role.create([
+  { name: "admin" },
+  { name: "super_admin" }
+])
+role = Role.find_by(name: "super_admin")
+User.create(email: "bhaumik@gmail.com", password: "hello123", password_confirmation: "hello123", first_name: "bhaumik", last_name: "gadani", phone: "+918547854785", country_id: Country.first.id, role_id: role.id, alias: "bhaumik", status: 2, captcha: 28, confirmed_at: Time.now)
