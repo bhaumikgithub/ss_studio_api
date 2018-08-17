@@ -102,6 +102,9 @@ Rails.application.routes.draw do
     end
     collection do
       get 'get_countries'
+      get 'get_roles'
+      get 'get_packages'
+      get 'get_statuses'
     end
     resources :user_logos, only: [:show,:create,:update]
   end

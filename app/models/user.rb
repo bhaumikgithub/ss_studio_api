@@ -60,7 +60,7 @@ class User < ApplicationRecord
   end
 
   def self.get_user(name)
-    user = User.find_by(first_name: name)
+    user = User.find_by(alias: name) || User.find_by(first_name: name)
   end
 
   def after_confirmation
