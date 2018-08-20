@@ -3,6 +3,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
+    User.captcha = params[:user][:captcha]
+    User.is_validate = true
     build_resource(sign_up_params)
     if resource.save
       if resource.persisted?

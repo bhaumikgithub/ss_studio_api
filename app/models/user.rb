@@ -9,6 +9,13 @@ class User < ApplicationRecord
  # Callabcks
  after_create :update_home_page_photos, :create_website_detail
  # Associations
+  has_many :access_grants, class_name: "Doorkeeper::AccessGrant",
+                           foreign_key: :resource_owner_id,
+                           dependent: :delete_all # or :destroy if you need callbacks
+
+  has_many :access_tokens, class_name: "Doorkeeper::AccessToken",
+                           foreign_key: :resource_owner_id,
+                           dependent: :delete_all
   has_many :contacts, dependent: :destroy
   has_many :categories, dependent: :destroy
   has_many :watermarks, dependent: :destroy
@@ -24,13 +31,26 @@ class User < ApplicationRecord
   has_one :contact_detail, dependent: :destroy
   has_one :user_logo, dependent: :destroy
   has_one :website_detail, dependent: :destroy
+  belongs_to :package
+  belongs_to :country
+  belongs_to :role
 
-  enum status: { inactive: 0, active: 1 }
+  cattr_accessor :captcha, :is_validate
+  validate :captcha_code
+  enum status: { inactive: 0, pending_activation: 1, active: 2, subscription_expire: 3 }
   # Validations
+  validates :alias, :phone, :email, :country_id, presence: true
+  validates :email, :alias, uniqueness: true
   validates :password, :presence => true , :if => Proc.new{ validate_password&.include?('password') }
   validates :password_confirmation, :presence => true , :if => Proc.new{ validate_password&.include?('password_confirmation') }
 
   # Scopes
+
+  ['admin', "super_admin"].each do |user_role|
+    define_method "#{user_role}?" do
+      self.role.name == user_role
+    end
+  end
 
   # Methods
   def full_name
@@ -40,7 +60,13 @@ class User < ApplicationRecord
   end
 
   def self.get_user(name)
-    user = User.find_by(first_name: name)
+    user = User.find_by(alias: name) || User.find_by(first_name: name)
+  end
+
+  def after_confirmation
+    package = Package.find_by_name('free')
+    role = Role.find_by_name('admin')
+    self.update_attributes(status: 2, package_id: package.id, role_id: role.id)
   end
 
   def update_home_page_photos
@@ -55,6 +81,10 @@ class User < ApplicationRecord
 
   def create_website_detail
     WebsiteDetail.create!(title: full_name, copyright_text: "© Copyright 2017 - "+ full_name + ", All rights reserved", user_id: self.id)
+  end
+
+  def captcha_code
+    errors.add("captcha","is invalid. Please Enter valid captcha") if self.captcha != "28" && self.is_validate
   end
 
 end

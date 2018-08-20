@@ -74,3 +74,18 @@ Photo.create(status: "active", image: File.new("public/shared_photos/watermark.p
 Photo.is_watermark = false
 
 About.first.update_attributes!(facebook_link: "https://www.facebook.com/sagarphotocam", twitter_link: '',instagram_link: '', youtube_link: '',vimeo_link: '', linkedin_link: '',pinterest_link:'',flickr_link:'')
+Package.create(name: 'free', price: 0.0, days: 15)
+
+Country.create([
+  {name: 'India'},
+  {name: 'Singapore'},
+  {name: 'Australia'},
+  {name: 'USA'},
+  {name: 'Canada'}
+])
+Role.create([
+  { name: "admin" },
+  { name: "super_admin" }
+])
+role = Role.find_by(name: "super_admin")
+User.create(email: "bhaumikgithub@gmail.com", password: "hello123", password_confirmation: "hello123", first_name: "bhaumik", last_name: "gadani", phone: "+918547854785", country_id: Country.first.id, role_id: role.id, alias: "bhaumik", status: 2, captcha: 28, confirmed_at: Time.now)

@@ -9,8 +9,8 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: {
       registrations: 'users/registrations',
-      passwords: 'user/passwords',
-      confirmations: 'user/confirmations'
+      passwords: 'users/passwords',
+      confirmations: 'users/confirmations'
   }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :categories do
@@ -96,9 +96,15 @@ Rails.application.routes.draw do
       patch 'update_position'
     end
   end
-  resources :users, only: [:show] do
+  resources :users, only: [:show, :index, :update, :destroy] do
     member do
       patch 'update_password'
+    end
+    collection do
+      get 'get_countries'
+      get 'get_roles'
+      get 'get_packages'
+      get 'get_statuses'
     end
     resources :user_logos, only: [:show,:create,:update]
   end
