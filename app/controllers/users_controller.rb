@@ -40,6 +40,9 @@ class UsersController < ApplicationController
   # PATCH  /users/:id
   def update
     @resource.update_attributes!(resource_params)
+    if params[:user][:status] == "active" && @resource.status == "active"
+      @resource.confirm
+    end
     json_response({
       success: true,
       data: {

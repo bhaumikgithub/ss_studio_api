@@ -73,7 +73,7 @@ Rails.application.configure do
   # config.logger = Logger.new(STDOUT)
 
 
-  # config.action_mailer.default_url_options = { host: 'http://104.251.216.241/ror/ss_studio_api' }
+  config.action_mailer.default_url_options = { host: 'http://104.251.216.241' }
   # config.action_mailer.raise_delivery_errors = true
   # config.action_mailer.delivery_method = :smtp
   # config.action_mailer.smtp_settings = {
