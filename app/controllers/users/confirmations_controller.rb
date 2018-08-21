@@ -6,7 +6,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
     yield resource if block_given?
     if resource.errors.empty?
       set_flash_message!(:notice, :confirmed)
-      redirect_to "http://localhost:3000/admin"
+      redirect_to  ENV['FRONT_URL']
     else
       respond_with_navigational(resource.errors, status: :unprocessable_entity){ render :new }
     end
