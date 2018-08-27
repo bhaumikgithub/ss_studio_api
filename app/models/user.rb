@@ -39,7 +39,7 @@ class User < ApplicationRecord
   validate :captcha_code
   enum status: { inactive: 0, pending_activation: 1, active: 2, subscription_expire: 3 }
   # Validations
-  validates :alias, :phone, :email, :country_id, presence: true
+  validates :alias, :phone, :email, :country_id,:first_name, :last_name, presence: true
   validates :email, :alias, uniqueness: true
   validates :password, :presence => true , :if => Proc.new{ validate_password&.include?('password') }
   validates :password_confirmation, :presence => true , :if => Proc.new{ validate_password&.include?('password_confirmation') }
