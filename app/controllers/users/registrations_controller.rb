@@ -6,19 +6,24 @@ class Users::RegistrationsController < Devise::RegistrationsController
     User.captcha = params[:user][:captcha]
     User.created_by = params[:user][:created_by]
     User.is_validate = true
-    build_resource(sign_up_params)
-    if resource.save
-      if resource.persisted?
-        if resource.active_for_authentication?
-          sign_up(resource_name, resource)
+    begin
+      build_resource(sign_up_params)
+      if resource.save!
+        if resource.persisted?
+          if resource.active_for_authentication?
+            sign_up(resource_name, resource)
+          else
+            expire_data_after_sign_in!
+          end
+          render_success_response({ :users => resource }, 200)
         else
-          expire_data_after_sign_in!
+          render_unprocessable_entity_response(resource)
         end
-        render_success_response({ :users => resource }, 200)
       else
         render_unprocessable_entity_response(resource)
       end
-    else
+    rescue ActiveRecord::RecordNotUnique
+      resource.errors.add('email', 'has already been taken')
       render_unprocessable_entity_response(resource)
     end
   end
