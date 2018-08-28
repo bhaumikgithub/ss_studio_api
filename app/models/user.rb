@@ -7,7 +7,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
  # Callabcks
- after_create :update_home_page_photos, :create_website_detail
+ after_create :update_home_page_photos, :create_website_detail, :super_admin_confirm_user
  # Associations
   has_many :access_grants, class_name: "Doorkeeper::AccessGrant",
                            foreign_key: :resource_owner_id,
@@ -35,7 +35,7 @@ class User < ApplicationRecord
   belongs_to :country
   belongs_to :role
 
-  cattr_accessor :captcha, :is_validate
+  cattr_accessor :captcha, :is_validate, :created_by
   validate :captcha_code
   enum status: { inactive: 0, pending_activation: 1, active: 2, subscription_expire: 3 }
   # Validations
@@ -64,6 +64,7 @@ class User < ApplicationRecord
   end
 
   def after_confirmation
+    self.reload
     package = Package.find_by_name('free')
     role = Role.find_by_name('admin')
     self.update_attributes(status: 2, package_id: package.id, role_id: role.id)
@@ -85,6 +86,14 @@ class User < ApplicationRecord
 
   def captcha_code
     errors.add("captcha","is invalid. Please Enter valid captcha") if self.captcha != "28" && self.is_validate
+  end
+
+  def super_admin_confirm_user
+    if self.created_by == "super_admin"
+      self.confirm
+      self.skip_confirmation_notification!
+      SuperAdminUserMailer.new_user_instruction_mail(self.email, self.password, "bhaumikgithub@gmail.com").deliver!
+    end
   end
 
 end
