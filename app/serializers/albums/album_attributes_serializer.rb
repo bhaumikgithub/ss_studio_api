@@ -23,7 +23,7 @@ class Albums::AlbumAttributesSerializer < ActiveModel::Serializer
   end
 
   def user_name
-    object&.user&.first_name
+    object&.user&.alias
   end
   def updated_at
     CommonSerializer.date_formate(object.updated_at)

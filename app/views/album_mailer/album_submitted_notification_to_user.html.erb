@@ -6,10 +6,10 @@
 
 <p>You can view selected photos from following link.</p>
 <% if @is_private %>
-	<p><%= link_to "View Album", ENV['FRONT_URL'] +@album.user.first_name+"/shared_album_login/" + @album.slug + "?token=" + @contact["token"], target: "_blank" %> </p>
+	<p><%= link_to "View Album", ENV['FRONT_URL'] +@album.user.alias+"/shared_album_login/" + @album.slug + "?token=" + @contact["token"], target: "_blank" %> </p>
 	<p> passcode: <%= @album.passcode %> </p>
 <% else %>
-	<p><%= link_to "View Album", ENV['FRONT_URL'] +@album.user.first_name+"/shared_album/" + @album.slug + "?token=" + @contact["token"], target: "_blank" %> </p>
+	<p><%= link_to "View Album", ENV['FRONT_URL'] +@album.user.alias+"/shared_album/" + @album.slug + "?token=" + @contact["token"], target: "_blank" %> </p>
 <% end %>
 
 <p>Thanks,</p>
