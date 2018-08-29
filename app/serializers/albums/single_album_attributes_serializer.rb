@@ -17,7 +17,7 @@ class Albums::SingleAlbumAttributesSerializer < ActiveModel::Serializer
   end
 
   def user_name
-    object&.user&.first_name
+    object&.user&.alias
   end
 
   def photos

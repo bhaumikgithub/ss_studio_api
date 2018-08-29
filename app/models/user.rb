@@ -7,7 +7,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
  # Callabcks
- after_create :update_home_page_photos, :create_website_detail, :super_admin_confirm_user
+ after_create :update_home_page_photos, :create_website_detail, :super_admin_confirm_user, :create_categories, :create_about_us
  # Associations
   has_many :access_grants, class_name: "Doorkeeper::AccessGrant",
                            foreign_key: :resource_owner_id,
@@ -41,6 +41,7 @@ class User < ApplicationRecord
   # Validations
   validates :alias, :phone, :email, :country_id,:first_name, :last_name, presence: true
   validates :email, :alias, uniqueness: true
+  validates :alias, format: { without: /\s/ }
   validates :password, :presence => true , :if => Proc.new{ validate_password&.include?('password') }
   validates :password_confirmation, :presence => true , :if => Proc.new{ validate_password&.include?('password_confirmation') }
 
@@ -60,7 +61,7 @@ class User < ApplicationRecord
   end
 
   def self.get_user(name)
-    user = User.find_by(alias: name) || User.find_by(first_name: name)
+    user = User.find_by(alias: name)
   end
 
   def after_confirmation
@@ -81,7 +82,20 @@ class User < ApplicationRecord
   end
 
   def create_website_detail
-    WebsiteDetail.create!(title: full_name, copyright_text: "© Copyright 2017 - "+ full_name + ", All rights reserved", user_id: self.id)
+    WebsiteDetail.create!(title: full_name, copyright_text: "© Copyright "+ Time.current.year.to_s + "- "+ full_name + ", All rights reserved", user_id: self.id)
+  end
+
+  def create_categories
+    Category.create!([
+      { category_name: "Reception", user_id: self.id },
+      { category_name: "Candid", user_id: self.id },
+      { category_name: "Wedding", user_id: self.id },
+      { category_name: "Baby Shower", user_id: self.id },
+    ])
+  end
+
+  def create_about_us
+    About.create(title_text: "Hello", description: "This is about us", facebook_link: '', twitter_link: '',instagram_link: '', youtube_link: '',vimeo_link: '', linkedin_link: '',pinterest_link:'',flickr_link:'',google_link: '', user_id: self.id)
   end
 
   def captcha_code

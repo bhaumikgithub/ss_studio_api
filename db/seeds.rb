@@ -65,7 +65,7 @@ Category.create([
   { category_name: "Kids", status: "active", user_id: user.id }
 ])
 
-WebsiteDetail.create!(title: user.full_name, copyright_text: "© Copyright 2017 - "+ user.full_name + ", All rights reserved", user_id: user.id)
+WebsiteDetail.create!(title: user.full_name, copyright_text: "© Copyright "+ Time.current.year.to_s + "- "+ user.full_name + ", All rights reserved", user_id: user.id)
 
 watermark = Watermark.create(user_id: user.id, status: 1)
 
@@ -73,7 +73,7 @@ Photo.is_watermark = true
 Photo.create(status: "active", image: File.new("public/shared_photos/watermark.png"), user_id: user.id, imageable_type: "Watermark", imageable_id: watermark.id)
 Photo.is_watermark = false
 
-About.first.update_attributes!(facebook_link: "https://www.facebook.com/sagarphotocam", twitter_link: '',instagram_link: '', youtube_link: '',vimeo_link: '', linkedin_link: '',pinterest_link:'',flickr_link:'')
+About.first.update_attributes!(facebook_link: "https://www.facebook.com/sagarphotocam", twitter_link: '',instagram_link: '', youtube_link: '',vimeo_link: '', linkedin_link: '',pinterest_link:'',flickr_link:'', google_link: '')
 Package.create(name: 'free', price: 0.0, days: 15)
 
 Country.create([

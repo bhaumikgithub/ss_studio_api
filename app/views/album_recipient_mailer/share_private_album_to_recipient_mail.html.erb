@@ -1,6 +1,6 @@
 <p>Dear Client,</p>
 <p>Please check your photos by clicking on the View Album link. It will ask you to enter the passcode. Please apply provided passcode in this email.</p>
-<p> <%= link_to "View Album", ENV['FRONT_URL'] +@album.user.first_name+"/shared_album_login/" + @album.slug + "?token=" + @album_recipient.contact.token, target: "_blank" %> </p>
+<p> <%= link_to "View Album", ENV['FRONT_URL'] +@album.user.alias+"/shared_album_login/" + @album.slug + "?token=" + @album_recipient.contact.token, target: "_blank" %> </p>
 <p> <%= @album_recipient.custom_message %> </p>
 <% if @album_recipient.recipient_type == 'admin' %>
 	<p>Minimum Photo Selection : <%= @album_recipient.minimum_photo_selection %> </p>
