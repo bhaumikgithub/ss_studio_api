@@ -19,6 +19,9 @@ class WatermarksController < ApplicationController
   def create
     Photo.is_watermark = true
     @watermark = current_resource_owner.watermarks.create(resource_params)
+    if @watermark.present? && !current_resource_owner.profile_completeness.watermark
+      current_resource_owner.profile_completeness.update(watermark: true, next_task: "photo")
+    end
     current_resource_owner.watermarks.where.not(id: @watermark.id).update_all(status: 0)
     Photo.is_watermark = false
     json_response({

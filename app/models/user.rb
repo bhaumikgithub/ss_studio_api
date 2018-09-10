@@ -7,7 +7,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
  # Callabcks
- after_create :update_home_page_photos, :create_website_detail, :super_admin_confirm_user, :create_categories, :create_about_us
+ after_create :update_home_page_photos, :create_website_detail, :super_admin_confirm_user, :create_categories, :create_about_us, :create_profile_completeness
  # Associations
   has_many :access_grants, class_name: "Doorkeeper::AccessGrant",
                            foreign_key: :resource_owner_id,
@@ -31,6 +31,7 @@ class User < ApplicationRecord
   has_one :contact_detail, dependent: :destroy
   has_one :user_logo, dependent: :destroy
   has_one :website_detail, dependent: :destroy
+  has_one :profile_completeness, dependent: :destroy
   belongs_to :package
   belongs_to :country
   belongs_to :role
@@ -96,6 +97,10 @@ class User < ApplicationRecord
 
   def create_about_us
     About.create(title_text: "Hello", description: "This is about us", facebook_link: '', twitter_link: '',instagram_link: '', youtube_link: '',vimeo_link: '', linkedin_link: '',pinterest_link:'',flickr_link:'',google_link: '', user_id: self.id)
+  end
+
+  def create_profile_completeness
+    ProfileCompleteness.create!( public_album: false, private_album: false, watermark: false, photo: false, about_us: false, service: false, contact_us: false, social_media_link: false, website_detail: false, homepage_gallery_photo: false, youtube_video: false, add_testimonial: false, contact_details: false, next_task: "public_album", total_process: 13, completed_process: 0, user_id: self.id)
   end
 
   def captcha_code

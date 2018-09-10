@@ -20,7 +20,7 @@ module Paperclip
       dst = Tempfile.new([@basename, 'jpg'].compact.join("."))
       puts "====================#{dst.inspect}=================="
       dst.binmode
-      binding.pry
+      # binding.pry
       cmd = %Q[-itsoffset #{time_offset} -i "#{File.expand_path(file.path)}" -y -vcodec mjpeg -vframes 1 -an -f rawvideo]
       cmd << "-s #{geometry.to_s} " unless geometry.nil?
       cmd << %Q["#{File.expand_path(dst.path)}"]
