@@ -1,4 +1,5 @@
 class AboutsController < ApplicationController
+  include ProfileCompleteHelper
 	skip_before_action :doorkeeper_authorize!, only: [ :about_us_detail ]
 	before_action :fetch_about_us_detail, only: [ :show, :update ]
 
@@ -28,6 +29,13 @@ class AboutsController < ApplicationController
   # PUT    /abouts
   def update
     @about_us_detail.update_attributes!(about_us_params)
+    if @about_us_detail.present? && !current_resource_owner.profile_completeness.about_us
+      next_task = next_task('about_us')
+      current_resource_owner.profile_completeness.update(about_us: true, next_task: next_task, completed_process:current_resource_owner.profile_completeness.completed_process+1)
+    elsif @about_us_detail.social_links.values.reject { |c| c.empty? }.present? && !current_resource_owner.profile_completeness.social_media_link
+      next_task = next_task('social_media_link')
+      current_resource_owner.profile_completeness.update(social_media_link: true, next_task: next_task, completed_process:current_resource_owner.profile_completeness.completed_process+1)
+    end
     json_response({
       success: true,
       data: {

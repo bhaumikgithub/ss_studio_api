@@ -1,4 +1,5 @@
 class AlbumsController < ApplicationController
+  include ProfileCompleteHelper
   skip_before_action :doorkeeper_authorize!, only: [ :portfolio, :show, :passcode_verification, :mark_as_submitted ]
   before_action :fetch_album, only: [ :update, :destroy, :show, :passcode_verification, :mark_as_submitted, :get_selected_photos, :get_commented_photos, :mark_as_deliverd, :mark_as_stoped_selection, :mark_as_shared, :acivate_album ]
 
@@ -34,7 +35,13 @@ class AlbumsController < ApplicationController
   # POST /albums
   def create
     @album = current_resource_owner.albums.create!(album_params)
-
+    if @album.present? && !@album.is_private && !current_resource_owner.profile_completeness.public_album
+      next_task = next_task('public_album')
+      current_resource_owner.profile_completeness.update(public_album: true, next_task: next_task, completed_process:current_resource_owner.profile_completeness.completed_process+1)
+    elsif @album.present? && @album.is_private && !current_resource_owner.profile_completeness.private_album
+      next_task = next_task('private_album')
+      current_resource_owner.profile_completeness.update(private_album: true, next_task: next_task, completed_process:current_resource_owner.profile_completeness.completed_process+1)
+    end
     json_response({
       success: true,
       data: {

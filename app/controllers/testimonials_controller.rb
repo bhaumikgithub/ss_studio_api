@@ -1,5 +1,6 @@
 class TestimonialsController < ApplicationController
   include InheritAction
+  include ProfileCompleteHelper
   skip_before_action :doorkeeper_authorize!, only: [ :active ]
   before_action :fetch_testimonial, only: [ :show, :update ]
   before_action :watermark_processor,only: [:create, :update]
@@ -27,6 +28,10 @@ class TestimonialsController < ApplicationController
     @testimonial = current_resource_owner.testimonials.create!(resource_params)
     if @testimonial.photo.present?
       @testimonial.photo.update_user(current_resource_owner)
+    end
+    if @testimonial.present? && !current_resource_owner.profile_completeness.add_testimonial
+      next_task = next_task('add_testimonial')
+      current_resource_owner.profile_completeness.update(add_testimonial: true, next_task: next_task, completed_process:current_resource_owner.profile_completeness.completed_process+1)
     end
     json_response({
       success: true,

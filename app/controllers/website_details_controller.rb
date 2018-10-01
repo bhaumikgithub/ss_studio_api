@@ -1,4 +1,5 @@
 class WebsiteDetailsController < ApplicationController
+  include ProfileCompleteHelper
   skip_before_action :doorkeeper_authorize!, only: [ :website_details ]
   before_action :fetch_website_detail, only: [ :update, :show ]
 
@@ -21,6 +22,10 @@ class WebsiteDetailsController < ApplicationController
   # PATCH /website_details
   def update
     @website_detail.update_attributes!(resource_params)
+    if @website_detail.present? && !current_resource_owner.profile_completeness.website_detail
+      next_task = next_task('website_detail')
+      current_resource_owner.profile_completeness.update(website_detail: true, next_task: next_task, completed_process:current_resource_owner.profile_completeness.completed_process+1)
+    end
     render_success_response({ :website_detail => @website_detail}, 201)
   end
 

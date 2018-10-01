@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180813102718) do
+ActiveRecord::Schema.define(version: 20180831092424) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -234,6 +234,22 @@ ActiveRecord::Schema.define(version: 20180813102718) do
     t.index ["user_id"], name: "index_photos_on_user_id", using: :btree
   end
 
+  create_table "profile_completenesses", force: :cascade do |t|
+    t.jsonb    "album_management"
+    t.jsonb    "site_content"
+    t.jsonb    "homepage_gallery"
+    t.jsonb    "video_portfolio"
+    t.jsonb    "testimonial"
+    t.jsonb    "contacts"
+    t.string   "next_task"
+    t.integer  "total_process"
+    t.integer  "completed_process"
+    t.integer  "user_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["user_id"], name: "index_profile_completenesses_on_user_id", using: :btree
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -368,6 +384,7 @@ ActiveRecord::Schema.define(version: 20180813102718) do
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
+  add_foreign_key "profile_completenesses", "users"
   add_foreign_key "services", "service_icons"
   add_foreign_key "services", "users"
   add_foreign_key "testimonials", "contacts"

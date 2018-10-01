@@ -1,4 +1,5 @@
 class HomepagePhotosController < ApplicationController
+  include ProfileCompleteHelper
   skip_before_action :doorkeeper_authorize!, only: [ :active, :index ]
   before_action :fetch_homepage_photo, only: [ :update ]
 
@@ -72,7 +73,10 @@ class HomepagePhotosController < ApplicationController
   #  PATCH /homepage_photos/:id
   def update
     @homepage_photo.update_attributes(resource_params)
-
+    if @homepage_photo.present? && !current_resource_owner.profile_completeness.homepage_gallery_photo
+      next_task = next_task('homepage_gallery_photo')
+      current_resource_owner.profile_completeness.update(homepage_gallery_photo: true, next_task: next_task, completed_process:current_resource_owner.profile_completeness.completed_process+1)
+    end
     json_response({
       success: true,
       data: {

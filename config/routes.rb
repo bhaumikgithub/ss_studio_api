@@ -111,4 +111,5 @@ Rails.application.routes.draw do
 
   get 'get_logo', to: 'user_logos#get_logo'
   resources :service_icons, only: [:index]
+  resources :profile_completenesses, only: [:index]
 end

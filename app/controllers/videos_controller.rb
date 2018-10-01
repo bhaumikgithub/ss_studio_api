@@ -1,5 +1,5 @@
 class VideosController < ApplicationController
-
+  include ProfileCompleteHelper
   # Callabcks
   skip_before_action :doorkeeper_authorize!, only: [ :publish, :update_position]
   before_action :fetch_video, only: [ :destroy, :update ]
@@ -25,6 +25,10 @@ class VideosController < ApplicationController
   # POST   /videos
   def create
     @video = current_resource_owner.videos.create!(resource_params)
+    if @video.present? && !current_resource_owner.profile_completeness.youtube_video
+      next_task = next_task('youtube_video')
+      current_resource_owner.profile_completeness.update(youtube_video: true, next_task: next_task, completed_process:current_resource_owner.profile_completeness.completed_process+1)
+    end
     @video.update_attributes(video_thumb: @video.video.url(:thumb))
     json_response({
       success: true,
