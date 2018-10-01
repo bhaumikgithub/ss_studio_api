@@ -1,4 +1,5 @@
 class ContactsController < ApplicationController
+  include ProfileCompleteHelper
   # Callabcks
   before_action :fetch_contact, only: [ :destroy, :update ]
   require 'open-uri'
@@ -17,6 +18,10 @@ class ContactsController < ApplicationController
   # POST  /contacts
   def create
     @contact = current_resource_owner.contacts.create!(resource_params)
+    if @contact.present?  && !current_resource_owner.profile_completeness.contact_details
+      next_task = next_task('contact_details')
+      current_resource_owner.profile_completeness.update(contact_details: true, next_task: next_task, completed_process:current_resource_owner.profile_completeness.completed_process+1)
+    end
     @contact.photo.update_user(current_resource_owner)
     json_response({
       success: true,

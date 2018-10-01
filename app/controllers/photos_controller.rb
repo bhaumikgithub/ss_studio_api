@@ -1,5 +1,6 @@
 class PhotosController < ApplicationController
   include InheritAction
+  include ProfileCompleteHelper
   skip_before_action :doorkeeper_authorize!, only: [ :mark_as_checked ]
   before_action :fetch_active_watermark,:watermark_processor,only: [:create]
   before_action :fetch_photo, only: [:set_cover_photo]
@@ -13,6 +14,10 @@ class PhotosController < ApplicationController
   # POST /photos
   def create
     @photos = Photo.create!(photo_params)
+    if @photos.present? && !current_resource_owner.profile_completeness.photo
+      next_task = next_task('photo')
+      current_resource_owner.profile_completeness.update(photo: true, next_task: next_task, completed_process:current_resource_owner.profile_completeness.completed_process+1)
+    end
     json_response({
       success: true,
       data: {

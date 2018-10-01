@@ -1,5 +1,6 @@
 class ServicesController < ApplicationController
   include InheritAction
+  include ProfileCompleteHelper
   skip_before_action :doorkeeper_authorize!, only: [ :service_details ]
   before_action :fetch_service, only: [:update]
 
@@ -40,6 +41,10 @@ class ServicesController < ApplicationController
   # POST /services
   def create
     @resource = current_resource_owner.services.create!(resource_params)
+    if @resource.present? && !current_resource_owner.profile_completeness.service
+      next_task = next_task('service')
+      current_resource_owner.profile_completeness.update(service: true, next_task: next_task, completed_process:current_resource_owner.profile_completeness.completed_process+1)
+    end
     render_success_response({ service: @resource }, 201) if @resource
   end
 

@@ -1,6 +1,6 @@
 class WatermarksController < ApplicationController
   include InheritAction
-  
+  include ProfileCompleteHelper
   # Callabcks
   before_action :fetch_watermark, only: [ :update ]
   
@@ -20,7 +20,8 @@ class WatermarksController < ApplicationController
     Photo.is_watermark = true
     @watermark = current_resource_owner.watermarks.create(resource_params)
     if @watermark.present? && !current_resource_owner.profile_completeness.watermark
-      current_resource_owner.profile_completeness.update(watermark: true, next_task: "photo")
+      next_task = next_task('watermark')
+      current_resource_owner.profile_completeness.update(watermark: true, next_task: next_task, completed_process:current_resource_owner.profile_completeness.completed_process+1)
     end
     current_resource_owner.watermarks.where.not(id: @watermark.id).update_all(status: 0)
     Photo.is_watermark = false
