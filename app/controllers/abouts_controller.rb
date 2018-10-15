@@ -16,8 +16,12 @@ class AboutsController < ApplicationController
   end
 
   def create
+    Photo.is_watermark = true
+    Photo.is_logo = true
     @about = current_resource_owner.create_about(about_us_params)
     @about.update_attributes!(facebook_link: '', twitter_link: '',instagram_link: '', youtube_link: '',vimeo_link: '', linkedin_link: '',pinterest_link:'',flickr_link:'', google_link: '') if @about
+    Photo.is_logo = false
+    Photo.is_watermark = false
     json_response({
       success: true,
       data: {
@@ -28,6 +32,8 @@ class AboutsController < ApplicationController
 
   # PUT    /abouts
   def update
+    Photo.is_watermark = true
+    Photo.is_logo = true
     @about_us_detail.update_attributes!(about_us_params)
     if @about_us_detail.present? && !current_resource_owner.profile_completeness.about_us
       next_task = next_task('about_us')
@@ -36,6 +42,8 @@ class AboutsController < ApplicationController
       next_task = next_task('social_media_link')
       current_resource_owner.profile_completeness.update(social_media_link: true, next_task: next_task, completed_process:current_resource_owner.profile_completeness.completed_process+1)
     end
+    Photo.is_logo = false
+    Photo.is_watermark = false
     json_response({
       success: true,
       data: {
