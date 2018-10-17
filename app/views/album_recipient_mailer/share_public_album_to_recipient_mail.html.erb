@@ -1,10 +1,54 @@
-<p>Dear Client,</p>
-<p>Please check your photos by clicking on the View Album link. </p>
-<p><%= link_to "View Album", ENV['FRONT_URL'] +@album.user.alias+"/shared_album/" + @album.slug + "?token=" + @album_recipient.contact.token, target: "_blank" %></p>
-<p> <%= @album_recipient.custom_message %> </p>
-<% if @album_recipient.recipient_type == 'admin' %>
-	<p>Minimum Photo Selection : <%= @album_recipient.minimum_photo_selection %> </p>
-	<p>Allow Comments : <%= @album_recipient.allow_comments %> </p>
-<% end %>
-<p>Thanks,</p>
-<p>Admin Team</p>
+<table width="600" align="center" bgcolor="#fff" cellpadding="5" cellspacing="5">
+  <tr>
+    <td align="center" >
+      <A href="http://www.afterclix.com"><img src="http://afterclix.com/assets/logo-f4ed90a6c42477cae72aca7ef3cf91abb4758a359e0f2404487fade3b7fa5324.png"></A>
+    </td>
+  </tr>
+  <tr>
+    <td height="20">
+    </td>
+  </tr>
+  <tr>
+    <td style="font-family:Helvetica; font-size:16px;">Dear Client,
+    </td>
+  </tr>
+  <tr>
+    <td height="20"></td>
+  </tr>
+  <tr>
+    <td style="font-family:Helvetica; font-size:16px; height:30px; background:#ecf8ff;">
+      Please check your photos by clicking on the View Album link. <%= link_to "View Album", ENV['FRONT_URL'] +@album.user.alias+"/shared_album/" + @album.slug + "?token=" + @album_recipient.contact.token, target: "_blank" %>
+    </td>
+  </tr>
+  <% if @album_recipient.recipient_type == 'admin' %>
+  <tr>
+    <td style="font-family:Helvetica; font-size:16px; height:30px; background:#ecf8ff;">
+      Minimum Photo Selection : <%= @album_recipient.minimum_photo_selection %><br/>
+    </td>
+  </tr>
+  <tr>
+    <td style="font-family:Helvetica; font-size:16px; height:30px; background:#ecf8ff;">
+      Allow Comments : <%= @album_recipient.allow_comments %>
+    </td>
+  </tr>
+  <% end %>
+  <tr>
+    <td>
+      <%= @album_recipient.custom_message %>
+    </td>
+  </tr>
+  <tr>
+    <td height="20"></td>
+  </tr>
+  <tr>
+    <td style="font-family:Helvetica; font-size:16px;">
+      Thanks for choosing AfterClix.<br>
+      AfterClix Team
+    </td>
+  </tr>
+  <tr>
+    <td align="center" style="font-family:Helvetica; font-size:16px; height:30px; background:#ccc;">
+      <A href="http://www.afterclix.com" style="color:#ed174f;">www.afterclix.com</A><br>
+    </td>
+  </tr>
+</table>

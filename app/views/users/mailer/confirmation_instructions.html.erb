@@ -1,6 +1,37 @@
-<p>Welcome</p>
-<p><%= @resource.first_name %></p>
-<p><%= "By User mailer" %></p>
-<p>You can confirm your account email through the link below:</p>
-
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+<table width="600" align="center" bgcolor="#fff" cellpadding="5" cellspacing="5">
+  <tr>
+    <td align="center" >
+      <A href="http://www.afterclix.com"><img src="http://afterclix.com/assets/logo-f4ed90a6c42477cae72aca7ef3cf91abb4758a359e0f2404487fade3b7fa5324.png"></A>
+    </td>
+  </tr>
+  <tr>
+    <td height="20">
+    </td>
+  </tr>
+  <tr>
+    <td style="font-family:Helvetica; font-size:16px;">Hi <%= @resource.first_name %>,<br>
+    Welcome to AfterClix
+    </td>
+  </tr>
+  <td height="20"></td>
+  <tr>
+    <td style="font-family:Helvetica; font-size:16px; height:30px; background:#ecf8ff;">
+      You can confirm your account  by clicking this link : <%= link_to 'Click it!', confirmation_url(@resource, confirmation_token: @token) %>
+    </td>
+  </tr>
+  <tr>
+    <td height="20">
+    </td>
+  </tr>
+  <tr>
+    <td style="font-family:Helvetica; font-size:16px;">
+      Thanks for choosing AfterClix.<br>
+      AfterClix Team
+    </td>
+  </tr>
+  <tr>
+    <td align="center" style="font-family:Helvetica; font-size:16px; height:30px; background:#ccc;">
+      <A href="http://www.afterclix.com" style="color:#ed174f;">www.afterclix.com</A><br>
+    </td>
+  </tr>
+</table>
