@@ -69,7 +69,8 @@ class User < ApplicationRecord
     self.reload
     package = Package.find_by_name('free')
     role = Role.find_by_name('admin')
-    self.update_attributes(status: 2, package_id: package.id, role_id: role.id)
+    plan_start_date = Date.today
+    self.update_attributes(status: 2, package_id: package.id, role_id: role.id, start_plan_date: plan_start_date, end_plan_date: plan_start_date + 15.day)
   end
 
   def update_home_page_photos
