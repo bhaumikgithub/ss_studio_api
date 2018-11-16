@@ -10,7 +10,7 @@ class CategoriesController < ApplicationController
 
   # GET   /categories
   def index
-    @categories = current_resource_owner.categories
+    @categories = current_resource_owner.categories.active
     render_success_response({ :categories => @categories },200)
   end
 
