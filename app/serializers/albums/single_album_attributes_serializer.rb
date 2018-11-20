@@ -1,5 +1,5 @@
 class Albums::SingleAlbumAttributesSerializer < ActiveModel::Serializer
-  attributes :id, :album_name, :is_private, :status, :updated_at, :created_at, :delivery_status, :portfolio_visibility, :passcode, :status, :photo_count, :selected_photo_count, :recipients_count, :cover_photo, :photo_pagination, :commented_photo_count, :can_moderate_album, :user_name
+  attributes :id, :album_name, :is_private, :status, :updated_at, :created_at, :delivery_status, :portfolio_visibility, :passcode, :status, :photo_count, :selected_photo_count, :recipients_count, :cover_photo, :photo_pagination, :commented_photo_count, :can_moderate_album, :user_name, :show_album_url
   has_many :photos, key: "photos", serializer: Albums::PhotoAttributesSerializer
   has_many :categories, key: "categories",serializer: Albums::SingleCategoriesAttributesSerializer
   has_many :album_recipients, key: "album_recipients", serializer: AlbumRecipients::AdminAlbumRecipientsAttributesSerializer
@@ -86,5 +86,9 @@ class Albums::SingleAlbumAttributesSerializer < ActiveModel::Serializer
     else
       return false
     end
+  end
+
+  def show_album_url
+    ENV['FRONT_URL'] + object.user.alias + "/shared_album/" + object.slug
   end
 end

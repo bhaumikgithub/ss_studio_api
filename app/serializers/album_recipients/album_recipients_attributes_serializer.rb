@@ -3,7 +3,7 @@ class AlbumRecipients::AlbumRecipientsAttributesSerializer < ActiveModel::Serial
   belongs_to :contact, serializer: AlbumRecipients::ContactsAttributesSerializer
   belongs_to :album, key: "album", serializer: AlbumRecipients::AlbumsAttributesSerializer
   def view_album_url
-    ENV['FRONT_URL'] + object.album.user.first_name + "/shared_album/" + object.album.slug + "?token=" + object.contact.token
+    ENV['FRONT_URL'] + object.album.user.alias + "/shared_album/" + object.album.slug + "?token=" + object.contact.token
   end
   def admin_album_recipients
     object.album.album_recipients.where("recipient_type=(?)",1).last
