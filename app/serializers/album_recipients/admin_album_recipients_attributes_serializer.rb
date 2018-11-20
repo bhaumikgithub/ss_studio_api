@@ -3,6 +3,6 @@ class AlbumRecipients::AdminAlbumRecipientsAttributesSerializer < ActiveModel::S
   belongs_to :contact, serializer: AlbumRecipients::ContactsAttributesSerializer
 
   def view_album_url
-    ENV['FRONT_URL'] + object.album.user.first_name + "/shared_album/" + object.album.slug + "?token=" + object.contact.token
+    ENV['FRONT_URL'] + object.album.user.alias + "/shared_album/" + object.album.slug + "?token=" + object.contact.token
   end
 end
