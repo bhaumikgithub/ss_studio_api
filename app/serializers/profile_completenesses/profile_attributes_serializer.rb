@@ -1,5 +1,5 @@
 class ProfileCompletenesses::ProfileAttributesSerializer < ActiveModel::Serializer
-  attributes :id, :album_management, :site_content, :homepage_gallery, :video_portfolio, :testimonial, :contacts, :next_task, :total_process, :completed_process, :percentage, :parent_accessor, :completeness_status
+  attributes :id, :album_management, :site_content, :homepage_gallery, :video_portfolio, :testimonial, :contacts, :next_task, :total_process, :completed_process, :percentage, :parent_accessor, :completeness_status, :total_album, :public_album, :private_album
 
   def percentage
     if object.completed_process == 0
@@ -35,5 +35,17 @@ class ProfileCompletenesses::ProfileAttributesSerializer < ActiveModel::Serializ
   	 contacts = object.contacts.values.include?(false) ? false : true
 
   	{album_management: album, site_content: site_content, homepage_gallery: homepage_gallery, video_portfolio: video_portfolio, testimonial: testimonial, contacts: contacts}
+  end
+
+  def total_album
+    object.user.albums.count
+  end
+
+  def public_album
+    object.user.albums.where(is_private: false).count
+  end
+
+  def private_album
+    object.user.albums.where(is_private: true).count
   end
 end
