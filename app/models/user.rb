@@ -32,7 +32,8 @@ class User < ApplicationRecord
   has_one :user_logo, dependent: :destroy
   has_one :website_detail, dependent: :destroy
   has_one :profile_completeness, dependent: :destroy
-  belongs_to :package
+  has_many :package_users
+  has_many :package, through: :package_users
   belongs_to :country
   belongs_to :role
 
@@ -70,7 +71,8 @@ class User < ApplicationRecord
     package = Package.find_by_name('free')
     role = Role.find_by_name('admin')
     plan_start_date = Date.today
-    self.update_attributes(status: 2, package_id: package.id, role_id: role.id, start_plan_date: plan_start_date, end_plan_date: plan_start_date + 15.day)
+    self.update_attributes(status: 2, role_id: role.id)
+    self.package_users.create(package_id: package.id, package_start_date: plan_start_date, package_end_date: plan_start_date + 15.day, package_status: 0)
   end
 
   def update_home_page_photos

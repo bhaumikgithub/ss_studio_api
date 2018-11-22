@@ -4,6 +4,7 @@ class Users::UserAttributesSerializer < ActiveModel::Serializer
   belongs_to :role, serializer: Roles::RoleAttributesSerializer
   belongs_to :country, serializer: Users::CountryAttributesSerializer
   belongs_to :package, key: "subscription_package", serializer: Users::PackageAttributesSerializer
+  belongs_to :country, serializer: Users::CountryAttributesSerializer
 
   def album_count
     object.albums.count

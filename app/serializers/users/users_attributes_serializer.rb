@@ -5,10 +5,16 @@ class Users::UsersAttributesSerializer < ActiveModel::Serializer
   belongs_to :package, key: "subscription_package", serializer: Users::PackageAttributesSerializer
 
   def start_plan_date
-    CommonSerializer.date_formate(object.start_plan_date) if object.start_plan_date.present?
+    if object.active?
+      start_date = object.package_users.where(package_status: 0)[0]&.package_start_date
+      CommonSerializer.date_formate(start_date) if !start_date.nil?
+    end
   end
 
   def end_plan_date
-    CommonSerializer.date_formate(object.end_plan_date) if object.end_plan_date.present?
+    if object.active?
+      end_date = object.package_users.where(package_status: 0)[0]&.package_end_date
+      CommonSerializer.date_formate(end_date) if !end_date.nil?
+    end
   end
 end
