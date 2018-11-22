@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181017055540) do
+ActiveRecord::Schema.define(version: 20181122090900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -206,6 +206,18 @@ ActiveRecord::Schema.define(version: 20181017055540) do
     t.index ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
   end
 
+  create_table "package_users", force: :cascade do |t|
+    t.integer  "package_id"
+    t.integer  "user_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.datetime "package_start_date"
+    t.datetime "package_end_date"
+    t.integer  "package_status"
+    t.index ["package_id"], name: "index_package_users_on_package_id", using: :btree
+    t.index ["user_id"], name: "index_package_users_on_user_id", using: :btree
+  end
+
   create_table "packages", force: :cascade do |t|
     t.string   "name"
     t.float    "price"
@@ -325,15 +337,11 @@ ActiveRecord::Schema.define(version: 20181017055540) do
     t.string   "alias"
     t.string   "phone"
     t.integer  "country_id"
-    t.integer  "package_id"
     t.integer  "role_id"
-    t.date     "start_plan_date"
-    t.date     "end_plan_date"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["country_id"], name: "index_users_on_country_id", using: :btree
     t.index ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
-    t.index ["package_id"], name: "index_users_on_package_id", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
     t.index ["role_id"], name: "index_users_on_role_id", using: :btree
   end
@@ -386,6 +394,8 @@ ActiveRecord::Schema.define(version: 20181017055540) do
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
+  add_foreign_key "package_users", "packages"
+  add_foreign_key "package_users", "users"
   add_foreign_key "profile_completenesses", "users"
   add_foreign_key "services", "service_icons"
   add_foreign_key "services", "users"
@@ -393,7 +403,6 @@ ActiveRecord::Schema.define(version: 20181017055540) do
   add_foreign_key "testimonials", "users"
   add_foreign_key "user_logos", "users"
   add_foreign_key "users", "countries"
-  add_foreign_key "users", "packages"
   add_foreign_key "users", "roles"
   add_foreign_key "videos", "users"
   add_foreign_key "watermarks", "users"

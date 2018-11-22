@@ -92,6 +92,16 @@ class UsersController < ApplicationController
     render_success_response({ :statuses => statuses },200)
   end
 
+  def get_user_packages
+    @package_users = current_resource_owner.package_users
+    json_response({
+      success: true,
+      data: {
+        users: array_serializer.new(@package_users, serializer: Users::UserPackagesAttributeSerializer),
+      }
+    }, 200)
+  end
+
   private
 
   def user_params
