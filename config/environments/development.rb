@@ -19,6 +19,15 @@ Rails.application.configure do
   config.action_controller.asset_host = "http://localhost:4000"
 
   config.action_mailer.delivery_method = :letter_opener
+  # config.action_mailer.smtp_settings = {
+  #   :address              => "smtp.elasticemail.com",
+  #   :port                 => 2525,
+  #   :user_name            => "d52a5793-8b82-41df-a2d2-341de3da2e45",
+  #   :password             => "d52a5793-8b82-41df-a2d2-341de3da2e45",
+  #   :authentication       => 'login',
+  #   :domain               => 'afterclix.com',
+  #   :enable_starttls_auto => true
+  # }
   config.action_mailer.default_url_options = { host: 'localhost', port: 4000 }
   config.action_mailer.perform_deliveries = true
 
