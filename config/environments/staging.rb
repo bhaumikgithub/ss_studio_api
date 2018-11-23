@@ -91,7 +91,7 @@ Rails.application.configure do
     :user_name            => ENV['ELASTICMAIL_USER_NAME'],
     :password             => ENV['ELASTICMAIL_PASSWORD'],
     :authentication       => 'login',
-    :domain               => 'sagargadani.com',
+    :domain               => 'afterclix.com',
     :enable_starttls_auto => true
   }
 
