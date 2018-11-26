@@ -37,6 +37,10 @@ class WatermarksController < ApplicationController
   def update
     Photo.is_watermark = true
     @watermark.update_attributes!(resource_params)
+    if @watermark.present? && !current_resource_owner.profile_completeness.watermark
+      next_task = next_task('watermark')
+      current_resource_owner.profile_completeness.update(watermark: true, next_task: next_task, completed_process:current_resource_owner.profile_completeness.completed_process+1)
+    end
     if @watermark.status == "active"
       current_resource_owner.watermarks.where("status=(?) and ID NOT IN (?)",1,@resource.id).update_all(status: 0)
     end
