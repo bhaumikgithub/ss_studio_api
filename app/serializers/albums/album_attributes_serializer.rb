@@ -1,5 +1,5 @@
 class Albums::AlbumAttributesSerializer < ActiveModel::Serializer
-  attributes :id, :album_name, :is_private, :status, :updated_at, :delivery_status, :portfolio_visibility, :cover_photo, :slug, :created_at, :user_name,:album_recipients
+  attributes :id, :album_name, :is_private, :status, :updated_at, :delivery_status, :portfolio_visibility, :cover_photo, :slug, :created_at, :user_name,:album_recipients, :show_album_url, :passcode
   has_many :photos, key: "photo_count"
   has_many :categories, key: "categories",serializer: Albums::CategoriesAttributesSerializer
 
@@ -35,5 +35,9 @@ class Albums::AlbumAttributesSerializer < ActiveModel::Serializer
 
   def album_recipients
     object.album_recipients.where("recipient_type=(?)",1)
+  end
+
+  def show_album_url
+    ENV['FRONT_URL'] + object.user.alias + "/shared_album/" + object.slug
   end
 end
