@@ -35,6 +35,9 @@ class AlbumsController < ApplicationController
   # POST /albums
   def create
     @album = current_resource_owner.albums.create!(album_params)
+    if @album.present?
+      @album.update(owner_ip: request.remote_ip)
+    end
     if @album.present? && !@album.is_private && !current_resource_owner.profile_completeness.public_album
       next_task = next_task('public_album')
       current_resource_owner.profile_completeness.update(public_album: true, next_task: next_task, completed_process:current_resource_owner.profile_completeness.completed_process+1)
@@ -52,6 +55,7 @@ class AlbumsController < ApplicationController
 
   # GET /albums/:id
   def show
+    change_album_ip_detail
     if params[:user]
       @album = User.get_user(params[:user]).albums.find_by(slug: params[:id])
     end
@@ -193,5 +197,38 @@ class AlbumsController < ApplicationController
   def fetch_album
     # @album = current_resource_owner.album.friendly.find(params[:id])
     @album = Album.friendly.find(params[:id])
+  end
+
+  def change_album_ip_detail
+    client_ip = request.remote_ip
+    @ip_detail = IpDetail.find_by(ip_address: client_ip)
+    unless @ip_detail.present?
+      @ip_detail = IpDetail.create(ip_address: client_ip)
+    end
+    add_update_album_ip_detail(client_ip)
+  end
+
+  def add_update_album_ip_detail(client_ip)
+    if params[:is_track]
+      if params[:user_id] == ""
+        if @album.owner_ip != client_ip
+          @album_ip_detail = AlbumIpDetail.find_by(album_id: @album.id, ip_detail_id: @ip_detail.id)
+          if @album_ip_detail.present?
+            @album_ip_detail.update(count: @album_ip_detail.count+1)
+          else
+            @album.album_ip_details.create(ip_detail_id: @ip_detail.id, count: 1)
+          end
+        end
+      else
+        if @album.user_id != params[:user_id].to_i
+          @album_ip_detail = AlbumIpDetail.find_by(album_id: @album.id, user_id: params[:user_id])
+          if @album_ip_detail.present?
+            @album_ip_detail.update(count: @album_ip_detail.count+1)
+          else
+            @album.album_ip_details.create(ip_detail_id: @ip_detail.id, user_id: params[:user_id], count: 1)
+          end
+        end
+      end
+    end
   end
 end
