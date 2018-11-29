@@ -36,7 +36,7 @@ class Photo < ApplicationRecord
                           },
                           :thumb => {
                             :geometry => "185x185#",
-                            :watermark_path => attachment.instance.class.watermark_thumb_url,
+                            # :watermark_path => attachment.instance.class.watermark_thumb_url,
                             :position => "SouthEast"
                           },
                           :original => {
