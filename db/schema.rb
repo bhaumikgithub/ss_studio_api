@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181126113239) do
+ActiveRecord::Schema.define(version: 20181128071145) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -240,8 +240,11 @@ ActiveRecord::Schema.define(version: 20181126113239) do
     t.string   "name"
     t.float    "price"
     t.integer  "days"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "is_default", default: false
+    t.string   "duration"
+    t.integer  "status",     default: 0
   end
 
   create_table "photos", force: :cascade do |t|
