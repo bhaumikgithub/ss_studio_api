@@ -72,7 +72,7 @@ class User < ApplicationRecord
     role = Role.find_by_name('admin')
     plan_start_date = Date.today
     self.update_attributes(status: 2, role_id: role.id)
-    self.package_users.create(package_id: package.id, package_start_date: plan_start_date, package_end_date: plan_start_date + 15.day, package_status: 0)
+    self.package_users.create(package_id: package.id, package_start_date: plan_start_date, package_end_date: plan_start_date + 1.year, package_status: 0)
   end
 
   def update_home_page_photos
