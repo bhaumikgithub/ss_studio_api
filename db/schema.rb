@@ -35,6 +35,17 @@ ActiveRecord::Schema.define(version: 20181128071145) do
     t.index ["category_id"], name: "index_album_categories_on_category_id", using: :btree
   end
 
+  create_table "album_ip_details", force: :cascade do |t|
+    t.integer  "album_id"
+    t.integer  "ip_detail_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "user_id"
+    t.integer  "count"
+    t.index ["album_id"], name: "index_album_ip_details_on_album_id", using: :btree
+    t.index ["ip_detail_id"], name: "index_album_ip_details_on_ip_detail_id", using: :btree
+  end
+
   create_table "album_recipients", force: :cascade do |t|
     t.boolean  "is_email_sent"
     t.string   "custom_message"
@@ -61,6 +72,7 @@ ActiveRecord::Schema.define(version: 20181128071145) do
     t.boolean  "portfolio_visibility", default: false
     t.string   "passcode"
     t.string   "slug"
+    t.string   "owner_ip"
     t.index ["deleted_at"], name: "index_albums_on_deleted_at", using: :btree
     t.index ["slug"], name: "index_albums_on_slug", unique: true, using: :btree
     t.index ["user_id"], name: "index_albums_on_user_id", using: :btree
@@ -166,6 +178,12 @@ ActiveRecord::Schema.define(version: 20181128071145) do
     t.datetime "homepage_image_updated_at"
     t.index ["photo_id"], name: "index_homepage_photos_on_photo_id", using: :btree
     t.index ["user_id"], name: "index_homepage_photos_on_user_id", using: :btree
+  end
+
+  create_table "ip_details", force: :cascade do |t|
+    t.string   "ip_address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -387,6 +405,8 @@ ActiveRecord::Schema.define(version: 20181128071145) do
   end
 
   add_foreign_key "abouts", "users"
+  add_foreign_key "album_ip_details", "albums"
+  add_foreign_key "album_ip_details", "ip_details"
   add_foreign_key "album_recipients", "albums"
   add_foreign_key "album_recipients", "contacts"
   add_foreign_key "comments", "photos"
