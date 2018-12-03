@@ -25,6 +25,7 @@ class WatermarksController < ApplicationController
     end
     current_resource_owner.watermarks.where.not(id: @watermark.id).update_all(status: 0)
     Photo.is_watermark = false
+    upload_watermark_on_dummy_image
     json_response({
       success: true,
       data: {
@@ -45,6 +46,7 @@ class WatermarksController < ApplicationController
       current_resource_owner.watermarks.where("status=(?) and ID NOT IN (?)",1,@resource.id).update_all(status: 0)
     end
     Photo.is_watermark = false
+    upload_watermark_on_dummy_image
     json_response({
       success: true,
       data: {
@@ -61,5 +63,17 @@ class WatermarksController < ApplicationController
 
   def fetch_watermark
     @watermark = current_resource_owner.watermarks.find(params[:id])
+  end
+
+  def upload_watermark_on_dummy_image
+    unless params[:watermark][:status].present?
+      Photo.apply_watermark = true
+      Photo.watermark_url = @watermark.photo.image.path
+      Photo.watermark_thumb_url = @watermark.photo.image.path(:thumb)
+      Photo.watermark_medium_url = @watermark.photo.image.path(:medium)
+      dummy_image = Photo.where(image_file_name: "dummy-image.jpg")
+      Photo.where(image_file_name: "dummy-image.jpg").destroy_all if dummy_image.length > 0
+      Photo.create(image: File.new("public/shared_photos/dummy-image.jpg"),user_id: current_resource_owner.id)
+    end
   end
 end
