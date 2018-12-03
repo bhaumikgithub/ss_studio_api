@@ -31,7 +31,7 @@ class Photo < ApplicationRecord
                         {
                           :medium => {
                             :geometry => "259x259#",
-                            :watermark_path => attachment.instance.class.watermark_url,
+                            :watermark_path => attachment.instance.class.watermark_thumb_url,
                             :position => "SouthEast"
                           },
                           :thumb => {
@@ -67,10 +67,10 @@ class Photo < ApplicationRecord
                       else
                         {
                           :medium => {
-                            :geometry => "150x150#",
+                            :geometry => "150x100!",
                           },
                           :thumb => {
-                            :geometry => "100x100#"
+                            :geometry => "100x100!"
                           },
                         }
                       end
