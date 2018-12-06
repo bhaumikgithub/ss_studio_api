@@ -68,7 +68,7 @@ class User < ApplicationRecord
 
   def after_confirmation
     self.reload
-    package = Package.find_by_name('free')
+    package = Package.find_by_name('Free')
     role = Role.find_by_name('admin')
     plan_start_date = Date.today
     self.update_attributes(status: 2, role_id: role.id)
