@@ -3,6 +3,6 @@ class Watermarks::WatermarkAttributesSerializer < ActiveModel::Serializer
   has_one :photo, key: "photo",serializer: Watermarks::PhotoAttributesSerializer
 
   def dummy_image
-    CommonSerializer.full_image_url(Photo.find_by(image_file_name: "dummy-image.jpg").image.url) if Photo.find_by(image_file_name: "dummy-image.jpg").present?
+    CommonSerializer.full_image_url(object.user.photos.find_by(image_file_name: "dummy-image.jpg").image.url) if object.user.photos.find_by(image_file_name: "dummy-image.jpg").present?
   end
 end
