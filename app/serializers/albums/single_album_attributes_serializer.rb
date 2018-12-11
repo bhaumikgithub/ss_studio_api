@@ -93,10 +93,10 @@ class Albums::SingleAlbumAttributesSerializer < ActiveModel::Serializer
   end
 
   def album_view_count
-    object.album_ip_details.pluck(:count).sum
+    object.album_ip_details.pluck(:count).sum.to_s
   end
 
   def user_view_count
-    object.album_ip_details.pluck(:user_id).count
+    object.album_ip_details.pluck(:user_id).count.to_s
   end
 end
