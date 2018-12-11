@@ -1,11 +1,26 @@
 class ProfileCompletenesses::ProfileAttributesSerializer < ActiveModel::Serializer
-  attributes :id, :album_management, :site_content, :homepage_gallery, :video_portfolio, :testimonial, :contacts, :next_task, :total_process, :completed_process, :percentage, :parent_accessor, :completeness_status, :total_album, :public_album, :private_album
+  attributes :id, :album_management, :site_content, :homepage_gallery, :video_portfolio, :testimonial, :contacts, :next_task, :total_process, :completed_process, :percentage, :parent_accessor, :completeness_status, :total_album, :public_album, :private_album, :user_subscription_expire, :user_subscription_expire_date, :user_subscription_future_expired_date
 
   def percentage
     if object.completed_process == 0
       percentage = 0
     else
       percentage = ( object.completed_process * 100 ) / object.total_process
+    end
+  end
+
+  def user_subscription_expire
+    object.user.subscription_expire?
+  end
+
+  def user_subscription_expire_date
+    CommonSerializer.date_formate(object.user.package_users.where(package_status: "expired").last.package_end_date) if object.user.subscription_expire?
+  end
+
+  def user_subscription_future_expired_date
+    package_end_date = object.user.package_users.where(package_status: "active").last&.package_end_date
+    if package_end_date.present?
+      CommonSerializer.date_formate(package_end_date) unless object.user.package_users.where(package_status: "active").last.package_end_date > Time.now + 6.days
     end
   end
 
