@@ -1,5 +1,5 @@
 class Users::UserPackagesAttributeSerializer < ActiveModel::Serializer
-  attributes :id, :plan, :package_start_date, :package_end_date, :amount, :package_status
+  attributes :id, :plan, :package_start_date, :package_end_date, :amount, :package_status, :transaction_date
 
   def plan
     object.package.name
