@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181128071145) do
+ActiveRecord::Schema.define(version: 20181212054502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -232,6 +232,7 @@ ActiveRecord::Schema.define(version: 20181128071145) do
     t.datetime "package_start_date"
     t.datetime "package_end_date"
     t.integer  "package_status"
+    t.datetime "transaction_date"
     t.index ["package_id"], name: "index_package_users_on_package_id", using: :btree
     t.index ["user_id"], name: "index_package_users_on_user_id", using: :btree
   end
