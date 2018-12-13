@@ -17,6 +17,10 @@ Doorkeeper.configure do
     # elsif user.present? && user.subscription_expire?
       # raise Doorkeeper::Errors::DoorkeeperError.new('Your trial period was expired. You have to renew your plan before continue.')
     elsif user.present? && user.confirmed? && user.valid_password?(params[:password])
+      user.update(sign_in_count: user.sign_in_count+1)
+      if(user.sign_in_count == 1)
+        LoggedInUserMailer.login_user_instruction_mail(user.email, user.phone, user.first_name, user.last_name).deliver!
+      end
       user
     else
       raise Doorkeeper::Errors::DoorkeeperError.new('Invalid email and password.')
