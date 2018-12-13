@@ -10,7 +10,7 @@ class UsersController < ApplicationController
         ).per(
           params[:per_page]
         ).order(
-          updated_at: :desc
+          created_at: :desc
         ).includes(
           :role
         )
