@@ -102,6 +102,12 @@ class UsersController < ApplicationController
     }, 200)
   end
 
+  # GET  /users/get_user_type
+  def get_user_type
+    user_types = User.user_types.map{|k,v| {name: k}}
+    render_success_response({ :user_types => user_types },200)
+  end
+
   private
 
   def user_params
