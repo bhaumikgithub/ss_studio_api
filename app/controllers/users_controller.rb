@@ -10,7 +10,7 @@ class UsersController < ApplicationController
         ).per(
           params[:per_page]
         ).order(
-          updated_at: :desc
+          created_at: :desc
         ).includes(
           :role
         )
@@ -102,9 +102,35 @@ class UsersController < ApplicationController
     }, 200)
   end
 
+  # GET  /users/filter_user
+  def filter_user
+    users = User.where(nil)
+    filtering_params(params).each do |key, value|
+      users = users.public_send(key, value) if value.present?
+    end
+    @users = users.page(params[:page]).per(params[:per_page]).order(created_at: :desc).includes(:role) 
+    json_response({
+      success: true,
+      data: {
+        users: array_serializer.new(@users, serializer: Users::UsersAttributesSerializer),
+      },
+      meta: meta_attributes(@users)
+    }, 200)
+  end
+
+  # GET  /users/get_user_type
+  def get_user_type
+    user_types = User.user_types.map{|k,v| {name: k}}
+    render_success_response({ :user_types => user_types },200)
+  end
+
   private
 
   def user_params
     params.require(:user).permit(:current_password,:password, :password_confirmation)
+  end
+
+  def filtering_params(params)
+    params.slice(:status, :user_type, :plan)
   end
 end

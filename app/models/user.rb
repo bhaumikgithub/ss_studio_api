@@ -40,12 +40,16 @@ class User < ApplicationRecord
   cattr_accessor :captcha, :is_validate, :created_by
   validate :captcha_code
   enum status: { inactive: 0, pending_activation: 1, active: 2, subscription_expire: 3 }
+  enum user_type: { "Regular User": 0, "Premium User": 1, "Test User": 2 }
   # Validations
   validates :alias, :phone, :email, :country_id,:first_name, :last_name, presence: true
   validates :email, :alias, uniqueness: true
   validates :alias, format: { without: /\s/ }
   validates :password, :presence => true , :if => Proc.new{ validate_password&.include?('password') }
   validates :password_confirmation, :presence => true , :if => Proc.new{ validate_password&.include?('password_confirmation') }
+  scope :status, -> (status) { where status: status }
+  scope :user_type, -> (user_type) { where user_type: user_type }
+  scope :plan, -> (plan) { joins(:package_users).where('package_users.package_id = (?)',plan) }
 
   # Scopes
 
