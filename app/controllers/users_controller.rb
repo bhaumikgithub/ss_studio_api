@@ -103,6 +103,22 @@ class UsersController < ApplicationController
     }, 200)
   end
 
+  # GET  /users/filter_user
+  def filter_user
+    users = User.where(nil)
+    filtering_params(params).each do |key, value|
+      users = users.public_send(key, value) if value.present?
+    end
+    @users = users.page(params[:page]).per(params[:per_page]).order(created_at: :desc).includes(:role) 
+    json_response({
+      success: true,
+      data: {
+        users: array_serializer.new(@users, serializer: Users::UsersAttributesSerializer),
+      },
+      meta: meta_attributes(@users)
+    }, 200)
+  end
+
   # GET  /users/get_user_type
   def get_user_type
     user_types = User.user_types.map{|k,v| {name: k}}
@@ -134,5 +150,9 @@ class UsersController < ApplicationController
       @resource.package_users.create(package_id: package.id, package_start_date: plan_start_date, package_end_date: plan_end_date + 1.year, package_status: 0)
       @resource.package_users.find_by(package_status: 'active').present? ? @resource.update(status: 2) : @resource.update(status: 3)
     end
+  end
+
+  def filtering_params(params)
+    params.slice(:status, :user_type, :plan)
   end
 end
