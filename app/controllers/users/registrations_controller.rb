@@ -16,7 +16,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
             expire_data_after_sign_in!
           end
           update_subscription_package
-          render_success_response({ :users => resource }, 200)
+          # render_success_response({ :users => resource }, 200)
+          json_response({
+            success: true,
+            data: {
+              users: single_record_serializer.new(resource, serializer: Users::UserAttributesSerializer),
+            }
+          }, 200)
         else
           render_unprocessable_entity_response(resource)
         end
