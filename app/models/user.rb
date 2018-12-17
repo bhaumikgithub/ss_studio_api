@@ -49,7 +49,7 @@ class User < ApplicationRecord
   validates :password_confirmation, :presence => true , :if => Proc.new{ validate_password&.include?('password_confirmation') }
   scope :status, -> (status) { where status: status }
   scope :user_type, -> (user_type) { where user_type: user_type }
-  scope :plan, -> (plan) { joins(:package_users).where('package_users.package_id = (?)',plan) }
+  scope :plan, -> (plan) { joins(:package_users).where('package_users.package_id = (?) AND package_status = (?) ',plan,0) }
 
   # Scopes
 
