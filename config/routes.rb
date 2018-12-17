@@ -107,6 +107,7 @@ Rails.application.routes.draw do
       get 'get_statuses'
       get 'get_user_packages'
       get 'get_user_type'
+      get 'filter_user'
     end
     resources :user_logos, only: [:show,:create,:update]
   end
