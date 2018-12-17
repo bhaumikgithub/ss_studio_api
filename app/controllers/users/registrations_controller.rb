@@ -46,7 +46,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def update_subscription_package
-    binding.pry
     if resource.package_users.present? && params[:user][:package_id].present?
       resource.package_users.update(package_status: 1)
       package = Package.find_by_id(params[:user][:package_id])
