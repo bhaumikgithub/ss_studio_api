@@ -43,6 +43,8 @@ class UsersController < ApplicationController
     if params[:user][:status] == "active" && @resource.status == "active"
       @resource.confirm
     end
+    update_subscription_package
+
     json_response({
       success: true,
       data: {
@@ -124,12 +126,33 @@ class UsersController < ApplicationController
     render_success_response({ :user_types => user_types },200)
   end
 
+  def update_subscription_package
+    if @resource.package_users.present? && params[:user][:package_id].present?
+      @resource.package_users.update(package_status: 1)
+      package = Package.find_by_id(params[:user][:package_id])
+      plan_start_date = Date.today
+      dur_time = package.duration.split()
+      total_day = dur_time != "" ? dur_time[0].to_i : 0
+      if package.duration.include?('Days') ||  package.duration.include?('Day')
+        plan_end_date = plan_start_date + total_day.days
+      elsif package.duration.include?('Month') ||  package.duration.include?('Months')
+        plan_end_date = plan_start_date + total_day.months
+      elsif package.duration.include?('Year') ||  package.duration.include?('Years')
+        plan_end_date = plan_start_date + total_day.years
+      else
+        plan_end_date = plan_start_date + 1.years
+      end
+      @resource.package_users.create(package_id: package.id, package_start_date: plan_start_date, package_end_date: plan_end_date, package_status: 0)
+      @resource.package_users.find_by(package_status: 'active').present? ? @resource.update(status: 2) : @resource.update(status: 3)
+    end
+  end
+
   private
 
   def user_params
     params.require(:user).permit(:current_password,:password, :password_confirmation)
   end
-
+  
   def filtering_params(params)
     params.slice(:status, :user_type, :plan)
   end
