@@ -1,5 +1,5 @@
 class Users::UsersAttributesSerializer < ActiveModel::Serializer
-  attributes :id, :email, :full_name, :status, :alias, :phone, :first_name, :last_name, :start_plan_date, :end_plan_date, :user_type, :created_at, :active_plan
+  attributes :id, :email, :full_name, :status, :alias, :phone, :first_name, :last_name, :start_plan_date, :end_plan_date, :user_type, :created_at, :active_plan, :sub_package
   belongs_to :role, serializer: Roles::RoleAttributesSerializer
   belongs_to :country, serializer: Users::CountryAttributesSerializer
   has_many :packages, key: "subscription_package", serializer: Users::PackageAttributesSerializer
@@ -35,6 +35,16 @@ class Users::UsersAttributesSerializer < ActiveModel::Serializer
       active_pkg_user.package.name
     elsif expired_pkg_user.present?
       expired_pkg_user.package.name
+    end
+  end
+
+  def sub_package
+    active_pkg_user = object.package_users.find_by(package_status: 'active')
+    expired_pkg_user = object.package_users.where(package_status: 'expired').last
+    if active_pkg_user.present?
+      active_pkg_user.package
+    elsif expired_pkg_user.present?
+      expired_pkg_user.package
     end
   end
 end
