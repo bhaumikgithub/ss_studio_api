@@ -96,10 +96,12 @@ class UsersController < ApplicationController
 
   def get_user_packages
     @package_users = current_resource_owner.package_users
+    @expied_packages = current_resource_owner.package_users.where(package_status: "expired").count
     json_response({
       success: true,
       data: {
         users: array_serializer.new(@package_users, serializer: Users::UserPackagesAttributeSerializer),
+        is_expired: @expied_packages == @package_users.count ? true : false,
       }
     }, 200)
   end
