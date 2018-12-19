@@ -21,9 +21,9 @@ class Photo < ApplicationRecord
   has_attached_file :image,
                     :processors => lambda {|attachment|
                       if attachment.class.apply_watermark
-                        [:thumbnail,:watermark]
+                        [:thumbnail,:watermark, :compression]
                       else
-                        [:thumbnail]
+                        [:thumbnail, :compression]
                       end
                     },
                     :styles => lambda { |attachment|
@@ -35,7 +35,7 @@ class Photo < ApplicationRecord
                             :position => "SouthEast"
                           },
                           :thumb => {
-                            :geometry => "250x250#",
+                            :geometry => "410x410#",
                             # :watermark_path => attachment.instance.class.watermark_thumb_url,
                             :position => "SouthEast"
                           },

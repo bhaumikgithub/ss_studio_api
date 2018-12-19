@@ -82,3 +82,5 @@ gem "daemons"
 
 # Cron jobs in Ruby
 gem 'whenever', require: false
+
+gem 'paperclip-compression'
