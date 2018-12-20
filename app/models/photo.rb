@@ -35,14 +35,16 @@ class Photo < ApplicationRecord
                             :position => "SouthEast"
                           },
                           :thumb => {
-                            :geometry => "250x250#",
-                            # :watermark_path => attachment.instance.class.watermark_thumb_url,
-                            :position => "SouthEast"
+                            :geometry => Proc.new { |instance| instance.resize },
+                            # :position => "SouthEast"
                           },
-                          :original => {
+                          :large => {
                             :geometry => '1200>',
                             :watermark_path => attachment.instance.class.watermark_medium_url,
                             :position => 'SouthEast',
+                          },
+                          :original => {
+                            :geometry => '1200>',
                           },
                         }
                         elsif attachment.instance.class.is_logo
@@ -97,7 +99,20 @@ class Photo < ApplicationRecord
   end
 
   def update_user(current_user)
-    # binding.pry
     self.update(user_id: current_user.id)
+  end
+
+  def resize
+    geo = Paperclip::Geometry.from_file(image.queued_for_write[:original].path)
+    ratio = geo.width/geo.height
+    if geo.height > geo.width
+      height = 411;
+      width =  geo.height * ratio
+      "#{width.round}x#{height.round}!"
+    else
+      width = 411;
+      height = geo.width / ratio;
+      "#{height.round}x#{width.round}!"
+    end
   end
 end

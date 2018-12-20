@@ -6,6 +6,10 @@ class Photos::SetCoverPhotoAttributesSerializer < ActiveModel::Serializer
   end
 
   def original_image
-    CommonSerializer.full_image_url(object.image.url)
+    if object.image.exists?(:large)
+      CommonSerializer.full_image_url(object.image.url(:large))
+    else
+      CommonSerializer.full_image_url(object.image.url)
+    end
   end
 end
