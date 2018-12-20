@@ -51,7 +51,7 @@ class Albums::SingleAlbumAttributesSerializer < ActiveModel::Serializer
         id: photo.id,
         image_file_name: photo.image_file_name,
         image: CommonSerializer.full_image_url(photo.image.url(:thumb)),
-        original_image: CommonSerializer.full_image_url(photo.image.url),
+        original_image: photo.image.exists?(:large) ? CommonSerializer.full_image_url(photo.image.url(:large)) : CommonSerializer.full_image_url(photo.image.url),
         is_cover_photo: true
       }
     else
