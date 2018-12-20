@@ -4,6 +4,6 @@ class LoggedInUserMailer < ApplicationMailer
     @phone = phone
     @first_name = first_name
     @last_name = last_name
-    mail(from: "bhaumikgithub@gmail.com", to: "info@afterclix.com" , subject: "Logged in user information")
+    mail(from: "info@afterclix.com", to: "info@afterclix.com" , subject: "Logged in user information")
   end
 end
