@@ -106,12 +106,12 @@ class Photo < ApplicationRecord
     geo = Paperclip::Geometry.from_file(image.queued_for_write[:original].path)
     ratio = geo.width/geo.height
     if geo.height > geo.width
-      height = 411;
-      width =  geo.height * ratio
+      height = 411
+      width =  height * ratio
       "#{width.round}x#{height.round}!"
     else
-      width = 411;
-      height = geo.width / ratio;
+      width = 411
+      height = width / ratio;
       "#{height.round}x#{width.round}!"
     end
   end
