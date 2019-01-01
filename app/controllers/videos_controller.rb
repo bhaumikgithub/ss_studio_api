@@ -59,12 +59,18 @@ class VideosController < ApplicationController
   # GET /videos/publish
   def publish
     @videos = User.get_user(params[:user]).videos.where(status: 'published').order(:position, :updated_at => :desc)
-    json_response({
-      success: true,
-      data: {
-        videos: array_serializer.new(@videos, serializer: Videos::VideoAttributesSerializer),
-      }
-    }, 200)
+    if params[:onlyAPI].present? && params[:onlyAPI] == "true"
+      json_response({
+        success: true,
+        data: {
+          videos: array_serializer.new(@videos, serializer: Videos::VideoAttributesSerializer),
+        }
+      }, 200)
+    else
+      respond_to do |format|
+        format.html
+      end
+    end
   end
 
   def update_position

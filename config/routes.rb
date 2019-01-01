@@ -76,11 +76,13 @@ Rails.application.routes.draw do
   post 'website_details', to: 'website_details#create'
   get 'website_details', to: 'website_details#website_details'
 
+  match "active" => 'testimonials#active', :via => [:get], :path => "/:user/feedback"
+  match "publish" => 'videos#publish', :via => [:get], :path => "/:user/films"
+
   resources :services
   resources :testimonials do
-    collection do
-      get 'active'
-    end
+    # collection do
+    # end
   end
   resources :homepage_photos do
     collection do
@@ -92,7 +94,7 @@ Rails.application.routes.draw do
   resources :contact_messages, only: [:create]
   resources :videos do
     collection do
-      get 'publish'
+      # get 'publish'
       patch 'update_position'
     end
   end
