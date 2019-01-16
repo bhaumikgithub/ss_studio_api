@@ -20,7 +20,7 @@ class ContactDetailsController < ApplicationController
 
   # GET /contact_detail
   def contact_detail
-    render_success_response({ :contact_detail => User.get_user(params[:user]).contact_detail}, 200)
+    render_success_response({ :contact_detail => User.get_user(params[:user])&.contact_detail, :user => User.get_user(params[:user])}, 200)
   end
 
   # Post /contact_details

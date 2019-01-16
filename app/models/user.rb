@@ -44,7 +44,7 @@ class User < ApplicationRecord
   # Validations
   validates :alias, :phone, :email, :country_id,:first_name, :last_name, presence: true
   validates :email, :alias, uniqueness: true
-  validates :alias, format: { without: /\s/ }
+  validates :alias, format: { with: /\A[a-z][-a-z]*\z/ }
   validates :password, :presence => true , :if => Proc.new{ validate_password&.include?('password') }
   validates :password_confirmation, :presence => true , :if => Proc.new{ validate_password&.include?('password_confirmation') }
   scope :status, -> (status) { where status: status }
