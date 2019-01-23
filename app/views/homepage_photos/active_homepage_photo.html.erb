@@ -2,7 +2,7 @@
   <div id="slider" class="rev_slider fullscreenbanner" data-version="5.4.7">
     <ul>
       <% @active_photos.each do |active_photo| %>
-        <li data-transition="fade" data-thumb="<%= active_photo.homepage_image.url(:thumb) %>"><img src="<%= active_photo.homepage_image.url %>" alt="" />
+        <li data-transition="fade" data-thumb="<%= '/sites' + active_photo.homepage_image.url(:thumb) %>"><img src="<%= '/sites' + active_photo.homepage_image.url %>" alt="" />
           <div class="tp-caption font-weight-600 text-uppercase color-white text-center" 
             data-x="center"
             data-y="middle" 
