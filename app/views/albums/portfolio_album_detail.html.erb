@@ -1,0 +1,22 @@
+<div class="wrapper light-wrapper">
+  <div class="container inner">
+    <div class="collage-wrapper">
+      <%= link_to portfolio_path(user: params[:user]), class: "back_link", data: { turbolinks: false } do %>
+        <i class="fa fa-arrow-left left-arrow-icon" aria-hidden="true"></i>Back to albums
+      <% end %>
+      <div id="collage-medium" class="collage effect-parent light-gallery">
+        <% @photos.each do |photo| %>
+          <div class="collage-image-wrapper">
+            <%= link_to photo.image(:original) do %>
+              <%= image_tag(photo.image(:thumb), height: '30', width: '30') %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+      <div class="flickr_pagination">
+        <%= paginate @photos %>
+      </div>
+    </div>
+  </div>
+</div>
+<%= javascript_include_tag "portfolio" %>

@@ -1,0 +1,63 @@
+<div class="wrapper light-wrapper">
+  <div class="container inner">
+    <div class="row">
+      <div class="col-lg-8 offset-lg-2">
+        <% if @success %>
+          <div class="alert alert-success alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Success!</strong> Contact message sent successfully.
+          </div>
+        <% end %>
+        <h2 class="section-title text-center">Get in Touch</h2>
+        <div class="row text-center">
+          <div class="col-md-4"> <span class="icon icon-color color-default fs-48 mb-10"><%= image_tag("home-icon.png") %></span>
+            <p><%= @contact_detail&.address&.html_safe %></p>
+          </div>
+          <div class="col-md-4"> <span class="icon icon-color color-default fs-48 mb-10"><%= image_tag("call-icon.png") %></span>
+            <p><%= @contact_detail&.phone %></p>
+          </div>
+          <div class="col-md-4"> <span class="icon icon-color color-default fs-48 mb-10"><%= image_tag("message-icon.png") %></span>
+            <p><a class="nocolor" href="mailto:#"><%= @contact_detail&.email %></a></p>
+          </div>
+        </div>
+        <div class="space30"></div>
+        <% if @errors.present? %>
+          <span class="text-danger"><%= @errors.html_safe %></span>
+        <% end %>
+        <div class="form-container">
+          <%= form_for @contact_message, class: "vanilla vanilla-form" do |f| %>
+            <div class="row text-center">
+              <div class="col-md-6 pr-10">
+                <div class="form-group">
+                  <%= f.text_field :name,class: 'form-control ', placeholder: "Your name", required: "required"%>
+                </div>
+              </div>
+              <div class="col-md-6 pl-10">
+                <div class="form-group">
+                  <%= f.email_field :email,class: 'form-control ', placeholder: "Your e-mail", required: "required"%>
+                </div>
+              </div>
+              <div class="col-md-6 pr-10">
+                <div class="form-group">
+                  <%= f.number_field :phone,class: 'form-control ', placeholder: "Phone", required: "required"%>
+                </div>
+              </div>
+              <div class="col-md-6 pl-10">
+                <div class="form-group">
+                  <%= f.number_field :captcha, class: 'form-control ', placeholder: "What is answer of 4x7?", required: "required", value: ""%>
+                </div>
+              </div>
+              <div class="col-12">
+                <%= f.text_area :message,class: 'form-control ', placeholder: "Type your message here...", required: "required"%>
+                <div class="space20"></div>
+                <%= f.hidden_field :from, :value => "view_page" %>
+                <%= hidden_field_tag :user, params[:user] %>
+                <%= f.submit "Submit", class: "btn btn-full-rounded" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

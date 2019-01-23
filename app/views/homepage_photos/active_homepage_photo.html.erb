@@ -1,0 +1,41 @@
+<div class="rev_slider_wrapper fullscreen-container">
+  <div id="slider" class="rev_slider fullscreenbanner" data-version="5.4.7">
+    <ul>
+      <% @active_photos.each do |active_photo| %>
+        <li data-transition="fade" data-thumb="<%= active_photo.homepage_image.url(:thumb) %>"><img src="<%= active_photo.homepage_image.url %>" alt="" />
+          <div class="tp-caption font-weight-600 text-uppercase color-white text-center" 
+            data-x="center"
+            data-y="middle" 
+            data-voffset="['-75','-75','-75','-75']"
+            data-fontsize="['18','18','18','18']"
+            data-lineheight="['28','28','28','28']"
+            data-width="['600','600','600','600']"
+            data-textAlign="['center','center','center','center']"
+            data-whitespace="['normal','normal','normal','normal']"
+            data-frames='[{"from":"y:-50px;sX:2;sY:2;opacity:0;","speed":1000,"to":"o:1;","delay":1000,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]' 
+            data-startslide="0" 
+            data-endslide="3"
+            data-responsive="on" 
+            data-responsive_offset="on"
+            style="z-index: 9; letter-spacing: 3px;">We Capture Memories..
+          </div>
+          <a class="tp-caption btn btn-full-rounded btn-l btn-white" 
+            data-x="center" 
+            data-y="middle" 
+            data-voffset="['105','105','105','105']"
+            data-width="['auto','auto','auto','auto']"
+            data-textAlign="['center','center','center','center']"
+            data-frames='[{"from":"y:-50px;sX:2;sY:2;opacity:0;","speed":1000,"to":"o:1;","delay":2000,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+            data-startslide="0" 
+            data-endslide="3"
+            data-responsive="on" 
+            data-responsive_offset="on" 
+            style="z-index: 9;" href="<%= portfolio_path(user: params[:user]) %>" data-turbolinks="false">View Our Work
+          </a>
+        </li>
+      <% end %>
+    </ul>
+    <div class="tp-bannertimer tp-bottom"></div>
+  </div>
+  <!-- /.rev_slider --> 
+</div>

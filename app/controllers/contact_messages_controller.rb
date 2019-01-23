@@ -11,9 +11,20 @@ class ContactMessagesController < ApplicationController
     else
       @admin_email = "info@techplussoftware.com"
     end
-    @contact_message = ContactMessage.create!(resource_params)
-    ContactMailer.delay.contact_message_mail(@contact_message,@admin_email)
-    json_response({success: true, message: "contact message sent successfully.", data: { :contact_messages => @contact_message }}, 201)
+    unless params[:contact_message][:from].present?
+      @contact_message = ContactMessage.create!(resource_params)
+      ContactMailer.delay.contact_message_mail(@contact_message,@admin_email)
+      json_response({success: true, message: "contact message sent successfully.", data: { :contact_messages => @contact_message }}, 201)
+    else
+      @contact_message = ContactMessage.new(resource_params)
+      if @contact_message.save
+        ContactMailer.delay.contact_message_mail(@contact_message,@admin_email)
+        $success = true
+      else
+        $errors = @contact_message.errors.full_messages.join("<br>")
+      end
+      redirect_to contact_detail_path(user: params[:user])
+    end
   end
 
   private

@@ -1,6 +1,6 @@
 class HomepagePhotosController < ApplicationController
   include ProfileCompleteHelper
-  skip_before_action :doorkeeper_authorize!, only: [ :active, :index ]
+  skip_before_action :doorkeeper_authorize!, only: [ :active_homepage_photo, :index, :active ]
   before_action :fetch_homepage_photo, only: [ :update ]
 
   # GET /homepage_photos
@@ -62,12 +62,25 @@ class HomepagePhotosController < ApplicationController
       @active_photos = []
     end
     @style = response.present? ? "large" : "original"
-      json_response({
-        success: true,
-        data: {
-          active_photos: array_serializer.new(@active_photos, serializer: HomepagePhotos::HomepagePhotoAttributesSerializer, style: @style),
-        }
-      }, 200)
+    json_response({
+      success: true,
+      data: {
+        active_photos: array_serializer.new(@active_photos, serializer: HomepagePhotos::HomepagePhotoAttributesSerializer, style: @style),
+      }
+    }, 200)
+  end
+
+  def active_homepage_photo
+    response = CommonService.is_mobile_devise(request)
+    if params[:user]
+      @active_photos = User.get_user(params[:user]).homepage_photos.where(is_active: true).order('created_at desc')
+    else
+      @active_photos = []
+    end
+    @style = response.present? ? "large" : "original"
+    respond_to do |format|
+      format.html
+    end
   end
 
   #  PATCH /homepage_photos/:id

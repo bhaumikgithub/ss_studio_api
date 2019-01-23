@@ -1,0 +1,20 @@
+<% if @portfolio_albums.length > 0 %>
+  <div id="cube-grid-large" class="cbp">
+    <% @portfolio_albums.each do |album| %>
+      <div class="cbp-item cat1">
+        <figure class="overlay overlay4">
+          <%= link_to image_tag(album.photos.where(is_cover_photo: true).first.present? ? album.photos.where(is_cover_photo: true).first.image.url : "/shared_photos/missing.png"), portfolio_album_detail_path(user: params[:user], id: album.slug), data: { turbolinks: false } %>
+          <figcaption class="d-flex">
+            <div class="align-self-end mt-auto ml-auto mr-auto">
+              <h3 class="mb-5"><%= album.album_name.titleize %></h3>
+              <div class="meta"><span class="count"><%= album.photos.count %> Photos</span></div>
+            </div>
+          </figcaption>
+        </figure>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="text-center">No Albums Available</p>
+<% end %>
+<%= javascript_include_tag "portfolio" %>
