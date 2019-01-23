@@ -7,7 +7,7 @@ class ContactMessagesController < ApplicationController
     ContactMessage.captcha = params[:contact_message][:captcha]
     @user = User.get_user(params[:user])
     if @user
-      @admin_email = @user.contact_detail.email
+      @admin_email = @user.try(:contact_detail).try(:email).present? ? @user.contact_detail.email : @user.try(:email)
     else
       @admin_email = "info@techplussoftware.com"
     end

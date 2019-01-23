@@ -20,9 +20,9 @@ class ContactDetailsController < ApplicationController
 
   # GET /contact_detail
   def contact_detail
-    @contact_detail = User.get_user(params[:user]).contact_detail
+    @contact_detail = User.get_user(params[:user])&.contact_detail
     if params[:onlyAPI].present? && params[:onlyAPI] == "true"
-      render_success_response({ :contact_detail => @contact_detail}, 200)
+      render_success_response({ :contact_detail => @contact_detail, :user => User.get_user(params[:user])}, 200)
     else
       @contact_message = ContactMessage.new
       @errors = $errors
