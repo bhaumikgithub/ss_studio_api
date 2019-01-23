@@ -20,7 +20,19 @@ class ContactDetailsController < ApplicationController
 
   # GET /contact_detail
   def contact_detail
-    render_success_response({ :contact_detail => User.get_user(params[:user])&.contact_detail, :user => User.get_user(params[:user])}, 200)
+    @contact_detail = User.get_user(params[:user])&.contact_detail
+    if params[:onlyAPI].present? && params[:onlyAPI] == "true"
+      render_success_response({ :contact_detail => @contact_detail, :user => User.get_user(params[:user])}, 200)
+    else
+      @contact_message = ContactMessage.new
+      @errors = $errors
+      @success = $success
+      $success = false
+      $errors = nil
+      respond_to do |format|
+        format.html
+      end
+    end
   end
 
   # Post /contact_details

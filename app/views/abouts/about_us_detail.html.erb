@@ -1,0 +1,45 @@
+<div class="wrapper image-wrapper bg-image inverse-text" data-image-src="<%= asset_path('bg4.jpg') %>">
+  <div class="container inner pt-120 pb-120 text-center">
+    <h1 class="heading mb-0">About Us</h1>
+  </div>
+</div>
+<div class="wrapper light-wrapper">
+  <div class="container inner">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <figure class="text-center"><%= image_tag(@about_us_detail.photo.image.url(:medium)) if @about_us_detail.photo.present? %></figure>
+        <div class="space30"></div>
+        <h2 class="section-title text-center"><%= @about_us_detail.title_text %></h2>
+        <p><%= @about_us_detail.description.html_safe %></p>
+        <ul class="social social-color social-s mb-15 text-center">
+          <% @about_us_detail.social_links.each do |key, value| %>
+            <% if key == "facebook_link" && value.present? %>
+              <li><a href="<%= value %>" target="_blank"><i class="fa fa-facebook-square"></i></a></li>
+            <% end %>
+            <% if key == "twitter_link" && value.present? %>
+              <li><a href="<%= value %>" target="_blank"><i class="fa fa-twitter-square"></i></a></li>
+            <% end %>
+            <% if key == "instagram_link" && value.present? %>
+              <li><a href="<%= value %>" target="_blank"><i class="fa fa-instagram"></i></a></li>
+            <% end %>
+            <% if key == "youtube_link" && value.present? %>
+              <li><a href="<%= value %>" target="_blank"><i class="fa fa-youtube-play"></i></a></li>
+            <% end %>
+            <% if key == "vimeo_link" && value.present? %>
+              <li><a href="<%= value %>" target="_blank"><i class="fa fa-vimeo-square"></i></a></li>
+            <% end %>
+            <% if key == "linkedin_link" && value.present? %>
+              <li><a href="<%= value %>" target="_blank"><i class="fa fa-linkedin-square"></i></a></li>
+            <% end %>
+            <% if key == "pinterest_link" && value.present? %>
+              <li><a href="<%= value %>" target="_blank"><i class="fa fa-pinterest-square"></i></a></li>
+            <% end %>
+            <% if key == "flickr_link" && value.present? %>
+              <li><a href="<%= value %>" target="_blank"><i class="fa fa-flickr"></i></a></li>
+            <% end %>
+          <% end %>
+        </ul>
+        </div>
+      </div>
+  </div>
+</div>

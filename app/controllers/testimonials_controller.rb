@@ -66,12 +66,18 @@ class TestimonialsController < ApplicationController
   # GET /testimonials/active
   def active
     @testimonials = User.get_user(params[:user]).testimonials.all.where(status: 'active')
-    json_response({
-      success: true,
-      data: {
-        testimonials: array_serializer.new(@testimonials, serializer: Testimonials::TestimonialAttributesSerializer, style: "medium"),
-      }
-    }, 200)
+    if params[:onlyAPI].present? && params[:onlyAPI] == "true"
+      json_response({
+        success: true,
+        data: {
+          testimonials: array_serializer.new(@testimonials, serializer: Testimonials::TestimonialAttributesSerializer, style: "medium"),
+        }
+      }, 200)
+    else
+      respond_to do |format|
+        format.html
+      end
+    end
   end
 
   private

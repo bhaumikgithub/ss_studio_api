@@ -1,6 +1,6 @@
 class AlbumsController < ApplicationController
   include ProfileCompleteHelper
-  skip_before_action :doorkeeper_authorize!, only: [ :portfolio, :show, :passcode_verification, :mark_as_submitted ]
+  skip_before_action :doorkeeper_authorize!, only: [ :portfolio, :show, :passcode_verification, :mark_as_submitted, :portfolio_album_detail ]
   before_action :fetch_album, only: [ :update, :destroy, :show, :passcode_verification, :mark_as_submitted, :get_selected_photos, :get_commented_photos, :mark_as_deliverd, :mark_as_stoped_selection, :mark_as_shared, :acivate_album ]
 
   # GET /albums
@@ -67,6 +67,21 @@ class AlbumsController < ApplicationController
     }, 200)
   end
 
+  def portfolio_album_detail
+    change_album_ip_detail
+    if params[:user]
+      @album = User.get_user(params[:user]).albums.find_by(slug: params[:id])
+      @photos = @album.photos.page(
+        params[:page]
+      ).per(
+        32
+      )
+    end
+    respond_to do |format|
+      format.html
+    end
+  end
+
   # PATCH/PUT /albums/:id
   def update
     @album.update_attributes!(album_params)
@@ -95,12 +110,20 @@ class AlbumsController < ApplicationController
     end
 
     @portfolio_albums = @portfolio_albums.where(status: "active", portfolio_visibility: true, is_private: false)
-    json_response({
-      success: true,
-      data: {
-        albums: array_serializer.new(@portfolio_albums, serializer: Albums::PortfolioAlbumAttributesSerializer),
-      }
-    }, 200)
+    if params[:onlyAPI].present? && params[:onlyAPI] == "true"
+      json_response({
+        success: true,
+        data: {
+          albums: array_serializer.new(@portfolio_albums, serializer: Albums::PortfolioAlbumAttributesSerializer),
+        }
+      }, 200)
+    else
+      @categories = User.get_user(params[:user]).categories.where(status: 'active')
+      respond_to do |format|
+        format.html
+        format.js
+      end
+    end
   end
 
   # GET /albums/:id/passcode_verification?passcode=''

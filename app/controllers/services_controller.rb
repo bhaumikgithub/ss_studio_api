@@ -30,12 +30,18 @@ class ServicesController < ApplicationController
   # GET  /services/service_details
   def service_details
     @active_services = User.get_user(params[:user]).services.where(status: "active").order('updated_at DESC')
-    json_response({
-      success: true,
-      data: {
-        active_services: array_serializer.new(@active_services, serializer: Services::ServiceAttributesSerializer),
-      }
-    }, 200)
+    if params[:onlyAPI].present? && params[:onlyAPI] == "true"
+      json_response({
+        success: true,
+        data: {
+          active_services: array_serializer.new(@active_services, serializer: Services::ServiceAttributesSerializer),
+        }
+      }, 200)
+    else
+      respond_to do |format|
+        format.html
+      end
+    end
   end
 
   # POST /services

@@ -1,0 +1,27 @@
+<div class="wrapper light-wrapper">
+  <div class="container inner">
+    <% if @videos.length > 0 %>
+      <div class="tabs-wrapper filtered">
+        <iframe src='<%= @videos.first.video_embed_url %>' frameborder='0' allowfullscreen width="1132" height="500"></iframe>
+        <div class="space10"></div>
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="tab1-1">
+            <div data-aos="fade">
+              <div class="tiles">
+                <div class="items row">
+                  <% @videos.drop(1).each do |video| %>
+                    <div class="item col-lg-6 col-sm-12">
+                      <iframe src='<%= video.video_embed_url %>' frameborder='0' allowfullscreen width="550" height="312"></iframe>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <p class="text-center">Video is not uploaded at this time.</p>
+    <% end %>
+  </div>
+</div>

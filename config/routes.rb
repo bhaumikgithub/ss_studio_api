@@ -19,8 +19,8 @@ Rails.application.routes.draw do
   resources :watermarks
   resources :albums do
     collection do
-      get 'portfolio'
-      get 'get_album_status_wise'
+      # get 'portfolio'
+      match 'get_album_status_wise', as: 'get_album_status_wise', action: 'get_album_status_wise', via: [:get]
     end
     member do
       get 'passcode_verification'
@@ -57,18 +57,18 @@ Rails.application.routes.draw do
   resources :services do
     collection do
       get 'active_services'
-      get 'service_details'
+      # get 'service_details'
     end
   end
 
   get 'contact_details', to: 'contact_details#show'
   patch 'contact_details', to: 'contact_details#update'
-  get 'contact_detail', to: 'contact_details#contact_detail'
+  get 'contact_detail', to: 'contact_details#contact_detail', :path => "/:user/contact"
   post 'contact_details', to: 'contact_details#create'
 
   get 'abouts', to: 'abouts#show'
   patch 'abouts', to: 'abouts#update'
-  get 'about_us', to: 'abouts#about_us_detail'
+  get 'about_us', to: 'abouts#about_us_detail', :path => "/:user/about_us"
   post 'abouts', to: 'abouts#create'
 
   get 'website_detail', to: 'website_details#show'
@@ -78,9 +78,8 @@ Rails.application.routes.draw do
 
   resources :services
   resources :testimonials do
-    collection do
-      get 'active'
-    end
+    # collection do
+    # end
   end
   resources :homepage_photos do
     collection do
@@ -92,7 +91,7 @@ Rails.application.routes.draw do
   resources :contact_messages, only: [:create]
   resources :videos do
     collection do
-      get 'publish'
+      # get 'publish'
       patch 'update_position'
     end
   end
@@ -116,4 +115,11 @@ Rails.application.routes.draw do
   resources :service_icons, only: [:index]
   resources :profile_completenesses, only: [:index]
   resources :packages
+  
+  match "active_homepage_photo" => 'homepage_photos#active_homepage_photo', :via => [:get], :path => "/:user"
+  match "active" => 'testimonials#active', :via => [:get], :path => "/:user/feedback"
+  match "publish" => 'videos#publish', :via => [:get], :path => "/:user/films"
+  match "service_details" => 'services#service_details', :via => [:get], :path => "/:user/services"
+  match "portfolio" => 'albums#portfolio', :via => [:get], :path => "/:user/portfolio"
+  match "portfolio_album_detail" => 'albums#portfolio_album_detail', :via => [:get], :path => "/:user/portfolio/:id"
 end

@@ -54,14 +54,18 @@ class AboutsController < ApplicationController
 
   # GET  /about_us
   def about_us_detail
-    about_us_detail = User.get_user(params[:user]).about
-    if about_us_detail
+    @about_us_detail = User.get_user(params[:user]).about
+    if params[:onlyAPI].present? && params[:onlyAPI] == "true"
       json_response({
         success: true,
         data: {
-          about_us: single_record_serializer.new(about_us_detail, serializer: Abouts::AboutAttributesSerializer),
+          about_us: single_record_serializer.new(@about_us_detail, serializer: Abouts::AboutAttributesSerializer),
         }
-      }, 200)
+      }, 200) if @about_us_detail.present?
+    else
+      respond_to do |format|
+        format.html
+      end
     end
   end
 
