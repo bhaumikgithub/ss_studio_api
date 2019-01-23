@@ -7,7 +7,7 @@
       <div id="collage-medium" class="collage effect-parent light-gallery">
         <% @photos.each do |photo| %>
           <div class="collage-image-wrapper">
-            <%= link_to photo.image(:original) do %>
+            <%= link_to '/sites' + photo.image(:original) do %>
               <%= image_tag(photo.image(:thumb), height: '30', width: '30') %>
             <% end %>
           </div>
