@@ -112,7 +112,7 @@ class Photo < ApplicationRecord
     else
       width = 411
       height = width / ratio;
-      "#{height.round}x#{width.round}!"
+      "#{width.round}x#{height.round}!"
     end
   end
 end
