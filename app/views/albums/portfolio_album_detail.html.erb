@@ -6,7 +6,7 @@
     <div id="cube-grid" class="cbp light-gallery">
       <% @photos.each do |photo| %>
         <div class="cbp-item conceptual interior">
-          <figure class="overlay overlay2"><a href="<%= photo.image(:original) %>" data-sub-html="#<%= photo.id %>"><%= image_tag(photo.image(:thumb)) %>
+          <figure class="overlay overlay2"><a href="<%= Rails.env.development? ? photo.image(:original) : '/sites' + photo.image(:original) %>" data-sub-html="#<%= photo.id %>"><%= image_tag(photo.image(:thumb)) %>
             <div id="<%= photo.id %>" class="d-none">
               <p><%= photo.image_file_name %></p>
             </div>
