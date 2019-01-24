@@ -1,4 +1,4 @@
-<footer class="dark-wrapper inverse-text">
+<footer class="dark-wrapper inverse-text sticky-footer">
   <div class="sub-footer">
     <div class="container inner text-center"><%= image_tag(User.get_user(params[:user]).user_logo.photo.image.url(:logo)) if params[:user].present? && User.get_user(params[:user]).user_logo.present? %>
       <div class="space25"></div>
