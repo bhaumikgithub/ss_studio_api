@@ -1,22 +1,22 @@
 <div class="wrapper light-wrapper">
   <div class="container inner">
-    <div class="collage-wrapper">
-      <%= link_to portfolio_path(user: params[:user]), class: "back_link", data: { turbolinks: false } do %>
-        <i class="fa fa-arrow-left left-arrow-icon" aria-hidden="true"></i>Back to albums
+    <%= link_to portfolio_path(user: params[:user]), class: "back_link", data: { turbolinks: false } do %>
+      <i class="fa fa-arrow-left left-arrow-icon" aria-hidden="true"></i>Back to albums
+    <% end %>
+    <div id="cube-grid" class="cbp light-gallery">
+      <% @photos.each do |photo| %>
+        <div class="cbp-item conceptual interior">
+          <figure class="overlay overlay2"><a href="<%= photo.image(:original) %>" data-sub-html="#<%= photo.id %>"><%= image_tag(photo.image(:thumb)) %>
+            <div id="<%= photo.id %>" class="d-none">
+              <p><%= photo.image_file_name %></p>
+            </div>
+            </a></figure>
+        </div>
       <% end %>
-      <div id="collage-medium" class="collage effect-parent light-gallery">
-        <% @photos.each do |photo| %>
-          <div class="collage-image-wrapper">
-            <%= link_to Rails.env.development? ? photo.image(:original) : '/sites' + photo.image(:original) do %>
-              <%= image_tag(photo.image(:thumb), height: '30', width: '30') %>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-      <div class="flickr_pagination">
-        <%= paginate @photos %>
-      </div>
     </div>
+  </div>
+  <div class="flickr_pagination">
+    <%= paginate @photos %>
   </div>
 </div>
 <%= javascript_include_tag "portfolio" %>
