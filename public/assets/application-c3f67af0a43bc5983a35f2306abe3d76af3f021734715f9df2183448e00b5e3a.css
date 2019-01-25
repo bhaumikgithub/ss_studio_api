@@ -20662,7 +20662,7 @@ li.L0, li.L1, li.L2, li.L3, li.L4, li.L5, li.L6, li.L7, li.L8, li.L9 {
 
 @font-face {
   font-family: 'lg';
-  src: url("lg.eot?n1z373");
+  src: assets-url("lg.eot?n1z373");
   src: assets-url("lg.eot?#iefixn1z373", font) format("embedded-opentype"), assets-url("lg.woff?n1z373", font) format("woff"), assets-url("lg.ttf?n1z373", font) format("truetype"), assets-url("lg.svg?n1z373#lg", font) format("svg");
   font-weight: 400;
   font-style: normal;
