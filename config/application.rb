@@ -35,6 +35,7 @@ module SsStudioApi
     end
     config.autoload_paths << "#{Rails.root}/lib"
     config.autoload_paths += Dir[Rails.root.join('app', 'services')]
+    config.assets.paths << Rails.root.join("app", "assets", "fonts")
     config.generators do |g|
       g.fixture_replacement :factory_girl
     end
