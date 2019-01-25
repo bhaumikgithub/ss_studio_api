@@ -76,7 +76,7 @@ body {
 @font-face {
   font-family: 'Montserrat';
   src: url("montserrat/Montserrat-SemiBold.eot");
-  src: url("montserrat/Montserrat-SemiBold.eot?#iefix") format("embedded-opentype"), url("montserrat/Montserrat-SemiBold.woff2") format("woff2"), url("montserrat/Montserrat-SemiBold.woff") format("woff"), url("montserrat/Montserrat-SemiBold.ttf") format("truetype");
+  src: assets-url("montserrat/Montserrat-SemiBold.eot?#iefix") format("embedded-opentype"), assets-url("montserrat/Montserrat-SemiBold.woff2") format("woff2"), assets-url("montserrat/Montserrat-SemiBold.woff") format("woff"), assets-url("montserrat/Montserrat-SemiBold.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
 }
@@ -125,7 +125,7 @@ body {
 @font-face {
   font-family: 'Montserrat';
   src: url("montserrat/Montserrat-Regular.eot");
-  src: url("montserrat/Montserrat-Regular.eot?#iefix") format("embedded-opentype"), url("montserrat/Montserrat-Regular.woff2") format("woff2"), url("montserrat/Montserrat-Regular.woff") format("woff"), url("montserrat/Montserrat-Regular.ttf") format("truetype");
+  src: assets-url("montserrat/Montserrat-Regular.eot?#iefix") format("embedded-opentype"), assets-url("montserrat/Montserrat-Regular.woff2") format("woff2"), assets-url("montserrat/Montserrat-Regular.woff") format("woff"), assets-url("montserrat/Montserrat-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
