@@ -50,7 +50,10 @@
   margin-right: 5px;
 }
 .navbar-nav .nav-link{
-  color:  #fff !important;
+  color: rgba(255,255,255,0.75) !important;
+}
+.navbar-nav .nav-item .active{
+  color: #4c86e5 !important;
 }
 html {
   min-height: 100%;
