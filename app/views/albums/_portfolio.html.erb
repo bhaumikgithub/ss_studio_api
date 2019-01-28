@@ -7,7 +7,7 @@
           <figcaption class="d-flex">
             <div class="align-self-end mt-auto ml-auto mr-auto">
               <h3 class="mb-5"><%= album.album_name.titleize %></h3>
-              <div class="meta"><span class="count"><%= album.photos.count %> Photos</span></div>
+              <div class="meta"><span class="count"><%= album.photos.count %> PHOTOS</span><span><%= album.categories.pluck(:category_name).join(", ") %> </span></div>
             </div>
           </figcaption>
         </figure>
