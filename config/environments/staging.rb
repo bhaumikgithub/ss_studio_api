@@ -24,7 +24,7 @@ Rails.application.configure do
 
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  config.action_controller.asset_host = 'http://www.afterclix.com/sites'
+  config.action_controller.asset_host = 'http://www.afterclix.com'
 
   config.assets.compile = true
 
