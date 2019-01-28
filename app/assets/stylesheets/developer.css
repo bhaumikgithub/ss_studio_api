@@ -67,7 +67,7 @@ body {
   line-height: 60px;
 }
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat-Bold';
     src:url('montserrat/Montserrat-Bold.eot');
     src:url('montserrat/Montserrat-Bold.eot?#iefix') format('embedded-opentype'),
         url('montserrat/Montserrat-Bold.woff2') format('woff2'),
