@@ -86,7 +86,8 @@ body {
   float:right;
 }
 #center{
-  margin:0 auto;width: 200px;
+  margin:0 auto;
+  text-align: center;
 }
 @font-face {
   font-family: 'Montserrat';
