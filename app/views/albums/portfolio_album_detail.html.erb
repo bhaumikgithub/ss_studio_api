@@ -1,9 +1,13 @@
 <div class="wrapper light-wrapper">
   <div class="container inner">
     <h3 class="text-center"><%= @album.album_name.titleize %></h3>
-    <%= link_to portfolio_path(user: params[:user]), class: "back_link", data: { turbolinks: false } do %>
-      <i class="fa fa-arrow-left left-arrow-icon" aria-hidden="true"></i>Back to Portfolio
-    <% end %>
+    <div id="album-container">
+      <div id="left"> <%= link_to portfolio_path(user: params[:user]), class: "back_link", data: { turbolinks: false } do %>
+          <i class="fa fa-arrow-left left-arrow-icon" aria-hidden="true"></i>Back to Portfolio
+        <% end %></div>
+      <div id="right"><span class="photo-count"><%= @photos.count > 0 ? display_photo_count(@album, @photos) : "" %></span></div>
+      <div id="center"><span class="album-category-name"><%= @album.categories.pluck(:category_name).join(", ").titleize %></span></div>
+    </div>
     <div id="cube-grid" class="cbp light-gallery">
       <% @photos.each do |photo| %>
         <div class="cbp-item conceptual interior">
