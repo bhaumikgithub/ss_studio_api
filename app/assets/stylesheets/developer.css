@@ -69,3 +69,15 @@ body {
   height: 335px;
   line-height: 60px;
 }
+#album-container{
+  width:100%;
+}
+#left{
+  float:left;
+}
+#right{
+  float:right;
+}
+#center{
+  margin:0 auto;width: 200px;
+}

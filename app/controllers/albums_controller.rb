@@ -75,6 +75,8 @@ class AlbumsController < ApplicationController
         params[:page]
       ).per(
         32
+      ).order(
+        updated_at: :desc
       )
     end
     respond_to do |format|
