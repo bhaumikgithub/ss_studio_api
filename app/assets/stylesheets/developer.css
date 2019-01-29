@@ -69,13 +69,3 @@ body {
   height: 335px;
   line-height: 60px;
 }
-@font-face {
-    font-family: 'Montserrat-Bold';
-    src:assets-url('montserrat/Montserrat-Bold.eot');
-    src:assets-url('montserrat/Montserrat-Bold.eot?#iefix') format('embedded-opentype'),
-        assets-url('montserrat/Montserrat-Bold.woff2') format('woff2'),
-        assets-url('montserrat/Montserrat-Bold.woff') format('woff'),
-        assets-url('montserrat/Montserrat-Bold.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
-}
