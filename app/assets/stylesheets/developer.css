@@ -1,13 +1,3 @@
-@font-face {
-    font-family: 'Montserrat-Bold';
-    src:url('montserrat/Montserrat-Bold.eot');
-    src:url('montserrat/Montserrat-Bold.eot?#iefix') format('embedded-opentype'),
-        url('montserrat/Montserrat-Bold.woff2') format('woff2'),
-        url('montserrat/Montserrat-Bold.woff') format('woff'),
-        url('montserrat/Montserrat-Bold.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
-}
 .cbp-filter-item, .cbp-filter-item a{
   color: #888;
 }
