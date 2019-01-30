@@ -141,9 +141,9 @@ class AlbumsController < ApplicationController
   def passcode_verification_post
     if @album.is_private?
       if @album.passcode === params[:passcode]
-        json_response({success: true, message: "Passcode verification successfully."}, 200)
+        redirect_to view_album_path(user: params[:user], id: @album.slug)
       else
-        json_response({success: false, message: "Enter Valid Passcode.", errors: 'Invalid Passcode' }, 401)
+        redirect_to shared_album_login_path(user: params[:user], id: @album.slug, errors: 'Invalid Passcode')
       end
     end
   end

@@ -4,7 +4,9 @@
 			<%= form_tag passcode_verification_post_album_path do %>
 				<div class="login-details-block col-md-8 col-sm-10 col-xs-12">
 					<div class="custom-fromgrp form-group">
+					<span class="text-red"><%= params[:errors] %></span>
 						<!-- <input type="password" placeholder="Passcode" label="passcode" name="passcode" class="login-control form-control"> -->
+						<%= hidden_field_tag "user", params[:user] %>
 						<%= password_field_tag 'passcode', nil, placeholder: 'Passcode', class: 'login-control form-control' %><span class="custom-addon">*</span>
 					</div>
 				</div>
@@ -99,5 +101,8 @@
   outline: none;
   border-color: #b1b1b1;
   box-shadow: 0 0 2px 1px rgb(167,167,167)
+}
+.text-red{
+	color: red;
 }
 </style>
