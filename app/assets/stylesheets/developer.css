@@ -4,9 +4,9 @@
 .cbp-filter-item.cbp-filter-item-active, .cbp-filter-item:hover, .cbp-filter-item-active a{
   color: #4c86e5;
 }
-.back_link{
+/*.back_link{
   margin-left: 10px;
-}
+}*/
 .flickr_pagination {
   text-align: center;
   padding: 0.3em;
@@ -81,4 +81,7 @@ body {
 #center{
   margin:0 auto;
   text-align: center;
+}
+.hamburger:before, .hamburger span, .hamburger:after{
+  background-color: #ffffff !important;
 }
