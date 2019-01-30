@@ -1,0 +1,103 @@
+<div class="page-inner-wrap container">
+	<div class="row">
+		<div class="login-form col-sm-6 col-xs-10">
+			<%= form_tag passcode_verification_post_album_path do %>
+				<div class="login-details-block col-md-8 col-sm-10 col-xs-12">
+					<div class="custom-fromgrp form-group">
+						<!-- <input type="password" placeholder="Passcode" label="passcode" name="passcode" class="login-control form-control"> -->
+						<%= password_field_tag 'passcode', nil, placeholder: 'Passcode', class: 'login-control form-control' %><span class="custom-addon">*</span>
+					</div>
+				</div>
+				<%= submit_tag 'LOGIN', class: 'btn-orange login-btn text-center btn btn-default' do %>
+					<%= image_tag "next-icon.png", class: "img-responsive arrow-icon" %>
+				<% end %>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+<style type="text/css">
+.login-form {
+  background-color: #f5f5f5;
+  -moz-box-shadow: 2px 3px 3px rgba(0, 0, 0, .15);
+  box-shadow: 2px 3px 3px rgba(0, 0, 0, .15);
+  padding: 40px 0;
+  display: block;
+  float: none;
+	position: absolute!important;
+  right: 0px;
+  top: -40px;
+  left: 0px;
+  bottom: 0px;
+  max-height: max-content;
+  margin: auto;
+  border-radius: 20px;
+}
+
+.page-inner-wrap{
+	padding-top: 94px;
+  padding-bottom: 50px;
+}
+
+.login-details-block {
+  display: block;
+  margin: 0 auto;
+  float: none;
+}
+
+.custom-addon{
+	position: absolute;
+  right: 20px;
+  top: 10px;
+  font-size: 28px;
+  color: #fd6257;
+}
+
+.login-btn {
+  position: absolute;
+  bottom: -20px;
+  left: calc(45% - 45px);
+  min-width: 140px;
+  text-align: center;
+  min-height: 40px;
+  padding: 5px;
+}
+.login-btn:hover,
+.login-btn:focus {
+  color: #fff;
+  background-color: #feb547 !important;
+  border-color: #feb547 !important;
+}
+.arrow-icon {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+
+.btn-orange{
+	border-radius: 20px;
+  background: #f9a11d !important;
+  color: #fff;
+  border: 0;
+}
+.login-control {
+  border-radius: 0px;
+  box-shadow: none;
+  background-color: #efefef;
+  border: none;
+  border-bottom: 1px solid #e7e7e7;
+  color: #777;
+  max-height: 40px;
+  margin-bottom: 25px;
+  position: relative;
+  padding-right: 35px;
+}
+.login-control:hover,
+.login-control:focus {
+  background-color: #e1e1e1;
+  border-bottom: 1px solid #ccc;
+  outline: none;
+  border-color: #b1b1b1;
+  box-shadow: 0 0 2px 1px rgb(167,167,167)
+}
+</style>
