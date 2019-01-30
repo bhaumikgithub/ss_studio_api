@@ -85,3 +85,10 @@ body {
 .hamburger:before, .hamburger span, .hamburger:after{
   background-color: #ffffff !important;
 }
+
+.login-wrap {
+  /*background: image-url('login-bg.png') !important;*/
+  background-image: url('login-bg.png');
+  background-size: cover;
+  height: 100%;
+}

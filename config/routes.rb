@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     end
     member do
       get 'passcode_verification'
+      post 'passcode_verification_post'
       put 'mark_as_submitted'
       get 'get_selected_photos'
       get 'get_commented_photos'
@@ -122,4 +123,5 @@ Rails.application.routes.draw do
   match "service_details" => 'services#service_details', :via => [:get], :path => "/:user/services"
   match "portfolio" => 'albums#portfolio', :via => [:get], :path => "/:user/portfolio"
   match "portfolio_album_detail" => 'albums#portfolio_album_detail', :via => [:get], :path => "/:user/portfolio/:id"
+  match "shared_album_login" => "albums#shared_album_login", :via => [:get], :path => "/:user/shared_album_login/:id"
 end

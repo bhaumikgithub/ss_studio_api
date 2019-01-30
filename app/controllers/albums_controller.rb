@@ -1,8 +1,8 @@
 class AlbumsController < ApplicationController
   include ProfileCompleteHelper
-  skip_before_action :doorkeeper_authorize!, only: [ :portfolio, :show, :passcode_verification, :mark_as_submitted, :portfolio_album_detail ]
-  before_action :fetch_album, only: [ :update, :destroy, :show, :passcode_verification, :mark_as_submitted, :get_selected_photos, :get_commented_photos, :mark_as_deliverd, :mark_as_stoped_selection, :mark_as_shared, :acivate_album ]
-
+  skip_before_action :doorkeeper_authorize!, only: [ :portfolio, :show, :passcode_verification, :mark_as_submitted, :portfolio_album_detail, :shared_album_login, :passcode_verification_post ]
+  before_action :fetch_album, only: [ :update, :destroy, :show, :passcode_verification, :mark_as_submitted, :get_selected_photos, :get_commented_photos, :mark_as_deliverd, :mark_as_stoped_selection, :mark_as_shared, :acivate_album, :passcode_verification_post ]
+  layout 'application', :except => [:shared_album_login]
   # GET /albums
   def index
     if params[:category_id].present?
@@ -139,6 +139,16 @@ class AlbumsController < ApplicationController
     end
   end
 
+  def passcode_verification_post
+    if @album.is_private?
+      if @album.passcode === params[:passcode]
+        json_response({success: true, message: "Passcode verification successfully."}, 200)
+      else
+        json_response({success: false, message: "Enter Valid Passcode.", errors: 'Invalid Passcode' }, 401)
+      end
+    end
+  end
+
   #PUT /albums/:id/mark_as_submitted
   def mark_as_submitted
     if @album.user.contact_detail.present?
@@ -211,6 +221,9 @@ class AlbumsController < ApplicationController
       meta: meta_attributes(@albums)
     }, 200)
 
+  end
+
+  def shared_album_login
   end
 
   private
