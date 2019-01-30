@@ -122,4 +122,5 @@ Rails.application.routes.draw do
   match "service_details" => 'services#service_details', :via => [:get], :path => "/:user/services"
   match "portfolio" => 'albums#portfolio', :via => [:get], :path => "/:user/portfolio"
   match "portfolio_album_detail" => 'albums#portfolio_album_detail', :via => [:get], :path => "/:user/portfolio/:id"
+  match "view_album" => 'albums#view_album', :via => [:get], :path => "/:user/shared_album/:id"
 end
