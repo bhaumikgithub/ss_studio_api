@@ -8,6 +8,7 @@
         <% end %></div>
       <div id="right"><span class="photo-count"><%= @photos.count > 0 ? display_photo_count(@album, @photos) : "" %></span></div>
     </div>
+    <br>
     <div id="cube-grid" class="cbp light-gallery">
       <% @photos.each do |photo| %>
         <div class="cbp-item conceptual interior">
