@@ -38,6 +38,6 @@ class Albums::AlbumAttributesSerializer < ActiveModel::Serializer
   end
 
   def show_album_url
-    ENV['FRONT_URL'] + object.user.alias + "/shared_album/" + object.slug
+    ENV['API_BASE_URL'] + object.user.alias + "/shared_album/" + object.slug
   end
 end
