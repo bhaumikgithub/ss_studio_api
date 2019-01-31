@@ -16,9 +16,15 @@
     <td height="20"></td>
   </tr>
   <tr>
-    <td style="font-family:Helvetica; font-size:16px; height:30px; background:#ecf8ff;">
-      Please check your photos by clicking on the View Album link. It will ask you to enter the passcode. Please apply provided passcode in this email. <%= link_to "View Album", ENV['API_BASE_URL'] +@album.user.alias+"/shared_album_login/" + @album.slug + "?token=" + @album_recipient.contact.token, target: "_blank" %>
-    </td>
+    <% if @album_recipient.recipient_type != 'admin' %>
+      <td style="font-family:Helvetica; font-size:16px; height:30px; background:#ecf8ff;">
+        Please check your photos by clicking on the View Album link. It will ask you to enter the passcode. Please apply provided passcode in this email. <%= link_to "View Album", ENV['API_BASE_URL'] +@album.user.alias+"/shared_album_login/" + @album.slug + "?token=" + @album_recipient.contact.token, target: "_blank" %>
+      </td>
+    <% else %>
+      <td style="font-family:Helvetica; font-size:16px; height:30px; background:#ecf8ff;">
+        Please check your photos by clicking on the View Album link. It will ask you to enter the passcode. Please apply provided passcode in this email. <%= link_to "View Album", ENV['FRONT_URL'] +@album.user.alias+"/shared_album_login/" + @album.slug + "?token=" + @album_recipient.contact.token, target: "_blank" %>
+      </td>
+    <% end %>
   </tr>
   <tr>
     <td style="font-family:Helvetica; font-size:16px; height:30px; background:#ecf8ff;">
