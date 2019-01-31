@@ -1,0 +1,19 @@
+<div class="page-inner-wrap container">
+	<div class="row">
+		<div class="login-form col-sm-6 col-xs-10">
+			<%= form_tag passcode_verification_post_album_path do %>
+				<div class="login-details-block col-md-8 col-sm-10 col-xs-12">
+					<div class="custom-fromgrp form-group">
+					<span class="text-red"><%= params[:errors] %></span>
+						<!-- <input type="password" placeholder="Passcode" label="passcode" name="passcode" class="login-control form-control"> -->
+						<%= hidden_field_tag "user", params[:user] %>
+						<%= password_field_tag 'passcode', nil, placeholder: 'Passcode', class: 'login-control form-control' %><span class="custom-addon">*</span>
+					</div>
+				</div>
+				<%= submit_tag 'LOGIN', class: 'btn-orange login-btn text-center btn btn-default' do %>
+					<%= image_tag "next-icon.png", class: "img-responsive arrow-icon" %>
+				<% end %>
+			<% end %>
+		</div>
+	</div>
+</div>

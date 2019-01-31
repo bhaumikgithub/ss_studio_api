@@ -14,11 +14,15 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <body class="<%= params[:action] == 'shared_album_login' ? 'login-wrap' : '' %>">
     <div class="content-wrapper">
-      <%= render "layouts/header" %>
+      <%= render "layouts/header" if params[:action] != "shared_album_login" %>
       <%= yield %>
-      <%= render "layouts/footer" %>
+      <% if params[:action] == "shared_album_login" %>
+        <%= render "layouts/passcode_footer" %>
+      <% else %>
+        <%= render "layouts/footer" %>
+      <% end %>
     </div>
   </body>
 </html>
