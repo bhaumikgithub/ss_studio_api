@@ -1,5 +1,5 @@
 class HomepagePhotos::HomepagePhotoAttributesSerializer < ActiveModel::Serializer
-  attributes :id, :homepage_image, :homepage_image_file_name
+  attributes :id, :homepage_image, :homepage_image_file_name, :position, :slide_text, :button_text, :button_link, :is_display_text, :is_display_button
 
   def homepage_image
     style = instance_options[:style].present? ? instance_options[:style] : "medium"

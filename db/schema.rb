@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181213055748) do
+ActiveRecord::Schema.define(version: 20190204060959) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -176,6 +176,12 @@ ActiveRecord::Schema.define(version: 20181213055748) do
     t.string   "homepage_image_content_type"
     t.integer  "homepage_image_file_size"
     t.datetime "homepage_image_updated_at"
+    t.integer  "position"
+    t.string   "slide_text"
+    t.string   "button_text"
+    t.string   "button_link"
+    t.boolean  "is_display_text",             default: false
+    t.boolean  "is_display_button",           default: false
     t.index ["photo_id"], name: "index_homepage_photos_on_photo_id", using: :btree
     t.index ["user_id"], name: "index_homepage_photos_on_user_id", using: :btree
   end

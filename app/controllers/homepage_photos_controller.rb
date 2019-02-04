@@ -123,7 +123,7 @@ class HomepagePhotosController < ApplicationController
   end
 
   def resource_params
-    params.require(:homepage_photo).permit(:homepage_image)
+    params.require(:homepage_photo).permit(:homepage_image, :position, :slide_text, :button_text, :button_link, :is_display_text, :is_display_button)
   end
 
 end
