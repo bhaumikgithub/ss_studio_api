@@ -31,17 +31,17 @@ class Photo < ApplicationRecord
                         {
                           :medium => {
                             :geometry => "259x259#",
-                            :watermark_path => attachment.instance.class.watermark_url,
+                            :watermark_path => attachment.instance.class.watermark_thumb_url,
                             :position => "SouthEast"
                           },
                           :thumb => {
                             :geometry => "185x185#",
-                            :watermark_path => attachment.instance.class.watermark_thumb_url,
+                            # :watermark_path => attachment.instance.class.watermark_thumb_url,
                             :position => "SouthEast"
                           },
                           :original => {
                             :geometry => '1200>',
-                            :watermark_path => attachment.instance.class.watermark_url,
+                            :watermark_path => attachment.instance.class.watermark_thumb_url,
                             :position => 'SouthEast',
                           },
                         }
