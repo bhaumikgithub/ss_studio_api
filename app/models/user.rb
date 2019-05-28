@@ -42,10 +42,16 @@ class User < ApplicationRecord
   enum status: { inactive: 0, pending_activation: 1, active: 2, subscription_expire: 3 }
   enum user_type: { "Regular User": 0, "Premium User": 1, "Test User": 2 }
   # Validations
-  validates :alias, :phone, :email, :country_id,:first_name, :last_name, presence: true
+  # validates :country_id,:first_name, :last_name, presence: true
+  validates_presence_of :alias, :message => "Please enter alias"
+  validates_presence_of :phone, :message => "Please enter phone"
+  validates_presence_of :email, :message => "Please enter email"
+  validates_presence_of :country_id, :message => "Please select country"
+  validates_presence_of :first_name, :message => "Please enter first Name"
+  validates_presence_of :last_name, :message => "Please enter last Name"
   validates :email, :alias, uniqueness: true
   validates :alias, format: { with: /\A[a-z][-a-z]*\z/ }
-  validates :password, :presence => true , :if => Proc.new{ validate_password&.include?('password') }
+  validates_presence_of :password, :if => Proc.new{ validate_password&.include?('password') }, message: "Please enter password"
   validates :password_confirmation, :presence => true , :if => Proc.new{ validate_password&.include?('password_confirmation') }
   scope :status, -> (status) { where status: status }
   scope :user_type, -> (user_type) { where user_type: user_type }
