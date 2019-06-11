@@ -43,7 +43,6 @@ class User < ApplicationRecord
   enum user_type: { "Regular User": 0, "Premium User": 1, "Test User": 2 }
   # Validations
   # validates :country_id,:first_name, :last_name, presence: true
-  validates_presence_of :alias, :message => "Please enter alias"
   validates_presence_of :phone, :message => "Please enter phone"
   validates_presence_of :email, :message => "Please enter email"
   validates_presence_of :country_id, :message => "Please select country"
@@ -51,6 +50,7 @@ class User < ApplicationRecord
   validates_presence_of :last_name, :message => "Please enter last Name"
   validates :email, :alias, uniqueness: true
   validates :alias, format: { with: /\A[a-z][-a-z]*\z/ }
+  validates_presence_of :alias, :message => "Please enter alias"
   validates_presence_of :password, :if => Proc.new{ validate_password&.include?('password') }, message: "Please enter password"
   validates :password_confirmation, :presence => true , :if => Proc.new{ validate_password&.include?('password_confirmation') }
   scope :status, -> (status) { where status: status }
@@ -117,7 +117,7 @@ class User < ApplicationRecord
   end
 
   def captcha_code
-    errors.add("captcha","is invalid. Please Enter valid captcha") if self.captcha != "28" && self.is_validate
+    errors.add("captcha", "Please Enter valid captcha") if self.captcha != "28" && self.is_validate
   end
 
   def super_admin_confirm_user
