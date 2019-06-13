@@ -14,7 +14,7 @@ class Video < ApplicationRecord
   has_attached_file :video, :styles => {
     :medium => { :geometry => "640x480", :format => 'mp4',:convert_options => {:output => {:ar => 44100}} },
     :thumb => { :geometry => "200x200#", :format => 'jpg', :time => 10 },
-  }, :processors => [:ffmpeg]
+  }, :processors => [:ffmpeg],:s3_protocol => :https
 
   validates_attachment_content_type :video, :content_type => ['video/mp4']
   validates :title, :video_url, presence: true

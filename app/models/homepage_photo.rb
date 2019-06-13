@@ -19,7 +19,8 @@ class HomepagePhoto < ApplicationRecord
                       :thumb => {
                         :geometry => "500x1000#"
                       }
-                    }
+                    },
+                    :s3_protocol => :https
   validates_attachment_content_type :homepage_image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
   # Methods
 end

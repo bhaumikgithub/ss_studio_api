@@ -76,7 +76,9 @@ class Photo < ApplicationRecord
                           },
                         }
                       end
-                    }, default_url: "/shared_photos/missing.png"
+                    },
+                    default_url: "https://afterclix.s3.ap-south-1.amazonaws.com/shared_photos/missing.png",
+                    :s3_protocol => :https
   validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
 
   # Scopes
