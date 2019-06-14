@@ -9,7 +9,7 @@ class Photo < ApplicationRecord
   belongs_to :imageable, polymorphic: true
   belongs_to :user
   has_many :homepage_photos
-  belongs_to :watermark
+  # belongs_to :watermark
   has_one :comment
 
   # Enumerator
@@ -78,6 +78,14 @@ class Photo < ApplicationRecord
                       end
                     },
                     default_url: "https://afterclix.s3.ap-south-1.amazonaws.com/shared_photos/missing.png",
+                    storage: :s3,
+                    s3_region: ENV['AWS_S3_REGION'],
+                    s3_credentials: {
+                      s3_host_name: ENV['AWS_S3_HOST_NAME'],
+                      bucket: ENV['AWS_S3_BUCKET_PROD'],
+                      access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+                      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
+                      },
                     :s3_protocol => :https
   validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
 

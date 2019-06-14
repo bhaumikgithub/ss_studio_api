@@ -55,6 +55,17 @@ Rails.application.configure do
 
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
+  # config.paperclip_defaults = {
+  #   storage: :s3,
+  #   s3_region: ENV['AWS_S3_REGION'],
+  #   s3_credentials: {
+  #     s3_host_name: ENV['AWS_S3_HOST_NAME'],
+  #     bucket: ENV['AWS_S3_BUCKET_PROD'],
+  #     access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+  #     secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
+  #     },
+  #   :s3_protocol => :https
+  #   }
 
 
   # Raises error for missing translations
