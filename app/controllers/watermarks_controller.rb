@@ -58,7 +58,7 @@ class WatermarksController < ApplicationController
   private
   def resource_params 
     # params[:watermark][:photo_attributes]["user_id"] = current_resource_owner.id
-    params.require(:watermark).permit(:status, photo_attributes: [:id, :image, :imageable_id, :imageable_type, :_destroy, :user_id] )
+    params.require(:watermark).permit(:status, :watermark_image, :_destroy, :user_id )
   end
 
   def fetch_watermark
@@ -68,9 +68,9 @@ class WatermarksController < ApplicationController
   def upload_watermark_on_dummy_image
     unless params[:watermark][:status].present?
       Photo.apply_watermark = true
-      Photo.watermark_url = @watermark.photo.image.path
-      Photo.watermark_thumb_url = @watermark.photo.image.path(:thumb)
-      Photo.watermark_medium_url = @watermark.photo.image.path(:medium)
+      Photo.watermark_url = @watermark.watermark_image.path
+      Photo.watermark_thumb_url = @watermark.watermark_image.path(:thumb)
+      Photo.watermark_medium_url = @watermark.watermark_image.path(:medium)
       dummy_image = Photo.where(image_file_name: "dummy-image.jpg")
       current_resource_owner.photos.where(image_file_name: "dummy-image.jpg").destroy_all if dummy_image.length > 0
       current_resource_owner.photos.create(image: File.new("public/shared_photos/dummy-image.jpg"))

@@ -97,16 +97,16 @@ Rails.application.configure do
     :enable_starttls_auto => true
   }
 
-  config.paperclip_defaults = {
-    storage: :s3,
-    s3_region: ENV['AWS_S3_REGION'],
-    s3_credentials: {
-      s3_host_name: ENV['AWS_S3_HOST_NAME'],
-      bucket: ENV['AWS_S3_BUCKET_PROD'],
-      access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
-      }
-    }
+  # config.paperclip_defaults = {
+  #   storage: :s3,
+  #   s3_region: ENV['AWS_S3_REGION'],
+  #   s3_credentials: {
+  #     s3_host_name: ENV['AWS_S3_HOST_NAME'],
+  #     bucket: ENV['AWS_S3_BUCKET_PROD'],
+  #     access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+  #     secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
+  #     }
+  #   }
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
