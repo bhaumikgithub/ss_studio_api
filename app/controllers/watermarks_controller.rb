@@ -73,7 +73,7 @@ class WatermarksController < ApplicationController
       Photo.watermark_medium_url = @watermark.watermark_image.path(:medium)
       dummy_image = Photo.where(image_file_name: "dummy-image.jpg")
       current_resource_owner.photos.where(image_file_name: "dummy-image.jpg").destroy_all if dummy_image.length > 0
-      current_resource_owner.photos.create(image: File.new("public/shared_photos/dummy-image.jpg"))
+      Rails.env.development? ? current_resource_owner.photos.create(image: File.new("public/shared_photos/dummy-image.jpg")) : current_resource_owner.photos.create(image: File.new("/sites/shared_photos/dummy-image.jpg"))
     end
   end
 end
