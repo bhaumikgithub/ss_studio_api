@@ -36,9 +36,9 @@ service = Service.create([
 homepage_photo = HomepagePhoto.create!([
   { homepage_image: File.new("public/shared_photos/homepage_photos/image_1.jpg"), is_active: true,user_id: user.id},
   { homepage_image: File.new("public/shared_photos/homepage_photos/image_2.jpg"), is_active: true,user_id: user.id},
-  { homepage_image: File.new("public/shared_photos/homepage_photos/image_3.JPG"), is_active: true,user_id: user.id},
+  { homepage_image: File.new("public/shared_photos/homepage_photos/image_3.jpg"), is_active: true,user_id: user.id},
   { homepage_image: File.new("public/shared_photos/homepage_photos/image_4.jpg"), is_active: true,user_id: user.id},
-  { homepage_image: File.new("public/shared_photos/homepage_photos/image_5.JPG"), is_active: true,user_id: user.id}
+  { homepage_image: File.new("public/shared_photos/homepage_photos/image_5.jpg"), is_active: true,user_id: user.id}
 ])
 
 testimonials = Testimonial.create!([
