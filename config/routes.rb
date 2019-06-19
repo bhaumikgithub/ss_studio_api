@@ -125,4 +125,5 @@ Rails.application.routes.draw do
   match "portfolio_album_detail" => 'albums#portfolio_album_detail', :via => [:get], :path => "/:user/portfolio/:id"
   match "view_album" => 'albums#view_album', :via => [:get], :path => "/:user/shared_album/:id"
   match "shared_album_login" => "albums#shared_album_login", :via => [:get], :path => "/:user/shared_album_login/:id"
+  match "update_user_logo" => "website_details#update_user_logo", :via => [:patch], :path => "/website_details/update_user_logo"
 end
