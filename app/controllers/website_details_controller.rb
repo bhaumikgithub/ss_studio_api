@@ -42,7 +42,7 @@ class WebsiteDetailsController < ApplicationController
   private
 
   def resource_params
-    params.require(:website_detail).permit(:user_id, :favicon_image, :title, :copyright_text)
+    params.require(:website_detail).permit(:user_id, :favicon_image, :title, :copyright_text, :meta_keywords, :meta_description)
   end
 
   def fetch_website_detail

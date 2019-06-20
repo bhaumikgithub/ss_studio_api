@@ -6,7 +6,13 @@
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
     <%= favicon_link_tag asset_path('favicon.png'), :rel => 'icon', :type =>  'image/png' %>
-    <title><%= User.get_user(params[:user]).website_detail.present? && User.get_user(params[:user]).website_detail.title.present? ? User.get_user(params[:user]).website_detail.title : "AfterClix" %></title>
+    <title><%= (User.get_user(params[:user]).website_detail.present? && User.get_user(params[:user]).website_detail.title.present? ? User.get_user(params[:user]).website_detail.title : "AfterClix") + (content_for?(:title) ? " :: #{content_for(:title)}" : '') %></title>
+    <% if User.get_user(params[:user]).try(:website_detail).try(:meta_keywords).present? %>
+      <meta name="keywords" content="<%= User.get_user(params[:user]).try(:website_detail).try(:meta_keywords) %>">
+    <% end %>
+    <% if User.get_user(params[:user]).try(:website_detail).try(:meta_description).present? %>
+      <meta name="description" content="<%= User.get_user(params[:user]).try(:website_detail).try(:meta_description) %>">
+    <% end %>
     <%= csrf_meta_tags %>
     <link href='https://fonts.googleapis.com/css?family=Muli:300,300i,400,400i,600,600i,700,700i' rel='stylesheet' type='text/css'>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
