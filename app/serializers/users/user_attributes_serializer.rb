@@ -5,6 +5,7 @@ class Users::UserAttributesSerializer < ActiveModel::Serializer
   belongs_to :country, serializer: Users::CountryAttributesSerializer
   has_many :packages, key: "subscription_package", serializer: Users::PackageAttributesSerializer
   belongs_to :country, serializer: Users::CountryAttributesSerializer
+  has_one :website_detail, key: "website_detail",serializer: WebsiteDetails::WebsiteDetailAttributesSerializer
 
   def album_count
     object.albums.count

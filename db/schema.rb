@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190614094214) do
+ActiveRecord::Schema.define(version: 20190619054439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -411,8 +411,14 @@ ActiveRecord::Schema.define(version: 20190614094214) do
     t.string   "title"
     t.text     "copyright_text"
     t.integer  "user_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "favicon_image_file_name"
+    t.string   "favicon_image_content_type"
+    t.integer  "favicon_image_file_size"
+    t.datetime "favicon_image_updated_at"
+    t.string   "meta_keywords"
+    t.string   "meta_description"
     t.index ["user_id"], name: "index_website_details_on_user_id", using: :btree
   end
 

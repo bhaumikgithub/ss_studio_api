@@ -1,7 +1,7 @@
 class WebsiteDetailsController < ApplicationController
   include ProfileCompleteHelper
   skip_before_action :doorkeeper_authorize!, only: [ :website_details ]
-  before_action :fetch_website_detail, only: [ :update, :show ]
+  before_action :fetch_website_detail, only: [ :update, :show, :update_user_logo ]
 
   # GET /website_detail
   def show
@@ -29,10 +29,20 @@ class WebsiteDetailsController < ApplicationController
     render_success_response({ :website_detail => @website_detail}, 201)
   end
 
+  def update_user_logo
+    @website_detail.update_attributes!(favicon_image: params[:website_detail][:favicon_image])
+    json_response({
+        success: true,
+        data: {
+          website_detail: single_record_serializer.new(@website_detail, serializer: WebsiteDetails::WebsiteDetailAttributesSerializer),
+        }
+      }, 201)
+  end
+
   private
 
   def resource_params
-    params.require(:website_detail).permit!
+    params.require(:website_detail).permit(:user_id, :favicon_image, :title, :copyright_text, :meta_keywords, :meta_description)
   end
 
   def fetch_website_detail
