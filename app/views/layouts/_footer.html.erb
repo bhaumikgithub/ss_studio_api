@@ -2,7 +2,7 @@
   <div class="sub-footer">
     <div class="container inner text-center"><%= image_tag(User.get_user(params[:user]).user_logo.photo.image.url(:logo)) if params[:user].present? && User.get_user(params[:user]).user_logo.present? %>
       <div class="space25"></div>
-      <p><%= User.get_user(params[:user]).website_detail.present? && User.get_user(params[:user]).website_detail.copyright_text.present? ? User.get_user(params[:user]).website_detail.copyright_text : "© Copyright 2018 - AfterClix , All rights reserved" %></p>
+      <p><%= User.get_user(params[:user]).website_detail.present? && User.get_user(params[:user]).website_detail.copyright_text.present? ? User.get_user(params[:user]).website_detail.copyright_text : "© Copyright #{Time.current.year} - AfterClix , All rights reserved" %></p>
       <div class="space30"></div>
       <ul class="social social-bg social-s">
         <li><%= link_to "Powered by AfterClix", "http://www.afterclix.com/", target: "_blank" %></li>
