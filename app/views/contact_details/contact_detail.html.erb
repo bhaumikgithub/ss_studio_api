@@ -18,7 +18,7 @@
             <p><%= @contact_detail&.phone %></p>
           </div>
           <div class="col-md-4"> <span class="icon icon-color color-default fs-48 mb-10"><%= image_tag("message-icon.png") %></span>
-            <p><a class="nocolor" href="mailto:#"><%= @contact_detail&.email %></a></p>
+            <p><a class="nocolor" href="mailto:<%= @contact_detail&.email %>"><%= @contact_detail&.email %></a></p>
           </div>
         </div>
         <div class="space30"></div>
