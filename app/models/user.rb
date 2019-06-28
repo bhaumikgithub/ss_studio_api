@@ -39,6 +39,7 @@ class User < ApplicationRecord
 
   cattr_accessor :captcha, :is_validate, :created_by
   validate :captcha_code
+  validates :domain_name, :format => URI::regexp(%w(http https)), :allow_nil => true
   enum status: { inactive: 0, pending_activation: 1, active: 2, subscription_expire: 3 }
   enum user_type: { "Regular User": 0, "Premium User": 1, "Test User": 2 }
   # Validations

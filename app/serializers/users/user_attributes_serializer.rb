@@ -1,5 +1,5 @@
 class Users::UserAttributesSerializer < ActiveModel::Serializer
-  attributes :id, :email, :full_name, :status, :album_count, :phone, :photo_count, :first_name, :last_name, :phone, :alias, :user_type, :start_plan_date, :end_plan_date, :created_at, :active_plan, :sub_package
+  attributes :id, :email, :full_name, :status, :album_count, :phone, :photo_count, :first_name, :last_name, :phone, :alias, :user_type, :start_plan_date, :end_plan_date, :created_at, :active_plan, :sub_package, :domain_name
   has_one :user_logo, key: "user_logo",serializer: UserLogos::UserLogoAttributesSerializer
   belongs_to :role, serializer: Roles::RoleAttributesSerializer
   belongs_to :country, serializer: Users::CountryAttributesSerializer

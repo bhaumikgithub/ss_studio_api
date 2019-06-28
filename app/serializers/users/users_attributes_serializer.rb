@@ -1,5 +1,5 @@
 class Users::UsersAttributesSerializer < ActiveModel::Serializer
-  attributes :id, :email, :full_name, :status, :alias, :phone, :first_name, :last_name, :start_plan_date, :end_plan_date, :user_type, :created_at, :active_plan, :sub_package
+  attributes :id, :email, :full_name, :status, :alias, :phone, :first_name, :last_name, :start_plan_date, :end_plan_date, :user_type, :created_at, :active_plan, :sub_package, :domain_name
   belongs_to :role, serializer: Roles::RoleAttributesSerializer
   belongs_to :country, serializer: Users::CountryAttributesSerializer
   has_many :packages, key: "subscription_package", serializer: Users::PackageAttributesSerializer
