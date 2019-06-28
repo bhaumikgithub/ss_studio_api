@@ -1,7 +1,7 @@
 <div class="page-inner-wrap container">
 	<div class="row">
 		<div class="login-form col-sm-6 col-xs-10">
-			<%= form_tag passcode_verification_post_album_path do %>
+			<%= form_tag @album.user.try(:domain_name).present? ? 'http://www.afterclix.com'+passcode_verification_post_album_path : passcode_verification_post_album_path do %>
 				<div class="login-details-block col-md-8 col-sm-10 col-xs-12">
 					<div class="custom-fromgrp form-group">
 					<span class="text-red"><%= params[:errors] %></span>
