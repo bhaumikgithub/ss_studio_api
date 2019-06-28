@@ -24,4 +24,5 @@ set :output, {:standard => 'log/cron_log.log', :error => 'log/cron_error_log.log
 
 every :day, :at => '07:00AM' do
   rake "update_user_status"
+  rake "hard_delete_photos"
 end
