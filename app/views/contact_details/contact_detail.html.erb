@@ -26,7 +26,8 @@
           <span class="text-danger"><%= @errors.html_safe %></span>
         <% end %>
         <div class="form-container">
-          <%= form_for @contact_message, class: "vanilla vanilla-form" do |f| %>
+          <%#= form_for @contact_message, class: "vanilla vanilla-form" do |f| %>
+          <%= form_for @contact_message, url: Rails.env.development? ? contact_messages_path : "http://www.afterclix.com"+contact_messages_path, html: { class: "vanilla vanilla-form new_contact_message", id: "new_contact_message" } do |f| %>
             <div class="row text-center">
               <div class="col-md-6 pr-10">
                 <div class="form-group">
