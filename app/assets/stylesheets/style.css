@@ -2548,6 +2548,11 @@ footer p {
     text-align: center;
     display: table-cell;
 }
+.social-bg.social-ex-s li a i {
+    width: 34px;
+    height: 34px;
+}
+
 .social-bg.social-s li a i {
     width: 34px;
     height: 34px;
@@ -2555,6 +2560,9 @@ footer p {
 .social-bg.social-m li a i {
     width: 44px;
     height: 44px;
+}
+.social-ex-s {
+    font-size: 16px;
 }
 .social-s {
     font-size: 18px;
