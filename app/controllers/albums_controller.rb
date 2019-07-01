@@ -1,5 +1,6 @@
 class AlbumsController < ApplicationController
   include ProfileCompleteHelper
+  include AlbumHelper
   skip_before_action :doorkeeper_authorize!, only: [ :portfolio, :show, :passcode_verification, :mark_as_submitted, :portfolio_album_detail, :shared_album_login, :passcode_verification_post, :view_album ]
   before_action :fetch_album, only: [ :update, :destroy, :show, :passcode_verification, :mark_as_submitted, :get_selected_photos, :get_commented_photos, :mark_as_deliverd, :mark_as_stoped_selection, :mark_as_shared, :acivate_album, :passcode_verification_post, :shared_album_login ]
   # GET /albums
@@ -141,11 +142,11 @@ class AlbumsController < ApplicationController
   def passcode_verification_post
     if @album.is_private?
       if @album.passcode === params[:passcode]
-        redirect_to @album.user.try(:domain_name).present? ? @album.user.try(:domain_name)+view_album_path(user: params[:user], id: @album.slug) : view_album_path(user: params[:user], id: @album.slug)
+        redirect_to @album.user.try(:domain_name).present? ? @album.user.try(:domain_name)+change_portfolio_url(view_album_path(user: params[:user], id: @album.slug),"/shared_album") : view_album_path(user: params[:user], id: @album.slug)
         # redirect_to view_album_path(user: params[:user], id: @album.slug)
       else
         # redirect_to shared_album_login_path(user: params[:user], id: @album.slug, errors: 'Invalid Passcode')
-        redirect_to @album.user.try(:domain_name).present? ? @album.user.try(:domain_name)+shared_album_login_path(user: params[:user], id: @album.slug, errors: 'Invalid Passcode') : shared_album_login_path(user: params[:user], id: @album.slug, errors: 'Invalid Passcode')
+        redirect_to @album.user.try(:domain_name).present? ? @album.user.try(:domain_name)+change_portfolio_url(shared_album_login_path(user: params[:user], id: @album.slug, errors: 'Invalid Passcode'),'/shared_album_login') : shared_album_login_path(user: params[:user], id: @album.slug, errors: 'Invalid Passcode')
       end
     end
   end
