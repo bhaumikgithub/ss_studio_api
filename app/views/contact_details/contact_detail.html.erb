@@ -15,7 +15,8 @@
             <p><%= @contact_detail&.address&.html_safe %></p>
           </div>
           <div class="col-md-4"> <span class="icon icon-color color-default fs-48 mb-10"><%= image_tag("call-icon.png") %></span>
-            <p><%= @contact_detail&.phone %></p>
+            <p><a class="nocolor" href="tel:<%= @contact_detail&.phone %>"><%= @contact_detail&.phone %></a>
+            </p>
           </div>
           <div class="col-md-4"> <span class="icon icon-color color-default fs-48 mb-10"><%= image_tag("message-icon.png") %></span>
             <p><a class="nocolor" href="mailto:<%= @contact_detail&.email %>"><%= @contact_detail&.email %></a></p>

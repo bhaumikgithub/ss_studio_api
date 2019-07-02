@@ -1,5 +1,5 @@
 class ProfileCompletenesses::ProfileAttributesSerializer < ActiveModel::Serializer
-  attributes :id, :album_management, :site_content, :homepage_gallery, :video_portfolio, :testimonial, :contacts, :next_task, :total_process, :completed_process, :percentage, :parent_accessor, :completeness_status, :total_album, :public_album, :private_album, :user_subscription_expire, :user_subscription_expire_date, :user_subscription_future_expired_date
+  attributes :id, :album_management, :site_content, :homepage_gallery, :video_portfolio, :testimonial, :contacts, :next_task, :total_process, :completed_process, :percentage, :parent_accessor, :completeness_status, :total_album, :public_album, :private_album, :user_subscription_expire, :user_subscription_expire_date, :user_subscription_future_expired_date, :domain_name
 
   def percentage
     if object.completed_process == 0
@@ -62,5 +62,9 @@ class ProfileCompletenesses::ProfileAttributesSerializer < ActiveModel::Serializ
 
   def private_album
     object.user.albums.where(is_private: true).count
+  end
+
+  def domain_name
+    object&.user&.domain_name
   end
 end
