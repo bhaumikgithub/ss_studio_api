@@ -9,4 +9,7 @@ module AlbumHelper
       "Showing " + ( ( ( params[:page].to_i - 1 ) * 32 ) + 1 ).to_s + " to "  + ( ( 32 * (params[:page].to_i - 1)) + photos.count ).to_s + " from " + album.photos.count.to_s + " photos"
     end
   end
+  def change_portfolio_url(current_link, route)
+    (Rails.env.development? || request.domain == 'afterclix.com') ? current_link : current_link.from(current_link.index(route))
+  end
 end

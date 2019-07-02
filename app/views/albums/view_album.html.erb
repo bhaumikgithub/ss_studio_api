@@ -20,3 +20,15 @@
 </div>
 <%= javascript_include_tag "portfolio" %>
 <%= javascript_include_tag "scripts" %>
+
+<script type="text/javascript">
+  var is_allowed = "<%= (Rails.env.development? || request.domain == 'afterclix.com') ? 'false' : 'true' %>"
+  if(is_allowed == "true"){
+    var alias_name = "<%= @alias_name %>"
+    $(document).ready(function(){
+      $('.pagination a').attr("href",function(){
+       return $(this).attr('href').replace('/sites/'+alias_name,'');
+      });
+    })
+  }
+</script>

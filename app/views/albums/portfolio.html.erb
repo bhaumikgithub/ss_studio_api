@@ -7,9 +7,9 @@
 <div class="wrapper light-wrapper">
   <div class="container inner">
     <div id="cube-grid-large-filter" class="cbp-filter-container text-center">
-      <div class="cbp-filter-item-active cbp-filter-item"><%= link_to "All", portfolio_path(user: params[:user], category: "all"), remote: true %></div>
+      <div class="cbp-filter-item-active cbp-filter-item"><%= link_to "All", change_portfolio_url(portfolio_path(user: params[:user], category: "all"), '/portfolio'), remote: true %></div>
       <%= @categories.each do |category| %>
-        <div class="cbp-filter-item"><%= link_to category.category_name, portfolio_path(user: params[:user], category: category.category_name), remote: true %></div>
+        <div class="cbp-filter-item"><%= link_to category.category_name, change_portfolio_url(portfolio_path(user: params[:user], category: category.category_name), '/portfolio'), remote: true %></div>
       <% end %>
     </div>
     <div class="clearfix"></div>

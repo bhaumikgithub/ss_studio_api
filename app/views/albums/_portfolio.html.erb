@@ -3,7 +3,7 @@
     <% @portfolio_albums.each do |album| %>
       <div class="cbp-item cat1">
         <figure class="overlay overlay4">
-          <%= link_to image_tag(album.photos.where(is_cover_photo: true).first.present? ? album.photos.where(is_cover_photo: true).first.image.url : "https://afterclix.s3.ap-south-1.amazonaws.com/shared_photos/missing.png"), portfolio_album_detail_path(user: params[:user], id: album.slug), data: { turbolinks: false } %>
+          <%= link_to image_tag(album.photos.where(is_cover_photo: true).first.present? ? album.photos.where(is_cover_photo: true).first.image.url : "https://afterclix.s3.ap-south-1.amazonaws.com/shared_photos/missing.png"), change_portfolio_url(portfolio_album_detail_path(user: params[:user], id: album.slug), '/portfolio'), data: { turbolinks: false } %>
           <figcaption class="d-flex">
             <div class="align-self-end mt-auto ml-auto mr-auto">
               <h3 class="mb-5"><%= album.album_name.titleize %></h3>
