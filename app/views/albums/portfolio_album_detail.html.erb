@@ -21,7 +21,7 @@
       <% end %>
     </div>
   </div>
-  <% @alias_name = @photos.try(:first).try(:user).try(:alias) %>
+  <%# @alias_name = @photos.try(:first).try(:user).try(:alias) %>
   <div class="flickr_pagination">
     <%= paginate @photos %>
   </div>

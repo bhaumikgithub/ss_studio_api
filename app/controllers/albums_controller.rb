@@ -68,6 +68,7 @@ class AlbumsController < ApplicationController
   end
 
   def portfolio_album_detail
+    @alias_name = params[:user]
     change_album_ip_detail
     if params[:user]
       @album = User.get_user(params[:user]).albums.find_by(slug: params[:id])
@@ -226,6 +227,7 @@ class AlbumsController < ApplicationController
   end
 
   def view_album
+    @alias_name = params[:user]
     change_album_ip_detail
     if params[:user]
       @album = User.get_user(params[:user]).albums.find_by(slug: params[:id])
