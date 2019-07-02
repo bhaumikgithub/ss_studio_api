@@ -1,6 +1,7 @@
 class ContactMessagesController < ApplicationController
   skip_before_action :doorkeeper_authorize!
   include InheritAction
+  include AlbumHelper
 
   # POST /contact_messages
   def create
@@ -23,7 +24,8 @@ class ContactMessagesController < ApplicationController
       else
         $errors = @contact_message.errors.full_messages.join("<br>")
       end
-      redirect_to contact_detail_path(user: params[:user])
+      redirect_to @user.try(:domain_name).present? ? @user.try(:domain_name)+change_portfolio_url(contact_detail_path(user: params[:user]),'/contact') : contact_detail_path(user: params[:user])
+      # redirect_to contact_detail_path(user: params[:user])
     end
   end
 
