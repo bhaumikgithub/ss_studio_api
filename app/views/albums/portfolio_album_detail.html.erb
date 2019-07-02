@@ -21,6 +21,7 @@
       <% end %>
     </div>
   </div>
+  <% @alias_name = @photos.try(:first).try(:user).try(:alias) %>
   <div class="flickr_pagination">
     <%= paginate @photos %>
   </div>
@@ -37,3 +38,14 @@
     height: 100%;
   }
 </style>
+<script type="text/javascript">
+  var is_allowed = "<%= (Rails.env.development? || request.domain == 'afterclix.com') ? 'false' : 'true' %>"
+  if(is_allowed == "true"){
+    var alias_name = "<%= @alias_name %>"
+    $(document).ready(function(){
+      $('.pagination a').attr("href",function(){
+       return $(this).attr('href').replace('/sites/'+alias_name,'');
+      });
+    })
+  }
+</script>

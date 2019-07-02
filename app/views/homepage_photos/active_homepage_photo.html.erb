@@ -31,7 +31,7 @@
             data-endslide="3"
             data-responsive="on" 
             data-responsive_offset="on" 
-            style="z-index: 9;" href="<%= portfolio_path(user: params[:user]) %>" data-turbolinks="false">View Our Work
+            style="z-index: 9;" href="<%= change_portfolio_url(portfolio_path(user: params[:user]), '/portfolio') %>" data-turbolinks="false">View Our Work
           </a>
         </li>
       <% end %>
