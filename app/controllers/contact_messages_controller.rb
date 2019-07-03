@@ -8,18 +8,22 @@ class ContactMessagesController < ApplicationController
     ContactMessage.captcha = params[:contact_message][:captcha]
     @user = User.get_user(params[:user])
     if @user
-      @admin_email = @user.try(:contact_detail).try(:email).present? ? @user.contact_detail.email : @user.try(:email)
+      @admin_email = @user.try(:contact_detail).try(:email).present? ? [@user.contact_detail.email] : [@user.try(:email)]
     else
-      @admin_email = "info@techplussoftware.com"
+      @admin_email = ["info@techplussoftware.com","info@afterclix.com"]
     end
     unless params[:contact_message][:from].present?
       @contact_message = ContactMessage.create!(resource_params)
-      ContactMailer.delay.contact_message_mail(@contact_message,@admin_email)
+      @admin_email.each do |admin_email|
+        ContactMailer.contact_message_mail(@contact_message,admin_email).deliver_now
+      end
       json_response({success: true, message: "contact message sent successfully.", data: { :contact_messages => @contact_message }}, 201)
     else
       @contact_message = ContactMessage.new(resource_params)
       if @contact_message.save
-        ContactMailer.delay.contact_message_mail(@contact_message,@admin_email)
+        @admin_email.each do |admin_email|
+          ContactMailer.contact_message_mail(@contact_message,admin_email).deliver_now
+        end
         $success = true
       else
         $errors = @contact_message.errors.full_messages.join("<br>")
