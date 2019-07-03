@@ -15,14 +15,14 @@ class ContactMessagesController < ApplicationController
     unless params[:contact_message][:from].present?
       @contact_message = ContactMessage.create!(resource_params)
       @admin_email.each do |admin_email|
-        ContactMailer.contact_message_mail(@contact_message,admin_email).deliver_now
+        ContactMailer.delay.contact_message_mail(@contact_message,admin_email)
       end
       json_response({success: true, message: "contact message sent successfully.", data: { :contact_messages => @contact_message }}, 201)
     else
       @contact_message = ContactMessage.new(resource_params)
       if @contact_message.save
         @admin_email.each do |admin_email|
-          ContactMailer.contact_message_mail(@contact_message,admin_email).deliver_now
+          ContactMailer.delay.contact_message_mail(@contact_message,admin_email)
         end
         $success = true
       else
