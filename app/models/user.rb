@@ -28,6 +28,7 @@ class User < ApplicationRecord
   has_many :services, dependent: :destroy
 
   has_one :about, dependent: :destroy
+  has_one :theme, dependent: :destroy
   has_one :contact_detail, dependent: :destroy
   has_one :user_logo, dependent: :destroy
   has_one :website_detail, dependent: :destroy
