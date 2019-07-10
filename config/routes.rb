@@ -72,6 +72,9 @@ Rails.application.routes.draw do
   get 'about_us', to: 'abouts#about_us_detail', :path => "/:user/about_us"
   post 'abouts', to: 'abouts#create'
 
+  get 'themes', to: 'themes#show'
+  patch 'themes', to: 'themes#update'
+
   get 'website_detail', to: 'website_details#show'
   patch 'website_details', to: 'website_details#update'
   post 'website_details', to: 'website_details#create'
