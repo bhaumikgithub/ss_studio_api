@@ -2,7 +2,7 @@
 <div class="wrapper light-wrapper">
   <div class="container inner">
     <% if @testimonials.length > 0 %>
-      <h2 class="section-title mb-40 text-center">What Our Client Says</h2>
+      <h2 class="section-title mb-40 text-center title-text-color">What Our Client Says</h2>
       <div class="row">
         <div class="col-lg-8 offset-lg-2">
           <div class="swiper-container-wrapper basic-slider">
@@ -16,8 +16,8 @@
                       </div>
                       <div class="col-md-6 align-self-center">
                         <blockquote class="icon icon-top">
-                          <p><%= testimonial.message %></p>
-                          <footer class="blockquote-footer"><%= testimonial.client_name %></footer>
+                          <p class="normal-text-color"><%= testimonial.message %></p>
+                          <footer class="blockquote-footer normal-text-color"><%= testimonial.client_name %></footer>
                         </blockquote>
                       </div>
                     </div>

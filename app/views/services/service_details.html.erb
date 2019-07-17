@@ -2,14 +2,14 @@
 <div class="wrapper light-wrapper">
   <div class="container inner">
     <% if @active_services.length > 0 %>
-      <p class="lead larger text-center">CREATIVE & BEST SERVICES</p>
+      <p class="lead larger text-center title-text-color">CREATIVE & BEST SERVICES</p>
       <div class="space30"></div>
       <div class="row text-center">
         <% @active_services.each do |service| %>
           <div class="col-md-6 col-lg-3">
             <div class="box box-border"><span class="icon icon-color color-default fs-48 mb-20"><%= image_tag(service.service_icon.icon_image) if service.service_icon.present? %></span>
               <h5><%= service.service_name %></h5>
-              <p><%= service.description %></p>
+              <p class="normal-text-color"><%= service.description %></p>
             </div>
           </div>
         <% end %>

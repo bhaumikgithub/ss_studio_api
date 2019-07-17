@@ -3,12 +3,17 @@
 # Application Controller
 class ApplicationController < ActionController::Base
   around_action :handle_exceptions
+  before_action :get_user_css
   before_action :doorkeeper_authorize!
   before_action :configure_permitted_parameters, if: :devise_controller?
 
 
   def doorkeeper_unauthorized_render_options(error: nil)
     { json: { error: "You are not authorized." } }
+  end
+
+  def get_user_css
+    @user_color = User.get_user(params[:user]).try(:theme).try(:color_theme)
   end
 
   protected
