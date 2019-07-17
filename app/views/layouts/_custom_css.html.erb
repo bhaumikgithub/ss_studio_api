@@ -1,14 +1,14 @@
 <% if @user_color.present? %>
   <style type="text/css">
     :root {
-      --header-links: <%= @user_color[:header_links].blank? || @user_color[:header_links].nil? ? '#000000'  : @user_color[:header_links][:rgba] %>;
-      --normal-links: <%= @user_color[:normal_links].blank? || @user_color[:normal_links].nil? ? '#000000'  : @user_color[:normal_links][:rgba] %>;
-      --footer-links: <%= @user_color[:footer_links].blank? || @user_color[:footer_links].nil? ? '#000000'  : @user_color[:footer_links][:rgba] %>;
+      --header-links: <%= @user_color[:header_links].blank? || @user_color[:header_links].nil? ? '#ffffff'  : @user_color[:header_links][:rgba] %>;
+      --normal-links: <%= @user_color[:normal_links].blank? || @user_color[:normal_links].nil? ? '#888'  : @user_color[:normal_links][:rgba] %>;
+      --footer-links: <%= @user_color[:footer_links].blank? || @user_color[:footer_links].nil? ? '#4c86e5'  : @user_color[:footer_links][:rgba] %>;
       --title-color: <%= @user_color[:title_color].blank? || @user_color[:title_color].nil? ? '#000000'  : @user_color[:title_color][:rgba] %>;
       --normal-text-color: <%= @user_color[:normal_text_color].blank? || @user_color[:normal_text_color].nil? ? '#000000'  : @user_color[:normal_text_color][:rgba] %>;
-      --header-background: <%= @user_color[:header_background].blank? || @user_color[:header_background].nil? ? '#000000'  : @user_color[:header_background][:rgba] %>;
-      --body-background: <%= @user_color[:body_background].blank? || @user_color[:body_background].nil? ? '#000000'  : @user_color[:body_background][:rgba] %>;
-      --footer-background: <%= @user_color[:footer_background].blank? || @user_color[:footer_background].nil? ? '#000000'  : @user_color[:footer_background][:rgba] %>;
+      --header-background: <%= @user_color[:header_background].blank? || @user_color[:header_background].nil? ? '#606060'  : @user_color[:header_background][:rgba] %>;
+      --body-background: <%= @user_color[:body_background].blank? || @user_color[:body_background].nil? ? '#ffffff'  : @user_color[:body_background][:rgba] %>;
+      --footer-background: <%= @user_color[:footer_background].blank? || @user_color[:footer_background].nil? ? '##181818'  : @user_color[:footer_background][:rgba] %>;
       --bullet-icon-color: <%= @user_color[:bullet_icon_color].blank? || @user_color[:bullet_icon_color].nil? ? '#000000'  : @user_color[:bullet_icon_color][:rgba] %>;
     }
 
