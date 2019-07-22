@@ -1,5 +1,5 @@
 class Users::PasswordsController < Devise::PasswordsController
-  skip_before_action :doorkeeper_authorize!
+  skip_before_action :doorkeeper_authorize!, :get_user_css
 
    def create
     self.resource = resource_class.send_reset_password_instructions(resource_params)
