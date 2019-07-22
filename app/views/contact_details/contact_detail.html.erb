@@ -9,17 +9,17 @@
             <strong>Success!</strong> Contact message sent successfully.
           </div>
         <% end %>
-        <h2 class="section-title text-center">Get in Touch</h2>
+        <h2 class="section-title text-center title-text-color">Get in Touch</h2>
         <div class="row text-center">
           <div class="col-md-4"> <span class="icon icon-color color-default fs-48 mb-10"><%= image_tag("home-icon.png") %></span>
-            <p><%= @contact_detail&.address&.html_safe %></p>
+            <p><span class="normal-text-color"><%= @contact_detail&.address&.html_safe %></span></p>
           </div>
           <div class="col-md-4"> <span class="icon icon-color color-default fs-48 mb-10"><%= image_tag("call-icon.png") %></span>
-            <p><a class="nocolor" href="tel:<%= @contact_detail&.phone %>"><%= @contact_detail&.phone %></a>
+            <p><a class="nocolor" href="tel:<%= @contact_detail&.phone %>"><span class="normal-text-color"><%= @contact_detail&.phone %></span></a>
             </p>
           </div>
           <div class="col-md-4"> <span class="icon icon-color color-default fs-48 mb-10"><%= image_tag("message-icon.png") %></span>
-            <p><a class="nocolor" href="mailto:<%= @contact_detail&.email %>"><%= @contact_detail&.email %></a></p>
+            <p><a class="nocolor" href="mailto:<%= @contact_detail&.email %>"><span class="normal-text-color"><%= @contact_detail&.email %></span></a></p>
           </div>
         </div>
         <div class="space30"></div>

@@ -1,4 +1,4 @@
-<nav class="navbar solid opacity absolute nav-wrapper-light navbar-expand-lg center justify-content-between text-uppercase">
+<nav class="navbar solid opacity absolute nav-wrapper-light navbar-expand-lg center justify-content-between text-uppercase header-background">
   <div class="container">
     <div class="navbar-header">
       <div class="navbar-brand"><a href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? active_homepage_photo_path :  User.get_user(params[:user]).try(:domain_name).present? ? User.get_user(params[:user]).try(:domain_name) : active_homepage_photo_path %>" data-turbolinks="false"><%= image_tag(User.get_user(params[:user]).user_logo.photo.image.url(:logo)) if params[:user].present? && User.get_user(params[:user]).user_logo.present? %></a></div>
@@ -6,7 +6,7 @@
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav ml-auto">
-        <li class="nav-item"><a  class="<%= active_class(active_homepage_photo_path) %> nav-link" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? active_homepage_photo_path : '/' %>" data-turbolinks="false">Home</a>
+        <li class="nav-item"><a  class="<%= active_class(active_homepage_photo_path) %> nav-link header-links" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? active_homepage_photo_path : '/' %>" data-turbolinks="false">Home</a>
         </li>
         <li class="nav-item dropdown"><a class="<%= active_class(portfolio_path) %> nav-link" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? portfolio_path : '/portfolio' %>" data-turbolinks="false">Portfolio</a>
         </li>

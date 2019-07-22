@@ -1,0 +1,80 @@
+<% if @user_color.present? %>
+  <style type="text/css">
+    :root {
+      --header-links: <%= @user_color[:header_links].blank? || @user_color[:header_links].nil? ? '#ffffff'  : @user_color[:header_links][:rgba] %>;
+      --normal-links: <%= @user_color[:normal_links].blank? || @user_color[:normal_links].nil? ? '#888'  : @user_color[:normal_links][:rgba] %>;
+      --footer-links: <%= @user_color[:footer_links].blank? || @user_color[:footer_links].nil? ? '#4c86e5'  : @user_color[:footer_links][:rgba] %>;
+      --title-color: <%= @user_color[:title_color].blank? || @user_color[:title_color].nil? ? '#000000'  : @user_color[:title_color][:rgba] %>;
+      --normal-text-color: <%= @user_color[:normal_text_color].blank? || @user_color[:normal_text_color].nil? ? '#000000'  : @user_color[:normal_text_color][:rgba] %>;
+      --header-background: <%= @user_color[:header_background].blank? || @user_color[:header_background].nil? ? '#606060'  : @user_color[:header_background][:rgba] %>;
+      --body-background: <%= @user_color[:body_background].blank? || @user_color[:body_background].nil? ? '#ffffff'  : @user_color[:body_background][:rgba] %>;
+      --footer-background: <%= @user_color[:footer_background].blank? || @user_color[:footer_background].nil? ? '#181818'  : @user_color[:footer_background][:rgba] %>;
+      --bullet-icon-color: <%= @user_color[:bullet_icon_color].blank? || @user_color[:bullet_icon_color].nil? ? '#000000'  : @user_color[:bullet_icon_color][:rgba] %>;
+    }
+
+    .header-links {
+      color: var(--header-links) !important;
+    }
+    .normal-links {
+      color: var(--normal-links) !important;
+    }
+    .footer-links {
+      color: var(--footer-links) !important;
+    }
+    .title-text-color {
+      color: var(--title-color) !important;
+    }
+    .normal-text-color {
+      color: var(--normal-text-color) !important;
+    }
+    .header-background {
+      background: var(--header-background) !important;
+    }
+    .body-background {
+      color: var(--body-background) !important;
+    }
+    .footer-background {
+      background: var(--footer-background) !important;
+    }    
+    .bullet-icon-color {
+      color: var(--bullet-icon-color) !important;
+    }
+    .navbar-nav .nav-link{
+      color: var(--header-links) !important;
+    }
+    .navbar-nav .nav-item .active{
+      color: #4c86e5 !important;
+    }
+    .cbp-filter-item.cbp-filter-item-active, .cbp-filter-item:hover, .cbp-filter-item-active a {
+      color: #4c86e5 !important;
+    }
+    .inverse-text .icon-color:not(.color-default),
+    .inverse-text li,
+    .inverse-text p,
+    .inverse-text h1:not([class*="color-"]),
+    .inverse-text h2:not([class*="color-"]),
+    .inverse-text h3:not([class*="color-"]),
+    .inverse-text h4:not([class*="color-"]),
+    .inverse-text h5:not([class*="color-"]),
+    .inverse-text h6:not([class*="color-"]),
+    .inverse-text .blockquote-footer,
+    .inverse-text .accordion-wrapper.bordered .card-header a,
+    .inverse-text .accordion-wrapper .card-header a.collapsed,
+    .inverse-text .color-dark,
+    .inverse-text label,
+    .inverse-text .glyphs.css-mapping i:before,
+    .inverse-text .list-group-item-action,
+    .inverse-text .pagination ul>li:not(.active)>a,
+    .inverse-text .page-navi:not(.bg) a,
+    .inverse-text .nav-tabs .nav-link:not(.active),
+    .inverse-text .cbp-filter-item:not(.cbp-filter-item-active) {
+      color: var(--title-color) !important;
+    }
+    /*.inverse-text {
+      color: var(--normal-text-color) !important;
+    }*/
+    .overlay:not(.caption-dark) * {
+      color: var(--normal-text-color) !important;
+    }
+  </style>
+<% end %>
