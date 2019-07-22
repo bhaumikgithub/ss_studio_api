@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   include InheritAction
   skip_before_action :doorkeeper_authorize!, only: [ :get_countries ]
-
+  skip_before_action :get_user_css, only: [:update_password]
   # GET  /users
   def index
     if params[:role] == "super_admin"
