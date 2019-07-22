@@ -3113,7 +3113,7 @@ a.color-s-youtube-square:hover,
 }
 .box.box-border:hover,
 .box.box-border:hover:before {
-    border-color: #4c86e5
+    /*border-color: #4c86e5*/
 }
 /*-----------------------------------------------------------------------------------*/
 /*	24. PROCESS
