@@ -5,8 +5,7 @@ class Users::PasswordsController < Devise::PasswordsController
     self.resource = resource_class.send_reset_password_instructions(resource_params)
     yield resource if block_given?
     if successfully_sent?(resource)
-      # respond_with({}, location: after_sending_reset_password_instructions_path_for(resource_name))
-      render_success_response(:status => 201)
+      render json: {success: true, status: 201}
     else
       if resource.errors.any?
         render_unprocessable_entity_response(resource)
@@ -23,7 +22,8 @@ class Users::PasswordsController < Devise::PasswordsController
         set_flash_message!(:notice, :updated_not_active)
       end
       # respond_with resource, location: after_resetting_password_path_for(resource)
-      render_success_response(:status => 201)
+      # render_success_response(:status => 201)
+      render json: {success: true, status: 201}
     else
       set_minimum_password_length
       render_unprocessable_entity_response(resource)
