@@ -14,7 +14,7 @@ class ProfileCompletenesses::ProfileAttributesSerializer < ActiveModel::Serializ
   end
 
   def user_subscription_expire_date
-    CommonSerializer.date_formate(object.user.package_users.where(package_status: "expired").last.package_end_date) if object.user.subscription_expire?
+    CommonSerializer.date_formate(object.user.package_users.where(package_status: "expired").last.package_end_date) if object.user.package_users.pluck(:package_status).include?("expired")
   end
 
   def user_subscription_future_expired_date
