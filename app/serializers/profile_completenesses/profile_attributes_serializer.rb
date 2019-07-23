@@ -20,7 +20,7 @@ class ProfileCompletenesses::ProfileAttributesSerializer < ActiveModel::Serializ
   def user_subscription_future_expired_date
     package_end_date = object.user.package_users.where(package_status: "active").last&.package_end_date
     if package_end_date.present?
-      CommonSerializer.date_formate(package_end_date) unless object.user.package_users.where(package_status: "active").last.package_end_date > Time.now + 6.days
+      CommonSerializer.date_formate(package_end_date) if object.user.package_users.where(package_status: "active").last.package_end_date.between?(Time.now, Time.now + 6.days)
     end
   end
 
