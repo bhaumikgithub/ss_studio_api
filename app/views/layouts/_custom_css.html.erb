@@ -9,7 +9,9 @@
       --header-background: <%= @user_color[:header_background].blank? || @user_color[:header_background].nil? ? '#606060'  : @user_color[:header_background][:rgba] %>;
       --body-background: <%= @user_color[:body_background].blank? || @user_color[:body_background].nil? ? '#ffffff'  : @user_color[:body_background][:rgba] %>;
       --footer-background: <%= @user_color[:footer_background].blank? || @user_color[:footer_background].nil? ? '#181818'  : @user_color[:footer_background][:rgba] %>;
-      --bullet-icon-color: <%= @user_color[:bullet_icon_color].blank? || @user_color[:bullet_icon_color].nil? ? '#000000'  : @user_color[:bullet_icon_color][:rgba] %>;
+      --bullet-icon-color: <%= @user_color[:bullet_icon_color].blank? || @user_color[:bullet_icon_color].nil? ? ''  : @user_color[:bullet_icon_color][:rgba] %>;
+      --image-overlay-color: <%= @user_color[:image_overlay_font_color].blank? || @user_color[:image_overlay_font_color].nil? ? '#ffffff'  : @user_color[:image_overlay_font_color][:rgba] %>;
+      --header_title_color: <%= @user_color[:header_title_color].blank? || @user_color[:header_title_color].nil? ? '#ffffff'  : @user_color[:header_title_color][:rgba] %>;
     }
 
     .header-links {
@@ -51,7 +53,6 @@
     .inverse-text .icon-color:not(.color-default),
     .inverse-text li,
     .inverse-text p,
-    .inverse-text h1:not([class*="color-"]),
     .inverse-text h2:not([class*="color-"]),
     .inverse-text h3:not([class*="color-"]),
     .inverse-text h4:not([class*="color-"]),
@@ -73,8 +74,17 @@
     /*.inverse-text {
       color: var(--normal-text-color) !important;
     }*/
-    .overlay:not(.caption-dark) * {
-      color: var(--normal-text-color) !important;
+    .overlay4:not(.caption-dark) * {
+      color: var(--image-overlay-color) !important;
+    }
+    .social-l i{
+      color: var(--bullet-icon-color) !important;
+    }
+    .light-wrapper{
+      background-color: var(--body-background) !important;
+    }
+    .inverse-text h1:not([class*="color-"]){
+      color: var(--header_title_color) !important;
     }
   </style>
 <% end %>
