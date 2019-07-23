@@ -10,7 +10,7 @@ class ProfileCompletenesses::ProfileAttributesSerializer < ActiveModel::Serializ
   end
 
   def user_subscription_expire
-    object.user.subscription_expire?
+    object.user.package_users.empty? || object.user.package_users.pluck(:package_status).include?("active") ? false : true
   end
 
   def user_subscription_expire_date
