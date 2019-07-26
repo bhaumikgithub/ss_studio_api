@@ -12,6 +12,10 @@
       --bullet-icon-color: <%= @user_color[:bullet_icon_color].blank? || @user_color[:bullet_icon_color].nil? ? ''  : @user_color[:bullet_icon_color][:rgba] %>;
       --image-overlay-color: <%= @user_color[:image_overlay_font_color].blank? || @user_color[:image_overlay_font_color].nil? ? '#ffffff'  : @user_color[:image_overlay_font_color][:rgba] %>;
       --header_title_color: <%= @user_color[:header_title_color].blank? || @user_color[:header_title_color].nil? ? '#ffffff'  : @user_color[:header_title_color][:rgba] %>;
+      --active-header-link-color: <%= @user_color[:active_header_link].blank? || @user_color[:active_header_link].nil? ? '#4c86e5'  : @user_color[:active_header_link][:rgba] %>;
+      --hover-header-link-color: <%= @user_color[:hover_header_link].blank? || @user_color[:hover_header_link].nil? ? '#ffffff'  : @user_color[:hover_header_link][:rgba] %>;
+      --active-normal-link-color: <%= @user_color[:active_normal_link].blank? || @user_color[:active_normal_link].nil? ? '#4c86e5'  : @user_color[:active_normal_link][:rgba] %>;
+      --hover-normal-link-color: <%= @user_color[:hover_normal_link].blank? || @user_color[:hover_normal_link].nil? ? '#888'  : @user_color[:hover_normal_link][:rgba] %>;
     }
 
     .header-links {
@@ -45,10 +49,18 @@
       color: var(--header-links) !important;
     }
     .navbar-nav .nav-item .active{
-      color: #4c86e5 !important;
+      color: var(--active-header-link-color) !important;
+    }.navbar-nav .nav-item .nav-link:hover{
+      color: var(--hover-header-link-color) !important;
     }
-    .cbp-filter-item.cbp-filter-item-active, .cbp-filter-item:hover, .cbp-filter-item-active a {
+    /*.cbp-filter-item.cbp-filter-item-active, .cbp-filter-item:hover, .cbp-filter-item-active a {
       color: #4c86e5 !important;
+    }*/
+    .cbp-filter-item.cbp-filter-item-active a, .back_link{
+      color: var(--active-normal-link-color) !important;
+    }
+    .cbp-filter-item a:hover{
+      color: var(--hover-normal-link-color) !important;
     }
     .inverse-text .icon-color:not(.color-default),
     .inverse-text li,
