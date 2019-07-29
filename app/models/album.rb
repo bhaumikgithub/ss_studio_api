@@ -4,7 +4,7 @@ class Album < ApplicationRecord
   extend FriendlyId
   friendly_id :album_name, use: :slugged
   # Callabcks
-  after_create :generate_passcode
+  # after_create :generate_passcode
   # Associations
   belongs_to :user
   has_many :album_categories
@@ -19,6 +19,7 @@ class Album < ApplicationRecord
   # Validations
   validates :album_name, presence: true, :uniqueness => {:case_sensitive => false,:scope=>:user_id}
   validates :category_ids,presence: true
+  validates :passcode, presence: true, length: { maximum: 10, minimum: 4}, if: :is_private?
   validates_length_of :album_name, :minimum => 3, :maximum => 30
   # Scopes
 
