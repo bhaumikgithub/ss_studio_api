@@ -1,4 +1,9 @@
 <% content_for :title, 'Films' %>
+<div class="wrapper image-wrapper bg-image inverse-text" data-image-src="<%= asset_path('bg4.jpg') %>">
+  <div class="container inner pt-120 pb-120 text-center">
+    <h1 class="heading mb-0">Films</h1>
+  </div>
+</div>
 <div class="wrapper light-wrapper">
   <div class="container inner">
     <% if @videos.length > 0 %>

@@ -1,4 +1,9 @@
 <% content_for :title, 'Contact' %>
+<div class="wrapper image-wrapper bg-image inverse-text" data-image-src="<%= asset_path('bg4.jpg') %>">
+  <div class="container inner pt-120 pb-120 text-center">
+    <h1 class="heading mb-0">Contact Us</h1>
+  </div>
+</div>
 <div class="wrapper light-wrapper">
   <div class="container inner">
     <div class="row">
@@ -11,14 +16,14 @@
         <% end %>
         <h2 class="section-title text-center title-text-color">Get in Touch</h2>
         <div class="row text-center">
-          <div class="col-md-4"> <span class="icon icon-color color-default fs-48 mb-10"><%= image_tag("home-icon.png") %></span>
+          <div class="col-md-4"> <span class="icon icon-color color-default fs-34 mb-10 bullet-icon-color"><i class="fa fa-home" aria-hidden="true"></i></span>
             <p><span class="normal-text-color"><%= @contact_detail&.address&.html_safe %></span></p>
           </div>
-          <div class="col-md-4"> <span class="icon icon-color color-default fs-48 mb-10"><%= image_tag("call-icon.png") %></span>
+          <div class="col-md-4"> <span class="icon icon-color color-default fs-34 mb-10 bullet-icon-color"><i class="fa fa-phone" aria-hidden="true"></i></span>
             <p><a class="nocolor" href="tel:<%= @contact_detail&.phone %>"><span class="normal-text-color"><%= @contact_detail&.phone %></span></a>
             </p>
           </div>
-          <div class="col-md-4"> <span class="icon icon-color color-default fs-48 mb-10"><%= image_tag("message-icon.png") %></span>
+          <div class="col-md-4"> <span class="icon icon-color color-default fs-34 mb-10 bullet-icon-color"><i class="fa fa-envelope" aria-hidden="true"></i></span>
             <p><a class="nocolor" href="mailto:<%= @contact_detail&.email %>"><span class="normal-text-color"><%= @contact_detail&.email %></span></a></p>
           </div>
         </div>
@@ -55,7 +60,7 @@
                 <div class="space20"></div>
                 <%= f.hidden_field :from, :value => "view_page" %>
                 <%= hidden_field_tag :user, params[:user] %>
-                <%= f.submit "Submit", class: "btn btn-full-rounded" %>
+                <%= f.submit "Submit", class: "btn btn-full-rounded button-background button-font-color button-background-hover button-font-hover" %>
               </div>
             </div>
           <% end %>
