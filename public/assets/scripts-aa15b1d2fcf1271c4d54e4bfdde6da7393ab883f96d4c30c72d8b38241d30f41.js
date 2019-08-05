@@ -1781,7 +1781,7 @@ $(document).ready(function() {
         // Animation in speed (ms)
         animationOutSpeed: 200,
         // Animation out speed (ms)
-        scrollText: '<span class="btn btn-square btn-full-rounded btn-icon button-background button-font-color button-background-hover button-font-hover"><i class="fa fa-chevron-up"></i></span>',
+        scrollText: '<span class="btn btn-square btn-full-rounded btn-icon button-background"><i class="fa fa-chevron-up"></i></span>',
         // Text for element, can contain HTML
         scrollTitle: false,
         // Set a custom <a> title if required. Defaults to scrollText

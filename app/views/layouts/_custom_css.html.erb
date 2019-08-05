@@ -16,6 +16,11 @@
       --hover-header-link-color: <%= @user_color[:hover_header_link].blank? || @user_color[:hover_header_link].nil? ? '#ffffff'  : @user_color[:hover_header_link][:rgba] %>;
       --active-normal-link-color: <%= @user_color[:active_normal_link].blank? || @user_color[:active_normal_link].nil? ? '#4c86e5'  : @user_color[:active_normal_link][:rgba] %>;
       --hover-normal-link-color: <%= @user_color[:hover_normal_link].blank? || @user_color[:hover_normal_link].nil? ? '#888'  : @user_color[:hover_normal_link][:rgba] %>;
+      --button-background-color: <%= @user_color[:button_background_color].blank? || @user_color[:button_background_color].nil? ? '#4c86e5'  : @user_color[:button_background_color][:rgba] %>;
+      --button-font-color: <%= @user_color[:button_font_color].blank? || @user_color[:button_font_color].nil? ? '#ffffff'  : @user_color[:button_font_color][:rgba] %>;
+      --button-hover-background-color: <%= @user_color[:button_hover_background_color].blank? || @user_color[:button_hover_background_color].nil? ? '#3b78db'  : @user_color[:button_hover_background_color][:rgba] %>;
+      --button-hover-font-color: <%= @user_color[:button_hover_font_color].blank? || @user_color[:button_hover_font_color].nil? ? '#ffffff'  : @user_color[:button_hover_font_color][:rgba] %>;
+      --footer-text-color: <%= @user_color[:footer_text_color].blank? || @user_color[:footer_text_color].nil? ? '#ffffff'  : @user_color[:footer_text_color][:rgba] %>;;
     }
 
     .header-links {
@@ -31,6 +36,9 @@
       color: var(--title-color) !important;
     }
     .normal-text-color {
+      color: var(--normal-text-color) !important;
+    }
+    span.about_us_detail_warp span{
       color: var(--normal-text-color) !important;
     }
     .header-background {
@@ -97,6 +105,21 @@
     }
     .inverse-text h1:not([class*="color-"]){
       color: var(--header_title_color) !important;
+    }
+    .button-background{
+      background: var(--button-background-color) !important;
+    }
+    .button-font-color{
+      color: var(--button-font-color) !important;
+    }
+    .button-background-hover:hover{
+      background: var(--button-hover-background-color) !important;
+    }
+    .button-font-hover:hover{
+      color: var(--button-hover-font-color) !important;
+    }
+    .footer-text-color{
+      color: var(--footer-text-color) !important;
     }
   </style>
 <% end %>

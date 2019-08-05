@@ -33,7 +33,7 @@
         </ul>
       <% end %>
       <!-- <div class="space25"></div> -->
-      <span class="smallest-s"><%= User.get_user(params[:user]).website_detail.present? && User.get_user(params[:user]).website_detail.copyright_text.present? ? User.get_user(params[:user]).website_detail.copyright_text : "© Copyright #{Time.current.year} - AfterClix , All rights reserved" %></span>
+      <span class="smallest-s footer-text-color"><%= User.get_user(params[:user]).website_detail.present? && User.get_user(params[:user]).website_detail.copyright_text.present? ? User.get_user(params[:user]).website_detail.copyright_text : "© Copyright #{Time.current.year} - AfterClix , All rights reserved" %></span>
       <!-- <div class="space30"></div> -->
       <ul class="social social-bg social-ex-s">
         <li><%= link_to "Powered by AfterClix", "http://www.afterclix.com/", class: "footer-links", target: "_blank" %></li>
