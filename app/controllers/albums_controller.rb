@@ -107,9 +107,9 @@ class AlbumsController < ApplicationController
   def portfolio
     if params[:category].present? && params[:category] != "all"
       category = Category.find_by_category_name(params[:category])
-      @portfolio_albums = category.albums.where(user_id: User.get_user(params[:user]).id)
+      @portfolio_albums = category.albums.where(user_id: User.get_user(params[:user]).id).order(updated_at: :desc)
     else
-      @portfolio_albums = User.get_user(params[:user]).albums
+      @portfolio_albums = User.get_user(params[:user]).albums.order(updated_at: :desc)
     end
 
     @portfolio_albums = @portfolio_albums.where(status: "active", portfolio_visibility: true, is_private: false)
