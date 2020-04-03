@@ -18,7 +18,7 @@
             data-endslide="3"
             data-responsive="on" 
             data-responsive_offset="on"
-            style="z-index: 9; letter-spacing: 3px;">We Capture Memories..
+            style="z-index: 9; letter-spacing: 3px;"><%= active_photo.slide_text.present? ? active_photo.slide_text.titleize.to_s : "We Capture Memories.." %>
           </div>
           <a class="tp-caption btn btn-full-rounded btn-l btn-white" 
             data-x="center" 
@@ -31,7 +31,7 @@
             data-endslide="3"
             data-responsive="on" 
             data-responsive_offset="on" 
-            style="z-index: 9;" href="<%= change_portfolio_url(portfolio_path(user: params[:user]), '/portfolio') %>" data-turbolinks="false">View Our Work
+            style="z-index: 9;" href="<%= active_photo.button_link.present? ? active_photo.button_link : change_portfolio_url(portfolio_path(user: params[:user]), '/portfolio') %>" data-turbolinks="false"><%= active_photo.button_text.present? ? active_photo.button_text.titleize.to_s : "View Our Work" %>
           </a>
         </li>
       <% end %>

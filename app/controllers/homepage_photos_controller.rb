@@ -73,7 +73,7 @@ class HomepagePhotosController < ApplicationController
   def active_homepage_photo
     response = CommonService.is_mobile_devise(request)
     if params[:user]
-      @active_photos = User.get_user(params[:user]).homepage_photos.where(is_active: true).order('created_at desc')
+      @active_photos = User.get_user(params[:user]).homepage_photos.where(is_active: true).order('position asc')
     else
       @active_photos = []
     end
