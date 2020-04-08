@@ -29,7 +29,15 @@ class VideosController < ApplicationController
       next_task = next_task('youtube_video')
       current_resource_owner.profile_completeness.update(youtube_video: true, next_task: next_task, completed_process:current_resource_owner.profile_completeness.completed_process+1)
     end
-    @video.update_attributes(video_thumb: @video.video.url(:thumb))
+    if (@video.video_type == "vimeo")
+      video_id = @video.video_url.partition('vimeo.com/').last
+      result = URI.parse("http://vimeo.com/api/v2/video/#{video_id}.json").read
+      thumbnail_url = JSON.parse(result).first['thumbnail_large']
+      @video.update_attributes(video_thumb: thumbnail_url)
+    else
+      @video.update_attributes(video_thumb: @video.video.url(:thumb))
+    end
+
     json_response({
       success: true,
       data: {
@@ -47,7 +55,14 @@ class VideosController < ApplicationController
   # PATCH  /videos/:id
   def update
     @video.update_attributes!(resource_params)
-    @video.update_attributes(video_thumb: @video.video.url(:thumb))
+    if (@video.video_type == "vimeo")
+      video_id = @video.video_url.partition('vimeo.com/').last
+      result = URI.parse("http://vimeo.com/api/v2/video/#{video_id}.json").read
+      thumbnail_url = JSON.parse(result).first['thumbnail_large']
+      @video.update_attributes(video_thumb: thumbnail_url)
+    else
+      @video.update_attributes(video_thumb: @video.video.url(:thumb))
+    end
     json_response({
       success: true,
       data: {

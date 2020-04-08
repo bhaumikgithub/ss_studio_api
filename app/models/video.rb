@@ -29,8 +29,13 @@ class Video < ApplicationRecord
   validates :title, :video_url, presence: true
 
   def generate_embed_video_url
-    video_id = (/([\w-]{11})/.match(self.video_url)).to_s
-    video_url = "https://www.youtube.com/embed/"+video_id
+    if self.video_type == "youtube"
+      video_id = (/([\w-]{11})/.match(self.video_url)).to_s
+      video_url = "https://www.youtube.com/embed/"+video_id
+    elsif self.video_type == "vimeo"
+      video_id = self.video_url.split("https://vimeo.com/")
+      video_url = "https://player.vimeo.com/video/"+video_id[1]
+    end
     self.video_embed_url = video_url
   end
 end
