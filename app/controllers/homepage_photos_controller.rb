@@ -1,7 +1,7 @@
 class HomepagePhotosController < ApplicationController
   include ProfileCompleteHelper
   skip_before_action :doorkeeper_authorize!, only: [ :active_homepage_photo, :index, :active ]
-  before_action :fetch_homepage_photo, only: [ :update ]
+  before_action :fetch_homepage_photo, only: [ :update, :destroy ]
 
   # GET /homepage_photos
   def index
@@ -16,8 +16,18 @@ class HomepagePhotosController < ApplicationController
 
   # POST /homepage_photos
   def create
-    @homepage_photo = current_resource_owner.homepage_photos.create!(homepage_photo_params)
-    render_success_response({ :homepage_photos => @homepage_photo}, 201)
+    # @homepage_photo = current_resource_owner.homepage_photos.create!(homepage_photo_params)
+    @homepage_photo = current_resource_owner.homepage_photos.create!(resource_params)
+    if @homepage_photo.present? && !current_resource_owner.profile_completeness.homepage_gallery_photo
+      next_task = next_task('homepage_gallery_photo')
+      current_resource_owner.profile_completeness.update(homepage_gallery_photo: true, next_task: next_task, completed_process:current_resource_owner.profile_completeness.completed_process+1)
+    end
+    json_response({
+      success: true,
+      data: {
+        homepage_photo: single_record_serializer.new(@homepage_photo, serializer: HomepagePhotos::HomepagePhotoAttributesSerializer),
+      }
+    }, 201)
   end
 
   # PUT /homepage_photos/select_uploaded_photo
@@ -98,6 +108,12 @@ class HomepagePhotosController < ApplicationController
     }, 201)
   end
 
+  #  DELETE /homepage_photos/:id
+  def destroy
+    @homepage_photo.destroy!
+    json_response({success: true, message: "Homepage photo destroy successfully.", data: { :homepage_photo => @homepage_photo }}, 200)
+  end
+
   private
 
   def homepage_photo_params
@@ -123,7 +139,7 @@ class HomepagePhotosController < ApplicationController
   end
 
   def resource_params
-    params.require(:homepage_photo).permit(:homepage_image, :position, :slide_text, :button_text, :button_link, :is_display_text, :is_display_button)
+    params.require(:homepage_photo).permit(:homepage_image, :position, :slide_text, :button_text, :button_link, :is_display_text, :is_display_button, :is_active)
   end
 
 end
