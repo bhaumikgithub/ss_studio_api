@@ -3,7 +3,7 @@
 # Application Controller
 class ApplicationController < ActionController::Base
   around_action :handle_exceptions
-  before_action :get_user_css
+  before_action :get_user_css, unless: :devise_controller?
   before_action :doorkeeper_authorize!
   before_action :configure_permitted_parameters, if: :devise_controller?
 
