@@ -32,7 +32,11 @@ class BlogsController < ApplicationController
 
   # PATCH /blogs
   def update
-    @blog.update_attributes!(resource_params)
+    unless @blog.present?
+      @blog = current_resource_owner.create_blog(resource_params)
+    else
+      @blog.update_attributes!(resource_params)
+    end
     render_success_response({ :blog => @blog}, 201)
   end
 
