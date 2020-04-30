@@ -14,6 +14,10 @@
         </li>
         <li class="nav-item dropdown"><a class="<%= active_class(service_details_path) %> nav-link" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? service_details_path : '/services' %>" data-turbolinks="false">Services</a>
         </li>
+        <% if  User.get_user(params[:user]).blog.present? &&  User.get_user(params[:user]).blog.is_show %>
+          <li class="nav-item dropdown"><a class="<%= active_class(blogs_path) %> nav-link" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? User.get_user(params[:user]).blog.blog_url : '/blogs' %>" data-turbolinks="false" target="_blank">Blogs</a>
+          </li>
+        <% end %>
         <li class="nav-item dropdown"><a class="<%= active_class(active_path) %> nav-link" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? active_path : '/feedback' %>" data-turbolinks="false">Testimonials</a>
         </li>
         <li class="nav-item"><a class="<%= active_class(about_us_path) %> nav-link" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? about_us_path : '/about_us' %>" data-turbolinks="false">About Us</a>

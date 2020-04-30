@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190710084854) do
+ActiveRecord::Schema.define(version: 20200413045934) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,15 @@ ActiveRecord::Schema.define(version: 20190710084854) do
     t.index ["deleted_at"], name: "index_albums_on_deleted_at", using: :btree
     t.index ["slug"], name: "index_albums_on_slug", unique: true, using: :btree
     t.index ["user_id"], name: "index_albums_on_user_id", using: :btree
+  end
+
+  create_table "blogs", force: :cascade do |t|
+    t.boolean  "is_show",    default: false
+    t.string   "blog_url"
+    t.integer  "user_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["user_id"], name: "index_blogs_on_user_id", using: :btree
   end
 
   create_table "categories", force: :cascade do |t|
@@ -436,6 +445,7 @@ ActiveRecord::Schema.define(version: 20190710084854) do
   add_foreign_key "album_ip_details", "ip_details"
   add_foreign_key "album_recipients", "albums"
   add_foreign_key "album_recipients", "contacts"
+  add_foreign_key "blogs", "users"
   add_foreign_key "comments", "photos"
   add_foreign_key "contact_details", "users"
   add_foreign_key "homepage_photos", "photos"

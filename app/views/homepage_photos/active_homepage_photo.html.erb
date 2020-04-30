@@ -4,35 +4,39 @@
     <ul>
       <% @active_photos.each do |active_photo| %>
         <li data-transition="fade" data-thumb="<%= active_photo.homepage_image.url(:thumb) %>"><img src="<%= active_photo.homepage_image.url %>" alt="" />
-          <div class="tp-caption font-weight-600 text-uppercase color-white text-center" 
-            data-x="center"
-            data-y="middle" 
-            data-voffset="['-75','-75','-75','-75']"
-            data-fontsize="['18','18','18','18']"
-            data-lineheight="['28','28','28','28']"
-            data-width="['600','600','600','600']"
-            data-textAlign="['center','center','center','center']"
-            data-whitespace="['normal','normal','normal','normal']"
-            data-frames='[{"from":"y:-50px;sX:2;sY:2;opacity:0;","speed":1000,"to":"o:1;","delay":1000,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]' 
-            data-startslide="0" 
-            data-endslide="3"
-            data-responsive="on" 
-            data-responsive_offset="on"
-            style="z-index: 9; letter-spacing: 3px;"><%= active_photo.slide_text.present? ? active_photo.slide_text.titleize.to_s : "We Capture Memories.." %>
-          </div>
-          <a class="tp-caption btn btn-full-rounded btn-l btn-white" 
-            data-x="center" 
-            data-y="middle" 
-            data-voffset="['105','105','105','105']"
-            data-width="['auto','auto','auto','auto']"
-            data-textAlign="['center','center','center','center']"
-            data-frames='[{"from":"y:-50px;sX:2;sY:2;opacity:0;","speed":1000,"to":"o:1;","delay":2000,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
-            data-startslide="0" 
-            data-endslide="3"
-            data-responsive="on" 
-            data-responsive_offset="on" 
-            style="z-index: 9;" href="<%= active_photo.button_link.present? ? active_photo.button_link : change_portfolio_url(portfolio_path(user: params[:user]), '/portfolio') %>" data-turbolinks="false"><%= active_photo.button_text.present? ? active_photo.button_text.titleize.to_s : "View Our Work" %>
-          </a>
+          <% if active_photo.is_display_text %>
+            <div class="tp-caption font-weight-600 text-uppercase color-white text-center" 
+              data-x="center"
+              data-y="middle" 
+              data-voffset="['-75','-75','-75','-75']"
+              data-fontsize="['18','18','18','18']"
+              data-lineheight="['28','28','28','28']"
+              data-width="['600','600','600','600']"
+              data-textAlign="['center','center','center','center']"
+              data-whitespace="['normal','normal','normal','normal']"
+              data-frames='[{"from":"y:-50px;sX:2;sY:2;opacity:0;","speed":1000,"to":"o:1;","delay":1000,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]' 
+              data-startslide="0" 
+              data-endslide="3"
+              data-responsive="on" 
+              data-responsive_offset="on"
+              style="z-index: 9; letter-spacing: 3px;"><%= active_photo.slide_text.present? ? active_photo.slide_text.titleize.to_s : "We Capture Memories.." %>
+            </div>
+          <% end %>
+          <% if active_photo.is_display_button %>
+            <a class="tp-caption btn btn-full-rounded btn-l btn-white" 
+              data-x="center" 
+              data-y="middle" 
+              data-voffset="['105','105','105','105']"
+              data-width="['auto','auto','auto','auto']"
+              data-textAlign="['center','center','center','center']"
+              data-frames='[{"from":"y:-50px;sX:2;sY:2;opacity:0;","speed":1000,"to":"o:1;","delay":2000,"ease":"Power4.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+              data-startslide="0" 
+              data-endslide="3"
+              data-responsive="on" 
+              data-responsive_offset="on" 
+              style="z-index: 9;" href="<%= active_photo.button_link.present? ? active_photo.button_link : change_portfolio_url(portfolio_path(user: params[:user]), '/portfolio') %>" data-turbolinks="false"><%= active_photo.button_text.present? ? active_photo.button_text.titleize.to_s : "View Our Work" %>
+            </a>
+          <% end %>
         </li>
       <% end %>
     </ul>

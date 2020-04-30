@@ -80,6 +80,12 @@ Rails.application.routes.draw do
   post 'website_details', to: 'website_details#create'
   get 'website_details', to: 'website_details#website_details'
 
+  # resources :blogs
+  get 'blog', to: 'blogs#show'
+  patch 'blogs', to: 'blogs#update'
+  post 'blogs', to: 'blogs#create'
+  # get 'blogs', to: 'blogs#blogs'
+
   resources :services
   resources :testimonials do
     # collection do
@@ -124,6 +130,7 @@ Rails.application.routes.draw do
   match "active" => 'testimonials#active', :via => [:get], :path => "/:user/feedback"
   match "publish" => 'videos#publish', :via => [:get], :path => "/:user/films"
   match "service_details" => 'services#service_details', :via => [:get], :path => "/:user/services"
+  match "active_blogs" => 'blogs#active_blogs', :via => [:get], :path => "/:user/blogs"
   match "portfolio" => 'albums#portfolio', :via => [:get], :path => "/:user/portfolio"
   match "portfolio_album_detail" => 'albums#portfolio_album_detail', :via => [:get], :path => "/:user/portfolio/:id"
   match "view_album" => 'albums#view_album', :via => [:get], :path => "/:user/shared_album/:id"
