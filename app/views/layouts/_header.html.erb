@@ -8,7 +8,7 @@
       <ul class="nav navbar-nav ml-auto">
         <li class="nav-item"><a  class="<%= active_class(active_homepage_photo_path) %> nav-link header-links" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? active_homepage_photo_path : '/' %>" data-turbolinks="false">Home</a>
         </li>
-        <% if User.get_user(params[:user]).portfolio.present? &&  User.get_user(params[:user]).portfolio.is_show %>
+        <% if User.get_user(params[:user]).portfolio.nil? || (User.get_user(params[:user]).portfolio.present? &&  User.get_user(params[:user]).portfolio.is_show) %>
           <li class="nav-item dropdown"><a class="<%= active_class(portfolio_path) %> nav-link" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? portfolio_path : '/portfolio' %>" data-turbolinks="false">Portfolio</a>
           </li>
         <% end %>

@@ -124,7 +124,7 @@ class AlbumsController < ApplicationController
       }, 200)
     else
       @categories = User.get_user(params[:user]).categories.where(status: 'active')
-      if @portfolio_detail.present? && @portfolio_detail.is_show
+      if @portfolio_detail.nil? || (@portfolio_detail.present? && @portfolio_detail.is_show)
         respond_to do |format|
           format.html
           format.js
