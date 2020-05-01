@@ -3,6 +3,7 @@ class AlbumsController < ApplicationController
   include AlbumHelper
   skip_before_action :doorkeeper_authorize!, only: [ :portfolio, :show, :passcode_verification, :mark_as_submitted, :portfolio_album_detail, :shared_album_login, :passcode_verification_post, :view_album ]
   before_action :fetch_album, only: [ :update, :destroy, :show, :passcode_verification, :mark_as_submitted, :get_selected_photos, :get_commented_photos, :mark_as_deliverd, :mark_as_stoped_selection, :mark_as_shared, :acivate_album, :passcode_verification_post, :shared_album_login ]
+  before_action :fetch_portfolio, only: [ :get_portfolio, :update_portfolio ]
   # GET /albums
   def index
     if params[:category_id].present?
@@ -105,6 +106,7 @@ class AlbumsController < ApplicationController
 
   # GET /albums/portfolio
   def portfolio
+    @portfolio_detail = User.get_user(params[:user]).portfolio 
     if params[:category].present? && params[:category] != "all"
       category = Category.find_by_category_name(params[:category])
       @portfolio_albums = category.albums.where(user_id: User.get_user(params[:user]).id).order(updated_at: :desc)
@@ -122,9 +124,13 @@ class AlbumsController < ApplicationController
       }, 200)
     else
       @categories = User.get_user(params[:user]).categories.where(status: 'active')
-      respond_to do |format|
-        format.html
-        format.js
+      if @portfolio_detail.present? && @portfolio_detail.is_show
+        respond_to do |format|
+          format.html
+          format.js
+        end
+      else
+        redirect_to active_homepage_photo_path
       end
     end
   end
@@ -246,15 +252,39 @@ class AlbumsController < ApplicationController
   def shared_album_login
   end
 
+  def get_portfolio
+    unless @portfolio.present?
+      @portfolio = current_resource_owner.create_portfolio()
+    end
+    render_success_response({ :portfolio => @portfolio}, 200)
+  end
+
+  def update_portfolio
+    unless @portfolio.present?
+      @portfolio = current_resource_owner.create_portfolio(portfolio_params)
+    else
+      @portfolio.update_attributes!(portfolio_params)
+    end
+    render_success_response({ :portfolio => @portfolio}, 201)
+  end
+
   private
 
   def album_params
     params.require(:album).permit( :album_name, :is_private, :created_by, :status, :delivery_status, :portfolio_visibility, :passcode, category_ids: [] )
   end
 
+  def portfolio_params
+    params.require(:portfolio).permit(:is_show, :gallery_column)
+  end
+
   def fetch_album
     # @album = current_resource_owner.album.friendly.find(params[:id])
     @album = Album.friendly.find(params[:id])
+  end
+
+  def fetch_portfolio
+    @portfolio = current_resource_owner.portfolio
   end
 
   def change_album_ip_detail

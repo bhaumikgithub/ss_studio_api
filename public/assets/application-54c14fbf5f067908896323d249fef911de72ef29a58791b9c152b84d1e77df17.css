@@ -60,7 +60,7 @@
   color: rgba(255,255,255,0.75) !important;
 }
 .navbar-nav .nav-item .active{
-  color: #4c86e5;
+  color: #4c86e5 !important;
 }
 html {
   min-height: 100%;
@@ -220,6 +220,10 @@ footer .inner{
 .add-text-shadow {
   text-shadow: -1px 0 #727272, 0 1px #727272, 1px 0 #727272, 0 -1px #727272
 }
+
+
+/*protofloi new css*/
+.cbp-item-demo{display: block !important;margin:0px;}
 @font-face {
   font-family: 'Montserrat';
   src: url("montserrat/Montserrat-SemiBold.eot");
@@ -35066,7 +35070,7 @@ a.color-s-youtube-square:hover,
 }
 .box.box-border:hover,
 .box.box-border:hover:before {
-    border-color: #4c86e5
+    /*border-color: #4c86e5*/
 }
 /*-----------------------------------------------------------------------------------*/
 /*	24. PROCESS

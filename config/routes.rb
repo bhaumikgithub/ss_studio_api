@@ -21,6 +21,8 @@ Rails.application.routes.draw do
     collection do
       # get 'portfolio'
       match 'get_album_status_wise', as: 'get_album_status_wise', action: 'get_album_status_wise', via: [:get]
+      get 'get_portfolio'
+      patch 'update_portfolio'
     end
     member do
       get 'passcode_verification'

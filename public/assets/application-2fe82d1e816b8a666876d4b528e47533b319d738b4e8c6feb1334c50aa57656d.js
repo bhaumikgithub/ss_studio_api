@@ -15386,6 +15386,137 @@ $cubegridlarge.on('onAfterLoadMore.cbp', function(event, newItemsAddedToGrid) {
   });
   $('.cbp-item-load-more .overlay > a, .cbp-item-load-more .overlay > span').prepend('<span class="bg"></span>');
 });
+
+var $cubegridlargeone = $('#cube-grid-large-one');
+$cubegridlargeone.cubeportfolio({
+  filters: '#cube-grid-large-filter',
+  loadMore: '#cube-grid-large-more',
+  loadMoreAction: 'click',
+  layoutMode: 'grid',
+  mediaQueries: [{width: 1440, cols: 1}, {width: 1024, cols: 1}, {width: 768, cols: 1}, {width: 575, cols: 1}, {width: 320, cols: 1}],
+  defaultFilter: '*',
+  animationType: 'quicksand',
+  gapHorizontal: 20,
+  gapVertical: 20,
+  gridAdjustment: 'responsive',
+  caption: 'fadeIn',
+  displayType: 'bottomToTop',
+  displayTypeSpeed: 100,
+  plugins: {
+    loadMore: {
+      loadItems: 4
+    }
+  }
+});
+$cubegridlargeone.on('onAfterLoadMore.cbp', function(event, newItemsAddedToGrid) {
+    // first destroy the gallery
+  $lg.data('lightGallery').destroy(true);
+  // reinit the gallery
+  $lg.lightGallery({
+    thumbnail: false,
+    selector: 'a',
+    mode: 'lg-fade',
+    download: false,
+    autoplayControls: false,
+    zoom: false,
+    fullScreen: false,
+    videoMaxWidth: '1000px',
+    loop: false,
+    hash: true,
+    mousewheel: true,
+    videojs: true,
+    share: false
+  });
+  $('.cbp-item-load-more .overlay > a, .cbp-item-load-more .overlay > span').prepend('<span class="bg"></span>');
+});
+
+var $cubegridlargethree = $('#cube-grid-large-three');
+$cubegridlargethree.cubeportfolio({
+  filters: '#cube-grid-large-filter',
+  loadMore: '#cube-grid-large-more',
+  loadMoreAction: 'click',
+  layoutMode: 'grid',
+  mediaQueries: [{width: 1440, cols: 3}, {width: 1024, cols: 3}, {width: 768, cols: 2}, {width: 575, cols: 2}, {width: 320, cols: 1}],
+  defaultFilter: '*',
+  animationType: 'quicksand',
+  gapHorizontal: 20,
+  gapVertical: 20,
+  gridAdjustment: 'responsive',
+  caption: 'fadeIn',
+  displayType: 'bottomToTop',
+  displayTypeSpeed: 100,
+  plugins: {
+    loadMore: {
+      loadItems: 4
+    }
+  }
+});
+$cubegridlargethree.on('onAfterLoadMore.cbp', function(event, newItemsAddedToGrid) {
+    // first destroy the gallery
+  $lg.data('lightGallery').destroy(true);
+  // reinit the gallery
+  $lg.lightGallery({
+    thumbnail: false,
+    selector: 'a',
+    mode: 'lg-fade',
+    download: false,
+    autoplayControls: false,
+    zoom: false,
+    fullScreen: false,
+    videoMaxWidth: '1000px',
+    loop: false,
+    hash: true,
+    mousewheel: true,
+    videojs: true,
+    share: false
+  });
+  $('.cbp-item-load-more .overlay > a, .cbp-item-load-more .overlay > span').prepend('<span class="bg"></span>');
+});
+
+var $cubegridlargefour = $('#cube-grid-large-four');
+$cubegridlargefour.cubeportfolio({
+  filters: '#cube-grid-large-filter',
+  loadMore: '#cube-grid-large-more',
+  loadMoreAction: 'click',
+  layoutMode: 'grid',
+  mediaQueries: [{width: 1440, cols: 4}, {width: 1024, cols: 4}, {width: 768, cols: 2}, {width: 575, cols: 2}, {width: 320, cols: 1}],
+  defaultFilter: '*',
+  animationType: 'quicksand',
+  gapHorizontal: 20,
+  gapVertical: 20,
+  gridAdjustment: 'responsive',
+  caption: 'fadeIn',
+  displayType: 'bottomToTop',
+  displayTypeSpeed: 100,
+  plugins: {
+    loadMore: {
+      loadItems: 4
+    }
+  }
+});
+$cubegridlargefour.on('onAfterLoadMore.cbp', function(event, newItemsAddedToGrid) {
+    // first destroy the gallery
+  $lg.data('lightGallery').destroy(true);
+  // reinit the gallery
+  $lg.lightGallery({
+    thumbnail: false,
+    selector: 'a',
+    mode: 'lg-fade',
+    download: false,
+    autoplayControls: false,
+    zoom: false,
+    fullScreen: false,
+    videoMaxWidth: '1000px',
+    loop: false,
+    hash: true,
+    mousewheel: true,
+    videojs: true,
+    share: false
+  });
+  $('.cbp-item-load-more .overlay > a, .cbp-item-load-more .overlay > span').prepend('<span class="bg"></span>');
+});
+
+
 var $cubegridfull = $('#cube-grid-full');
 $cubegridfull.cubeportfolio({
   filters: '#cube-grid-full-filter',
@@ -17424,7 +17555,7 @@ $(document).ready(function() {
         // Animation in speed (ms)
         animationOutSpeed: 200,
         // Animation out speed (ms)
-        scrollText: '<span class="btn btn-square btn-full-rounded btn-icon"><i class="fa fa-chevron-up"></i></span>',
+        scrollText: '<span class="btn btn-square btn-full-rounded btn-icon button-background button-font-color button-background-hover button-font-hover"><i class="fa fa-chevron-up"></i></span>',
         // Text for element, can contain HTML
         scrollTitle: false,
         // Set a custom <a> title if required. Defaults to scrollText

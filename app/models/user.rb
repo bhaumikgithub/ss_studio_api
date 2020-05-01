@@ -33,6 +33,7 @@ class User < ApplicationRecord
   has_one :user_logo, dependent: :destroy
   has_one :website_detail, dependent: :destroy
   has_one :blog, dependent: :destroy
+  has_one :portfolio, dependent: :destroy
   has_one :profile_completeness, dependent: :destroy
   has_many :package_users, dependent: :destroy
   has_many :packages, through: :package_users

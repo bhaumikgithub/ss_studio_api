@@ -1,5 +1,9 @@
 <% if @portfolio_albums.length > 0 %>
-  <div id="cube-grid-large" class="cbp">
+  <% dynamic_portfolio_class = 
+    @portfolio_detail.present? ? 
+      @portfolio_detail.gallery_column == 1 ? "cube-grid-large-one" : @portfolio_detail.gallery_column == 3 ? "cube-grid-large-three" : @portfolio_detail.gallery_column == 4 ? "cube-grid-large-four" : "cube-grid-large" : "cube-grid-large"
+  %>
+  <div id="<%= dynamic_portfolio_class %>" class="cbp">
     <% @portfolio_albums.each do |album| %>
       <div class="cbp-item cat1">
         <figure class="overlay overlay4">
