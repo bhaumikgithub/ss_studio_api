@@ -26,6 +26,7 @@ class User < ApplicationRecord
   has_many :homepage_photos, dependent: :destroy 
   has_many :testimonials, dependent: :destroy
   has_many :services, dependent: :destroy
+  has_many :widgets, dependent: :destroy
 
   has_one :about, dependent: :destroy
   has_one :theme, dependent: :destroy

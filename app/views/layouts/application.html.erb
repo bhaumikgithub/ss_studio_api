@@ -32,5 +32,8 @@
         <%= render "layouts/footer" %>
       <% end %>
     </div>
+    <% if @widget.present? %>
+      <%= @widget.code.html_safe if @widget.is_active? %>
+    <% end %>
   </body>
 </html>

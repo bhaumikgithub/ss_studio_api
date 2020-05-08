@@ -17,6 +17,17 @@ Rails.application.routes.draw do
     get 'active', on: :collection
   end
   resources :watermarks
+  resources :widgets, only: [:index, :update] do
+    collection do
+      get 'home_widget'
+      get 'portfolio_widget'
+      get 'film_widget'
+      get 'service_widget'
+      get 'testimonial_widget'
+      get 'about_us_widget'
+      get 'contact_us_widget'
+    end
+  end
   resources :albums do
     collection do
       # get 'portfolio'

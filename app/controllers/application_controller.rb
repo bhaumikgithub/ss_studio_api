@@ -4,6 +4,7 @@
 class ApplicationController < ActionController::Base
   around_action :handle_exceptions
   before_action :get_user_css, unless: :devise_controller?
+  before_action :get_widget, unless: :devise_controller?
   before_action :doorkeeper_authorize!
   before_action :configure_permitted_parameters, if: :devise_controller?
 
@@ -14,6 +15,28 @@ class ApplicationController < ActionController::Base
 
   def get_user_css
     @user_color = User.get_user(params[:user]).try(:theme).try(:color_theme)
+  end
+
+  def get_widget
+    puts "=====#{params.inspect}====="
+    get_current_user = User.get_user(params[:user])
+    if get_current_user.present?
+      if params[:controller] == "homepage_photos" && params[:action] == "active_homepage_photo"
+        @widget = get_current_user.widgets.where(widget_type: "home").first if get_current_user.widgets.present? && get_current_user.widgets.where(widget_type: "home").present?
+      elsif params[:controller] == "albums" && params[:action] == "portfolio"
+        @widget = get_current_user.widgets.where(widget_type: "portfolio").first if get_current_user.widgets.present? && get_current_user.widgets.where(widget_type: "portfolio").present?
+      elsif params[:controller] == "videos" && params[:action] == "publish"
+        @widget = get_current_user.widgets.where(widget_type: "film").first if get_current_user.widgets.present? && get_current_user.widgets.where(widget_type: "film").present?
+      elsif params[:controller] == "services" && params[:action] == "service_details"
+        @widget = get_current_user.widgets.where(widget_type: "service").first if get_current_user.widgets.present? && get_current_user.widgets.where(widget_type: "service").present?
+      elsif params[:controller] == "testimonials" && params[:action] == "active"
+        @widget = get_current_user.widgets.where(widget_type: "testimonial").first if get_current_user.widgets.present? && get_current_user.widgets.where(widget_type: "testimonial").present?
+      elsif params[:controller] == "abouts" && params[:action] == "about_us_detail"
+        @widget = get_current_user.widgets.where(widget_type: "about_us").first if get_current_user.widgets.present? && get_current_user.widgets.where(widget_type: "about_us").present?
+      elsif params[:controller] == "contact_details" && params[:action] == "contact_detail"
+        @widget = get_current_user.widgets.where(widget_type: "contact_us").first if get_current_user.widgets.present? && get_current_user.widgets.where(widget_type: "contact_us").present?
+      end
+    end
   end
 
   protected

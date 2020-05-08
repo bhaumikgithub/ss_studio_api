@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200501103954) do
+ActiveRecord::Schema.define(version: 20200505122925) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -449,6 +449,17 @@ ActiveRecord::Schema.define(version: 20200501103954) do
     t.index ["user_id"], name: "index_website_details_on_user_id", using: :btree
   end
 
+  create_table "widgets", force: :cascade do |t|
+    t.string   "title"
+    t.text     "code"
+    t.string   "widget_type"
+    t.boolean  "is_active",   default: false
+    t.integer  "user_id"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.index ["user_id"], name: "index_widgets_on_user_id", using: :btree
+  end
+
   add_foreign_key "abouts", "users"
   add_foreign_key "album_ip_details", "albums"
   add_foreign_key "album_ip_details", "ip_details"
@@ -478,4 +489,5 @@ ActiveRecord::Schema.define(version: 20200501103954) do
   add_foreign_key "videos", "users"
   add_foreign_key "watermarks", "users"
   add_foreign_key "website_details", "users"
+  add_foreign_key "widgets", "users"
 end
