@@ -1,0 +1,16 @@
+Bluepill.application("my_app") do |app|
+  app.process("delayed_job") do |process|
+    process.working_dir = "/home/tps/sites/ss_studio_api"
+
+    process.start_grace_time    = 10.seconds
+    process.stop_grace_time     = 10.seconds
+    process.restart_grace_time  = 10.seconds
+
+    process.start_command = "ruby script/delayed_job -e development start"
+    process.stop_command  = "ruby script/delayed_job -e development stop"
+
+    process.pid_file = "/home/tps/sites/ss_studio_api/tmp/pids/delayed_job.pid"
+    process.uid = "deploy"
+    process.gid = "deploy"
+  end
+end

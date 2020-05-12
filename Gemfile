@@ -91,3 +91,5 @@ gem "daemons"
 
 # Cron jobs in Ruby
 gem 'whenever', require: false
+gem 'i18n' # Not sure why but it complained I didn't have it
+gem 'bluepill'
