@@ -6,26 +6,38 @@
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav ml-auto">
-        <li class="nav-item"><a  class="<%= active_class(active_homepage_photo_path) %> nav-link header-links" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? active_homepage_photo_path : '/' %>" data-turbolinks="false">Home</a>
-        </li>
+        <% if User.get_user(params[:user]).page_settings.empty? || User.get_user(params[:user]).is_show_page("home") %>
+          <li class="nav-item"><a  class="<%= active_class(active_homepage_photo_path) %> nav-link header-links" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? active_homepage_photo_path : '/' %>" data-turbolinks="false">Home</a>
+          </li>
+        <% end %>
         <% if User.get_user(params[:user]).portfolio.nil? || (User.get_user(params[:user]).portfolio.present? &&  User.get_user(params[:user]).portfolio.is_show) %>
           <li class="nav-item dropdown"><a class="<%= active_class(portfolio_path) %> nav-link" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? portfolio_path : '/portfolio' %>" data-turbolinks="false">Portfolio</a>
           </li>
         <% end %>
-        <li class="nav-item dropdown"><a class="<%= active_class(publish_path) %> nav-link" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? publish_path : '/films' %>" data-turbolinks="false">Films</a>
-        </li>
-        <li class="nav-item dropdown"><a class="<%= active_class(service_details_path) %> nav-link" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? service_details_path : '/services' %>" data-turbolinks="false">Services</a>
-        </li>
+        <% if User.get_user(params[:user]).page_settings.empty? || User.get_user(params[:user]).is_show_page("film") %>
+          <li class="nav-item dropdown"><a class="<%= active_class(publish_path) %> nav-link" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? publish_path : '/films' %>" data-turbolinks="false">Films</a>
+          </li>
+        <% end %>
+        <% if User.get_user(params[:user]).page_settings.empty? || User.get_user(params[:user]).is_show_page("service") %>
+          <li class="nav-item dropdown"><a class="<%= active_class(service_details_path) %> nav-link" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? service_details_path : '/services' %>" data-turbolinks="false">Services</a>
+          </li>
+        <% end %>
         <% if  User.get_user(params[:user]).blog.present? &&  User.get_user(params[:user]).blog.is_show %>
           <li class="nav-item dropdown"><a class="<%= active_class(blogs_path) %> nav-link" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? User.get_user(params[:user]).blog.blog_url : '/blogs' %>" data-turbolinks="false" target="_blank">Blogs</a>
           </li>
         <% end %>
-        <li class="nav-item dropdown"><a class="<%= active_class(active_path) %> nav-link" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? active_path : '/feedback' %>" data-turbolinks="false">Testimonials</a>
-        </li>
-        <li class="nav-item"><a class="<%= active_class(about_us_path) %> nav-link" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? about_us_path : '/about_us' %>" data-turbolinks="false">About Us</a>
-        </li>
-        <li class="nav-item"><a class="<%= active_class(contact_detail_path) %> nav-link" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? contact_detail_path : '/contact' %>" data-turbolinks="false">Contact</a>
-        </li>
+        <% if User.get_user(params[:user]).page_settings.empty? || User.get_user(params[:user]).is_show_page("testimonial") %>
+          <li class="nav-item dropdown"><a class="<%= active_class(active_path) %> nav-link" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? active_path : '/feedback' %>" data-turbolinks="false">Testimonials</a>
+          </li>
+        <% end %>
+        <% if User.get_user(params[:user]).page_settings.empty? || User.get_user(params[:user]).is_show_page("about_us") %>
+          <li class="nav-item"><a class="<%= active_class(about_us_path) %> nav-link" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? about_us_path : '/about_us' %>" data-turbolinks="false">About Us</a>
+          </li>
+        <% end %>
+        <% if User.get_user(params[:user]).page_settings.empty? || User.get_user(params[:user]).is_show_page("contact_us") %>
+          <li class="nav-item"><a class="<%= active_class(contact_detail_path) %> nav-link" href="<%= (Rails.env.development? || request.domain == 'afterclix.com') ? contact_detail_path : '/contact' %>" data-turbolinks="false">Contact</a>
+          </li>
+        <% end %>
       </ul>
     </div>
   </div>

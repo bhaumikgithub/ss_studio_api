@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200505122925) do
+ActiveRecord::Schema.define(version: 20200710070138) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -263,6 +263,15 @@ ActiveRecord::Schema.define(version: 20200505122925) do
     t.integer  "status",     default: 0
   end
 
+  create_table "page_settings", force: :cascade do |t|
+    t.boolean  "is_show",    default: true
+    t.string   "page_type"
+    t.integer  "user_id"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.index ["user_id"], name: "index_page_settings_on_user_id", using: :btree
+  end
+
   create_table "photos", force: :cascade do |t|
     t.string   "photo_title"
     t.integer  "status",             default: 1
@@ -476,6 +485,7 @@ ActiveRecord::Schema.define(version: 20200505122925) do
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
   add_foreign_key "package_users", "packages"
   add_foreign_key "package_users", "users"
+  add_foreign_key "page_settings", "users"
   add_foreign_key "portfolios", "users"
   add_foreign_key "profile_completenesses", "users"
   add_foreign_key "services", "service_icons"

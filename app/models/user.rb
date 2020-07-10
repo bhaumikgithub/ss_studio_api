@@ -27,6 +27,7 @@ class User < ApplicationRecord
   has_many :testimonials, dependent: :destroy
   has_many :services, dependent: :destroy
   has_many :widgets, dependent: :destroy
+  has_many :page_settings, dependent: :destroy
 
   has_one :about, dependent: :destroy
   has_one :theme, dependent: :destroy
@@ -79,6 +80,17 @@ class User < ApplicationRecord
 
   def self.get_user(name)
     user = User.find_by(alias: name)
+  end
+
+  def is_show_page(page_type)
+    if page_settings.present?
+      page = page_settings.where(page_type: page_type)
+      if page.present?
+        page.first.is_show
+      end
+    else
+      true
+    end
   end
 
   def after_confirmation

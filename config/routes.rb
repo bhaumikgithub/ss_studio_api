@@ -28,6 +28,16 @@ Rails.application.routes.draw do
       get 'contact_us_widget'
     end
   end
+  resources :page_settings, only: [:index, :update] do
+    collection do
+      get 'home_page'
+      get 'film_page'
+      get 'service_page'
+      get 'testimonial_page'
+      get 'about_us_page'
+      get 'contact_us_page'
+    end
+  end
   resources :albums do
     collection do
       # get 'portfolio'
