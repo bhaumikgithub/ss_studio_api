@@ -220,6 +220,9 @@ footer .inner{
 .add-text-shadow {
   text-shadow: -1px 0 #727272, 0 1px #727272, 1px 0 #727272, 0 -1px #727272
 }
+/*.collapse.show{
+  display: block !important;
+}*/
 @font-face {
   font-family: 'Montserrat';
   src: url("montserrat/Montserrat-SemiBold.eot");
@@ -35066,7 +35069,7 @@ a.color-s-youtube-square:hover,
 }
 .box.box-border:hover,
 .box.box-border:hover:before {
-    border-color: #4c86e5
+    /*border-color: #4c86e5*/
 }
 /*-----------------------------------------------------------------------------------*/
 /*	24. PROCESS

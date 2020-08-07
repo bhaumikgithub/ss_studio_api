@@ -220,10 +220,9 @@ footer .inner{
 .add-text-shadow {
   text-shadow: -1px 0 #727272, 0 1px #727272, 1px 0 #727272, 0 -1px #727272
 }
-
-
-/*protofloi new css*/
-.cbp-item-demo{display: block !important;margin:0px;}
+.collapse.show{
+  display: block !important;
+}
 @font-face {
   font-family: 'Montserrat';
   src: url("montserrat/Montserrat-SemiBold.eot");

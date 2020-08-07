@@ -15436,7 +15436,7 @@ $cubegridlargethree.cubeportfolio({
   loadMore: '#cube-grid-large-more',
   loadMoreAction: 'click',
   layoutMode: 'grid',
-  mediaQueries: [{width: 1440, cols: 3}, {width: 1024, cols: 3}, {width: 768, cols: 2}, {width: 575, cols: 2}, {width: 320, cols: 1}],
+  mediaQueries: [{width: 1440, cols: 3}, {width: 1024, cols: 3}, {width: 768, cols: 3}, {width: 575, cols: 2}, {width: 320, cols: 1}],
   defaultFilter: '*',
   animationType: 'quicksand',
   gapHorizontal: 20,
@@ -15479,7 +15479,7 @@ $cubegridlargefour.cubeportfolio({
   loadMore: '#cube-grid-large-more',
   loadMoreAction: 'click',
   layoutMode: 'grid',
-  mediaQueries: [{width: 1440, cols: 4}, {width: 1024, cols: 4}, {width: 768, cols: 2}, {width: 575, cols: 2}, {width: 320, cols: 1}],
+  mediaQueries: [{width: 1440, cols: 4}, {width: 1024, cols: 4}, {width: 768, cols: 4}, {width: 575, cols: 2}, {width: 320, cols: 1}],
   defaultFilter: '*',
   animationType: 'quicksand',
   gapHorizontal: 20,
@@ -15799,6 +15799,7 @@ $(document).ready(function() {
     /*	HAMBURGER MENU ICON
     /*-----------------------------------------------------------------------------------*/
 	$(".hamburger.animate").on( "click", function() {
+        debugger;
         $(".hamburger.animate").toggleClass("active");
     });
     $('.onepage .navbar .nav li a').on('click', function() {
