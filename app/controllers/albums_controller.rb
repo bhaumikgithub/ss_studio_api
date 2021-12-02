@@ -150,6 +150,7 @@ class AlbumsController < ApplicationController
     if @album.is_private?
       if @album.passcode === params[:passcode]
         @redirect_path = view_album_path(user: params[:user], id: @album.slug)
+        session["album_#{@album&.id.to_s}".intern] = params[:passcode]
         redirect_to @album.user.try(:domain_name).present? ? @album.user.try(:domain_name)+@redirect_path.from(@redirect_path.index('/shared_album')) : view_album_path(user: params[:user], id: @album.slug)
         # redirect_to view_album_path(user: params[:user], id: @album.slug)
       else
@@ -239,13 +240,18 @@ class AlbumsController < ApplicationController
     change_album_ip_detail
     if params[:user]
       @album = User.get_user(params[:user]).albums.find_by(slug: params[:id])
-      @photos = @album.photos.page(
-        params[:page]
-      ).per(
-        32
-      ).order(
-        updated_at: :desc
-      )
+      session["album_#{@album&.id.to_s}".intern]
+      if @album.is_private && session["album_#{@album&.id.to_s}".intern] == @album.passcode
+        @photos = @album.photos.page(
+          params[:page]
+        ).per(
+          32
+        ).order(
+          updated_at: :desc
+        )
+      else
+        redirect_to shared_album_login_path
+      end
     end
   end
   
