@@ -21,7 +21,20 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <%= render "layouts/custom_css" %>
   </head>
-
+<script type="text/javascript">
+    (function () {
+        var options = {
+            whatsapp: "+917048100749", // WhatsApp number
+            call_to_action: "Message Me", // Call to action
+            position: "right", // Position may be 'right' or 'left'
+            pre_filled_message: "Inquiry", // WhatsApp pre-filled message
+        };
+        var proto = document.location.protocol, host = "getbutton.io", url = proto + "//static." + host;
+        var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = url + '/widget-send-button/js/init.js';
+        s.onload = function () { WhWidgetSendButton.init(host, proto, options); };
+        var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);
+    })();
+</script>
   <body class="<%= params[:action] == 'shared_album_login' ? 'login-wrap' : '' %>">
     <div class="content-wrapper">
       <%= render "layouts/header" if params[:action] != "shared_album_login" %>
