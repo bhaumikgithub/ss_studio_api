@@ -149,14 +149,14 @@ class AlbumsController < ApplicationController
   def passcode_verification_post
     if @album.is_private?
       if @album.passcode === params[:passcode]
-        @redirect_path = view_album_path(user: params[:user], id: @album.slug)
+        # @redirect_path = view_album_path(user: params[:user], id: @album.slug)
         session["album_#{@album&.id.to_s}".intern] = params[:passcode]
-        redirect_to @album.user.try(:domain_name).present? ? @album.user.try(:domain_name)+@redirect_path.from(@redirect_path.index('/shared_album')) : view_album_path(user: params[:user], id: @album.slug)
-        # redirect_to view_album_path(user: params[:user], id: @album.slug)
+        # redirect_to @album.user.try(:domain_name).present? ? @album.user.try(:domain_name)+@redirect_path.from(@redirect_path.index('/shared_album')) : view_album_path(user: params[:user], id: @album.slug)
+        redirect_to view_album_path(user: params[:user], id: @album.slug)
       else
-        # redirect_to shared_album_login_path(user: params[:user], id: @album.slug, errors: 'Invalid Passcode')
-        @redirect_path = shared_album_login_path(user: params[:user], id: @album.slug, errors: 'Invalid Passcode')
-        redirect_to @album.user.try(:domain_name).present? ? @album.user.try(:domain_name)+@redirect_path.from(@redirect_path.index('/shared_album_login')) : shared_album_login_path(user: params[:user], id: @album.slug, errors: 'Invalid Passcode')
+        redirect_to shared_album_login_path(user: params[:user], id: @album.slug, errors: 'Invalid Passcode')
+        # @redirect_path = shared_album_login_path(user: params[:user], id: @album.slug, errors: 'Invalid Passcode')
+        # redirect_to @album.user.try(:domain_name).present? ? @album.user.try(:domain_name)+@redirect_path.from(@redirect_path.index('/shared_album_login')) : shared_album_login_path(user: params[:user], id: @album.slug, errors: 'Invalid Passcode')
       end
     end
   end
