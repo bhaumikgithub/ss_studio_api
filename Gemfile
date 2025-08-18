@@ -32,7 +32,7 @@ gem 'bootstrap', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'turbolinks', '~> 5'
 gem "font-awesome-rails"
-gem 'aws-sdk', '~> 2'
+gem 'aws-sdk', '~> 3'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -66,7 +66,7 @@ gem 'doorkeeper-jwt'
 gem "paranoia", "~> 2.2"
 
 # For photo and video upload
-gem "paperclip", git: "git://github.com/thoughtbot/paperclip.git"
+gem "paperclip"#, git: "git://github.com/thoughtbot/paperclip.git"
 gem "paperclip-ffmpeg"
 gem 'paperclip-av-transcoder'
 
