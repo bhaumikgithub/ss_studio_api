@@ -59,6 +59,14 @@
     let url = new URL(baseUrl, window.location.origin);
     url.searchParams.set("main_category", value);
     console.log("Final URL:", url.toString());
+    $.get(url.toString(), function (html) {
+      $("#cube-grid-large-filter").html(
+        $(html).find("#cube-grid-large-filter").html()
+      );
+      $("#slide-portfolio").html(
+        $(html).find("#slide-portfolio").html()
+      );
+    });
   })
 </script>
 
