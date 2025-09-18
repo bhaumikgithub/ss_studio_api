@@ -107,7 +107,7 @@ class AlbumsController < ApplicationController
   # GET /albums/portfolio
   def portfolio
     if params[:main_category].present? && params[:main_category] == "wedding"
-      @sub_categories = ["Wedding", "Pre-wedding", "Candid", "Couple", "Engagement", "Baby bump"]
+      @sub_categories = ["Wedding", "Pre-wedding", "Candid", "Couple", "Engagement", "Baby bump", "Pre wedding"]
     elsif params[:main_category].present? && params[:main_category] == "kids"
       @sub_categories = ["Kids"]
     elsif params[:main_category].present? && params[:main_category] == "corporate"
