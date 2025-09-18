@@ -6,8 +6,15 @@
 </div>
 <div class="wrapper light-wrapper">
   <div class="container inner">
+    <div class="mb-4">
+      <%= select_tag :main_category, options_for_select([["Wedding", "wedding"], ["Kids", "kids"], ["Corporate", "corporate"]]), prompt: "Select Main Category", class: "form-control d-inline-block w-auto", id: "main-category-dropdown", data: { remote: true, url: portfolio_path(user: params[:user]) } %>
+    </div>
     <div id="cube-grid-large-filter" class="cbp-filter-container text-center">
-      <div class="cbp-filter-item-active cbp-filter-item"><%= link_to "All", change_portfolio_url(portfolio_path(user: params[:user], category: "all"), '/portfolio'), class: "normal-links", remote: true %></div>
+      <div class="cbp-filter-item-active cbp-filter-item">
+        <% unless params[:main_category].present? %>
+          <%= link_to "All", change_portfolio_url(portfolio_path(user: params[:user], category: "all"), '/portfolio'), class: "normal-links", remote: true %>
+        <% end %>
+      </div>
       <%= @categories.each do |category| %>
         <div class="cbp-filter-item"><%= link_to category.category_name, change_portfolio_url(portfolio_path(user: params[:user], category: category.category_name), '/portfolio'), class: "normal-links", remote: true %></div>
       <% end %>
@@ -19,3 +26,33 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener("turbolinks:load", function() {
+    const dropdown = document.getElementById("main-category-dropdown");
+    if (dropdown) {
+      dropdown.addEventListener("change", function() {
+        const url = dropdown.dataset.url;
+        const value = dropdown.value;
+
+        fetch(`${url}?main_category=${value}`, { headers: { "X-Requested-With": "XMLHttpRequest" } })
+          .then(response => response.text())
+          .then(html => {
+            document.getElementById("cube-grid-large-filter").innerHTML =
+              new DOMParser().parseFromString(html, "text/html")
+                .getElementById("cube-grid-large-filter").innerHTML;
+
+            document.getElementById("slide-portfolio").innerHTML =
+              new DOMParser().parseFromString(html, "text/html")
+                .getElementById("slide-portfolio").innerHTML;
+          });
+      });
+    }
+  });
+</script>
+
+<style>
+  #main-category-dropdown{
+    width: 20%;
+  }
+</style>

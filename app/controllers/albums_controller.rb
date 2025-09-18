@@ -106,10 +106,21 @@ class AlbumsController < ApplicationController
 
   # GET /albums/portfolio
   def portfolio
+    if params[:main_category].present? && params[:main_category] == "wedding"
+      @sub_categories = ["Wedding", "Pre-wedding", "Candid", "Couple", "Engagement", "Baby bump"]
+    elsif params[:main_category].present? && params[:main_category] == "kids"
+      @sub_categories = ["Kids"]
+    elsif params[:main_category].present? && params[:main_category] == "corporate"
+      @sub_categories = ["Commercial", "Corporate Shoot", "Model"]
+    end
     @portfolio_detail = User.get_user(params[:user]).portfolio 
     if params[:category].present? && params[:category] != "all"
       category = Category.find_by_category_name(params[:category])
       @portfolio_albums = category.albums.where(user_id: User.get_user(params[:user]).id).order(updated_at: :desc)
+    elsif params[:main_category].present?
+      categories = User.get_user(params[:user]).categories.where(status: 'active', category_name: @sub_categories)
+      album_ids = AlbumCategory.where(category_id: categories.pluck(:id)).pluck(:album_id)
+      @portfolio_albums = User.get_user(params[:user]).albums.where(id: album_ids).order(updated_at: :desc)
     else
       @portfolio_albums = User.get_user(params[:user]).albums.order(updated_at: :desc)
     end
@@ -123,7 +134,11 @@ class AlbumsController < ApplicationController
         }
       }, 200)
     else
-      @categories = User.get_user(params[:user]).categories.where(status: 'active')
+      if @sub_categories.present?
+        @categories = User.get_user(params[:user]).categories.where(status: 'active', category_name: @sub_categories)
+      else
+        @categories = User.get_user(params[:user]).categories.where(status: 'active')
+      end
       if @portfolio_detail.nil? || (@portfolio_detail.present? && @portfolio_detail.is_show)
         respond_to do |format|
           format.html
