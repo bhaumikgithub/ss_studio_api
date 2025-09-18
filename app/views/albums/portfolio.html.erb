@@ -7,7 +7,7 @@
 <div class="wrapper light-wrapper">
   <div class="container inner">
     <div class="mb-4">
-      <%= select_tag :main_category, options_for_select([["Wedding", "wedding"], ["Kids", "kids"], ["Corporate", "corporate"]]), prompt: "Select Main Category", class: "form-control d-inline-block w-auto", id: "main-category-dropdown", data: { remote: true, url: portfolio_path(user: params[:user]) } %>
+      <%= select_tag :main_category, options_for_select([["Wedding", "wedding"], ["Kids", "kids"], ["Corporate", "corporate"]]), prompt: "Select Main Category", class: "form-control d-inline-block w-auto", id: "main-category-dropdown", data: { remote: true, url: portfolio_url(user: params[:user]) } %>
     </div>
     <div id="cube-grid-large-filter" class="cbp-filter-container text-center">
       <div class="cbp-filter-item-active cbp-filter-item">
@@ -32,8 +32,7 @@
     const dropdown = document.getElementById("main-category-dropdown");
     if (dropdown) {
       dropdown.addEventListener("change", function() {
-        const baseUrl = dropdown.dataset.url;
-        const url = `${window.location.origin}${baseUrl}`;
+        const url = dropdown.dataset.url;
         const value = dropdown.value;
 
         fetch(`${url}?main_category=${encodeURIComponent(value)}`, {
