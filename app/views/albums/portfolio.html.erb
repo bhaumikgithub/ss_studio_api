@@ -32,10 +32,13 @@
     const dropdown = document.getElementById("main-category-dropdown");
     if (dropdown) {
       dropdown.addEventListener("change", function() {
-        const url = dropdown.dataset.url;
+        const baseUrl = dropdown.dataset.url;
+        const url = `${window.location.origin}${baseUrl}`;
         const value = dropdown.value;
 
-        fetch(`${url}?main_category=${value}`, { headers: { "X-Requested-With": "XMLHttpRequest" } })
+        fetch(`${url}?main_category=${encodeURIComponent(value)}`, {
+          headers: { "X-Requested-With": "XMLHttpRequest" }
+        })
           .then(response => response.text())
           .then(html => {
             document.getElementById("cube-grid-large-filter").innerHTML =
