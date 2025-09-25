@@ -4,38 +4,35 @@
     <h1 class="heading mb-0">Testimonials</h1>
   </div>
 </div>
-<div class="wrapper light-wrapper">
-  <div class="container inner">
-    <% if @testimonials.length > 0 %>
-      <h2 class="section-title mb-40 text-center title-text-color">What Our Client Says</h2>
-      <div class="row">
-        <div class="col-lg-8 offset-lg-2">
-          <div class="swiper-container-wrapper basic-slider">
-            <div class="swiper-container text-center">
-              <div class="swiper-wrapper">
-                <% @testimonials.each do |testimonial| %>
-                  <div class="swiper-slide">
-                    <div class="row gutter-50 d-flex">
-                      <div class="col-md-6">
-                        <figure><%= image_tag(testimonial.photo.image.url(:medium)) %></figure>
-                      </div>
-                      <div class="col-md-6 align-self-center">
-                        <blockquote class="icon icon-top">
-                          <p class="normal-text-color"><%= testimonial.message %></p>
-                          <footer class="blockquote-footer normal-text-color"><%= testimonial.client_name %></footer>
-                        </blockquote>
-                      </div>
-                    </div>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-            <div class="swiper-pagination gap-large"></div>
+<section class="testimonials-section">
+  <h2>What Our Clients Says</h2>
+  <div class="testimonials-grid">
+    <% @testimonials.each do |testimonial| %>
+      <div class="testimonial-card">
+        <% if testimonial.photo.present? %>
+          <%= image_tag testimonial.photo.image.url(:thumb), class: "avatar-img", alt: testimonial.client_name %>
+        <% end %>
+        <p class="testimonial-quote"><%= testimonial.message %></p>
+        <div class="testimonial-footer">
+          <span class="testimonial-name"><%= testimonial.client_name %></span>
+          <div class="stars">
+            <% (1..5).each do |i| %>
+              <% if i <= testimonial.rating.to_i %>
+                <!-- Filled star -->
+                <svg class="star filled" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.966a1 1 0 00.95.69h4.175c.969 0 1.371 1.24.588 1.81l-3.38 2.455a1 1 0 00-.364 1.118l1.287 3.966c.3.921-.755 1.688-1.54 1.118l-3.38-2.455a1 1 0 00-1.175 0l-3.38 2.455c-.784.57-1.838-.197-1.539-1.118l1.286-3.966a1 1 0 00-.364-1.118L2.05 9.393c-.783-.57-.38-1.81.588-1.81h4.175a1 1 0 00.95-.69l1.286-3.966z"/>
+                </svg>
+              <% else %>
+                <!-- Empty star -->
+                <svg class="star empty" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.966a1 1 0 00.95.69h4.175c.969 0 1.371 1.24.588 1.81l-3.38 2.455a1 1 0 00-.364 1.118l1.287 3.966c.3.921-.755 1.688-1.54 1.118l-3.38-2.455a1 1 0 00-1.175 0l-3.38 2.455c-.784.57-1.838-.197-1.539-1.118l1.286-3.966a1 1 0 00-.364-1.118L2.05 9.393c-.783-.57-.38-1.81.588-1.81h4.175a1 1 0 00.95-.69l1.286-3.966z"/>
+                </svg>
+              <% end %>
+            <% end %>
           </div>
         </div>
       </div>
-    <% else %>
-      <p class="text-center">No Testimonials available at this Time.</p>
     <% end %>
   </div>
-</div>
+</section>
+
